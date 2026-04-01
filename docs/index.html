@@ -229,19 +229,20 @@ anvil init
       company: form.company.value,
       timestamp: new Date().toISOString()
     };
-    // Store locally + send to email via formsubmit.co
-    localStorage.setItem('anvil_user_' + Date.now(), JSON.stringify(data));
-
-    // Send via formsubmit.co (free, no signup needed — emails to parth.reddy@live.com)
-    fetch('https://formsubmit.co/ajax/parth.reddy@live.com', {
+    // Send to Supabase
+    fetch('https://ddlfzwvnbawsnbeaultu.supabase.co/rest/v1/anvil_leads', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_FVlxkuMjE7Mr98DVu9ktCg_o62Ml0Lt',
+        'Authorization': 'Bearer sb_publishable_FVlxkuMjE7Mr98DVu9ktCg_o62Ml0Lt',
+        'Prefer': 'return=minimal'
+      },
       body: JSON.stringify({
         name: data.name,
         email: data.email,
         role: data.role,
-        company: data.company,
-        _subject: 'Anvil Access Request: ' + data.name
+        company: data.company
       })
     }).catch(function(){});
 
