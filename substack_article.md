@@ -33,7 +33,7 @@ Anvil is a strategic problem-solving engine with Claude as your co-problem-solve
 
 There are two modes:
 
-**Guided** — Claude pauses at every step. It shows you what the research found, what patterns it sees, what hypotheses survived. You push back, inject your own data, challenge the framing, redirect the analysis. Claude holds the full context — all 10 buckets, all 50 findings, all 8 patterns — while you bring the judgment. You're co-solving the problem together.
+**Guided** — Claude pauses at every step. Shows you what it found, what patterns it sees, what hypotheses survived. You push back, inject your own data, challenge the framing, redirect the analysis. Essentially running your entire strategy project with Anvil as your co-pilot.
 
 **Autopilot** — Claude runs end-to-end and narrates as it goes. You come back to a finished brief. Good for speed. But the guided mode is where the real work happens.
 
@@ -210,15 +210,12 @@ That last line is important. The document tells you what it doesn't know. It tel
 
 ## Where It Breaks
 
-Every tool has failure modes. Pretending otherwise is a credibility problem.
+Every tool has failure modes. Pretending otherwise is a credibility problem. In autopilot, these hit harder. In guided mode, you catch most of them — but you should know what to watch for.
 
-**When research is thin.** Some topics don't have good public sources. The pipeline tracks search failure rates and flags when queries return empty, but the output quality is directly tied to what's publicly available. This is where guided mode helps — you inject what the web can't provide.
-
-**When the problem is genuinely novel.** If nobody has written about it, the web research returns nothing useful and the pipeline falls back on LLM reasoning — marked `[LLM reasoning]` but still the model guessing.
-
-**When the MECE framing is wrong.** Garbage in, garbage out. The challenge at step 0 catches most framing errors, but if you confirm a bad problem statement, every downstream step amplifies the error.
-
-**Source quality.** A blog post and a government statistical release get equal weight in the LLM's synthesis. There's no automated source credibility scoring. Yet.
+- **When research is thin.** Some topics don't have good public sources. In autopilot, the output degrades silently. In guided mode, Claude flags it at the debrief checkpoint and you inject what the web can't provide — internal data, proprietary reports, expert knowledge.
+- **When the problem is genuinely novel.** If nobody has written about it, the pipeline falls back on LLM reasoning — marked `[LLM reasoning]`. In guided mode, you spot this at synthesis and add your own domain knowledge. In autopilot, it passes through unchallenged.
+- **When the MECE framing is wrong.** The challenge at step 0 catches most framing errors. In guided mode, you review the buckets and fix them before research begins. In autopilot, a bad PS amplifies through every step.
+- **Source quality.** A blog post and a government statistical release get equal weight in synthesis. No automated source credibility scoring yet. In guided mode, you can flag weak sources at the debrief checkpoint.
 
 ---
 
