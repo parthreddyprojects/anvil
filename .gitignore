@@ -1,0 +1,36 @@
+# Secrets
+.env
+.env.*
+
+# Run outputs (user data)
+outputs/runs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+
+# Vercel
+.vercel/
+
+# Telemetry (local)
+.anvil/
+
+# IDE
+.vscode/
+.idea/
+
+# Temp
+*.tmp
+*.bak

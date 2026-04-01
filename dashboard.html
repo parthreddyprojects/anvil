@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="3">
+<title>ANVIL — Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600;700&display=swap');
+
+  :root {
+    --amber: #F5A623;
+    --amber-dim: #C48A1A;
+    --amber-bright: #FFD080;
+    --bg: #0C0C0C;
+    --bg2: #141414;
+    --border: #2A2A2A;
+    --text: #E0E0E0;
+    --text-sec: #AAAAAA;
+    --dim: #666666;
+    --green: #28C840;
+    --red: #FF5F57;
+    --yellow: #FEBC2E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    min-height: 100vh;
+  }
+
+  /* ── Terminal chrome ── */
+  .titlebar {
+    background: #161616;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: #FF5F57; }
+  .dot.y { background: #FEBC2E; }
+  .dot.g { background: #28C840; }
+  .titlebar-text { font-size: 11px; color: var(--dim); letter-spacing: 0.1em; margin-left: 12px; }
+  .live-badge {
+    margin-left: auto; font-size: 9px; letter-spacing: 0.2em; color: var(--green);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+
+  /* ── Layout ── */
+  .body { padding: 28px 32px; display: flex; flex-direction: column; gap: 24px; max-width: 860px; margin: 0 auto; }
+
+  /* ── Logo ── */
+  .logo { font-size: 13px; line-height: 1.35; white-space: pre; color: var(--amber); text-shadow: 0 0 12px rgba(245,166,35,0.3); }
+  .logo .d { color: var(--amber-dim); }
+  .logo .b { color: var(--amber-bright); }
+  .logo .w { color: #EFEFEF; font-weight: 700; letter-spacing: 0.15em; }
+
+  /* ── Progress ── */
+  .progress { height: 3px; background: var(--border); width: 100%; }
+  .progress-fill { height: 100%; background: var(--amber); transition: width 0.5s; }
+  .progress-fill.done { background: var(--green); }
+
+  /* ── Flow ASCII ── */
+  .flow { font-size: 13px; line-height: 1.7; white-space: pre; padding: 16px 20px; background: var(--bg2); border: 1px solid var(--border); }
+  .f-done { color: var(--green); font-weight: 600; }
+  .f-active { color: var(--amber-bright); font-weight: 700; text-shadow: 0 0 8px rgba(245,166,35,0.5); }
+  .f-wait { color: var(--dim); }
+  .f-line { color: #444; }
+
+  /* ── KPI Grid ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .kpi {
+    background: var(--bg2); border: 1px solid var(--border); padding: 14px 16px; text-align: center;
+  }
+  .kpi-val { font-size: 22px; font-weight: 700; color: var(--amber); line-height: 1.2; }
+  .kpi-val.green { color: var(--green); }
+  .kpi-label { font-size: 9px; letter-spacing: 0.2em; color: var(--text-sec); text-transform: uppercase; margin-top: 4px; }
+
+  /* ── Status block ── */
+  .status { background: var(--bg2); border: 1px solid var(--border); padding: 18px 22px; }
+  .s-row { display: flex; gap: 14px; margin-bottom: 8px; line-height: 1.6; }
+  .s-row:last-child { margin-bottom: 0; }
+  .s-label { font-size: 10px; letter-spacing: 0.2em; color: var(--amber-dim); text-transform: uppercase; min-width: 80px; flex-shrink: 0; padding-top: 2px; }
+  .s-val { font-size: 13px; color: var(--text); }
+  .s-val.ps { color: var(--amber-bright); font-weight: 600; }
+
+  /* ── Step timeline ── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .t-step {
+    display: grid; grid-template-columns: 28px 1fr; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .t-step:last-child { border-bottom: none; }
+  .t-icon { font-size: 14px; text-align: center; padding-top: 2px; }
+  .t-icon.done { color: var(--green); }
+  .t-icon.active { color: var(--amber-bright); }
+  .t-icon.wait { color: #444; }
+  .t-content {}
+  .t-name { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+  .t-name.done { color: var(--green); }
+  .t-name.active { color: var(--amber-bright); }
+  .t-name.wait { color: var(--dim); }
+  .t-desc { font-size: 11px; color: var(--text-sec); margin-top: 2px; line-height: 1.5; }
+  .t-summary { font-size: 11px; color: var(--amber); margin-top: 4px; font-style: italic; }
+
+  /* ── Section labels ── */
+  .sec-label {
+    font-size: 9px; letter-spacing: 0.3em; color: var(--dim); text-transform: uppercase;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Prompt ── */
+  .prompt { font-size: 12px; color: var(--dim); display: flex; align-items: center; gap: 8px; padding-top: 8px; }
+  .prompt span { color: var(--amber); }
+  .cursor { display: inline-block; width: 8px; height: 13px; background: var(--amber); animation: blink 1.1s step-end infinite; }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+  .no-run { color: var(--dim); font-size: 12px; padding: 40px 0; text-align: center; }
+  .no-run code { color: var(--amber); background: var(--bg2); padding: 2px 8px; border: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="titlebar">
+  <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+  <span class="titlebar-text">anvil — dashboard</span>
+  <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+</div>
+
+<div class="body">
+
+  <!-- Logo -->
+  <div class="logo"><span class="d">╔══════════════════════════════════╗</span>
+<span class="d">║</span>  <span class="b">▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄</span>  <span class="d">║</span>
+<span class="d">║</span>  <span class="b">█</span>  <span class="w"> A N V I L </span>              <span class="b">█</span>  <span class="d">║</span>
+<span class="d">║</span>  <span class="b">▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀</span>  <span class="d">║</span>
+<span class="d">║       ╲▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄╱           ║</span>
+<span class="d">║        ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀            ║</span>
+<span class="d">║  strategic problem engine  v0.2   ║</span>
+<span class="d">╚══════════════════════════════════╝</span></div>
+
+  <div class="progress"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
+
+  <div id="dashboard"><div class="no-run">no active run — start with <code>/anvil</code> in claude code</div></div>
+
+  <div class="prompt"><span>▶</span> <span id="prompt-text">waiting for run...</span><div class="cursor"></div></div>
+</div>
+
+<!-- DATA INJECTION POINT -->
+<script id="anvil-state">
+var ANVIL_STATE = {"step": 2, "done": [0, 1], "topic": "What specific actions should a senior consulting professional take over the next 3 years to maximize long-term economic upside and the impact of their work, as AI restructures which human expertise commands a premium — and in what sequence, given that early moves compound and late moves don't?", "audience": "The professional themselves — a personal decision document", "created": "April 01, 2026", "run_dir": "what_specific_actions_should_a_senior_co", "buckets": 10, "questions": 71, "break_point": "The recommendation reverses — from 'reposition aggressively now' to 'harvest current position and manage the decline' — if AI adoption in the professional's specific domain stalls significantly (e.g.,", "snippets": 138, "articles": 12, "step_0_summary": "10 buckets, 71 questions, 138 snippets scanned", "llm_calls": 11, "spend": "0.10"};
+</script>
+
+<script>
+const STEPS = [
+  {name:'PROBLEM', desc:'Sharpen PS — neutral framing, scope, break point'},
+  {name:'MECE', desc:'Landscape scan + MECE decomposition into research buckets'},
+  {name:'RESEARCH', desc:'Web search per bucket — real sources, real articles'},
+  {name:'W.DOC', desc:'Compile research into working document + debrief'},
+  {name:'SYNTHESIS', desc:'Findings → patterns → inferences'},
+  {name:'HYPOTHESES', desc:'Generate, stress-test, kill. Governing from survivors.'},
+  {name:'FINAL', desc:'3-5 page strategic brief with critique pass'},
+  {name:'CHARTS', desc:'Proof slides — chart type by data relationship'},
+];
+
+function render() {
+  if (!ANVIL_STATE) return;
+  const s = ANVIL_STATE;
+  const step = s.step || 0;
+  const done = s.done || [];
+  const complete = done.length >= 8;
+  const pct = Math.round((done.length / 8) * 100);
+
+  document.getElementById('pbar').style.width = pct + '%';
+  if (complete) document.getElementById('pbar').classList.add('done');
+
+  let h = '';
+
+  // ── Flow diagram ──
+  h += '<div class="sec-label">pipeline flow</div>';
+  h += '<div class="flow">';
+  let top = '';
+  for (let i = 0; i <= 3; i++) {
+    const c = complete||done.includes(i) ? 'f-done' : i===step ? 'f-active' : 'f-wait';
+    const ic = complete||done.includes(i) ? '✓' : i===step ? '▸' : '·';
+    const nm = STEPS[i].name.padEnd(8);
+    top += `<span class="${c}">${ic} ${nm}</span>`;
+    if (i<3) top += `<span class="f-line">── </span>`;
+  }
+  top += `<span class="f-line">──┐</span>`;
+  let bot = '';
+  for (let i = 7; i >= 4; i--) {
+    const c = complete||done.includes(i) ? 'f-done' : i===step ? 'f-active' : 'f-wait';
+    const ic = complete||done.includes(i) ? '✓' : i===step ? '▸' : '·';
+    const nm = STEPS[i].name.padEnd(10);
+    bot += `<span class="${c}">${ic} ${nm}</span>`;
+    if (i>4) bot += `<span class="f-line">── </span>`;
+  }
+  bot += `<span class="f-line">──┘</span>`;
+  const pad = ' '.repeat(56);
+  h += `${top}\n${pad}<span class="f-line">│</span>\n${bot}`;
+  h += '</div>';
+
+  // ── KPIs ──
+  h += '<div class="sec-label">key metrics</div>';
+  h += '<div class="kpi-grid">';
+  h += `<div class="kpi"><div class="kpi-val${complete?' green':''}">${pct}%</div><div class="kpi-label">Progress</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.buckets||'—'}</div><div class="kpi-label">Buckets</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.questions||'—'}</div><div class="kpi-label">Questions</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.snippets||'—'}</div><div class="kpi-label">Snippets</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.articles||'—'}</div><div class="kpi-label">Articles</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.findings||'—'}</div><div class="kpi-label">Findings</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.patterns||'—'}</div><div class="kpi-label">Patterns</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.hypotheses_active||'—'}/${s.hypotheses_total||'—'}</div><div class="kpi-label">Hyp Active</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.killed||'—'}</div><div class="kpi-label">Killed</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.spend ? '$'+s.spend : '—'}</div><div class="kpi-label">API Spend</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.llm_calls||'—'}</div><div class="kpi-label">LLM Calls</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.appendix_slides||'—'}</div><div class="kpi-label">Proof Slides</div></div>`;
+  h += '</div>';
+
+  // ── Problem statement ──
+  h += '<div class="sec-label">problem statement</div>';
+  h += '<div class="status">';
+  if (s.topic) h += `<div class="s-row"><span class="s-label">ps</span><span class="s-val ps">${s.topic}</span></div>`;
+  if (s.audience) h += `<div class="s-row"><span class="s-label">audience</span><span class="s-val">${s.audience}</span></div>`;
+  if (s.governing) h += `<div class="s-row"><span class="s-label">governing</span><span class="s-val" style="color:var(--amber);">${s.governing}</span></div>`;
+  if (s.break_point) h += `<div class="s-row"><span class="s-label">break pt</span><span class="s-val" style="color:var(--text-sec);font-style:italic;">${s.break_point}</span></div>`;
+  h += '</div>';
+
+  // ── Step timeline ──
+  h += '<div class="sec-label">step details</div>';
+  h += '<div class="timeline">';
+  for (let i = 0; i < 8; i++) {
+    const isDone = complete || done.includes(i);
+    const isActive = !complete && i === step;
+    const cls = isDone ? 'done' : isActive ? 'active' : 'wait';
+    const icon = isDone ? '✓' : isActive ? '▸' : '·';
+    h += `<div class="t-step">`;
+    h += `<div class="t-icon ${cls}">${icon}</div>`;
+    h += `<div class="t-content">`;
+    h += `<div class="t-name ${cls}">${i}. ${STEPS[i].name}</div>`;
+    h += `<div class="t-desc">${STEPS[i].desc}</div>`;
+    // Per-step summaries from enriched state
+    const key = 'step_' + i + '_summary';
+    if (s[key]) h += `<div class="t-summary">${s[key]}</div>`;
+    h += `</div></div>`;
+  }
+  h += '</div>';
+
+  document.getElementById('dashboard').innerHTML = h;
+
+  // Prompt
+  const pe = document.getElementById('prompt-text');
+  pe.textContent = complete
+    ? 'pipeline complete — anvil open --run ' + (s.run_dir||'')
+    : 'running step ' + step + ': ' + STEPS[step].name.toLowerCase() + '...';
+}
+
+render();
+</script>
+</body>
+</html>

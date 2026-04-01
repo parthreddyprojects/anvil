@@ -1,0 +1,184 @@
+<!-- VAULT: structure / traffic_light_status — RAG status indicators for 5 supply chain items with red/amber/green lights -->
+<div class="card" id="vault-rag">
+<style>
+  #vault-rag {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 560px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-rag .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-rag .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 20px;
+  }
+  #vault-rag .rag-header {
+    display: grid;
+    grid-template-columns: 36px 1fr 72px 200px;
+    gap: 12px;
+    align-items: center;
+    padding: 0 0 8px;
+    border-bottom: 2px solid #111;
+    margin-bottom: 4px;
+  }
+  #vault-rag .rag-header span {
+    font: 600 8px/1 'Inter', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+  }
+  #vault-rag .rag-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 72px 200px;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  #vault-rag .rag-row:last-child {
+    border-bottom: none;
+  }
+  /* Traffic light indicator */
+  #vault-rag .rag-light {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 3px rgba(0,0,0,.04);
+  }
+  #vault-rag .rag-light.red {
+    background: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220,38,38,.12), 0 0 8px rgba(220,38,38,.25);
+  }
+  #vault-rag .rag-light.amber {
+    background: #d97706;
+    box-shadow: 0 0 0 3px rgba(217,119,6,.12), 0 0 8px rgba(217,119,6,.25);
+  }
+  #vault-rag .rag-light.green {
+    background: #10b981;
+    box-shadow: 0 0 0 3px rgba(16,185,129,.12), 0 0 8px rgba(16,185,129,.25);
+  }
+  #vault-rag .rag-light-inner {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.4);
+  }
+  /* Row content */
+  #vault-rag .rag-name {
+    font: 600 12px/1.3 'Inter', sans-serif;
+    color: #222;
+  }
+  #vault-rag .rag-name-sub {
+    font: 400 9px/1.2 'Inter', sans-serif;
+    color: #999;
+    margin-top: 1px;
+  }
+  #vault-rag .rag-status {
+    font: 700 10px/1 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  #vault-rag .rag-status.red { color: #dc2626; }
+  #vault-rag .rag-status.amber { color: #d97706; }
+  #vault-rag .rag-status.green { color: #10b981; }
+  #vault-rag .rag-detail {
+    font: 400 10px/1.4 'Inter', sans-serif;
+    color: #666;
+  }
+  #vault-rag .rag-detail strong {
+    font-weight: 600;
+    color: #333;
+  }
+  /* Summary strip */
+  #vault-rag .rag-summary {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+  }
+  #vault-rag .rag-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: 500 10px/1 'Inter', sans-serif;
+    color: #666;
+  }
+  #vault-rag .rag-summary-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  #vault-rag .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+</style>
+
+<div class="card-title">Two inputs at critical; three require active monitoring</div>
+<div class="card-subtitle">Supply chain RAG status &middot; Day 20 assessment</div>
+
+<div class="rag-header">
+  <span>Status</span>
+  <span>Input</span>
+  <span>Level</span>
+  <span>Detail</span>
+</div>
+
+<div class="rag-row">
+  <div class="rag-light amber"><div class="rag-light-inner"></div></div>
+  <div><div class="rag-name">Crude Oil</div><div class="rag-name-sub">4.7 mb/d import dependency</div></div>
+  <div class="rag-status amber">Stressed</div>
+  <div class="rag-detail"><strong>42% Hormuz-routed</strong> — rerouting via COGH adds 14 days, +$4.50/bbl freight</div>
+</div>
+
+<div class="rag-row">
+  <div class="rag-light red"><div class="rag-light-inner"></div></div>
+  <div><div class="rag-name">LPG</div><div class="rag-name-sub">88% via Strait of Hormuz</div></div>
+  <div class="rag-status red">Critical</div>
+  <div class="rag-detail"><strong>No viable reroute</strong> — Qatar/UAE supply landlocked; 330M households depend on cooking gas</div>
+</div>
+
+<div class="rag-row">
+  <div class="rag-light red"><div class="rag-light-inner"></div></div>
+  <div><div class="rag-name">Fertilizer (P&amp;K)</div><div class="rag-name-sub">Imports from Middle East + FSU</div></div>
+  <div class="rag-status red">Critical</div>
+  <div class="rag-detail"><strong>Rabi season at risk</strong> — 45-day buffer at current application rates</div>
+</div>
+
+<div class="rag-row">
+  <div class="rag-light amber"><div class="rag-light-inner"></div></div>
+  <div><div class="rag-name">Strategic Reserves</div><div class="rag-name-sub">SPR + commercial stocks</div></div>
+  <div class="rag-status amber">Low</div>
+  <div class="rag-detail"><strong>9.5 days SPR</strong> — 74 days total with commercial; drawdown rate 0.3 mb/d max</div>
+</div>
+
+<div class="rag-row">
+  <div class="rag-light amber"><div class="rag-light-inner"></div></div>
+  <div><div class="rag-name">Diplomatic channels</div><div class="rag-name-sub">India-Iran-UAE trilateral</div></div>
+  <div class="rag-status amber">Active</div>
+  <div class="rag-detail"><strong>Jaishankar in Abu Dhabi</strong> — seeking waiver for Chabahar port crude route</div>
+</div>
+
+<div class="rag-summary">
+  <div class="rag-summary-item"><div class="rag-summary-dot" style="background:#dc2626"></div>2 Critical</div>
+  <div class="rag-summary-item"><div class="rag-summary-dot" style="background:#d97706"></div>3 Amber</div>
+  <div class="rag-summary-item"><div class="rag-summary-dot" style="background:#10b981"></div>0 Green</div>
+</div>
+
+<div class="card-source">Source: PPAC, MEA briefings, Kpler &middot; Day 20 situation report</div>
+</div>

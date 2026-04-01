@@ -1,0 +1,41 @@
+<!-- VAULT: spatial / map_numbered_legend — Three risk zones with numbered circles on Leaflet map -->
+<div class="card" id="vault-example">
+<div class="card-inner">
+
+<p class="label red" style="margin-bottom:12px">Tail Risks</p>
+<h3 class="card-title">Three Risks That Could Make It Worse.</h3>
+<div id="vault-map-risk" class="map-c" style="height:280px;margin-bottom:12px"></div>
+
+<div class="dominoes">
+<div class="domino" style="border-color:var(--red)"><div class="d-val" style="color:var(--red)">①</div><div class="d-name" style="color:var(--red)">Hormuz Closed<br><span style="color:var(--muted)">Since Day 1</span></div></div>
+<div class="domino" style="border-color:var(--red);background:#1a0000"><div class="d-val" style="color:var(--red)">②</div><div class="d-name" style="color:var(--red)">5 Gulf Targets<br><span style="color:var(--muted)">IRGC named</span></div></div>
+<div class="domino" style="border-color:var(--amber);background:#1a1000"><div class="d-val" style="color:var(--amber)">③</div><div class="d-name" style="color:var(--amber)">Bab al-Mandab<br><span style="color:var(--muted)">Houthi threat</span></div></div>
+</div>
+
+<div class="insight">Each risk escalates. Non-renewal = policy shock. Gulf strikes = physical. Dual chokepoint = existential.</div>
+
+<script>
+(function(){
+var TILE='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+var m=L.map('vault-map-risk',{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false}).setView([20,50],3);
+L.tileLayer(TILE).addTo(m);
+
+// Zone 1: Hormuz
+L.circle([26.4,56.4],{radius:200000,color:'#dc2626',fillColor:'#dc2626',fillOpacity:.15,weight:2}).addTo(m);
+L.marker([26.4,56.4],{icon:L.divIcon({className:'',html:'<div style="width:24px;height:24px;background:#dc2626;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 12px JetBrains Mono;color:#fff">1</div>',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m);
+
+// Zone 2: Gulf targets
+L.circle([25,52],{radius:400000,color:'#dc2626',fillColor:'#dc2626',fillOpacity:.08,weight:1,dashArray:'6,4'}).addTo(m);
+L.marker([25,49],{icon:L.divIcon({className:'',html:'<div style="width:24px;height:24px;background:#dc2626;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 12px JetBrains Mono;color:#fff">2</div>',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m);
+
+// Zone 3: Bab al-Mandab
+L.circle([12.6,43.3],{radius:200000,color:'#d97706',fillColor:'#d97706',fillOpacity:.15,weight:2}).addTo(m);
+L.marker([12.6,43.3],{icon:L.divIcon({className:'',html:'<div style="width:24px;height:24px;background:#d97706;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 12px JetBrains Mono;color:#fff">3</div>',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m);
+
+// India marker
+L.marker([20,73],{icon:L.divIcon({className:'map-label map-label-green',html:'India',iconSize:[40,20]})}).addTo(m);
+})();
+</script>
+
+</div>
+</div>

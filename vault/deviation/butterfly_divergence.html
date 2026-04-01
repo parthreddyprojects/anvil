@@ -1,0 +1,27 @@
+<!-- VAULT: deviation / butterfly_divergence — Winners vs losers butterfly chart, RIL/ONGC green bars right, OMCs red bars left -->
+<div class="card" id="vault-example">
+<div class="card-inner">
+
+<p class="label red" style="margin-bottom:12px">Margin Destruction</p>
+<h3 class="card-title">Every $5 Wipes 55-62% of Earnings.</h3>
+<p class="card-sub" style="margin-bottom:16px">Winners vs losers — divergence from baseline.</p>
+
+<div class="panel-light" style="padding:16px;margin-bottom:16px">
+<div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">Impact Since Crisis (% Change from Baseline)</div>
+<div class="chart-c" style="height:240px"><canvas id="vault-ch-butterfly"></canvas></div>
+</div>
+
+<div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="kpi" style="border-color:var(--red)"><div class="kl">HPCL</div><div class="kv" style="color:var(--red);font-size:18px">SELL</div><div class="kd" style="color:var(--red)">Target −37%</div></div>
+<div class="kpi" style="border-color:var(--amber)"><div class="kl">IOCL/BPCL</div><div class="kv" style="color:var(--amber);font-size:18px">NEUTRAL</div><div class="kd" style="color:var(--muted)">Downgrade</div></div>
+<div class="kpi" style="border-color:var(--green)"><div class="kl">RIL</div><div class="kv" style="color:var(--green);font-size:18px">BUY</div><div class="kd" style="color:var(--green)">Top pick</div></div>
+</div>
+
+<div class="insight">OMCs are negatively levered: frozen retail = every dollar up is a dollar lost. RIL exports 60% at market prices.</div>
+
+<script>
+(function(){new Chart(document.getElementById('vault-ch-butterfly'),{type:'bar',data:{labels:['RIL','ONGC','Oil India','Nayara','IOCL','BPCL','HPCL','Airlines','Fertilizer'],datasets:[{data:[45,40,35,25,-55,-51,-62,-30,-25],backgroundColor:function(c){return c.raw>0?'rgba(52,211,153,.6)':'rgba(255,59,59,.6)'},borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#888',font:{family:'JetBrains Mono',size:9},callback:function(v){return(v>0?'+':'')+v+'%'}}},y:{grid:{display:false},ticks:{color:'#555',font:{family:'Inter',size:9,weight:'600'}}}}}})})();
+</script>
+
+</div>
+</div>

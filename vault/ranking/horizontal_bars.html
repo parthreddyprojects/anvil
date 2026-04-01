@@ -1,0 +1,15 @@
+<!-- VAULT: ranking / horizontal_bars — Hormuz dependency by product, horizontal bar chart with color-coded severity -->
+<div class="card" id="vault-example">
+<div class="card-inner">
+
+<div class="panel-light" style="margin-bottom:16px;padding:16px">
+<div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">India's Hormuz Dependency by Product</div>
+<div class="chart-c" style="height:160px"><canvas id="vault-ch-dep"></canvas></div>
+</div>
+
+<script>
+(function(){new Chart(document.getElementById('vault-ch-dep'),{type:'bar',data:{labels:['Crude Oil','LPG','LNG','Fertilizer'],datasets:[{data:[42,90,35,40],backgroundColor:['rgba(217,119,6,.5)','rgba(220,38,38,.65)','rgba(59,130,246,.4)','rgba(220,38,38,.45)'],borderRadius:6,barThickness:32}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{grid:{display:false},ticks:{color:'#aaa',font:{family:'JetBrains Mono',size:10,weight:'500'},callback:function(v){return v+'%'}},max:100,border:{display:false}},y:{grid:{display:false},ticks:{color:'#444',font:{family:'Inter',size:12,weight:'700'}},border:{display:false}}}}})})();
+</script>
+
+</div>
+</div>

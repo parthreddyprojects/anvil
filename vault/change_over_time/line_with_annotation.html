@@ -1,0 +1,27 @@
+<!-- VAULT: change_over_time / line_with_annotation — Futures curve with strategic annotation callout (e.g. "LOCK $69-75") -->
+<div class="card" id="vault-example">
+<div class="card-inner">
+
+<p class="label blue" style="margin-bottom:12px">Hedging Strategy</p>
+<h3 class="card-title">The Market Thinks This Is Temporary.</h3>
+<p class="card-sub" style="margin-bottom:16px">The futures curve is your opportunity — if you disagree.</p>
+
+<div class="panel-light" style="padding:16px;margin-bottom:16px">
+<div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">WTI Futures Curve — Steep Backwardation</div>
+<div class="chart-c" style="height:180px"><canvas id="vault-ch-fut"></canvas></div>
+</div>
+
+<div class="dominoes">
+<div class="domino" style="border-color:var(--green)"><div class="d-val" style="color:var(--green);font-size:14px">BUY PUTS</div><div class="d-name">Brent $100-105<br>Cheap in backwdn</div></div>
+<div class="domino" style="border-color:var(--blue)"><div class="d-val" style="color:var(--blue);font-size:14px">LOCK</div><div class="d-name">Dec 26 $69-75<br>Strategic hedge</div></div>
+<div class="domino" style="border-color:var(--red)"><div class="d-val" style="color:var(--red);font-size:14px">NO CALLS</div><div class="d-name">$150+ is real<br>Tail risk</div></div>
+</div>
+
+<div class="insight b">The basket premium is structural — physical sour scarcity. Hedge the basket, not just Brent.</div>
+
+<script>
+(function(){new Chart(document.getElementById('vault-ch-fut'),{type:'line',data:{labels:['Mar 26','Jun 26','Sep 26','Dec 26','Mar 27','Jun 27'],datasets:[{data:[99,85,76,69,63,58],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.08)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#3b82f6',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},annotation:{annotations:{lock:{type:'label',xValue:'Dec 26',yValue:74,content:'LOCK $69-75',color:'#3b82f6',font:{family:'JetBrains Mono',size:9,weight:'bold'}}}}},scales:{x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#888',font:{family:'JetBrains Mono',size:9}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#888',font:{family:'JetBrains Mono',size:9},callback:function(v){return'$'+v}},min:45,max:110}}}})})();
+</script>
+
+</div>
+</div>

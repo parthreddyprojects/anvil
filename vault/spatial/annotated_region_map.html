@@ -1,0 +1,162 @@
+<!-- VAULT: spatial / annotated_region_map — Clean Leaflet map with 3 numbered markers, Gulf region zoom, legend below -->
+<div class="card" id="vault-regionmap">
+<style>
+  #vault-regionmap {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 620px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-regionmap .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-regionmap .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 16px;
+  }
+  #vault-regionmap #regionMapContainer {
+    width: 100%;
+    height: 340px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  #vault-regionmap .rm-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+  #vault-regionmap .rm-legend-title {
+    font: 600 9px/1 'Inter', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 2px;
+  }
+  #vault-regionmap .rm-legend-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  #vault-regionmap .rm-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 700 11px/1 'Inter', sans-serif;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  #vault-regionmap .rm-legend-text {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #333;
+  }
+  #vault-regionmap .rm-legend-text strong {
+    font-weight: 600;
+  }
+  #vault-regionmap .rm-legend-text .rm-detail {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #888;
+    display: block;
+    margin-top: 2px;
+  }
+  #vault-regionmap .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+</style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<div class="card-title">Three chokepoints define India's energy vulnerability</div>
+<div class="card-subtitle">Gulf region &middot; critical maritime infrastructure</div>
+
+<div id="regionMapContainer"></div>
+
+<div class="rm-legend">
+  <div class="rm-legend-title">Risk zones</div>
+
+  <div class="rm-legend-row">
+    <div class="rm-num" style="background:#dc2626">1</div>
+    <div class="rm-legend-text">
+      <strong>Strait of Hormuz</strong> — 21 km at narrowest
+      <span class="rm-detail">20.5 mb/d transit (20% of global supply). Mined by Iran, US MCM ops underway.</span>
+    </div>
+  </div>
+
+  <div class="rm-legend-row">
+    <div class="rm-num" style="background:#d97706">2</div>
+    <div class="rm-legend-text">
+      <strong>Ras Tanura / Dhahran</strong> — Saudi loading complex
+      <span class="rm-detail">6.5 mb/d capacity. Within range of Iranian ballistic missiles (Emad, Sejjil).</span>
+    </div>
+  </div>
+
+  <div class="rm-legend-row">
+    <div class="rm-num" style="background:#6366f1">3</div>
+    <div class="rm-legend-text">
+      <strong>Fujairah</strong> — UAE bypass terminal
+      <span class="rm-detail">Habshan-Fujairah pipeline: 1.5 mb/d. Bypasses Hormuz but hit by missile on Day 18.</span>
+    </div>
+  </div>
+</div>
+
+<div class="card-source">Source: EIA, CSIS, Lloyd's Intelligence &middot; Satellite imagery Day 20</div>
+
+<script>
+(function(){
+  var map = L.map('regionMapContainer', {
+    center: [26.0, 54.5],
+    zoom: 7,
+    zoomControl: false,
+    attributionControl: false,
+    scrollWheelZoom: false,
+    dragging: true
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 12,
+    attribution: ''
+  }).addTo(map);
+
+  L.control.zoom({ position: 'topright' }).addTo(map);
+
+  var markers = [
+    { lat: 26.56, lng: 56.25, num: '1', color: '#dc2626', label: 'Strait of Hormuz' },
+    { lat: 26.63, lng: 50.16, num: '2', color: '#d97706', label: 'Ras Tanura' },
+    { lat: 25.12, lng: 56.33, num: '3', color: '#6366f1', label: 'Fujairah' }
+  ];
+
+  markers.forEach(function(m) {
+    var icon = L.divIcon({
+      className: '',
+      html: '<div style="width:28px;height:28px;border-radius:50%;background:' + m.color + ';color:#fff;font:700 13px/28px Inter,sans-serif;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.3);border:2.5px solid #fff">' + m.num + '</div>',
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+    L.marker([m.lat, m.lng], { icon: icon })
+      .addTo(map)
+      .bindTooltip(m.label, {
+        direction: 'top',
+        offset: [0, -16],
+        className: 'rm-tooltip'
+      });
+  });
+})();
+</script>
+</div>

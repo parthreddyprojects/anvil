@@ -1,0 +1,136 @@
+<!-- VAULT: magnitude / waterfall — Import bill decomposition waterfall showing step-by-step value build-up from baseline to total -->
+<div class="card" id="vault-waterfall">
+<style>
+  #vault-waterfall {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 620px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-waterfall .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-waterfall .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-waterfall .wf-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 240px;
+    padding-bottom: 32px;
+    position: relative;
+    margin-bottom: 16px;
+  }
+  #vault-waterfall .wf-chart::after {
+    content: '';
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #d4d4d4;
+  }
+  #vault-waterfall .wf-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  #vault-waterfall .wf-bar {
+    width: 52px;
+    border-radius: 3px;
+    position: relative;
+  }
+  #vault-waterfall .wf-val {
+    font: 700 11px/1 'JetBrains Mono', monospace;
+    margin-bottom: 5px;
+    white-space: nowrap;
+  }
+  #vault-waterfall .wf-label {
+    font: 400 10px/1.2 'Inter', sans-serif;
+    color: #666;
+    text-align: center;
+    position: absolute;
+    bottom: -28px;
+    white-space: nowrap;
+  }
+  #vault-waterfall .wf-connector {
+    position: absolute;
+    right: -12px;
+    width: 12px;
+    border-top: 1.5px dashed #bbb;
+  }
+  #vault-waterfall .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+</style>
+
+<div class="card-title">Price drove 35% of the import bill surge; volume added another 18%</div>
+<div class="card-subtitle">India crude oil import bill decomposition, FY24 vs FY20 baseline &middot; $B</div>
+
+<div class="wf-chart" id="wfChart"></div>
+
+<div class="card-source">Source: PPAC, Ministry of Petroleum &middot; Analysis</div>
+
+<script>
+(function() {
+  var c = document.getElementById('wfChart');
+  var maxVal = 266, chartH = 200;
+  var steps = [
+    { label:'FY20 Base', val:100, from:0,   to:100, total:true,  color:'#334155', sign:'' },
+    { label:'Volume',    val:43,  from:100,  to:143, total:false, color:'#2563eb', sign:'+' },
+    { label:'Price',     val:86,  from:143,  to:229, total:false, color:'#dc2626', sign:'+' },
+    { label:'FX',        val:17,  from:229,  to:246, total:false, color:'#d97706', sign:'+' },
+    { label:'Other',     val:20,  from:246,  to:266, total:false, color:'#6b7280', sign:'+' },
+    { label:'FY24 Total',val:266, from:0,    to:266, total:true,  color:'#111827', sign:'' }
+  ];
+  steps.forEach(function(s, i) {
+    var col = document.createElement('div');
+    col.className = 'wf-col';
+
+    var v = document.createElement('div');
+    v.className = 'wf-val';
+    v.style.color = s.color;
+    v.textContent = s.sign + '$' + s.val + 'B';
+
+    var bar = document.createElement('div');
+    bar.className = 'wf-bar';
+    var bH = Math.round((s.val / maxVal) * chartH);
+    var bBot = Math.round((s.from / maxVal) * chartH);
+    bar.style.height = bH + 'px';
+    bar.style.marginBottom = bBot + 'px';
+    bar.style.background = s.total ? s.color : 'linear-gradient(180deg,' + s.color + ',' + s.color + 'bb)';
+    bar.style.borderRadius = s.total ? '3px 3px 0 0' : '3px';
+    bar.style.position = 'relative';
+
+    if (i < steps.length - 1) {
+      var conn = document.createElement('div');
+      conn.className = 'wf-connector';
+      conn.style.top = '0';
+      bar.appendChild(conn);
+    }
+
+    var lbl = document.createElement('div');
+    lbl.className = 'wf-label';
+    lbl.textContent = s.label;
+
+    col.appendChild(v);
+    col.appendChild(bar);
+    col.appendChild(lbl);
+    c.appendChild(col);
+  });
+})();
+</script>
+</div>

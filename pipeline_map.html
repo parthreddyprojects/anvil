@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anvil — Pipeline Audit Map</title>
+<style>
+    :root {
+        --bg: #0A0A0A;
+        --bg-card: #111111;
+        --bg-step: #0E0E0E;
+        --amber: #F5A623;
+        --amber-dim: #9B6A14;
+        --amber-bright: #FFD080;
+        --green: #22C55E;
+        --blue: #60A5FA;
+        --purple: #A78BFA;
+        --cyan: #06B6D4;
+        --coral: #F87171;
+        --teal: #14B8A6;
+        --text: #EFEFEF;
+        --text-sec: #D1D5DB;
+        --text-muted: #888;
+        --border: rgba(255,255,255,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    .page-header {
+        text-align: center;
+        padding: 64px 40px 48px;
+        border-bottom: 1px solid var(--border);
+    }
+    .page-header h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--amber);
+        letter-spacing: -1px;
+        margin-bottom: 12px;
+    }
+    .page-header p {
+        font-size: 1.15rem;
+        color: var(--text-muted);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* ── Stats ── */
+    .stats {
+        display: flex;
+        justify-content: center;
+        gap: 48px;
+        padding: 32px 40px;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+    }
+    .stat-num { font-size: 2rem; font-weight: 800; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* ── Step Section ── */
+    .step {
+        padding: 64px 0;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+    }
+    .step:last-of-type { border-bottom: none; }
+
+    .step-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 48px;
+    }
+
+    /* Step header */
+    .step-head {
+        display: flex;
+        align-items: baseline;
+        gap: 20px;
+        margin-bottom: 12px;
+    }
+    .step-number {
+        font-size: 4rem;
+        font-weight: 900;
+        color: var(--amber-dim);
+        line-height: 1;
+        min-width: 80px;
+    }
+    .step-name {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text);
+    }
+    .step-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 14px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .badge-ckpt { background: rgba(6,182,212,0.15); color: var(--cyan); border: 1px solid rgba(6,182,212,0.3); }
+    .badge-auto { background: rgba(245,166,35,0.1); color: var(--amber-dim); border: 1px solid rgba(245,166,35,0.2); }
+
+    .step-desc {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 800px;
+        margin-bottom: 40px;
+        line-height: 1.8;
+    }
+
+    /* ── Flow Row: IN → PROCESS → OUT ── */
+    .flow {
+        display: grid;
+        grid-template-columns: 1fr 60px 1.4fr 60px 1fr;
+        gap: 0;
+        align-items: start;
+    }
+
+    .flow-col {
+        min-width: 0;
+    }
+
+    .flow-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid;
+    }
+    .flow-label.in { color: var(--blue); border-color: var(--blue); }
+    .flow-label.proc { color: var(--amber); border-color: var(--amber); }
+    .flow-label.out { color: var(--green); border-color: var(--green); }
+
+    .flow-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 60px;
+        font-size: 2rem;
+        color: var(--text-muted);
+        opacity: 0.4;
+    }
+
+    /* ── Items ── */
+    .item {
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border-left: 4px solid;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    .item strong {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 2px;
+    }
+    .item .detail {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+    .item code {
+        font-family: 'SFMono-Regular', Consolas, monospace;
+        font-size: 0.82rem;
+        background: rgba(255,255,255,0.06);
+        padding: 2px 6px;
+        border-radius: 3px;
+    }
+
+    /* Item types */
+    .item.input {
+        background: rgba(96,165,250,0.06);
+        border-color: var(--blue);
+        color: #bfdbfe;
+    }
+    .item.input strong { color: var(--blue); }
+
+    .item.llm {
+        background: rgba(167,139,250,0.06);
+        border-color: var(--purple);
+        color: #ddd6fe;
+    }
+    .item.llm strong { color: var(--purple); }
+    .item.llm .model-tag {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 1px 8px;
+        border-radius: 3px;
+        background: rgba(167,139,250,0.15);
+        color: var(--purple);
+        margin-left: 6px;
+        vertical-align: middle;
+        letter-spacing: 0.3px;
+    }
+
+    .item.process {
+        background: rgba(245,166,35,0.06);
+        border-color: var(--amber);
+        color: var(--amber-bright);
+    }
+    .item.process strong { color: var(--amber); }
+
+    .item.human {
+        background: rgba(6,182,212,0.06);
+        border-color: var(--cyan);
+        color: #a5f3fc;
+    }
+    .item.human strong { color: var(--cyan); }
+
+    .item.output {
+        background: rgba(34,197,94,0.06);
+        border-color: var(--green);
+        color: #bbf7d0;
+    }
+    .item.output strong { color: var(--green); }
+
+    .item.vault {
+        background: rgba(248,113,113,0.06);
+        border-color: var(--coral);
+        color: #fecaca;
+    }
+    .item.vault strong { color: var(--coral); }
+
+    /* ── Connector between steps ── */
+    .connector {
+        text-align: center;
+        padding: 24px 0;
+        position: relative;
+    }
+    .connector::before {
+        content: '';
+        display: block;
+        width: 3px;
+        height: 40px;
+        background: var(--amber-dim);
+        margin: 0 auto;
+        opacity: 0.4;
+    }
+    .connector::after {
+        content: '▼';
+        display: block;
+        color: var(--amber-dim);
+        font-size: 1rem;
+        opacity: 0.4;
+        margin-top: -4px;
+    }
+
+    /* ── Final output section ── */
+    .final-output {
+        padding: 64px 48px;
+        text-align: center;
+        background: linear-gradient(180deg, var(--bg) 0%, #12100a 100%);
+    }
+    .final-output h2 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: var(--amber);
+        margin-bottom: 16px;
+    }
+    .final-output p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-bottom: 32px;
+    }
+    .tabs-visual {
+        display: flex;
+        justify-content: center;
+        gap: 4px;
+        margin-bottom: 24px;
+    }
+    .tab-block {
+        padding: 16px 28px;
+        border-radius: 8px 8px 0 0;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+    .tab-block.active {
+        background: var(--amber);
+        color: var(--bg);
+    }
+    .tab-block.inactive {
+        background: var(--bg-card);
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        border-bottom: none;
+    }
+    .tab-content-block {
+        max-width: 700px;
+        margin: 0 auto;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 0 0 12px 12px;
+        padding: 32px;
+        text-align: left;
+    }
+    .tab-content-block li {
+        padding: 6px 0;
+        color: var(--text-sec);
+        font-size: 0.95rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+        .flow {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .flow-arrow {
+            padding: 0;
+            font-size: 1.5rem;
+            transform: rotate(90deg);
+        }
+        .step-number { font-size: 2.5rem; min-width: 50px; }
+        .step-name { font-size: 1.4rem; }
+        .step-inner { padding: 0 24px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+    <h1>ANVIL PIPELINE MAP</h1>
+    <p>Every step, every input, every LLM call, every output file. Built for auditing the full workflow end to end.</p>
+</div>
+
+<div class="stats">
+    <div><div class="stat-num" style="color:var(--amber);">8</div><div class="stat-label">Steps</div></div>
+    <div><div class="stat-num" style="color:var(--purple);">~45</div><div class="stat-label">LLM Calls</div></div>
+    <div><div class="stat-num" style="color:var(--cyan);">6</div><div class="stat-label">Checkpoints</div></div>
+    <div><div class="stat-num" style="color:var(--green);">~25</div><div class="stat-label">Files / Run</div></div>
+    <div><div class="stat-num" style="color:var(--coral);">~45 min</div><div class="stat-label">End to End</div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 0 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">00</span>
+        <span class="step-name">Problem Statement + Landscape Scan + MECE Decomposition</span>
+        <span class="step-badge badge-ckpt">Human Checkpoint</span>
+    </div>
+    <div class="step-desc">
+        The most critical step. Anvil acts as an engagement manager — challenges one-sided framing ("protect" → "optimize"), tests for scope, ensures the question has a quantified decision sensitivity break point. Then scans live news in two tiers (snippets first, then full articles on gaps), and decomposes into MECE buckets with investigative sub-questions.
+    </div>
+
+    <div class="flow">
+        <!-- INPUTS -->
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+
+            <div class="item input">
+                <strong>User: Topic</strong>
+                <div class="detail">Raw problem statement, 1-2 sentences. e.g., "What should India's PSU refiners do about the Hormuz closure?"</div>
+            </div>
+
+            <div class="item input">
+                <strong>User: Audience</strong>
+                <div class="detail">Who acts on this? e.g., "CMD, Director Refining, Director Finance; MoPNG has pricing veto"</div>
+            </div>
+
+            <div class="item vault">
+                <strong>vault/issue_tree_vault.json</strong>
+                <div class="detail">5 decomposition methods (algebraic, process, causal, segmentation, situation) + 8 fully worked MECE examples</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <!-- PROCESS -->
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+
+            <div class="item llm">
+                <strong>1. Problem Worksheet <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Completes 6-component framework: basic question, context, criteria for success, scope (in/out), constraints, stakeholders (decision-makers, supporters, blockers), decision sensitivity break point, key assumptions.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>2. Landscape Scan — Tier 1 (Fast) <span class="model-tag">HAIKU</span></strong>
+                <div class="detail">Generates 12 search queries → DuckDuckGo search (3 news + 3 web results per query) → Haiku summarizes all snippets into a landscape overview. Purpose: cheap, fast scan of what's happening right now.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>3. Landscape Scan — Tier 2 (Deep) <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Reads Tier 1 summary, identifies gaps and angles worth going deeper on → generates 5-6 depth queries → fetches full article text from URLs (6 parallel workers, skip paywalls) → Sonnet combines Tier 1 + Tier 2 into a 2-3 page current events summary.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>4. Core MECE Buckets <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Picks decomposition method based on problem type. Generates 4-6 mutually exclusive, collectively exhaustive buckets — each framed as an open question ("How exposed is Jamnagar's crude supply?"), not a topic label. Uses vault examples for calibration.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>5. Auxiliary Forces Check <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Reviews the landscape scan for external dimensions NOT covered by core buckets (regulatory, geopolitical, competitive, second-order). Adds 1-3 auxiliary buckets if gaps exist. Only additions, never removals.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>6. Sub-questions <span class="model-tag">HAIKU ×N PARALLEL</span></strong>
+                <div class="detail">For each bucket: generates 5-8 specific investigative questions. All questions are factual ("What is the current unhedged exposure?") not prescriptive ("How should they hedge?"). Runs in parallel across buckets (ThreadPoolExecutor, 6 workers).</div>
+            </div>
+
+            <div class="item human">
+                <strong>CHECKPOINT: Confirm PS + MECE</strong>
+                <div class="detail">Human reviews the problem statement and decomposition. Can challenge framing, add/remove buckets, edit questions. <em>Must explicitly confirm before pipeline proceeds.</em></div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <!-- OUTPUTS -->
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+
+            <div class="item output">
+                <strong><code>mece/0_problem_worksheet.json</code></strong>
+                <div class="detail">Full 6-component problem worksheet. Includes decision sensitivity break point — the specific condition under which the opposite answer becomes correct.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>mece/decomposition.json</code></strong>
+                <div class="detail">SMART problem statement + sections array (each: section_id, title, rationale, questions array). This is the master file — every downstream step reads from it.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>landscape_scan/landscape.json</code></strong>
+                <div class="detail">Full Tier 1 + Tier 2 scan data: all articles (title, URL, text), snippets, events, search queries used. Typically ~150KB. Timestamped — this is the "we have current data" evidence.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>landscape_scan/landscape_summary.md</code></strong>
+                <div class="detail">2-3 page readable summary of current events relevant to the problem. Fed into research debrief later to prove the LLM had live data.</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 1 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">01</span>
+        <span class="step-name">Issue Tree Visualization</span>
+        <span class="step-badge badge-auto">Auto — No LLM</span>
+    </div>
+    <div class="step-desc">
+        Pure rendering step. Takes the MECE decomposition and builds an interactive HTML tree. No LLM calls. Viewable in the "Issue Tree" tab of the final output.
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+            <div class="item input">
+                <strong><code>mece/decomposition.json</code></strong>
+                <div class="detail">Sections + sub-questions from Step 0</div>
+            </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+            <div class="item process">
+                <strong>generate_tree_html()</strong>
+                <div class="detail">Builds HTML with CSS tree layout. Each bucket is expandable. Sub-questions shown on hover/click. No LLM — pure template rendering.</div>
+            </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+            <div class="item output">
+                <strong><code>tree.html</code></strong>
+                <div class="detail">Interactive issue tree → embedded in "Issue Tree" tab of output.html</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 1.5 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">1.5</span>
+        <span class="step-name">80/20 Tiering</span>
+        <span class="step-badge badge-auto">Auto</span>
+    </div>
+    <div class="step-desc">
+        Scores every sub-question against the decision sensitivity break point. Tier 1 questions would flip the recommendation if answered differently — these get the most research depth. Tier 3 can be extrapolated. This is how the pipeline allocates attention.
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+            <div class="item input">
+                <strong><code>mece/decomposition.json</code></strong>
+                <div class="detail">All sections + sub-questions</div>
+            </div>
+            <div class="item input">
+                <strong>Decision sensitivity break point</strong>
+                <div class="detail">From problem worksheet — the condition that flips the answer</div>
+            </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+            <div class="item llm">
+                <strong>Tier Scoring <span class="model-tag">HAIKU</span></strong>
+                <div class="detail">For each sub-question: would this answer flip the recommendation? <br><strong>Tier 1:</strong> Yes — triangulate from 3+ sources, deep research.<br><strong>Tier 2:</strong> Important context but won't flip alone — 1-2 sources.<br><strong>Tier 3:</strong> Can be extrapolated from Tier 1/2 answers — minimal research.</div>
+            </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+            <div class="item output">
+                <strong><code>tiers/tiers.json</code></strong>
+                <div class="detail">Array of {question_id, tier (1/2/3), reason}. Summary counts. Tier labels get merged back into the decomposition sections in memory.</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 2 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">02</span>
+        <span class="step-name">Deep Research</span>
+        <span class="step-badge badge-ckpt">Human Checkpoint</span>
+    </div>
+    <div class="step-desc">
+        The research engine. For each MECE bucket: generate targeted search queries, search the web, fetch full articles, and synthesize findings into a research brief that answers every sub-question with sources. Human can inject proprietary data at this point. This is the longest step (~15 min).
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+
+            <div class="item input">
+                <strong><code>mece/decomposition.json</code></strong>
+                <div class="detail">Tiered sections + sub-questions. Tier 1 questions get deeper research.</div>
+            </div>
+
+            <div class="item input">
+                <strong><code>landscape_scan/landscape.json</code></strong>
+                <div class="detail">Current events context from Step 0 — avoids re-searching what's already known.</div>
+            </div>
+
+            <div class="item human">
+                <strong><code>inputs/research/</code> (optional)</strong>
+                <div class="detail">Human-provided files: PDFs, CSVs, docs. Injected as HIGH confidence evidence. e.g., internal inventory data, contract terms, proprietary forecasts.</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+
+            <div class="item llm">
+                <strong>1. Client Context Inference <span class="model-tag">HAIKU</span></strong>
+                <div class="detail">Reads problem + audience → infers what internal data systems they likely have access to (e.g., "Reliance trading desk has real-time VLCC freight data"). Used to flag PROPRIETARY items in research requirements.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>2. Research Requirements ×N <span class="model-tag">HAIKU ×N PARALLEL</span></strong>
+                <div class="detail">Per bucket: what data is needed, what sources exist, is it PUBLIC or PROPRIETARY, is it MUST-HAVE or NICE-TO-HAVE. Generates research checklist.</div>
+            </div>
+
+            <div class="item human">
+                <strong>CHECKPOINT: Research Input Choice</strong>
+                <div class="detail"><strong>A:</strong> Proceed with public data only (proprietary items marked LOW confidence)<br><strong>B:</strong> Upload files to inputs/research/<br><strong>C:</strong> Quit & gather data manually, resume later<br><strong>D:</strong> Selective — provide data for some items, skip others</div>
+            </div>
+
+            <div class="item llm">
+                <strong>3. Search Queries ×N <span class="model-tag">HAIKU ×N</span></strong>
+                <div class="detail">Per bucket: 10 targeted search queries. Targets: government data portals, company investor relations, think tanks, industry trackers, Wikipedia, academic papers. Avoids generic queries.</div>
+            </div>
+
+            <div class="item process">
+                <strong>4. DuckDuckGo Web Search</strong>
+                <div class="detail">Sequential per bucket (1.5s throttle). Per query: 3 news results + 3 web results. Skips paywalled sources (Reuters, FT, WSJ, Bloomberg, NYT, Economist, Barron's, SeekingAlpha). Collects snippet text + URLs.</div>
+            </div>
+
+            <div class="item process">
+                <strong>5. Full Article Fetch (6 parallel workers)</strong>
+                <div class="detail">Per bucket: up to 10 URLs, prefers non-paywalled. Fetches full HTML, strips scripts/styles/nav, extracts clean text. Returns up to 5 full articles per bucket.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>6. Bucket Research Brief ×N <span class="model-tag">SONNET ×N PARALLEL</span></strong>
+                <div class="detail">Per bucket: receives topic, bucket title, all sub-questions, 30+ search snippets, 5+ full articles, current events context, human-provided data. Answers each question with BOTTOM LINE (1-2 sentences) + supporting detail. Sources every fact. Marks model reasoning as [LLM reasoning]. Saves as bucket_NN.md.</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+
+            <div class="item output">
+                <strong><code>research/research_brief.json</code></strong>
+                <div class="detail">Client context + per-bucket requirements: data needed, source type (PUBLIC/PROPRIETARY/EXPERT), priority (MUST-HAVE/NICE-TO-HAVE), suggested sources.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>research/research_checklist.md</code></strong>
+                <div class="detail">Human-readable checklist: MUST-HAVE items flagged, PROPRIETARY items highlighted with specific "client ask" text.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>research/bucket_01.md</code> … <code>bucket_N.md</code></strong>
+                <div class="detail">Per-bucket research findings. Each sub-question answered with sourced data. This is the raw evidence layer.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>research/compiled.md</code></strong>
+                <div class="detail">All bucket files joined with --- separators. This is what feeds into the working document and debrief. If empty on resume, pipeline rebuilds from individual bucket files.</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 3 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">03</span>
+        <span class="step-name">Working Document + Research Debrief</span>
+        <span class="step-badge badge-ckpt">Human Checkpoint</span>
+    </div>
+    <div class="step-desc">
+        Research gets compiled into a structured working document (bottom-line-up-front per question) and a 2-5 page research debrief written like you're walking into the partner's office. Every fact anchored to time period, source, and comparison baseline. Runs in parallel with Step 2 when possible.
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+
+            <div class="item input">
+                <strong><code>research/bucket_*.md</code></strong>
+                <div class="detail">Per-bucket research findings from Step 2</div>
+            </div>
+
+            <div class="item input">
+                <strong><code>mece/decomposition.json</code></strong>
+                <div class="detail">Sub-questions to structure the working document around</div>
+            </div>
+
+            <div class="item input">
+                <strong><code>landscape_scan/landscape_summary.md</code></strong>
+                <div class="detail">Fed into debrief prompt so the LLM knows it has live web research and doesn't disclaim</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+
+            <div class="item llm">
+                <strong>1. Working Doc Per Bucket <span class="model-tag">SONNET ×N PARALLEL</span></strong>
+                <div class="detail">Per bucket: takes research findings + questions → writes executive-level narrative. BOTTOM LINE first, then supporting detail. Where data unavailable, states what's known + uncertainty naturally (no "DATA GAP" labels). Preserves source citations and [LLM reasoning] tags.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>2. Research Debrief <span class="model-tag">SONNET</span></strong>
+                <div class="detail">2-5 page partner debrief. Structure: (1) Bottom line up front — single most important thing with specific numbers. (2) What we found — per research area with anchored data points. (3) What remains uncertain — where estimates replace confirmed data. (4) Early signals — cross-cutting observations and tensions. Explicitly told: "This was built from LIVE WEB RESEARCH — do not disclaim lack of data."</div>
+            </div>
+
+            <div class="item human">
+                <strong>CHECKPOINT: Review Debrief</strong>
+                <div class="detail">Human reviews findings. Can add insights ("we know the actual inventory is X"), give feedback ("bucket 3 is wrong about Y"), or approve to proceed.</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+
+            <div class="item output">
+                <strong><code>working_doc/working_document.md</code></strong>
+                <div class="detail">Full compiled working document: all buckets, all questions answered. This is the foundation for synthesis.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>research/debrief.md</code></strong>
+                <div class="detail">Partner-ready research debrief in markdown.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>research/debrief.html</code></strong>
+                <div class="detail">Styled HTML version → embedded in "Research Debrief" tab of output.html</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 4 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">04</span>
+        <span class="step-name">Synthesis — Findings → Patterns → Inferences</span>
+        <span class="step-badge badge-ckpt">Human Checkpoint</span>
+    </div>
+    <div class="step-desc">
+        Where the engine earns its keep. Three passes: extract key findings per bucket, then read ACROSS all buckets to find patterns (what converges, what contradicts, what surprises), then derive "so what" inferences that no single bucket could surface alone. This is exactly what a chat window can't do — the context isn't big enough to hold the full picture.
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+
+            <div class="item input">
+                <strong><code>working_doc/bucket_*.md</code></strong>
+                <div class="detail">Per-bucket working document sections</div>
+            </div>
+
+            <div class="item input">
+                <strong><code>mece/decomposition.json</code></strong>
+                <div class="detail">Tier 1 questions — synthesis focuses on decision-critical findings</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+
+            <div class="item llm">
+                <strong>1. Extract Findings ×N <span class="model-tag">SONNET ×N PARALLEL</span></strong>
+                <div class="detail">Per bucket: extract 3-5 KEY FACTS. Each must have a specific number, time period, comparison baseline, and source. Written like a CEO summary — simple words, no jargon. Preserves "(per source, date)" and "[LLM reasoning]" tags. Each finding gets an ID (F1.1, F2.3) and confidence (HIGH/MEDIUM/LOW).</div>
+            </div>
+
+            <div class="item llm">
+                <strong>2. Cross-Bucket Patterns <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Reads ALL findings across ALL buckets. Identifies 5-8 patterns:<br>
+                <strong>CONVERGENCE:</strong> Multiple independent findings point same direction<br>
+                <strong>TENSION:</strong> Contradictory findings create a dilemma<br>
+                <strong>SURPRISE:</strong> Breaks expected pattern<br>
+                <strong>BINDING CONSTRAINT:</strong> One finding limits everything else<br>
+                <strong>CASCADE:</strong> Finding A triggers consequence B<br>
+                Each pattern cites specific finding IDs (F1.1, F3.2) and rates importance (CRITICAL/IMPORTANT/NOTABLE).</div>
+            </div>
+
+            <div class="item llm">
+                <strong>3. "So What" Inferences <span class="model-tag">SONNET</span></strong>
+                <div class="detail">For each pattern: what does it IMPLY for the decision-maker? Connects back to the problem statement. Points toward (but doesn't state) possible hypotheses. Includes the key number/threshold. Each inference gets an ID (I1, I2) and cites its source pattern (P1, P2).</div>
+            </div>
+
+            <div class="item human">
+                <strong>CHECKPOINT: Review Synthesis</strong>
+                <div class="detail">Can add insights ("the PSU pricing constraint and the margin opportunity are connected — that's the real insight"), challenge patterns, or approve.</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+
+            <div class="item output">
+                <strong><code>synthesis/1_findings.json</code></strong>
+                <div class="detail">Per-bucket findings: F1.1, F2.3… Each with finding text, confidence, source question, tier.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>synthesis/2_patterns.json</code></strong>
+                <div class="detail">Cross-bucket patterns: P1, P2… Each with type, name, statement, supporting finding IDs, importance.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>synthesis/3_inferences.json</code></strong>
+                <div class="detail">Inferences: I1, I2… Each with so_what, key_number, implies_for_decision, source pattern ID.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>synthesis/synthesis.json</code> + <code>.html</code></strong>
+                <div class="detail">Combined file (findings + patterns + inferences). HTML version → "Synthesis" tab.</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 5 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">05</span>
+        <span class="step-name">Hypotheses — Generate, Stress-Test, Kill</span>
+        <span class="step-badge badge-ckpt">Human Checkpoint</span>
+    </div>
+    <div class="step-desc">
+        The step most AI tools skip entirely. Converts synthesis inferences into 5-8 testable hypotheses that directly answer the problem statement. Then actively tries to kill them with a structured 6-point stress test. Survivors become the final brief's backbone. The dead go to the graveyard — with full reasoning. ACH diagnosticity scoring identifies which findings actually distinguish between competing hypotheses.
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+
+            <div class="item input">
+                <strong><code>synthesis/synthesis.json</code></strong>
+                <div class="detail">Findings (F), Patterns (P), Inferences (I) — the full evidence chain</div>
+            </div>
+
+            <div class="item input">
+                <strong>Decision sensitivity break point</strong>
+                <div class="detail">The quantified condition from Step 0 that flips the answer</div>
+            </div>
+
+            <div class="item human">
+                <strong><code>inputs/hypothesis/</code> (optional)</strong>
+                <div class="detail">Evidence files to confirm or disprove specific hypotheses. e.g., actual inventory data, confirmed contract terms.</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+
+            <div class="item llm">
+                <strong>1. Generate Hypotheses <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Converts inferences into 5-8 hypotheses that DIRECTLY ANSWER the problem statement. Pyramid principle: inference (pattern implies X) → hypothesis (therefore do Y because X). BINDING CONSTRAINT patterns first. TENSION patterns generate competing hypotheses. Each hypothesis cites P/F/I IDs, includes specific number/threshold, states its own break point.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>2. Six-Point Stress Test <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Per hypothesis, 6 failure modes tested:<br>
+                (1) <strong>Evidence-claim mismatch</strong> — does the evidence actually support this? → KILL if no<br>
+                (2) <strong>Break point plausibility</strong> — is the break point realistic?<br>
+                (3) <strong>Internal consistency</strong> — contradicts another active hypothesis? → KILL if yes<br>
+                (4) <strong>Confidence calibration</strong> — is confidence rating justified by evidence quality?<br>
+                (5) <strong>Steel-man counterargument</strong> — strongest possible objection<br>
+                (6) <strong>Diagnosticity</strong> — does this hypothesis make different predictions than alternatives?<br>
+                Status after: confirmed, uncertain, or killed.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>3. Coverage Check <span class="model-tag">HAIKU</span></strong>
+                <div class="detail">Is every MECE bucket represented by at least one active hypothesis? If not, flags the gap and explains why — either the bucket's findings didn't support any testable claim, or a hypothesis was killed that covered it.</div>
+            </div>
+
+            <div class="item llm">
+                <strong>4. ACH Diagnosticity Matrix <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Analysis of Competing Hypotheses: for each key finding, score it against ALL active hypotheses as C (consistent), I (inconsistent), or N (neutral). A finding that's C with many hypotheses has LOW diagnosticity (doesn't help you decide). A finding that's C with one but I with others has HIGH diagnosticity (it distinguishes). Adjusts confidence ratings based on diagnosticity.</div>
+            </div>
+
+            <div class="item human">
+                <strong>CHECKPOINT: Proof Input</strong>
+                <div class="detail"><strong>A:</strong> Proceed — some hypotheses may remain UNCERTAIN<br><strong>B:</strong> Upload evidence files<br><strong>C:</strong> Quit & gather evidence, resume later<br><strong>D:</strong> Selective — provide evidence for specific hypotheses</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+
+            <div class="item output">
+                <strong><code>hypotheses/hypotheses.json</code></strong>
+                <div class="detail">Full hypothesis tree: governing_hypothesis (strongest single answer), hypotheses array (H1-HN: statement, evidence_for, evidence_against, break_point, confidence, status, stress_checks), graveyard (killed hypotheses with kill reason), coverage map.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>hypotheses/diagnosticity.json</code></strong>
+                <div class="detail">ACH matrix: per-finding scores against all hypotheses, high-diagnosticity findings, low-diagnosticity warnings, confidence adjustments.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>hypotheses/proof_checklist.md</code></strong>
+                <div class="detail">What specific evidence would confirm or disprove each active hypothesis. Named providers and deadlines for internal data.</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 6 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">06</span>
+        <span class="step-name">Final Document</span>
+        <span class="step-badge badge-ckpt">Human Checkpoint</span>
+    </div>
+    <div class="step-desc">
+        Generates a 3-5 page executive strategic brief in HTML. Two LLM passes: first generates the prose, then a separate critique pass rewrites for voice, structure, and punch. The document you'd put in front of a senior partner.
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+
+            <div class="item input">
+                <strong><code>hypotheses/hypotheses.json</code></strong>
+                <div class="detail">Governing hypothesis + active hypotheses + graveyard</div>
+            </div>
+
+            <div class="item input">
+                <strong><code>synthesis/synthesis.json</code></strong>
+                <div class="detail">Findings, patterns, inferences for evidence context</div>
+            </div>
+
+            <div class="item input">
+                <strong>Problem statement + audience</strong>
+                <div class="detail">From state.json — grounds the document in the original question</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+
+            <div class="item llm">
+                <strong>1. Generate Prose <span class="model-tag">SONNET</span></strong>
+                <div class="detail">3-5 page HTML document. Fixed structure:<br>
+                <strong>h1:</strong> Thematic title (3-8 words, e.g., "Jamnagar's Thirty-Day Clock")<br>
+                <strong>p.ps:</strong> Original problem statement in italic<br>
+                <strong>h2:</strong> Governing hypothesis (one sentence conclusion)<br>
+                <strong>h2 Context:</strong> 2-3 paragraphs, sets the scene with one anchor number<br>
+                <strong>h2 What We Believe:</strong> Numbered strategic beliefs (1 sentence each)<br>
+                <strong>h2 per hypothesis:</strong> Headline IS the conclusion. Bold claim → evidence → break point → confidence<br>
+                <strong>h2 Decisions Required:</strong> Numbered list: owner, deadline, cost, dependencies, consequence of inaction<br>
+                <strong>h2 Tested and Rejected:</strong> Killed hypotheses with one-sentence kill reason<br>
+                <strong>h2 Data Gaps:</strong> What needs verification, who provides it, by when</div>
+            </div>
+
+            <div class="item llm">
+                <strong>2. Critique + Rewrite <span class="model-tag">SONNET</span></strong>
+                <div class="detail">Separate pass rewrites the entire document:<br>
+                • Every paragraph starts with <strong>bold lead-in</strong> (3-8 words)<br>
+                • One idea per sentence. Short. Direct.<br>
+                • Delete sentences with no new fact or insight<br>
+                • Kill all meta-commentary ("confidence: HIGH", "Tier 1", "break point")<br>
+                • Preserve all "(per source, date)" citations and "[LLM reasoning]" tags<br>
+                • Unsourced numbers get "(unverified)"<br>
+                • End each section with punch, not hedge</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+
+            <div class="item output">
+                <strong><code>final_document_draft.html</code></strong>
+                <div class="detail">First LLM pass — before critique rewrite</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>final_document.html</code></strong>
+                <div class="detail">Polished executive brief → embedded in "Report" tab of output.html. This is the primary deliverable.</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- STEP 7 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number">07</span>
+        <span class="step-name">Appendix — Proof Charts</span>
+        <span class="step-badge badge-auto">Auto</span>
+    </div>
+    <div class="step-desc">
+        Every claim in the final document with a hard number maps to exactly one proof slide. Chart type chosen by data relationship (ranking → bar, change over time → line, part-to-whole → pie, correlation → scatter, etc.). 4-6 slides rendered with Apache ECharts. Must use 3+ different chart types. Never invents values — if no sourced number, no chart.
+    </div>
+
+    <div class="flow">
+        <div class="flow-col">
+            <div class="flow-label in">INPUTS</div>
+
+            <div class="item input">
+                <strong><code>final_document.html</code></strong>
+                <div class="detail">Parsed to plain text. LLM extracts claims that contain hard numbers worthy of a proof slide.</div>
+            </div>
+
+            <div class="item vault">
+                <strong><code>vault/chart_vault.json</code></strong>
+                <div class="detail">Chart design decision tree: data relationship → chart form. 5 relationship types (component, item, time series, distribution, correlation), each with chart form, rules, anti-patterns. Design principles: strategic attention, declutter, direct the eye, color semantics. ECharts styling defaults.</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label proc">WHAT HAPPENS</div>
+
+            <div class="item llm">
+                <strong>1. Map Claims to Slides <span class="model-tag">SONNET</span></strong>
+                <div class="detail">4-6 slides. Per slide: exact claim sentence from document, chart type (10 options: bar, horizontal_bar, line, area, waterfall, pie, donut, scatter, gauge, funnel, sankey, heatmap), chart_data (labels, values, colors), action_title (conclusion headline), subtitle (units, period, source), source_line. Must use 3+ different chart types. Colors: red (#ef4444) = bad, green (#22c55e) = good, blue (#2563eb) = neutral. Labels max 25 chars.</div>
+            </div>
+
+            <div class="item process">
+                <strong>2. ECharts HTML Renderer</strong>
+                <div class="detail">Builds self-contained HTML with Apache ECharts CDN. Each slide: header (Appendix N), title, subtitle, chart div (echarts.init + setOption), conclusion, source. Keyboard navigation (arrow keys), scroll detection, progress bar.</div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-col">
+            <div class="flow-label out">OUTPUT FILES</div>
+
+            <div class="item output">
+                <strong><code>appendix/slides.json</code></strong>
+                <div class="detail">Slide specs: appendix_num, claim_sentence, chart_type, chart_data, action_title, subtitle, conclusion, source_line.</div>
+            </div>
+
+            <div class="item output">
+                <strong><code>appendix.html</code></strong>
+                <div class="detail">Interactive proof slides → embedded in "Appendix" tab of output.html</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="connector"></div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- FINAL OUTPUT -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="final-output">
+    <h2>FINAL DELIVERABLE</h2>
+    <p><code style="font-size:1.3rem;color:var(--amber-bright);">output.html</code> — single file, 5-tab interface</p>
+
+    <div class="tabs-visual">
+        <div class="tab-block active">Report</div>
+        <div class="tab-block inactive">Appendix</div>
+        <div class="tab-block inactive">Issue Tree</div>
+        <div class="tab-block inactive">Synthesis</div>
+        <div class="tab-block inactive">Research Debrief</div>
+    </div>
+
+    <div class="tab-content-block">
+        <ul style="list-style:none;">
+            <li><strong style="color:var(--amber);">Report</strong> — final_document.html — 3-5 page executive brief</li>
+            <li><strong style="color:var(--green);">Appendix</strong> — appendix.html — 4-6 proof charts (ECharts)</li>
+            <li><strong style="color:var(--blue);">Issue Tree</strong> — tree.html — interactive MECE decomposition</li>
+            <li><strong style="color:var(--purple);">Synthesis</strong> — synthesis/synthesis.html — findings → patterns → inferences</li>
+            <li><strong style="color:var(--cyan);">Research Debrief</strong> — research/debrief.html — 2-5 page partner debrief</li>
+        </ul>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:0.85rem;color:var(--text-muted);">
+            Tab bar with iframe switching. Each tab loads a self-contained HTML file from the run directory. Generated by <code>_build_combined_output(run_dir)</code>.
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- EVIDENCE CHAIN -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="step">
+<div class="step-inner">
+    <div class="step-head">
+        <span class="step-number" style="color:var(--coral);">&#9878;</span>
+        <span class="step-name">Evidence Traceability Chain</span>
+    </div>
+    <div class="step-desc">
+        Every claim in the final document traces back through a chain of custody to a specific sub-question in the MECE decomposition. IDs are preserved across all files.
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:24px 0;font-size:1.1rem;">
+        <div style="padding:16px 24px;background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--blue);">Sub-question</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">1.1, 2.3…</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+        <div style="padding:16px 24px;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--cyan);">Research</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">sourced, timestamped</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+        <div style="padding:16px 24px;background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--teal);">Finding</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">F1.1, F2.3…</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+        <div style="padding:16px 24px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--purple);">Pattern</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">P1, P2…</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+        <div style="padding:16px 24px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--purple);">Inference</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">I1, I2…</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+        <div style="padding:16px 24px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--coral);">Hypothesis</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">H1, H2…</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+        <div style="padding:16px 24px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--green);">Claim</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">in final doc</div>
+        </div>
+        <div style="font-size:1.5rem;color:var(--text-muted);">→</div>
+        <div style="padding:16px 24px;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);border-radius:8px;text-align:center;">
+            <div style="font-weight:800;color:var(--amber);">Proof Slide</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);">appendix chart</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<footer>
+    Anvil — Built by Parth Reddy &middot; Pipeline architecture as of March 2026
+</footer>
+
+</body>
+</html>

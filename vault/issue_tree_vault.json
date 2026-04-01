@@ -1,0 +1,112 @@
+{
+  "description": "MECE issue tree decomposition examples and methods. The LLM picks the best approach for the specific problem.",
+
+  "decomposition_methods": [
+    {
+      "method": "Algebraic",
+      "when": "The problem has a quantitative outcome you can write as an equation",
+      "how": "Decompose using the equation. Each branch is a term. Guaranteed MECE by math.",
+      "examples": [
+        {"equation": "Profit = Revenue - Cost", "branches": ["Why did revenue change?", "Why did costs change?"]},
+        {"equation": "Revenue = Price x Volume", "branches": ["Did price change?", "Did volume change?"]},
+        {"equation": "Market share = Our customers / Total customers", "branches": ["Are we losing existing customers?", "Are we failing to win new ones?", "Is the market growing where we don't compete?"]}
+      ]
+    },
+    {
+      "method": "Process / Flow",
+      "when": "The problem follows a sequence of steps or stages",
+      "how": "Each branch is a stage in the process. MECE because stages don't overlap.",
+      "examples": [
+        {"process": "Customer journey", "branches": ["Are we reaching the right people?", "Are they trying our product?", "Are they buying?", "Are they coming back?"]},
+        {"process": "Cost flow", "branches": ["What do inputs cost?", "What does conversion cost?", "What does delivery cost?"]}
+      ]
+    },
+    {
+      "method": "Segmentation",
+      "when": "The problem differs across natural segments (geography, product, customer type)",
+      "how": "Each branch is a distinct segment. MECE if segments are properly defined.",
+      "examples": [
+        {"segments": "Product tiers", "branches": ["What is happening in high-end?", "What is happening in mid-range?", "What is happening in entry-level?"]},
+        {"segments": "Customer type", "branches": ["What do enterprise customers want?", "What do mid-market customers want?", "What do SMB customers want?"]}
+      ]
+    },
+    {
+      "method": "Causal / Actor-based",
+      "when": "The problem is driven by different actors or causal forces",
+      "how": "Each branch is a different actor or cause. MECE because actors are distinct.",
+      "examples": [
+        {"actors": "Why customers leave", "branches": ["Who is pulling them away?", "What is pushing them to look?", "Did their needs change entirely?"]},
+        {"actors": "Pricing forces", "branches": ["What will customers pay?", "What does it cost us?", "What do competitors charge?"]}
+      ]
+    },
+    {
+      "method": "Situation Assessment",
+      "when": "The problem requires understanding a situation before deciding what to do",
+      "how": "Cover independent dimensions of the situation. Each branch answers a different question about the same reality.",
+      "examples": [
+        {"situation": "Responding to a threat", "branches": ["What is the threat?", "How big is the impact?", "What defenses do we have?", "What do customers want?", "What can we afford?"]},
+        {"situation": "Market entry", "branches": ["How big is the opportunity?", "Who already serves it?", "What would it take to compete?", "What is the downside if we fail?"]},
+        {"situation": "Crisis response", "branches": ["How much time do we have?", "What are the immediate options?", "What happens to our economics?", "What do stakeholders expect?"]}
+      ]
+    }
+  ],
+
+  "full_examples": [
+    {
+      "problem": "Why has profit declined 20% in 2 years?",
+      "method": "Algebraic",
+      "buckets": ["Where did revenue fall?", "Which costs grew?"],
+      "why_mece": "Profit = Revenue - Cost. Every dollar resolves to one side."
+    },
+    {
+      "problem": "Why are customers leaving our telecom?",
+      "method": "Causal",
+      "buckets": ["Who is pulling them away?", "What drove them to look?", "Did their needs change?"],
+      "why_mece": "Three distinct causal forces. No fourth actor exists."
+    },
+    {
+      "problem": "How can Pioneer Bank close a $100M profit gap?",
+      "method": "Situation Assessment",
+      "buckets": ["Where is the bank losing money?", "Where are competitors making money we aren't?", "What could we do with existing assets?", "What would each option cost?"],
+      "why_mece": "Diagnose, benchmark, ideate, size. Each step is independent."
+    },
+    {
+      "problem": "Why have fuel costs increased 40%?",
+      "method": "Algebraic",
+      "buckets": ["How much did price per liter change?", "Did we fly more trips?", "Are planes burning more fuel per trip?"],
+      "why_mece": "Fuel cost = price x trips x fuel-per-trip. Math tree."
+    },
+    {
+      "problem": "Should we enter the Indian EV market?",
+      "method": "Situation Assessment",
+      "buckets": ["Is the market attractive?", "Can we win in it?", "Is it worth the risk?"],
+      "why_mece": "Three independent decision gates. Cracked It! framework."
+    },
+    {
+      "problem": "How to defend against AI disruption in SaaS?",
+      "method": "Situation Assessment",
+      "buckets": ["What is the threat and from whom?", "How much revenue is at risk and when?", "What do we have that's hard to copy?", "What do customers actually want?", "What can we afford to do?"],
+      "why_mece": "Five independent dimensions of the situation."
+    },
+    {
+      "problem": "How to grow revenue from $50M to $200M?",
+      "method": "Algebraic + Segmentation",
+      "buckets": ["Can we sell more to existing customers?", "Can we win new customers in current markets?", "Can we enter new markets?", "Can we sell new products?"],
+      "why_mece": "Ansoff matrix: customer (existing/new) x product (existing/new). Four cells."
+    },
+    {
+      "problem": "What should a refiner do if Hormuz closes?",
+      "method": "Situation Assessment",
+      "buckets": ["How many days of supply do we have?", "Where else can we get crude?", "What happens to our margins?", "What does the government expect?"],
+      "why_mece": "Time, alternatives, economics, politics. Four independent constraints."
+    }
+  ],
+
+  "principles": {
+    "choose_method": "Read the problem. If there is a number to explain, use Algebraic. If there is a process, use Process. If there are distinct actors, use Causal. If you need to understand a situation before acting, use Situation Assessment. If the problem differs by segment, use Segmentation. Pick the method that best fits THIS problem.",
+    "mece_test": "Read your buckets. Can you think of information that belongs in TWO buckets? If yes, you have overlap -- merge or redraw. Can you think of an important question that falls OUTSIDE all buckets? If yes, you have a gap -- add a bucket.",
+    "plain_language": "Max 8 words per bucket. A smart 25-year-old understands it.",
+    "problem_specific": "Your buckets must be about THIS problem. If they could apply to any company in any industry, you haven't thought hard enough.",
+    "default_five": "Aim for 5 buckets. Fewer than 4 is usually too broad. More than 6 usually means overlap."
+  }
+}

@@ -1,0 +1,47 @@
+<!-- VAULT: spatial / map_shipping — Shipping map with colored dots by country, transit routes, pulsing chokepoint -->
+<div class="card" id="vault-example">
+<div class="card-inner">
+
+<p class="label" style="margin-bottom:12px">Non-Alignment</p>
+<h3 class="card-title">Who's Getting Through Hormuz?</h3>
+<p class="card-sub" style="margin-bottom:16px">India's non-alignment got 3 ships through. China got 11. Japan got zero.</p>
+<div id="vault-map-ship" class="map-c" style="height:280px"></div>
+
+<div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:12px">
+<div class="kpi" style="border-color:var(--green)"><div class="kl">China</div><div class="kv" style="color:var(--green)">11</div><div class="kd" style="color:var(--green)">Blanket deal</div></div>
+<div class="kpi" style="border-color:var(--amber)"><div class="kl">India</div><div class="kv" style="color:var(--amber)">3</div><div class="kd" style="color:var(--amber)">Case-by-case</div></div>
+<div class="kpi" style="border-color:var(--red)"><div class="kl">Japan/Korea/EU</div><div class="kv" style="color:var(--red)">0</div><div class="kd" style="color:var(--red)">Nothing through</div></div>
+</div>
+
+<div class="insight">China is the real winner. India's 70% non-Hormuz diversification — not diplomacy — is the real insurance.</div>
+
+<script>
+(function(){
+var TILE='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+function pm(){return L.divIcon({className:'',html:'<div class="pulse-marker"></div>',iconSize:[12,12],iconAnchor:[6,6]})}
+
+var m=L.map('vault-map-ship',{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false}).setView([25,56],6);
+L.tileLayer(TILE).addTo(m);
+
+// China ships (green)
+for(var i=0;i<11;i++){L.circleMarker([25+Math.random()*2,55+Math.random()*3],{radius:5,color:'#16a34a',fillColor:'#16a34a',fillOpacity:.6,weight:1}).addTo(m)}
+// India ships (amber)
+for(var i=0;i<3;i++){L.circleMarker([23+Math.random(),62+Math.random()*5],{radius:5,color:'#d97706',fillColor:'#d97706',fillOpacity:.6,weight:1}).addTo(m)}
+// Stranded ships (red)
+for(var i=0;i<19;i++){L.circleMarker([25.5+Math.random()*1.5,52+Math.random()*3],{radius:3,color:'#dc2626',fillColor:'#dc2626',fillOpacity:.5,weight:0}).addTo(m)}
+
+// Pulsing chokepoint
+L.marker([26.4,56.4],{icon:pm()}).addTo(m);
+
+// Labels
+L.marker([26.5,57.5],{icon:L.divIcon({className:'map-label map-label-green',html:'<b style="color:#16a34a">China: 11</b>',iconSize:[80,20]})}).addTo(m);
+L.marker([23.5,65],{icon:L.divIcon({className:'map-label',html:'<b style="color:#b45309">India: 3 through</b>',iconSize:[110,20]})}).addTo(m);
+L.marker([25,51.5],{icon:L.divIcon({className:'map-label map-label-red',html:'<b style="color:#cc2020">India: 19 stuck</b>',iconSize:[100,20]})}).addTo(m);
+
+// Route line
+L.polyline([[25.5,56.5],[24,62],[23,69]],{color:'#d97706',weight:2,dashArray:'5,5',opacity:.5}).addTo(m);
+})();
+</script>
+
+</div>
+</div>

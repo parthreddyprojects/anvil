@@ -1,0 +1,227 @@
+<!-- VAULT: change_over_time / gantt_milestones — Mine clearance → insurance → flow restoration Gantt with milestone diamonds -->
+<div class="card" id="vault-gantt">
+<style>
+  #vault-gantt {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 660px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-gantt .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-gantt .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-gantt .gt-container {
+    position: relative;
+    padding-bottom: 32px;
+  }
+  /* Time axis */
+  #vault-gantt .gt-axis {
+    display: flex;
+    justify-content: space-between;
+    font: 400 9px/1 'JetBrains Mono', monospace;
+    color: #aaa;
+    margin-bottom: 16px;
+    padding: 0 2px;
+    position: relative;
+  }
+  #vault-gantt .gt-axis::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #ddd;
+  }
+  /* Rows */
+  #vault-gantt .gt-row {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    position: relative;
+  }
+  #vault-gantt .gt-row:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #f0f0f0;
+  }
+  #vault-gantt .gt-label {
+    width: 110px;
+    flex-shrink: 0;
+    font: 500 10px/1.2 'Inter', sans-serif;
+    color: #555;
+    padding-right: 12px;
+  }
+  #vault-gantt .gt-track {
+    flex: 1;
+    height: 100%;
+    position: relative;
+  }
+  #vault-gantt .gt-bar {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font: 600 9px/1 'JetBrains Mono', monospace;
+    color: #fff;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  }
+  /* Milestone diamond */
+  #vault-gantt .gt-milestone {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translateY(-50%) translateX(-50%) rotate(45deg);
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    z-index: 2;
+  }
+  #vault-gantt .gt-milestone-label {
+    position: absolute;
+    top: -2px;
+    font: 600 8px/1 'Inter', sans-serif;
+    color: #555;
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+  /* Dependency arrow */
+  #vault-gantt .gt-dep {
+    position: absolute;
+    border-left: 1.5px dashed #bbb;
+    border-bottom: 1.5px dashed #bbb;
+    z-index: 1;
+  }
+  /* Legend */
+  #vault-gantt .gt-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  #vault-gantt .gt-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: 400 9px/1 'Inter', sans-serif;
+    color: #888;
+  }
+  #vault-gantt .gt-legend-swatch {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  #vault-gantt .gt-legend-diamond {
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+  #vault-gantt .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+  #vault-gantt .gt-insight {
+    font: 400 11px/1.5 'Inter', sans-serif;
+    color: #555;
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    border-left: 3px solid #d97706;
+  }
+</style>
+
+<div class="card-title">Even after ceasefire, 90+ days before full flow resumes</div>
+<div class="card-subtitle">Strait of Hormuz reopening timeline &middot; estimated duration in days from ceasefire</div>
+
+<div class="gt-container">
+  <div class="gt-axis">
+    <span>Day 0</span><span>15</span><span>30</span><span>45</span><span>60</span><span>75</span><span>90</span><span>105</span>
+  </div>
+
+  <!-- Row 1: Ceasefire Negotiation -->
+  <div class="gt-row">
+    <div class="gt-label">Ceasefire &amp; verification</div>
+    <div class="gt-track">
+      <div class="gt-bar" style="left:0%;width:13%;background:linear-gradient(90deg,#6366f1,#818cf8)">14d</div>
+      <div class="gt-milestone" style="left:13%;background:#6366f1"></div>
+    </div>
+  </div>
+
+  <!-- Row 2: Mine Clearance -->
+  <div class="gt-row">
+    <div class="gt-label">Mine clearance (US/UK MCM)</div>
+    <div class="gt-track">
+      <div class="gt-bar" style="left:13%;width:48%;background:linear-gradient(90deg,#dc2626,#ef4444)">51d</div>
+      <div class="gt-milestone" style="left:61%;background:#dc2626"></div>
+    </div>
+  </div>
+
+  <!-- Row 3: Insurance & Classification -->
+  <div class="gt-row">
+    <div class="gt-label">P&amp;I insurance reinstatement</div>
+    <div class="gt-track">
+      <div class="gt-bar" style="left:52%;width:14%;background:linear-gradient(90deg,#d97706,#f59e0b)">15d</div>
+    </div>
+  </div>
+
+  <!-- Row 4: Port Infrastructure -->
+  <div class="gt-row">
+    <div class="gt-label">Port &amp; terminal repair</div>
+    <div class="gt-track">
+      <div class="gt-bar" style="left:42%;width:38%;background:linear-gradient(90deg,#dc2626,#f87171)">40d</div>
+    </div>
+  </div>
+
+  <!-- Row 5: Flow Restoration -->
+  <div class="gt-row">
+    <div class="gt-label">Tanker flow resumes</div>
+    <div class="gt-track">
+      <div class="gt-bar" style="left:66%;width:20%;background:linear-gradient(90deg,#10b981,#34d399)">21d</div>
+      <div class="gt-milestone" style="left:86%;background:#10b981"></div>
+      <div class="gt-milestone-label" style="left:86%;top:32px">Full flow</div>
+    </div>
+  </div>
+
+  <!-- Row 6: Normalization -->
+  <div class="gt-row">
+    <div class="gt-label">Insurance &amp; pricing normalization</div>
+    <div class="gt-track">
+      <div class="gt-bar" style="left:75%;width:25%;background:linear-gradient(90deg,#6b7280,#9ca3af);opacity:.7">~30d</div>
+    </div>
+  </div>
+</div>
+
+<div class="gt-legend">
+  <div class="gt-legend-item"><div class="gt-legend-swatch" style="background:#6366f1"></div>Diplomatic</div>
+  <div class="gt-legend-item"><div class="gt-legend-swatch" style="background:#dc2626"></div>Critical path</div>
+  <div class="gt-legend-item"><div class="gt-legend-swatch" style="background:#d97706"></div>Insurance</div>
+  <div class="gt-legend-item"><div class="gt-legend-swatch" style="background:#10b981"></div>Flow</div>
+  <div class="gt-legend-item"><div class="gt-legend-diamond" style="background:#555"></div>Milestone</div>
+</div>
+
+<div class="gt-insight">Mine clearance is the bottleneck. The 1988 Tanker War took 51 days with fewer mines. Iran has tripled its mine inventory since 2015.</div>
+
+<div class="card-source">Source: US Navy MCM estimates, Lloyd's, CSIS analysis</div>
+</div>

@@ -1,0 +1,147 @@
+<!-- VAULT: change_over_time / sparkline_grid — 2x2 mini sparkline grid with current values (Brent, Indian basket, Rupee, GRM) -->
+<div class="card" id="vault-sparkgrid">
+<style>
+  #vault-sparkgrid {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 540px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-sparkgrid .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-sparkgrid .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 20px;
+  }
+  #vault-sparkgrid .sg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  #vault-sparkgrid .sg-cell {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 16px 18px 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  #vault-sparkgrid .sg-metric-label {
+    font: 500 9px/1 'Inter', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 6px;
+  }
+  #vault-sparkgrid .sg-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  #vault-sparkgrid .sg-value {
+    font: 700 22px/1 'JetBrains Mono', monospace;
+    color: #111;
+  }
+  #vault-sparkgrid .sg-delta {
+    font: 600 11px/1 'JetBrains Mono', monospace;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  #vault-sparkgrid .sg-delta.up { color: #dc2626; background: #fef2f2; }
+  #vault-sparkgrid .sg-delta.down { color: #10b981; background: #ecfdf5; }
+  #vault-sparkgrid .sg-delta.neg { color: #dc2626; background: #fef2f2; }
+  #vault-sparkgrid .sg-spark {
+    width: 100%;
+    height: 32px;
+  }
+  #vault-sparkgrid .sg-spark polyline {
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  #vault-sparkgrid .sg-spark .spark-area {
+    opacity: .08;
+  }
+  #vault-sparkgrid .sg-dot {
+    r: 3;
+  }
+  #vault-sparkgrid .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 14px;
+  }
+</style>
+
+<div class="card-title">Four metrics that matter for Indian refinery economics</div>
+<div class="card-subtitle">20-day trend &middot; last updated Mar 19 2026</div>
+
+<div class="sg-grid">
+
+  <!-- Brent Crude -->
+  <div class="sg-cell">
+    <div class="sg-metric-label">Brent Crude</div>
+    <div class="sg-row">
+      <div class="sg-value">$92.4</div>
+      <div class="sg-delta up">+18.2%</div>
+    </div>
+    <svg class="sg-spark" viewBox="0 0 120 32" preserveAspectRatio="none">
+      <polygon class="spark-area" fill="#dc2626" points="0,28 8,26 16,24 24,22 32,20 40,18 48,19 56,16 64,14 72,12 80,11 88,9 96,7 104,5 112,4 120,3 120,32 0,32"/>
+      <polyline stroke="#dc2626" points="0,28 8,26 16,24 24,22 32,20 40,18 48,19 56,16 64,14 72,12 80,11 88,9 96,7 104,5 112,4 120,3"/>
+      <circle class="sg-dot" cx="120" cy="3" fill="#dc2626"/>
+    </svg>
+  </div>
+
+  <!-- Indian Basket -->
+  <div class="sg-cell">
+    <div class="sg-metric-label">Indian Basket</div>
+    <div class="sg-row">
+      <div class="sg-value">$89.7</div>
+      <div class="sg-delta up">+16.8%</div>
+    </div>
+    <svg class="sg-spark" viewBox="0 0 120 32" preserveAspectRatio="none">
+      <polygon class="spark-area" fill="#d97706" points="0,27 8,25 16,24 24,23 32,21 40,19 48,20 56,17 64,15 72,13 80,12 88,10 96,8 104,6 112,5 120,4 120,32 0,32"/>
+      <polyline stroke="#d97706" points="0,27 8,25 16,24 24,23 32,21 40,19 48,20 56,17 64,15 72,13 80,12 88,10 96,8 104,6 112,5 120,4"/>
+      <circle class="sg-dot" cx="120" cy="4" fill="#d97706"/>
+    </svg>
+  </div>
+
+  <!-- USD/INR -->
+  <div class="sg-cell">
+    <div class="sg-metric-label">USD / INR</div>
+    <div class="sg-row">
+      <div class="sg-value">&#x20B9;92.64</div>
+      <div class="sg-delta neg">+3.1%</div>
+    </div>
+    <svg class="sg-spark" viewBox="0 0 120 32" preserveAspectRatio="none">
+      <polygon class="spark-area" fill="#dc2626" points="0,26 8,25 16,24 24,24 32,22 40,20 48,18 56,17 64,15 72,12 80,10 88,8 96,7 104,5 112,4 120,4 120,32 0,32"/>
+      <polyline stroke="#dc2626" points="0,26 8,25 16,24 24,24 32,22 40,20 48,18 56,17 64,15 72,12 80,10 88,8 96,7 104,5 112,4 120,4"/>
+      <circle class="sg-dot" cx="120" cy="4" fill="#dc2626"/>
+    </svg>
+  </div>
+
+  <!-- GRM -->
+  <div class="sg-cell">
+    <div class="sg-metric-label">Singapore GRM</div>
+    <div class="sg-row">
+      <div class="sg-value">$4.1</div>
+      <div class="sg-delta down" style="color:#dc2626;background:#fef2f2">-69%</div>
+    </div>
+    <svg class="sg-spark" viewBox="0 0 120 32" preserveAspectRatio="none">
+      <polygon class="spark-area" fill="#dc2626" points="0,5 8,6 16,7 24,9 32,11 40,14 48,16 56,18 64,20 72,22 80,24 88,25 96,26 104,27 112,28 120,28 120,32 0,32"/>
+      <polyline stroke="#dc2626" points="0,5 8,6 16,7 24,9 32,11 40,14 48,16 56,18 64,20 72,22 80,24 88,25 96,26 104,27 112,28 120,28"/>
+      <circle class="sg-dot" cx="120" cy="28" fill="#dc2626"/>
+    </svg>
+  </div>
+
+</div>
+
+<div class="card-source">Source: Reuters, PPAC, RBI &middot; 20-day rolling</div>
+</div>

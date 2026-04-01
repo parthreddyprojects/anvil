@@ -1,0 +1,248 @@
+{
+  "cards": [
+    {
+      "card_type": "hero",
+      "card_id": "c1",
+      "title": "India's Energy War",
+      "subtitle": "No ceasefire. No playbook. No precedent.",
+      "label_text": "STRATEGIC INTELLIGENCE BRIEFING \u00b7 INDIA PERSPECTIVE",
+      "hero_value": "DAY 20",
+      "hero_color": "var(--red)",
+      "stats": [
+        {"value": "8M", "label": "bbl/d offline", "color": "var(--red)"},
+        {"value": "$146", "label": "Indian basket", "color": "var(--amber)"},
+        {"value": "74d", "label": "reserve cover", "color": "var(--red)"}
+      ],
+      "badge_text": "ZERO NEGOTIATIONS ACTIVE"
+    },
+    {
+      "card_type": "timeline",
+      "card_id": "c2",
+      "title": "From Strikes to Energy War.",
+      "label": "20-Day Timeline",
+      "label_color": "red",
+      "items": [
+        {"date": "FEB 28 \u2014 DAY 1", "text": "900 strikes in 12 hours. <strong>Khamenei killed.</strong>", "phase": 1},
+        {"date": "MAR 1 \u2014 DAY 2", "text": "Traffic drops 70%. Major shippers suspend transits.", "phase": 1},
+        {"date": "MAR 4 \u2014 DAY 5", "text": "Strait officially closed. Only Chinese vessels permitted.", "phase": 1},
+        {"date": "MAR 10 \u2014 DAY 11", "text": "Iran lays naval mines. 21 attacks on merchant ships.", "phase": 2},
+        {"date": "MAR 14 \u2014 DAY 15", "text": "<strong>First day of zero crossings.</strong> 850 tankers stranded.", "phase": 2},
+        {"date": "MAR 19 \u2014 DAY 20", "text": "US bunker busters on Hormuz. Infrastructure war begins.", "phase": 2}
+      ],
+      "insight": "Phase 1 closed the strait. Phase 2 is destroying the infrastructure behind it."
+    },
+    {
+      "card_type": "kpi_card",
+      "card_id": "c3",
+      "title": "22 Ships. 1.7 Million Tonnes. Stuck.",
+      "subtitle": "611 crew members. 19 vessels west of Hormuz.",
+      "label": "Stranded",
+      "label_color": "red",
+      "dot_grid": {
+        "green_count": 3,
+        "red_count": 19,
+        "legend": "<span style=\"color:var(--green)\">● 3 through</span><span style=\"color:var(--red)\">● 19 stranded</span>"
+      },
+      "kpis": [
+        {"label": "Crude", "value": "1.67M", "delta": "tonnes \u00b7 4 tankers", "color": "var(--red)", "border_color": "var(--red)"},
+        {"label": "LPG", "value": "320K", "delta": "tonnes \u00b7 6 tankers", "color": "var(--red)", "border_color": "var(--red)"},
+        {"label": "LNG", "value": "200K", "delta": "tonnes \u00b7 1 tanker", "color": "var(--amber)", "border_color": "var(--amber)"}
+      ],
+      "kpi_columns": 3,
+      "insight": "Each transit is individually negotiated with Iran. Navy escorts after they exit the strait, not through it.",
+      "source": "BusinessToday \u00b7 IAAN Express \u00b7 March 18, 2026"
+    },
+    {
+      "card_type": "domino_row",
+      "card_id": "c4",
+      "title": "Crude. Cooking Gas. Fertilizer.",
+      "subtitle": "Most people only see the first one.",
+      "label": "The Triple Crisis",
+      "label_color": "red",
+      "items": [
+        {"value": "42%", "label": "Crude Oil<br><span style=\"color:var(--amber)\">MANAGEABLE</span>", "color": "var(--amber)"},
+        {"value": "90%", "label": "LPG<br><span style=\"color:var(--red)\">HUMANITARIAN</span>", "color": "var(--red)", "highlight": true},
+        {"value": "40%", "label": "Fertilizer<br><span style=\"color:var(--red)\">COMING</span>", "color": "var(--red)", "highlight": true},
+        {"value": "\u20b94K", "label": "Black Mkt<br><span style=\"color:var(--muted)\">per cylinder</span>", "color": "var(--red)"},
+        {"value": "330M", "label": "Households<br><span style=\"color:var(--muted)\">affected</span>", "color": "var(--red)"}
+      ],
+      "insight": "The crude crisis is on every front page. The LPG crisis is on every doorstep."
+    },
+    {
+      "card_type": "act_break",
+      "card_id": "c6",
+      "label": "What It Means For You",
+      "title": "Indian Refinery CEO.",
+      "subtitle": "Which refineries survive. What crude to buy. When the government overrides your product slate.",
+      "symbol": "II"
+    },
+    {
+      "card_type": "verdict_panel",
+      "card_id": "c7",
+      "title": "Your Crude Diet Just Changed.",
+      "subtitle": "Three sources. Three problems. No clean answer.",
+      "label": "Supply Alternatives",
+      "sections": [
+        {
+          "source": "Russia",
+          "verdict_text": "MORE EXPENSIVE \u00b7 EXPIRING IN 15 DAYS",
+          "verdict_bg": "linear-gradient(90deg,#dc2626,#991b1b)",
+          "content_html": "<div class=\"compare-row\" style=\"border-bottom:none;padding:8px 0\"><div class=\"cr-label\">Urals vs Brent</div><div class=\"cr-before\">\u2212$13</div><div class=\"cr-arrow\">\u2192</div><div class=\"cr-after\">+$5</div></div>"
+        },
+        {
+          "source": "Gulf States",
+          "verdict_text": "PHYSICALLY DESTROYED",
+          "verdict_bg": "linear-gradient(90deg,#7f1d1d,#450a0a)",
+          "content_html": "<div style=\"font:400 10px Inter;color:#888\">Every major loading terminal serving India \u2014 offline or damaged.</div>"
+        },
+        {
+          "source": "Alternatives",
+          "verdict_text": "SLOW & WRONG GRADE",
+          "verdict_bg": "linear-gradient(90deg,#92400e,#78350f)",
+          "content_html": "<div class=\"v-row\"><div class=\"v-label\">W. Africa</div><div class=\"v-track\"><div class=\"v-fill\" style=\"width:50%;background:linear-gradient(90deg,#d97706,#fbbf24)\">20-25d</div></div><div class=\"v-days\" style=\"color:#b45309;font-weight:800\">4\u00d7</div></div>"
+        }
+      ],
+      "insight": "No clean barrel left. Russia is expensive and expiring. Gulf is offline. Alternatives are slow and wrong grade."
+    },
+    {
+      "card_type": "scenario_card",
+      "card_id": "c12",
+      "title": "Three Scenarios. Three Price Worlds.",
+      "label": "Scenario Planning",
+      "scenarios": [
+        {
+          "probability": "35-40%",
+          "title": "Prolonged Standoff \u2014 BASE CASE",
+          "color": "var(--amber)",
+          "stats": [
+            {"value": "$100-130", "label": "Brent range"},
+            {"value": "Q2-Q3", "label": "Hormuz closed"}
+          ],
+          "insight": "Both sides dug in. Mine clearance 51+ days after any ceasefire."
+        },
+        {
+          "probability": "30-35%",
+          "title": "Conflagration \u2014 Energy War",
+          "color": "var(--red)",
+          "stats": [
+            {"value": "$130-200", "label": "Brent range"},
+            {"value": "2026+", "label": "Hormuz closed"}
+          ],
+          "insight": "South Pars + Ras Laffan crossed a threshold. Probability rising."
+        },
+        {
+          "probability": "15-20%",
+          "title": "Resolution / De-escalation",
+          "color": "var(--green)",
+          "stats": [
+            {"value": "$75-85", "label": "Brent range"},
+            {"value": "60-90d", "label": "To reopen"}
+          ],
+          "insight": "Still 51 days of mine clearance. The optimistic scenario nobody believes."
+        }
+      ]
+    },
+    {
+      "card_type": "chart_card",
+      "card_id": "c13",
+      "title": "Every $5 Wipes 55-62% of Earnings.",
+      "subtitle": "UBS downgraded all OMCs. RIL is going the other direction.",
+      "label": "Margin Destruction",
+      "label_color": "red",
+      "chart_id": "ch-butter",
+      "chart_label": "Impact Since Crisis (% Change from Baseline)",
+      "chart_height": "240px",
+      "chart_config": {
+        "type": "bar",
+        "data": {
+          "labels": ["RIL", "ONGC", "Oil India", "Nayara", "IOCL", "BPCL", "HPCL", "Airlines", "Fertilizer"],
+          "datasets": [{
+            "data": [45, 40, 35, 25, -55, -51, -62, -30, -25],
+            "borderRadius": 4
+          }]
+        },
+        "options": {
+          "indexAxis": "y",
+          "responsive": true,
+          "maintainAspectRatio": false,
+          "plugins": {"legend": {"display": false}},
+          "scales": {
+            "x": {"grid": {"color": "rgba(0,0,0,.05)"}, "ticks": {"color": "#888", "font": {"family": "JetBrains Mono", "size": 9}}},
+            "y": {"grid": {"display": false}, "ticks": {"color": "#555", "font": {"family": "Inter", "size": 9, "weight": "600"}}}
+          }
+        }
+      },
+      "kpis": [
+        {"label": "HPCL", "value": "SELL", "delta": "Target -37%", "color": "var(--red)", "delta_color": "var(--red)"},
+        {"label": "IOCL/BPCL", "value": "NEUTRAL", "delta": "UBS downgrade", "color": "var(--amber)"},
+        {"label": "RIL", "value": "BUY", "delta": "Nomura top pick", "color": "var(--green)", "delta_color": "var(--green)"}
+      ],
+      "kpi_columns": 3,
+      "insight": "OMCs are negatively levered: frozen retail = every dollar up is a dollar lost."
+    },
+    {
+      "card_type": "checklist",
+      "card_id": "c10",
+      "title": "Refinery CEO \u2014 Monday Checklist.",
+      "subtitle": "Four actions. Specific deadlines. No ambiguity.",
+      "label": "Action Required",
+      "label_color": "red",
+      "urgency_kpis": [
+        {"label": "Russia Waiver", "value": "15d", "delta": "Expires April 3", "color": "var(--red)", "border_color": "var(--red)", "countdown": true},
+        {"label": "Kharif Planting", "value": "10wk", "delta": "Diesel directive coming", "color": "var(--amber)", "border_color": "var(--amber)"}
+      ],
+      "items": [
+        {"action": "Stress-test crude diet: 6 months zero Gulf, zero Russian.", "deadline": "DEADLINE: Friday March 21"},
+        {"action": "Model Nelson upgrade ROI at $120-150 Brent.", "deadline": "DEADLINE: Next board meeting"},
+        {"action": "ESMA compliance: recalibrate yields assuming LPG-max.", "deadline": "DEADLINE: Immediate"},
+        {"action": "Prepare for diesel maximization directive for kharif.", "deadline": "DEADLINE: Before June"}
+      ],
+      "insight": "Every day you delay is a day closer to April 3, when 25-36% of your supply may disappear."
+    },
+    {
+      "card_type": "map_card",
+      "card_id": "c24",
+      "title": "Three Risks That Could Make It Worse.",
+      "label": "Tail Risks",
+      "label_color": "red",
+      "map_id": "map24",
+      "center": [20, 50],
+      "zoom": 3,
+      "markers": [
+        {"lat": 26.4, "lng": 56.4, "number": "1", "color": "#dc2626"},
+        {"lat": 25, "lng": 49, "number": "2", "color": "#dc2626"},
+        {"lat": 12.6, "lng": 43.3, "number": "3", "color": "#d97706"}
+      ],
+      "circles": [
+        {"lat": 26.4, "lng": 56.4, "radius": 200000, "color": "#dc2626", "fill_opacity": 0.15},
+        {"lat": 25, "lng": 52, "radius": 400000, "color": "#dc2626", "fill_opacity": 0.08, "weight": 1, "dash": "6,4"},
+        {"lat": 12.6, "lng": 43.3, "radius": 200000, "color": "#d97706", "fill_opacity": 0.15}
+      ],
+      "text_labels": [
+        {"lat": 20, "lng": 73, "text": "India", "css_class": "green", "width": 40}
+      ],
+      "dominoes": [
+        {"value": "\u2460", "label": "Hormuz Closed<br><span style=\"color:var(--muted)\">Since Day 1</span>", "color": "var(--red)"},
+        {"value": "\u2461", "label": "5 Gulf Targets<br><span style=\"color:var(--muted)\">IRGC named</span>", "color": "var(--red)"},
+        {"value": "\u2462", "label": "Bab al-Mandab<br><span style=\"color:var(--muted)\">Houthi threat</span>", "color": "var(--amber)"}
+      ],
+      "insight": "Each risk escalates. Non-renewal = policy shock. Gulf strikes = physical. Dual chokepoint = existential."
+    },
+    {
+      "card_type": "closing",
+      "card_id": "c27",
+      "title": "The next 15 days determine whether India navigates this crisis \u2014 or is consumed by it.",
+      "label": "Closing Brief",
+      "label_color": "red",
+      "deadlines": [
+        {"date": "Apr 3", "text": "Russia waiver expires. 25-36% of crude supply at risk.", "color": "var(--red)"},
+        {"date": "Apr 5", "text": "OPEC+ meets. Spare capacity is trapped behind Hormuz.", "color": "var(--amber)"},
+        {"date": "Apr 26", "text": "Chabahar waiver expires. India's only direct Iran route.", "color": "var(--amber)"},
+        {"date": "June", "text": "Kharif planting. 50% of world's urea is disrupted.", "color": "var(--red)"}
+      ],
+      "closing_line": "Three crises. One buffer. The window is closing.",
+      "closing_sub": "The leaders who act on this briefing this week will outperform those who wait for clarity that isn't coming.",
+      "source": "Strategic Intelligence Briefing \u00b7 India Perspective \u00b7 March 19, 2026"
+    }
+  ]
+}

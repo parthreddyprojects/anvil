@@ -1,0 +1,165 @@
+<!-- VAULT: structure / decision_tree — 3-branch decision tree showing high/medium/low probability scenario outcomes -->
+<div class="card" id="vault-dtree">
+<style>
+  #vault-dtree {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 600px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-dtree .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-dtree .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 28px;
+  }
+  #vault-dtree .tree-container {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  /* Root node */
+  #vault-dtree .tree-root {
+    background: #334155;
+    color: #fff;
+    border-radius: 6px;
+    padding: 12px 20px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0;
+  }
+  #vault-dtree .tree-root .tr-label {
+    font: 600 12px/1.2 'Inter', sans-serif;
+  }
+  #vault-dtree .tree-root .tr-sub {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #94a3b8;
+    margin-top: 2px;
+  }
+  /* Branch connector SVG */
+  #vault-dtree .branch-svg {
+    display: block;
+    margin: 0 auto;
+  }
+  /* Outcome row */
+  #vault-dtree .outcomes {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  #vault-dtree .outcome {
+    flex: 1;
+    max-width: 170px;
+    border-radius: 6px;
+    padding: 14px 14px 12px;
+    border: 1.5px solid;
+    position: relative;
+  }
+  #vault-dtree .outcome .oc-prob {
+    font: 700 20px/1 'JetBrains Mono', monospace;
+    margin-bottom: 4px;
+  }
+  #vault-dtree .outcome .oc-name {
+    font: 600 11px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin-bottom: 6px;
+  }
+  #vault-dtree .outcome .oc-desc {
+    font: 400 10px/1.4 'Inter', sans-serif;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  #vault-dtree .outcome .oc-impact {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px solid #e5e5e5;
+  }
+  #vault-dtree .outcome .oc-impact-label {
+    font: 400 9px/1 'Inter', sans-serif;
+    color: #888;
+  }
+  #vault-dtree .outcome .oc-impact-val {
+    font: 700 12px/1 'JetBrains Mono', monospace;
+  }
+  #vault-dtree .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 16px;
+  }
+</style>
+
+<div class="card-title">Ceasefire is the base case, but tail risks dominate the impact</div>
+<div class="card-subtitle">Iran strait scenario decision tree &middot; probability-weighted Brent impact, 3-month horizon</div>
+
+<div class="tree-container">
+  <!-- Root node -->
+  <div class="tree-root">
+    <span class="tr-label">Iran-Israel escalation</span>
+    <span class="tr-sub">Current state &middot; March 2026</span>
+  </div>
+
+  <!-- Branch lines -->
+  <svg class="branch-svg" viewBox="0 0 540 60" width="540" height="60">
+    <!-- Left branch -->
+    <line x1="270" y1="0" x2="90" y2="55" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Center branch -->
+    <line x1="270" y1="0" x2="270" y2="55" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,3"/>
+    <!-- Right branch -->
+    <line x1="270" y1="0" x2="450" y2="55" stroke="#dc2626" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2,3"/>
+  </svg>
+
+  <!-- Outcome cards -->
+  <div class="outcomes">
+    <!-- High probability -->
+    <div class="outcome" style="border-color:#16a34a;background:#f0fdf4">
+      <div class="oc-prob" style="color:#16a34a">55%</div>
+      <div class="oc-name">Ceasefire / De-escalation</div>
+      <div class="oc-desc">Diplomatic resolution within 90 days. Sanctions remain but no new disruptions.</div>
+      <div class="oc-impact">
+        <span class="oc-impact-label">Brent impact</span>
+        <span class="oc-impact-val" style="color:#16a34a">-$8/bbl</span>
+      </div>
+    </div>
+
+    <!-- Medium probability -->
+    <div class="outcome" style="border-color:#d97706;background:#fffbeb">
+      <div class="oc-prob" style="color:#d97706">30%</div>
+      <div class="oc-name">Prolonged Standoff</div>
+      <div class="oc-desc">Tit-for-tat strikes continue. Insurance premiums rise, tanker diversions.</div>
+      <div class="oc-impact">
+        <span class="oc-impact-label">Brent impact</span>
+        <span class="oc-impact-val" style="color:#d97706">+$12/bbl</span>
+      </div>
+    </div>
+
+    <!-- Low probability -->
+    <div class="outcome" style="border-color:#dc2626;background:#fef2f2">
+      <div class="oc-prob" style="color:#dc2626">15%</div>
+      <div class="oc-name">Strait Closure</div>
+      <div class="oc-desc">Hormuz blocked for 2+ weeks. 17 mb/d offline. SPR releases triggered.</div>
+      <div class="oc-impact">
+        <span class="oc-impact-label">Brent impact</span>
+        <span class="oc-impact-val" style="color:#dc2626">+$40/bbl</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:12px">
+  <span style="font:400 10px 'Inter',sans-serif;color:#888">Probability-weighted expected impact: </span>
+  <span style="font:700 12px 'JetBrains Mono',monospace;color:#d97706">+$5.20/bbl</span>
+</div>
+
+<div class="card-source">Source: Scenario engine &middot; Geopolitical risk model</div>
+</div>

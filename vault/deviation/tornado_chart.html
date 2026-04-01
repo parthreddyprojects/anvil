@@ -1,0 +1,175 @@
+<!-- VAULT: deviation / tornado_chart — OMC earnings sensitivity tornado, losers left (red) vs winners right (green) -->
+<div class="card" id="vault-tornado">
+<style>
+  #vault-tornado {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 620px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-tornado .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-tornado .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-tornado .tn-chart {
+    position: relative;
+    padding: 0 0 8px;
+    margin-bottom: 16px;
+  }
+  #vault-tornado .tn-axis-label {
+    display: flex;
+    justify-content: space-between;
+    font: 600 9px/1 'Inter', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+  #vault-tornado .tn-row {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    margin-bottom: 4px;
+    position: relative;
+  }
+  #vault-tornado .tn-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font: 600 10px/1 'Inter', sans-serif;
+    color: #333;
+    z-index: 2;
+    background: #fafafa;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  #vault-tornado .tn-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2px;
+    height: 100%;
+    align-items: center;
+  }
+  #vault-tornado .tn-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 2px;
+    height: 100%;
+    align-items: center;
+  }
+  #vault-tornado .tn-center {
+    width: 2px;
+    background: #333;
+    height: 100%;
+    flex-shrink: 0;
+  }
+  #vault-tornado .tn-bar {
+    height: 26px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font: 700 10px/1 'JetBrains Mono', monospace;
+    color: #fff;
+    transition: width .6s ease;
+  }
+  #vault-tornado .tn-bar.loss {
+    background: linear-gradient(90deg, #dc2626, #ef4444);
+    justify-content: flex-start;
+    border-radius: 3px 0 0 3px;
+  }
+  #vault-tornado .tn-bar.gain {
+    background: linear-gradient(90deg, #10b981, #34d399);
+    justify-content: flex-end;
+    border-radius: 0 3px 3px 0;
+  }
+  #vault-tornado .tn-scale {
+    display: flex;
+    justify-content: space-between;
+    font: 400 9px/1 'JetBrains Mono', monospace;
+    color: #aaa;
+    margin-top: 8px;
+    padding: 0 4px;
+  }
+  #vault-tornado .tn-scale span { flex: 1; text-align: center; }
+  #vault-tornado .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+  #vault-tornado .tn-insight {
+    font: 400 11px/1.5 'Inter', sans-serif;
+    color: #555;
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    border-left: 3px solid #dc2626;
+  }
+</style>
+
+<div class="card-title">OMCs lose 55-62% of earnings; upstream gains 40-45%</div>
+<div class="card-subtitle">Earnings sensitivity per $5/bbl crude increase &middot; % change from baseline</div>
+
+<div class="tn-chart">
+  <div class="tn-axis-label">
+    <span style="color:#dc2626">&#9664; Earnings destruction</span>
+    <span style="color:#10b981">Earnings gain &#9654;</span>
+  </div>
+
+  <div class="tn-row">
+    <div class="tn-left"><div class="tn-bar loss" style="width:calc(62% * .8)">-62%</div></div>
+    <div class="tn-center"></div>
+    <div class="tn-right"></div>
+    <div class="tn-label" style="left:50%;transform:translateX(-50%)">HPCL</div>
+  </div>
+
+  <div class="tn-row">
+    <div class="tn-left"><div class="tn-bar loss" style="width:calc(55% * .8)">-55%</div></div>
+    <div class="tn-center"></div>
+    <div class="tn-right"></div>
+    <div class="tn-label">IOCL</div>
+  </div>
+
+  <div class="tn-row">
+    <div class="tn-left"><div class="tn-bar loss" style="width:calc(51% * .8)">-51%</div></div>
+    <div class="tn-center"></div>
+    <div class="tn-right"></div>
+    <div class="tn-label">BPCL</div>
+  </div>
+
+  <div class="tn-row">
+    <div class="tn-left"></div>
+    <div class="tn-center"></div>
+    <div class="tn-right"><div class="tn-bar gain" style="width:calc(40% * .8)">+40%</div></div>
+    <div class="tn-label">ONGC</div>
+  </div>
+
+  <div class="tn-row">
+    <div class="tn-left"></div>
+    <div class="tn-center"></div>
+    <div class="tn-right"><div class="tn-bar gain" style="width:calc(45% * .8)">+45%</div></div>
+    <div class="tn-label">RIL</div>
+  </div>
+
+  <div class="tn-scale">
+    <span>-70%</span><span>-50%</span><span>-25%</span><span>0</span><span>+25%</span><span>+50%</span><span>+70%</span>
+  </div>
+</div>
+
+<div class="tn-insight">Frozen retail prices mean OMCs absorb every dollar of crude increase. RIL exports 60% of output at market prices, turning crisis into margin expansion.</div>
+
+<div class="card-source">Source: Broker consensus estimates, Kotak/Jefferies &middot; Scenario analysis</div>
+</div>

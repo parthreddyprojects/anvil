@@ -1,0 +1,191 @@
+<!-- VAULT: structure / matrix_2x2 — 2x2 strategic positioning matrix with high/low axes and color-coded quadrants -->
+<div class="card" id="vault-matrix">
+<style>
+  #vault-matrix {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 540px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-matrix .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-matrix .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-matrix .matrix-wrap {
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr;
+    grid-template-rows: 1fr 1fr 24px;
+    gap: 4px;
+    height: 320px;
+    margin-bottom: 16px;
+  }
+  #vault-matrix .y-label {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 500 10px/1 'Inter', sans-serif;
+    color: #666;
+    letter-spacing: .5px;
+  }
+  #vault-matrix .x-label {
+    grid-column: 2 / 4;
+    grid-row: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 500 10px/1 'Inter', sans-serif;
+    color: #666;
+    letter-spacing: .5px;
+  }
+  #vault-matrix .quad {
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  #vault-matrix .quad::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,.06);
+  }
+  #vault-matrix .q-header {
+    font: 600 11px/1.2 'Inter', sans-serif;
+    margin-bottom: 6px;
+  }
+  #vault-matrix .q-desc {
+    font: 400 10px/1.4 'Inter', sans-serif;
+    color: #555;
+  }
+  #vault-matrix .q-items {
+    margin-top: 8px;
+  }
+  #vault-matrix .q-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  #vault-matrix .q-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  #vault-matrix .q-item span {
+    font: 500 10px/1.2 'Inter', sans-serif;
+    color: #333;
+  }
+  #vault-matrix .q-item .q-mono {
+    font: 700 10px/1 'JetBrains Mono', monospace;
+    margin-left: auto;
+  }
+  /* Quadrant colors */
+  #vault-matrix .q-tl { background: #dcfce7; } /* high-high: green */
+  #vault-matrix .q-tr { background: #fef9c3; } /* high-low: amber */
+  #vault-matrix .q-bl { background: #dbeafe; } /* low-high: blue */
+  #vault-matrix .q-br { background: #fee2e2; } /* low-low: red */
+  #vault-matrix .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+</style>
+
+<div class="card-title">Only 2 of 6 alternative suppliers score well on both axes</div>
+<div class="card-subtitle">Crude supplier assessment matrix &middot; reliability vs. price competitiveness</div>
+
+<div class="matrix-wrap">
+  <div class="y-label">RELIABILITY &rarr; HIGH</div>
+
+  <!-- Top-left: High reliability, High price competitiveness -->
+  <div class="quad q-tl">
+    <div>
+      <div class="q-header" style="color:#15803d">SWEET SPOT</div>
+      <div class="q-desc">Reliable + competitive. Maximize allocation.</div>
+    </div>
+    <div class="q-items">
+      <div class="q-item">
+        <div class="q-dot" style="background:#15803d"></div>
+        <span>Russia (Urals)</span>
+        <span class="q-mono" style="color:#15803d">$-4/bbl</span>
+      </div>
+      <div class="q-item">
+        <div class="q-dot" style="background:#15803d"></div>
+        <span>Iraq (Basrah)</span>
+        <span class="q-mono" style="color:#15803d">$-2/bbl</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top-right: High reliability, Low price competitiveness -->
+  <div class="quad q-tr">
+    <div>
+      <div class="q-header" style="color:#a16207">STRATEGIC HEDGE</div>
+      <div class="q-desc">Reliable but premium. Keep for diversification.</div>
+    </div>
+    <div class="q-items">
+      <div class="q-item">
+        <div class="q-dot" style="background:#a16207"></div>
+        <span>Saudi (Arab Lt)</span>
+        <span class="q-mono" style="color:#a16207">$+1/bbl</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom-left: Low reliability, High price competitiveness -->
+  <div class="quad q-bl">
+    <div>
+      <div class="q-header" style="color:#1d4ed8">OPPORTUNISTIC</div>
+      <div class="q-desc">Cheap but risky. Spot buys only.</div>
+    </div>
+    <div class="q-items">
+      <div class="q-item">
+        <div class="q-dot" style="background:#1d4ed8"></div>
+        <span>Iran</span>
+        <span class="q-mono" style="color:#1d4ed8">$-8/bbl</span>
+      </div>
+      <div class="q-item">
+        <div class="q-dot" style="background:#1d4ed8"></div>
+        <span>Venezuela</span>
+        <span class="q-mono" style="color:#1d4ed8">$-6/bbl</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom-right: Low reliability, Low price competitiveness -->
+  <div class="quad q-br">
+    <div>
+      <div class="q-header" style="color:#dc2626">AVOID</div>
+      <div class="q-desc">Expensive and unreliable. Reduce exposure.</div>
+    </div>
+    <div class="q-items">
+      <div class="q-item">
+        <div class="q-dot" style="background:#dc2626"></div>
+        <span>Nigeria</span>
+        <span class="q-mono" style="color:#dc2626">$+3/bbl</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="x-label">PRICE COMPETITIVENESS &rarr; HIGH &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOW</div>
+</div>
+
+<div class="card-source">Source: Argus, Platts &middot; 12-month avg differential to Brent</div>
+</div>

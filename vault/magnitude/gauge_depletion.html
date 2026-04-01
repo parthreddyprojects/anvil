@@ -1,0 +1,139 @@
+<!-- VAULT: magnitude / gauge_depletion — Reserve depletion gauge showing 74-day strategic reserve with burn progress and milestones -->
+<div class="card" id="vault-gauge">
+<style>
+  #vault-gauge {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 480px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-gauge .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-gauge .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-gauge .gauge-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  #vault-gauge .gauge-legend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #f1f5f9;
+    border-radius: 6px;
+  }
+  #vault-gauge .legend-item {
+    text-align: center;
+  }
+  #vault-gauge .legend-item .leg-val {
+    font: 700 16px/1 'JetBrains Mono', monospace;
+    color: #111;
+  }
+  #vault-gauge .legend-item .leg-label {
+    font: 400 10px/1.3 'Inter', sans-serif;
+    color: #888;
+    margin-top: 4px;
+  }
+  #vault-gauge .milestone-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    gap: 8px;
+  }
+  #vault-gauge .milestone {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+  }
+  #vault-gauge .milestone .ms-day {
+    font: 700 13px/1 'JetBrains Mono', monospace;
+  }
+  #vault-gauge .milestone .ms-label {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #666;
+    margin-top: 3px;
+  }
+  #vault-gauge .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 16px;
+  }
+</style>
+
+<div class="card-title">Strategic reserves cover 54 more days at current draw rate</div>
+<div class="card-subtitle">India Strategic Petroleum Reserve depletion gauge &middot; days of net import cover</div>
+
+<div class="gauge-wrap">
+  <svg viewBox="0 0 280 160" width="320" height="180">
+    <defs>
+      <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#16a34a"/>
+        <stop offset="40%" stop-color="#eab308"/>
+        <stop offset="70%" stop-color="#f97316"/>
+        <stop offset="100%" stop-color="#dc2626"/>
+      </linearGradient>
+    </defs>
+    <!-- Background arc -->
+    <path d="M 30 140 A 110 110 0 0 1 250 140" fill="none" stroke="#e5e5e5" stroke-width="22" stroke-linecap="round"/>
+    <!-- Filled arc: 20/74 = 27% burned -->
+    <path d="M 30 140 A 110 110 0 0 1 250 140" fill="none" stroke="url(#gaugeGrad)" stroke-width="22" stroke-linecap="round"
+          stroke-dasharray="346" stroke-dashoffset="253"/>
+    <!-- Needle at 27% (20 days burned of 74) -->
+    <g transform="rotate(-41.4, 140, 140)">
+      <line x1="140" y1="140" x2="140" y2="45" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="140" cy="140" r="5" fill="#111"/>
+    </g>
+    <!-- Center readout -->
+    <text x="140" y="125" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="28" fill="#111">54</text>
+    <text x="140" y="143" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="400" font-size="10" fill="#888">days remaining</text>
+    <!-- Min/Max labels -->
+    <text x="25" y="155" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#aaa">0</text>
+    <text x="255" y="155" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#aaa">74</text>
+  </svg>
+</div>
+
+<div class="gauge-legend">
+  <div class="legend-item">
+    <div class="leg-val" style="color:#16a34a">74</div>
+    <div class="leg-label">Total capacity<br/>(days)</div>
+  </div>
+  <div class="legend-item">
+    <div class="leg-val" style="color:#dc2626">20</div>
+    <div class="leg-label">Days burned<br/>(drawn down)</div>
+  </div>
+  <div class="legend-item">
+    <div class="leg-val" style="color:#2563eb">54</div>
+    <div class="leg-label">Days remaining<br/>(at current rate)</div>
+  </div>
+</div>
+
+<div class="milestone-row">
+  <div class="milestone" style="border-color:#eab308">
+    <div class="ms-day" style="color:#eab308">Day 30</div>
+    <div class="ms-label">Comfort zone<br/>ends</div>
+  </div>
+  <div class="milestone" style="border-color:#f97316">
+    <div class="ms-day" style="color:#f97316">Day 51</div>
+    <div class="ms-label">IEA minimum<br/>threshold</div>
+  </div>
+  <div class="milestone" style="border-color:#dc2626">
+    <div class="ms-day" style="color:#dc2626">Day 74</div>
+    <div class="ms-label">Full<br/>depletion</div>
+  </div>
+</div>
+
+<div class="card-source">Source: ISPRL, Ministry of Petroleum &middot; Strategic reserve status</div>
+</div>

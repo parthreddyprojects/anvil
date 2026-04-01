@@ -1,0 +1,36 @@
+<!-- VAULT: correlation / bubble_scatter — NCI vs GRM bubble chart, bubble size = capacity, color = profit/loss -->
+<div class="card" id="vault-example">
+<div class="card-inner">
+
+<p class="label green" style="margin-bottom:12px">The Divide</p>
+<h3 class="card-title">Configuration Is Destiny.</h3>
+<p class="card-sub" style="margin-bottom:16px">Nelson Complexity determines who profits and who bleeds.</p>
+
+<div class="panel-light" style="padding:16px;margin-bottom:16px">
+<div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">NCI vs GRM Impact — Bubble = Capacity</div>
+<div class="chart-c" style="height:260px"><canvas id="vault-ch-nci"></canvas></div>
+</div>
+
+<div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="kpi" style="border-color:var(--green)"><div class="kl">Jamnagar</div><div class="kv" style="color:var(--green);font-size:22px">21.1</div><div class="kd" style="color:var(--green)">Profitable at $200</div></div>
+<div class="kpi" style="border-color:var(--amber)"><div class="kl">OMC Avg</div><div class="kv" style="color:var(--amber);font-size:22px">~10</div><div class="kd" style="color:var(--amber)">Break even $110</div></div>
+<div class="kpi" style="border-color:var(--red)"><div class="kl">HPCL Mum</div><div class="kv" style="color:var(--red);font-size:22px">5.6</div><div class="kd" style="color:var(--red)">Break even $95</div></div>
+</div>
+
+<div class="insight g">One refinery has processed 216 crude grades. The other 22 are a bet on Gulf crude arriving. That bet just lost.</div>
+
+<script>
+(function(){new Chart(document.getElementById('vault-ch-nci'),{type:'bubble',data:{datasets:[
+{label:'Jamnagar',data:[{x:21.1,y:3.2,r:22}],backgroundColor:'rgba(52,211,153,.4)',borderColor:'#34d399',borderWidth:2},
+{label:'Nayara',data:[{x:12.8,y:1.5,r:10}],backgroundColor:'rgba(52,211,153,.25)',borderColor:'#34d399',borderWidth:1},
+{label:'Paradip',data:[{x:12.2,y:0.5,r:8}],backgroundColor:'rgba(255,176,32,.25)',borderColor:'#ffb020',borderWidth:1},
+{label:'Panipat',data:[{x:13.7,y:0.8,r:8}],backgroundColor:'rgba(255,176,32,.25)',borderColor:'#ffb020',borderWidth:1},
+{label:'Kochi',data:[{x:10.8,y:-0.5,r:7}],backgroundColor:'rgba(255,176,32,.2)',borderColor:'#ffb020',borderWidth:1},
+{label:'MRPL',data:[{x:10.6,y:-2,r:7}],backgroundColor:'rgba(255,176,32,.2)',borderColor:'#ffb020',borderWidth:1},
+{label:'BPCL Mum',data:[{x:6,y:-5,r:6}],backgroundColor:'rgba(255,59,59,.35)',borderColor:'#ff3b3b',borderWidth:2},
+{label:'HPCL Mum',data:[{x:5.6,y:-6,r:5}],backgroundColor:'rgba(255,59,59,.45)',borderColor:'#ff3b3b',borderWidth:2}
+]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#888',font:{family:'Inter',size:8}}}},scales:{x:{title:{display:true,text:'Nelson Complexity Index →',color:'#888',font:{family:'Inter',size:10}},grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'#888',font:{family:'JetBrains Mono',size:9}},min:4,max:23},y:{title:{display:true,text:'GRM Change $/bbl →',color:'#888',font:{family:'Inter',size:10}},grid:{color:'rgba(0,0,0,.06)'},ticks:{color:'#888',font:{family:'JetBrains Mono',size:9}},min:-8,max:5}}}})})();
+</script>
+
+</div>
+</div>

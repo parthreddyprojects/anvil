@@ -1,0 +1,209 @@
+{
+  "version": "1.0",
+  "description": "CEO/Board strategic document format vault. Written documents only — no slides, no presentations. Each format has structure, rules, and when to use it.",
+
+  "selection_rules": {
+    "crisis_or_urgent_decision": "amazon_6pager_crisis",
+    "strategic_recommendation": "mckinsey_memo",
+    "situation_update": "military_sitrep",
+    "board_approval_needed": "board_paper",
+    "default": "amazon_6pager_crisis"
+  },
+
+  "formats": {
+    "amazon_6pager_crisis": {
+      "name": "Amazon 6-Pager (Crisis Variant)",
+      "origin": "Amazon. Jeff Bezos banned PowerPoint in 2004. All meetings start with 20 minutes of silent reading.",
+      "when": "Strategic decision under time pressure. The reader needs to understand the full situation AND make a decision in one sitting.",
+      "why_it_works": "Forces the writer to think in complete sentences. No hiding behind bullet points. The narrative structure means the reader builds understanding progressively — they can't skip to the recommendation without understanding why.",
+      "page_count": "3-5 pages (original Amazon is 6, but crisis briefs are tighter)",
+      "font": "11pt body, 14pt section headers. One font throughout (Inter or similar sans-serif). No bold except section headers and the recommendation line.",
+      "structure": [
+        {
+          "section": "Context",
+          "purpose": "What happened and why the reader is holding this document",
+          "constraints": "3-5 sentences. No jargon. A reader who missed the last month of news should understand. End with: why this matters to the reader's organization specifically.",
+          "example_opener": "On February 28, Iran mined the Strait of Hormuz in response to US-Israeli strikes..."
+        },
+        {
+          "section": "Problem Statement",
+          "purpose": "The specific question this document answers",
+          "constraints": "One paragraph. Must be a QUESTION, not a statement. Name the decision-maker, the domain, the timeframe, and the constraint. Include the decision sensitivity — the number at which the recommendation reverses.",
+          "example": "Within the next 7 days, what should IOCL and HMEL decide regarding crude procurement and fiscal backstop — given that the current $156/bbl crude price generates $100M/day in losses against frozen retail prices, and this recommendation reverses if crude drops below $124/bbl?"
+        },
+        {
+          "section": "What We Believe (Hypotheses)",
+          "purpose": "The 4-6 core assertions that answer the problem statement",
+          "constraints": "Each hypothesis is one paragraph. State the claim, the evidence, the break point, and the confidence level. Mark each as CONFIRMED, UNCERTAIN, or KILLED. Include 1-2 killed hypotheses to show rigor. Reference appendix slides inline where a chart proves the claim.",
+          "format_per_hypothesis": "Claim in bold first sentence. Evidence in 2-3 sentences. Break point: 'This reverses if [specific condition].' Confidence: HIGH/MEDIUM/LOW with one-line basis."
+        },
+        {
+          "section": "What Must Happen (Decisions)",
+          "purpose": "The specific actions required, in sequence",
+          "constraints": "Numbered list. Each decision is ONE action, ONE owner, ONE deadline. Start with a verb: Approve, Authorize, Direct, Confirm. Under 30 words each. State dependencies: 'Requires Decision 1 to be completed first.' No compound decisions.",
+          "max_decisions": 5
+        },
+        {
+          "section": "What We Don't Know (Data Gaps)",
+          "purpose": "Explicit list of data needed before the recommendation is actionable",
+          "constraints": "Numbered list. Each gap names: what is needed, who provides it, by when, and which decision it blocks. This section is not optional — every strategic document has unknowns. Hiding them destroys credibility.",
+          "why_important": "The CEO needs to know what can go wrong. Omitting data gaps signals either ignorance or dishonesty."
+        }
+      ],
+      "formatting_rules": [
+        "Single-spaced body text, double-space between sections",
+        "Section headers left-aligned, bold, 14pt",
+        "Body text 11pt, regular weight",
+        "No bullet points in Context or Hypotheses — full prose paragraphs",
+        "Decisions and Data Gaps use numbered lists",
+        "No colors anywhere except: RED for killed hypothesis status, GREEN for confirmed",
+        "No charts, no tables, no boxes, no cards — those go in the appendix",
+        "Inline appendix references in parentheses: (see Appendix 2)",
+        "Page numbers bottom-right",
+        "Footer: 'Developed by [name]' centered, grey, small"
+      ]
+    },
+
+    "mckinsey_memo": {
+      "name": "McKinsey Strategic Memo",
+      "origin": "McKinsey & Company. Minto Pyramid Principle. Conclusion-first, then evidence.",
+      "when": "Strategic recommendation where the reader is a senior executive who wants the answer first, then the reasoning.",
+      "why_it_works": "Pyramid structure means the reader can stop at any point and have a complete (if less detailed) understanding. The first sentence answers the question. Everything after defends it.",
+      "page_count": "2-4 pages",
+      "structure": [
+        {
+          "section": "Recommendation (no header — just the opening)",
+          "purpose": "First paragraph IS the answer. No preamble.",
+          "constraints": "2-3 sentences. State what to do, why, and the key number. Example: 'IOCL should draw emergency credit lines today and secure the UAE cargo by April 4. Without these two actions, a $26B debt default becomes structurally probable by April 13.'",
+          "rule": "If you cover the rest of the memo, the reader should still know what to do from this paragraph alone."
+        },
+        {
+          "section": "Situation",
+          "purpose": "Establish stakes in 2-3 sentences",
+          "constraints": "One anchor number. What happens if nothing is done. No history lesson — only what the reader needs to understand the recommendation."
+        },
+        {
+          "section": "Key Findings",
+          "purpose": "3-5 findings that prove the recommendation. These ARE the hypotheses.",
+          "constraints": "Each finding is one paragraph. Bold first sentence is the finding. Remaining sentences are evidence. Each ends with 'so what' — the implication for the decision.",
+          "rule": "Reading just the bold first sentences of all findings should tell the complete story."
+        },
+        {
+          "section": "Risks and Contingencies",
+          "purpose": "What could go wrong and what to do about it",
+          "constraints": "2-3 risks. Each names the trigger, the impact, and the contingency action. Include the hypothesis graveyard (what was tested and killed)."
+        },
+        {
+          "section": "Next Steps",
+          "purpose": "Specific actions with owners and deadlines",
+          "constraints": "Numbered. Atomic. Verb-first. Sequenced."
+        }
+      ],
+      "formatting_rules": [
+        "No section header for the opening recommendation — it just starts",
+        "Remaining section headers: bold, left-aligned, no numbering",
+        "Body: 11pt, single-spaced",
+        "Bold first sentence of each finding paragraph",
+        "No colors, no boxes, no design elements",
+        "Appendix references inline"
+      ]
+    },
+
+    "military_sitrep": {
+      "name": "Military SITREP / BLUF",
+      "origin": "US Military. Bottom Line Up Front. Used in intelligence briefings, situation reports, and commander's updates.",
+      "when": "Situation update where the reader needs to know the current state and what changed since last update. Not primarily a decision document.",
+      "why_it_works": "BLUF means the most important information comes first. The reader can stop after the first paragraph and take action. Details follow for those who need them.",
+      "page_count": "1-3 pages",
+      "structure": [
+        {
+          "section": "BLUF (Bottom Line Up Front)",
+          "purpose": "The single most important thing the reader needs to know",
+          "constraints": "2-3 sentences maximum. State: what happened, what it means, what action is needed. No background — jump straight to the point."
+        },
+        {
+          "section": "Background",
+          "purpose": "Minimum context needed to understand the BLUF",
+          "constraints": "One paragraph. Only include what changed since the reader last looked at this topic."
+        },
+        {
+          "section": "Key Facts",
+          "purpose": "The data that supports the BLUF",
+          "constraints": "Numbered list. Each fact is one sentence. Source in parentheses. Confidence flagged if uncertain."
+        },
+        {
+          "section": "Assessment",
+          "purpose": "What the facts mean — analyst judgment",
+          "constraints": "1-2 paragraphs. Distinguish between 'we know' and 'we assess' (opinion). State assumptions explicitly."
+        },
+        {
+          "section": "Recommendation",
+          "purpose": "What to do",
+          "constraints": "Numbered actions. Direct language: 'Approve X' not 'It is recommended that X be considered.'"
+        }
+      ],
+      "formatting_rules": [
+        "BLUF label in bold caps at top",
+        "Monospace font acceptable for classification markings",
+        "No design elements — pure text document",
+        "Can be transmitted via email or printed on paper with identical readability"
+      ]
+    },
+
+    "board_paper": {
+      "name": "Corporate Board Paper",
+      "origin": "Standard corporate governance. UK Corporate Governance Code, ASX guidelines, Indian Companies Act board practices.",
+      "when": "Formal board approval is required. Legal/regulatory document that becomes part of board minutes.",
+      "why_it_works": "Structured for governance: the board needs to know what they're approving, why, what the risks are, and what authority they're delegating. Legal teams review these.",
+      "page_count": "3-6 pages plus annexures",
+      "structure": [
+        {
+          "section": "Purpose",
+          "purpose": "One sentence: what the board is being asked to approve",
+          "constraints": "Example: 'To approve emergency procurement authority of up to $1.8B per contract for crude oil purchases.'"
+        },
+        {
+          "section": "Background",
+          "purpose": "Context the board needs",
+          "constraints": "1-2 paragraphs. Factual. No advocacy — save that for Recommendation."
+        },
+        {
+          "section": "Options Considered",
+          "purpose": "What alternatives were evaluated",
+          "constraints": "2-3 options. Each with pros, cons, and financial impact. The recommended option should be obvious from the analysis, not stated until the next section."
+        },
+        {
+          "section": "Recommendation",
+          "purpose": "What management recommends and why",
+          "constraints": "Clearly state the recommended option and the key reasons. Reference the options analysis."
+        },
+        {
+          "section": "Financial Impact",
+          "purpose": "Quantified P&L, cash flow, and balance sheet impact",
+          "constraints": "Table format. Show impact under base case and stress case."
+        },
+        {
+          "section": "Risk Assessment",
+          "purpose": "Key risks and mitigants",
+          "constraints": "Table: Risk, Likelihood, Impact, Mitigant. 3-5 risks maximum."
+        },
+        {
+          "section": "Resolution",
+          "purpose": "The exact wording the board is asked to approve",
+          "constraints": "Legal language. 'RESOLVED THAT the Board hereby approves...' This goes into board minutes."
+        }
+      ],
+      "formatting_rules": [
+        "Formal tone throughout",
+        "Section numbers: 1., 2., 3., etc.",
+        "Tables for financial impact and risk assessment",
+        "No informal language, no contractions",
+        "Annexures for supporting detail (these are the appendix slides)",
+        "Classification marking on every page"
+      ]
+    }
+  },
+
+  "default_for_pipeline": "amazon_6pager_crisis",
+  "note": "The pipeline should ask the user which format to use, or auto-select based on brief_type (crisis -> amazon_6pager_crisis, strategic -> mckinsey_memo, update -> military_sitrep, board_approval -> board_paper)"
+}

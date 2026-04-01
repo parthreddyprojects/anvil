@@ -1,0 +1,299 @@
+{
+  "version": "3.0",
+  "description": "Chart selection and design framework. Combines Gene Zelazny's 'Say It With Charts' (message-first chart selection) with Cole Nussbaumer Knaflic's 'Storytelling with Data' (visual hierarchy, declutter, strategic attention).",
+  "sources": [
+    "Zelazny, Gene. Say It With Charts. 4th ed. McGraw-Hill.",
+    "Knaflic, Cole Nussbaumer. Storytelling with Data. Wiley."
+  ],
+
+  "THE_PROCESS": {
+    "step_1_message": "WHAT is the one point this chart makes? Write it as a complete sentence with a verb. This becomes the chart title. If you can't write the sentence, you don't need a chart.",
+    "step_2_comparison": "WHICH comparison type does your message imply? The message contains trigger words that map to exactly one comparison type. Match them.",
+    "step_3_form": "WHICH chart form fits that comparison type? The comparison type determines the chart. Not your preference — the data's structure.",
+    "step_4_attention": "WHERE should the audience look first? Use pre-attentive attributes (color, size, position, boldness) to direct the eye to the ONE thing that matters. Everything else is context — push it to grey.",
+    "step_5_declutter": "WHAT can be removed? Strip gridlines, borders, redundant labels, legends that repeat the title. Every pixel must earn its place. If removing something doesn't reduce understanding, remove it."
+  },
+
+  "ZELAZNY_COMPARISON_TYPES": [
+    {
+      "type": "component",
+      "message_pattern": "X accounts for Y% of total",
+      "question": "What share of the total does each part represent?",
+      "trigger_words": ["share", "percentage", "portion", "accounted for", "made up of", "out of", "split", "mix", "composition", "breakdown by"],
+      "chart_form": "pie (<=4 slices) or donut (5-6 slices) or stacked_bar (comparison across groups)",
+      "rules": [
+        "Max 6 slices. Group the rest into 'Other'.",
+        "Order slices largest to smallest, starting at 12 o'clock.",
+        "HIGHLIGHT the one slice that IS the story — bold color. Grey the rest.",
+        "Donut center can hold the total number for context.",
+        "If comparing composition across 2+ groups (e.g., this year vs last year), use stacked bar — pie can't show change."
+      ],
+      "anti_patterns": [
+        "Never use 3D pie charts.",
+        "Never use pie for more than 6 items.",
+        "Never use pie when the point is ranking — use bar."
+      ],
+      "example_message": "Middle East crude accounts for 47% of Jamnagar's intake — the single largest source at risk."
+    },
+    {
+      "type": "item",
+      "message_pattern": "X is larger/smaller than Y by Z",
+      "question": "How do items rank or compare against each other?",
+      "trigger_words": ["larger than", "smaller than", "ranked", "compared to", "versus", "gap between", "leads", "trails", "outperforms", "lags", "exceeds", "below"],
+      "chart_form": "horizontal_bar (always, unless fewer than 4 items — then vertical bar)",
+      "rules": [
+        "Sort bars by value — largest at top. NEVER alphabetical.",
+        "The SUBJECT of the message gets a bold color. Everything else is grey.",
+        "Show the value label at the end of each bar — the audience reads the number, not the bar length.",
+        "Include a reference line if there's a benchmark, average, or threshold.",
+        "The GAP between the subject and the comparison is the story — annotate it."
+      ],
+      "anti_patterns": [
+        "Never use vertical bars for more than 5 items — labels overlap.",
+        "Never use rainbow colors — color encodes meaning, not decoration."
+      ],
+      "example_message": "Reliance's NCI of 21.1 is nearly double the next-highest Asian refiner — this is the crude flexibility moat."
+    },
+    {
+      "type": "time_series",
+      "message_pattern": "X has grown/declined from A to B over period",
+      "question": "How has this changed over time?",
+      "trigger_words": ["change", "grew", "rose", "declined", "surged", "collapsed", "fluctuated", "trend", "over time", "since", "trajectory", "peaked", "bottomed", "recovered", "year-over-year", "quarterly"],
+      "chart_form": "line (>6 periods or continuous trend) or vertical_bar (<=6 discrete periods)",
+      "rules": [
+        "Time ALWAYS goes left to right on the x-axis.",
+        "Mark the INFLECTION POINT — the moment the trend changed. That's usually the story.",
+        "Add a reference line for targets, thresholds, or danger zones.",
+        "Use area fill sparingly — only when the area itself (cumulative volume) is meaningful.",
+        "For two series: use solid line for the subject, dashed for the comparison.",
+        "Annotate the start value and end value — the delta is the message."
+      ],
+      "anti_patterns": [
+        "Never truncate the y-axis to exaggerate a trend — start at zero unless there's a clear reason.",
+        "Never use a line chart for categorical data (countries, products).",
+        "Never connect data points that aren't sequential in time."
+      ],
+      "example_message": "Brent surged from $78 to $126/bbl in 28 days — the fastest oil price shock since 1990."
+    },
+    {
+      "type": "frequency_distribution",
+      "message_pattern": "Most of X falls in the Y range",
+      "question": "How are items distributed across ranges?",
+      "trigger_words": ["range", "concentration", "frequency", "distribution", "spread", "cluster", "skewed", "majority fall", "most are between"],
+      "chart_form": "histogram or bar with range buckets",
+      "rules": [
+        "Group data into meaningful, equal-width ranges.",
+        "Highlight the range where the subject sits.",
+        "Show the shape — is it normal, skewed, bimodal?"
+      ],
+      "example_message": "78% of India's crude imports transit Hormuz — concentration risk in a single chokepoint."
+    },
+    {
+      "type": "correlation",
+      "message_pattern": "As X increases, Y also increases/decreases",
+      "question": "Is there a relationship between two variables?",
+      "trigger_words": ["related to", "varies with", "correlated", "as X increases", "independent of", "driven by", "explains"],
+      "chart_form": "scatter",
+      "rules": [
+        "Label both axes clearly with units.",
+        "Add a trend line if correlation is strong.",
+        "Use bubble size for a third variable if relevant.",
+        "HIGHLIGHT the subject as a distinct color/size. Grey the rest.",
+        "Divide into quadrants if the story is about positioning (high-high, low-low, etc.)."
+      ],
+      "example_message": "Refineries with NCI above 12 captured 2-3x the GRM uplift during the 2022 spike — complexity pays in crises."
+    }
+  ],
+
+  "ADDITIONAL_CHART_TYPES": [
+    {
+      "type": "waterfall",
+      "message_pattern": "X starts at A, gains/loses B through several factors, ends at C",
+      "question": "How do parts build up or erode to reach a total?",
+      "trigger_words": ["build-up", "breakdown", "bridge", "erosion", "step by step", "from X to Y", "margin walk", "decomposition", "contribution", "drivers of change"],
+      "rules": [
+        "Start with the base value (blue).",
+        "Additions are green, subtractions are red, totals are blue.",
+        "Each bar floats from where the previous one ended — this is the whole point.",
+        "Label each bar with its value AND what it represents.",
+        "Max 7-8 bars. If more, combine small items."
+      ],
+      "when_to_use": "Margin bridges, cost breakdowns, revenue walks, any time you're explaining HOW you got from point A to point B through contributing factors. This is the most powerful chart type for executive audiences because it answers 'why' not just 'what'.",
+      "example_message": "GRM walks from $8/bbl baseline to $14/bbl crisis level: +$3 crude discount, +$4 crack widening, -$1 freight penalty."
+    },
+    {
+      "type": "gauge",
+      "message_pattern": "X is at Y, which is above/below the Z threshold",
+      "question": "Where does a single KPI stand relative to a target or danger zone?",
+      "rules": [
+        "Color-code zones: green (safe), amber (caution), red (danger).",
+        "Show current value LARGE in the center.",
+        "Mark the threshold that triggers action.",
+        "Use sparingly — only for single critical KPIs, not for comparisons."
+      ],
+      "when_to_use": "Utilization rates, inventory days cover, capacity limits — any single metric that has a clear 'safe vs danger' threshold.",
+      "example_message": "Crude inventory at 14 days cover — below the 18-day safety threshold."
+    },
+    {
+      "type": "sankey",
+      "message_pattern": "X flows from sources A, B, C to destinations D, E, F",
+      "question": "How does volume flow from origins to destinations?",
+      "rules": [
+        "Width of each flow is proportional to volume.",
+        "Color-code by source or by destination — not both.",
+        "Label the largest flows. Grey the small ones.",
+        "Max 10-12 nodes total or it becomes unreadable."
+      ],
+      "when_to_use": "Crude sourcing flows, product placement, supply chain routing, revenue by channel → segment.",
+      "example_message": "Post-Hormuz crude rerouting: 550 kbd from Middle East drops to 100 kbd; Atlantic Basin rises from 240 to 500 kbd."
+    },
+    {
+      "type": "heatmap",
+      "message_pattern": "Intensity of X varies across dimensions Y and Z",
+      "question": "Where are the hot spots across two categorical dimensions?",
+      "rules": [
+        "Use a single color gradient (light to dark) — NOT rainbow.",
+        "Label cells with values if the grid is small enough.",
+        "Order rows and columns by total intensity, not alphabetically."
+      ],
+      "when_to_use": "Scenario matrices, risk heat maps, product-market fit grids, time × category intensity.",
+      "example_message": "Crack spread heat map: diesel strongest in Q2 ($28-32/bbl), naphtha weakest year-round."
+    },
+    {
+      "type": "funnel",
+      "message_pattern": "X narrows from A at the top to B at the bottom through stages",
+      "question": "How much is lost at each stage of a process?",
+      "rules": [
+        "Stages go top to bottom, widest to narrowest.",
+        "Label each stage with its value AND the drop-off rate.",
+        "Highlight the biggest drop-off — that's the intervention point."
+      ],
+      "when_to_use": "Conversion funnels, pipeline stages, screening processes.",
+      "example_message": "Of 50 alternative crude cargoes assessed, only 12 meet quality, logistics, and pricing criteria."
+    }
+  ],
+
+  "KNAFLIC_DESIGN_PRINCIPLES": {
+    "pre_attentive_attributes": {
+      "principle": "The human eye processes color, size, and position BEFORE conscious thought. Use these to direct attention to the ONE thing that matters.",
+      "application": [
+        "BOLD COLOR on the data point that IS the message. GREY everything else.",
+        "Larger font/bar for the subject. Smaller for context.",
+        "Position the key insight at the visual center or at the end of the eye's natural reading path (top-left to bottom-right)."
+      ]
+    },
+    "strategic_color": {
+      "principle": "Color is the most powerful pre-attentive attribute. Use it with intention, never for decoration.",
+      "palette": {
+        "subject_highlight": "#2563eb (blue) — the entity or metric you're talking about",
+        "positive": "#22c55e (green) — good news, growth, gains",
+        "negative": "#ef4444 (red) — bad news, decline, losses, risk",
+        "warning": "#f59e0b (amber) — caution, approaching threshold",
+        "context": "#94a3b8 (grey) — everything that isn't the story. Most of your chart should be grey.",
+        "secondary": "#8b5cf6 (purple) — second comparison point if needed"
+      },
+      "rule": "If more than 2 colors are bold (non-grey), you're not telling a story — you're showing a rainbow. Reduce."
+    },
+    "declutter_checklist": [
+      "Remove gridlines or reduce to very light grey (#f1f5f9).",
+      "Remove chart borders and boxes.",
+      "Remove legend if the chart title or data labels already identify the series.",
+      "Remove axis lines if gridlines or data labels convey the scale.",
+      "Remove decimal places unless they matter for the argument.",
+      "Remove 3D effects, shadows, gradients on bars.",
+      "Ask: 'If I remove this element, does the chart still make sense?' If yes, remove it."
+    ],
+    "the_3_second_rule": "An executive should understand the chart's message in 3 seconds. If they need to study it, the chart has failed. The title states the conclusion. The visual confirms it. The source provides credibility. Nothing else."
+  },
+
+  "TITLE_RULES": {
+    "principle": "The title IS the message. It is a complete sentence stating what the chart proves. It is NOT a topic label.",
+    "format": "Action verb + specific claim + number",
+    "good_titles": [
+      "Diesel cracks surged 55% to $30/bbl — the widest since 2022",
+      "Urals delivered $12/bbl cheaper than West African alternatives",
+      "PSU refiners face $3-5/bbl margin squeeze at current crude prices",
+      "Bypass pipelines cover only 17% of Hormuz's 20 mb/d flow"
+    ],
+    "bad_titles": [
+      "Crack Spread Comparison (topic label, says nothing)",
+      "Crude Price Analysis (what analysis? what conclusion?)",
+      "Market Overview (overview of what? so what?)",
+      "Refinery Utilization Rates (and? what about them?)"
+    ]
+  },
+
+  "CHART_SELECTION_DECISION_TREE": {
+    "instruction": "Follow this tree IN ORDER. Stop at the first match.",
+    "tree": [
+      {"if": "Your message is about HOW something builds up or breaks down through contributing factors", "then": "waterfall", "why": "Waterfalls answer 'why did X change?' — the most valuable executive question."},
+      {"if": "Your message is about a TREND or CHANGE over sequential time periods", "then": "line (>6 periods) or bar (<=6 periods)", "why": "Time series show trajectory and inflection points."},
+      {"if": "Your message is about RANKING or COMPARING discrete items", "then": "horizontal_bar (>4 items) or bar (<=4 items)", "why": "Bars make magnitude differences visually obvious."},
+      {"if": "Your message is about COMPOSITION or share of a total", "then": "donut (<=6 segments) or stacked_bar (comparing composition across groups)", "why": "Parts-of-whole charts show concentration and dominance."},
+      {"if": "Your message is about a FLOW from sources to destinations", "then": "sankey", "why": "Sankey diagrams show volume redistribution — perfect for supply chain rerouting."},
+      {"if": "Your message is about a single KPI relative to a THRESHOLD", "then": "gauge", "why": "Gauges create urgency around a critical metric."},
+      {"if": "Your message is about RELATIONSHIP between two variables", "then": "scatter", "why": "Scatter plots reveal whether two things are actually connected."},
+      {"if": "Your message is about INTENSITY across two dimensions", "then": "heatmap", "why": "Heatmaps show where the hot spots are in a matrix."},
+      {"if": "Your message is about CONVERSION or drop-off through stages", "then": "funnel", "why": "Funnels show where volume is lost in a process."},
+      {"if": "None of the above fit", "then": "horizontal_bar", "why": "When in doubt, a well-designed bar chart with clear labels is the safest choice."}
+    ]
+  },
+
+  "ECHARTS_STYLING_DEFAULTS": {
+    "instruction": "Apply these styling rules to ALL ECharts options to ensure consistency and readability.",
+    "global": {
+      "fontFamily": "Inter, -apple-system, sans-serif",
+      "backgroundColor": "transparent",
+      "animation": true,
+      "animationDuration": 800
+    },
+    "bar": {
+      "barWidth": "50%",
+      "borderRadius": [4, 4, 0, 0],
+      "label_show": true,
+      "label_fontSize": 15,
+      "label_fontWeight": "bold",
+      "label_position_vertical": "top",
+      "label_position_horizontal": "right",
+      "grid_bottom": 80,
+      "axisLabel_rotate_vertical": 25,
+      "axisLabel_fontSize": 12
+    },
+    "line": {
+      "smooth": true,
+      "lineWidth": 3,
+      "symbolSize": 8,
+      "areaStyle_opacity": 0.08,
+      "label_show_endpoints_only": true
+    },
+    "waterfall": {
+      "barWidth": "45%",
+      "label_fontSize": 14,
+      "positive_color": "#22c55e",
+      "negative_color": "#ef4444",
+      "total_color": "#2563eb",
+      "base_color": "transparent"
+    },
+    "donut": {
+      "radius_inner": "45%",
+      "radius_outer": "78%",
+      "label_fontSize": 13,
+      "label_format": "{b}: {d}%",
+      "center_label_fontSize": 22
+    },
+    "tooltip": {
+      "trigger": "axis",
+      "backgroundColor": "rgba(15,15,26,0.92)",
+      "borderColor": "#2563eb",
+      "textStyle_fontSize": 13,
+      "textStyle_color": "#e0e6ed"
+    },
+    "grid": {
+      "top": 40,
+      "bottom": 40,
+      "left": 60,
+      "right": 40,
+      "containLabel": true
+    }
+  }
+}

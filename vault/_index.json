@@ -1,0 +1,211 @@
+{
+  "vault_version": "1.0",
+  "total_examples": 40,
+  "categories": {
+    "deviation": {
+      "description": "Highlights differences from a reference point",
+      "examples": [
+        {
+          "file": "deviation/before_after_bars.html",
+          "description": "Russia crude discount flipping to premium — green bar left, red bar right of center parity line"
+        },
+        {
+          "file": "deviation/butterfly_divergence.html",
+          "description": "Winners vs losers — RIL/ONGC green bars right, OMCs red bars left. Chart.js horizontal bar with positive/negative coloring"
+        },
+        {
+          "file": "deviation/tornado_chart.html",
+          "description": "OMC earnings sensitivity tornado — HPCL -62%, BPCL -51%, IOCL -55% red bars left vs RIL +45%, ONGC +40% green bars right. Pure CSS two-sided horizontal bar"
+        },
+        {
+          "file": "deviation/slope_chart.html",
+          "description": "Pre-crisis vs crisis GRM slope chart — SVG connecting lines between left (baseline) and right (crisis) columns. Green lines up for RIL, red lines down for OMCs"
+        }
+      ]
+    },
+    "correlation": {
+      "description": "Shows relationship between two or more variables",
+      "examples": [
+        {
+          "file": "correlation/bubble_scatter.html",
+          "description": "NCI vs GRM bubble scatter — bubble size = capacity, color = profit/loss tier. Chart.js bubble chart in light panel"
+        }
+      ]
+    },
+    "ranking": {
+      "description": "Compares items in an ordered list",
+      "examples": [
+        {
+          "file": "ranking/horizontal_bars.html",
+          "description": "Hormuz dependency by product — horizontal bar chart with color-coded severity thresholds"
+        },
+        {
+          "file": "ranking/ships_by_country.html",
+          "description": "China 11, India 3, Japan 0 — KPI strip comparing countries by transit count, color-coded by success"
+        },
+        {
+          "file": "ranking/lollipop_chart.html",
+          "description": "Refinery NCI ranking lollipop — dots on horizontal lines from 0 to 25 scale. JS-generated, color-coded by owner type (green=RIL, amber=OMC, red=laggard)"
+        }
+      ]
+    },
+    "change_over_time": {
+      "description": "Shows how values evolve across a time period",
+      "examples": [
+        {
+          "file": "change_over_time/line_with_annotation.html",
+          "description": "Futures curve with strategic annotation callout (LOCK $69-75). Chart.js line with annotation plugin"
+        },
+        {
+          "file": "change_over_time/cash_burn_to_zero.html",
+          "description": "Declining line crossing insolvency threshold — dashed zero line with INSOLVENCY annotation"
+        },
+        {
+          "file": "change_over_time/animated_timeline.html",
+          "description": "Pulsing dots with phase colors (amber early, red late), staggered fade-in animation on scroll"
+        },
+        {
+          "file": "change_over_time/sparkline_grid.html",
+          "description": "2x2 mini sparkline grid — Brent, Indian basket, USD/INR, GRM. SVG inline sparklines with area fill, current value + delta badge per cell"
+        },
+        {
+          "file": "change_over_time/gantt_milestones.html",
+          "description": "Mine clearance Gantt timeline — ceasefire to flow restoration with milestone diamonds, color-coded phases, dependency arrows. Pure CSS grid layout"
+        }
+      ]
+    },
+    "magnitude": {
+      "description": "Emphasizes size or scale of a single value",
+      "examples": [
+        {
+          "file": "magnitude/hero_number.html",
+          "description": "DAY 20 big number with radial gradient background, pulsing countdown label, stat row with 3 KPIs"
+        },
+        {
+          "file": "magnitude/big_number_tradeoff.html",
+          "description": "74 days reserve cover with release-vs-hoard tradeoff panels side by side"
+        },
+        {
+          "file": "magnitude/waterfall.html",
+          "description": "Import bill decomposition waterfall — step-by-step value build-up from baseline to total with connector lines"
+        },
+        {
+          "file": "magnitude/comparison_towers.html",
+          "description": "SPR days-of-cover vertical towers — India 9.5d vs USA 32d vs Japan 90d vs China 90d. Height-proportional bars with IEA 90-day dashed threshold line"
+        },
+        {
+          "file": "magnitude/gauge_depletion.html",
+          "description": "SVG semi-circular gauge for reserve depletion — color gradient arc, needle, milestone cards"
+        }
+      ]
+    },
+    "part_to_whole": {
+      "description": "Shows how individual parts make up a total",
+      "examples": [
+        {
+          "file": "part_to_whole/stacked_dependency.html",
+          "description": "42% crude, 90% LPG — horizontal bars showing percentage of whole, plus falling dominoes with severity labels"
+        },
+        {
+          "file": "part_to_whole/dot_grid.html",
+          "description": "22 ships as dots — 3 green (through), 19 red (stranded) — with legend and cargo KPI breakdown"
+        },
+        {
+          "file": "part_to_whole/waffle_chart.html",
+          "description": "10x10 waffle grid (100 squares) — 42 red squares for Hormuz dependency, 58 gray. Big number callout, detail stats, JS-generated grid"
+        },
+        {
+          "file": "part_to_whole/donut_percentage.html",
+          "description": "SVG donut chart showing percentage dependency with side legend and callout box"
+        }
+      ]
+    },
+    "spatial": {
+      "description": "Shows geographic patterns and locations",
+      "examples": [
+        {
+          "file": "spatial/map_numbered_legend.html",
+          "description": "Three risk zones with numbered circles on Leaflet map — Hormuz, Gulf targets, Bab al-Mandab"
+        },
+        {
+          "file": "spatial/map_shipping.html",
+          "description": "Shipping map with colored dots by country, pulsing chokepoint marker, dashed transit route"
+        },
+        {
+          "file": "spatial/annotated_region_map.html",
+          "description": "Clean Gulf region map — 3 numbered markers (Hormuz, Ras Tanura, Fujairah), CartoDB light tiles, structured legend below with risk details. No overlap"
+        }
+      ]
+    },
+    "flow": {
+      "description": "Shows movement or transfer between stages",
+      "examples": [
+        {
+          "file": "flow/stream_redirect.html",
+          "description": "ESMA propane/butane/propylene/butenes redirected into LPG node for 330M households — funnel diagram with KPIs"
+        },
+        {
+          "file": "flow/sankey_simple.html",
+          "description": "Simple Sankey flow — 4 source nodes through hub to destination with gradient bands"
+        }
+      ]
+    },
+    "structure": {
+      "description": "Organizes information hierarchically or categorically",
+      "examples": [
+        {
+          "file": "structure/scenario_cards.html",
+          "description": "Three probability scenarios with gradient backgrounds (amber/red/green), inline stat chips, and insight text"
+        },
+        {
+          "file": "structure/verdict_panel.html",
+          "description": "Verdict banners (gradient header) with data proof panels — compare rows, destroyed grids, voyage bars"
+        },
+        {
+          "file": "structure/quote_pair.html",
+          "description": "Two opposing quotes side by side with colored left borders — Trump vs Araghchi format"
+        },
+        {
+          "file": "structure/checklist_urgency.html",
+          "description": "Numbered action items with deadline KPIs (pulsing countdown) and amber/red urgency indicators"
+        },
+        {
+          "file": "structure/act_break.html",
+          "description": "Large background symbol/number, section title in red uppercase, subtitle — act break between sections"
+        },
+        {
+          "file": "structure/closing_deadlines.html",
+          "description": "Deadline rows with mono date and description, closing summary line, radial gradient background"
+        },
+        {
+          "file": "structure/vs_comparison.html",
+          "description": "Banks say X vs Reality Y — verdict banner panels with contrasting consensus vs truth format"
+        },
+        {
+          "file": "structure/countdown.html",
+          "description": "Big pulsing countdown number with three-outcome decision tree (HIGH/MED/LOW scenario cards)"
+        },
+        {
+          "file": "structure/kpi_grid.html",
+          "description": "Dark KPI panels with colored left borders, JetBrains Mono values, muted sub-labels — 2x2 and 3-col layouts"
+        },
+        {
+          "file": "structure/traffic_light_status.html",
+          "description": "RAG status card — 5 supply chain items with glowing red/amber/green circle indicators, grid layout with status level, detail text, and summary strip"
+        },
+        {
+          "file": "structure/metric_comparison_strip.html",
+          "description": "Before vs after horizontal strip — 3 metrics (Urals discount, import bill, rupee) with arrow connectors, delta badges, and context labels"
+        },
+        {
+          "file": "structure/decision_tree.html",
+          "description": "3-branch decision tree with probability, price impact, and SVG connecting lines"
+        },
+        {
+          "file": "structure/matrix_2x2.html",
+          "description": "2x2 strategic positioning matrix with 4 color-coded quadrants and plotted items"
+        }
+      ]
+    }
+  }
+}

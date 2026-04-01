@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anvil-engine"
+version = "0.2.0"
+description = "Strategic problem-solving engine for Claude Code"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [{name = "Parth Reddy"}]
+keywords = ["strategy", "problem-solving", "claude", "ai"]
+
+dependencies = [
+    "anthropic>=0.39.0",
+    "duckduckgo-search>=4.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+pdf = ["pdfplumber>=0.10.0"]
+screenshots = ["puppeteer"]
+
+[project.scripts]
+anvil = "anvil:main"
+
+[project.urls]
+Homepage = "https://github.com/parthreddy123/anvil"
+
+[tool.setuptools]
+py-modules = ["anvil", "pipeline", "telemetry"]
+
+[tool.setuptools.package-data]
+"*" = ["vault/*.json", "vault/**/*.json", "presentation_engine/**/*", ".claude/commands/*.md"]

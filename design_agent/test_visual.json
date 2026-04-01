@@ -1,0 +1,43 @@
+{
+  "cards": [
+    {
+      "card_type": "verdict_panel",
+      "card_id": "c7",
+      "title": "Your Crude Diet Just Changed.",
+      "subtitle": "Three sources. Three problems. No clean answer.",
+      "label": "Supply Alternatives",
+      "sections": [
+        {
+          "source": "Russia",
+          "verdict_text": "MORE EXPENSIVE · EXPIRING IN 15 DAYS",
+          "verdict_bg": "linear-gradient(90deg,#dc2626,#991b1b)",
+          "content_html": "<div class=\"compare-row\" style=\"border-bottom:none;padding:8px 0\"><div class=\"cr-label\">Urals vs Brent</div><div class=\"cr-before\">−$13</div><div class=\"cr-arrow\">→</div><div class=\"cr-after\">+$5</div></div>"
+        },
+        {
+          "source": "Gulf States",
+          "verdict_text": "PHYSICALLY DESTROYED",
+          "verdict_bg": "linear-gradient(90deg,#7f1d1d,#450a0a)",
+          "content_html": "<div style=\"font:400 10px Inter;color:#888\">Every major loading terminal serving India — offline or damaged.</div>"
+        },
+        {
+          "source": "Alternatives",
+          "verdict_text": "SLOW & WRONG GRADE",
+          "verdict_bg": "linear-gradient(90deg,#92400e,#78350f)",
+          "content_html": "<div class=\"v-row\"><div class=\"v-label\">W. Africa</div><div class=\"v-track\"><div class=\"v-fill\" style=\"width:50%;background:linear-gradient(90deg,#d97706,#fbbf24)\">20-25d</div></div><div class=\"v-days\" style=\"color:#b45309;font-weight:800\">4×</div></div>"
+        }
+      ],
+      "insight": "No clean barrel left. Russia is expensive and expiring. Gulf is offline. Alternatives are slow and wrong grade.",
+      "visual": {
+        "_dry_run": true,
+        "_card_type": "verdict_panel",
+        "_note": "No API call made. Run without --dry-run to generate real visual configs."
+      }
+    }
+  ],
+  "_design_agent": {
+    "model": "dry-run",
+    "cards_processed": 1,
+    "errors": 0,
+    "timestamp": "2026-03-19T13:53:43Z"
+  }
+}

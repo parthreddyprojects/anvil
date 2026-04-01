@@ -1,0 +1,31 @@
+<!-- VAULT: part_to_whole / stacked_dependency — Bar chart showing percentage dependency (42% crude, 90% LPG) with dominoes -->
+<div class="card" id="vault-example">
+<div class="card-inner">
+
+<p class="label red" style="margin-bottom:12px">The Triple Crisis</p>
+<h3 class="card-title">Crude. Cooking Gas. Fertilizer.</h3>
+<p class="card-sub" style="margin-bottom:20px">Most people only see the first one.</p>
+
+<!-- Dependency chart -->
+<div class="panel-light" style="margin-bottom:16px;padding:16px">
+<div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">India's Hormuz Dependency by Product</div>
+<div class="chart-c" style="height:160px"><canvas id="vault-ch-dep2"></canvas></div>
+</div>
+
+<!-- Falling dominoes -->
+<div class="dominoes">
+<div class="domino" style="border-color:var(--amber)"><div class="d-val" style="color:var(--amber)">42%</div><div class="d-name">Crude Oil<br><span style="color:var(--amber)">MANAGEABLE</span></div></div>
+<div class="domino" style="border-color:var(--red);background:#1a0000"><div class="d-val" style="color:var(--red)">90%</div><div class="d-name">LPG<br><span style="color:var(--red)">HUMANITARIAN</span></div></div>
+<div class="domino" style="border-color:var(--red);background:#1a0000"><div class="d-val" style="color:var(--red)">40%</div><div class="d-name">Fertilizer<br><span style="color:var(--red)" class="countdown">COMING</span></div></div>
+<div class="domino"><div class="d-val" style="color:var(--red)">₹4K</div><div class="d-name">Black Mkt<br><span style="color:var(--muted)">per cylinder</span></div></div>
+<div class="domino"><div class="d-val" style="color:var(--red)">330M</div><div class="d-name">Households<br><span style="color:var(--muted)">affected</span></div></div>
+</div>
+
+<div class="insight">The crude crisis is on every front page. The LPG crisis is on every doorstep. The fertilizer crisis hasn't hit yet — but kharif planting is in 10 weeks.</div>
+
+<script>
+(function(){new Chart(document.getElementById('vault-ch-dep2'),{type:'bar',data:{labels:['Crude Oil','LPG','LNG','Fertilizer'],datasets:[{data:[42,90,35,40],backgroundColor:['rgba(217,119,6,.5)','rgba(220,38,38,.65)','rgba(59,130,246,.4)','rgba(220,38,38,.45)'],borderRadius:6,barThickness:32}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{grid:{display:false},ticks:{color:'#aaa',font:{family:'JetBrains Mono',size:10,weight:'500'},callback:function(v){return v+'%'}},max:100,border:{display:false}},y:{grid:{display:false},ticks:{color:'#444',font:{family:'Inter',size:12,weight:'700'}},border:{display:false}}}}})})();
+</script>
+
+</div>
+</div>

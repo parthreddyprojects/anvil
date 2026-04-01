@@ -1,0 +1,175 @@
+<!-- VAULT: ranking / lollipop_chart — Refinery NCI ranking with dots on horizontal lines, 0 to 25 scale -->
+<div class="card" id="vault-lollipop">
+<style>
+  #vault-lollipop {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 600px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-lollipop .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-lollipop .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-lollipop .lp-container {
+    position: relative;
+    margin-bottom: 8px;
+  }
+  /* Scale axis */
+  #vault-lollipop .lp-axis {
+    display: flex;
+    justify-content: space-between;
+    font: 400 9px/1 'JetBrains Mono', monospace;
+    color: #bbb;
+    margin-bottom: 20px;
+    margin-left: 130px;
+  }
+  #vault-lollipop .lp-row {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    position: relative;
+  }
+  #vault-lollipop .lp-row:not(:last-child) {
+    border-bottom: 1px solid #f5f5f5;
+  }
+  #vault-lollipop .lp-label {
+    width: 120px;
+    flex-shrink: 0;
+    font: 500 10px/1.2 'Inter', sans-serif;
+    color: #555;
+    padding-right: 10px;
+    text-align: right;
+  }
+  #vault-lollipop .lp-label .lp-owner {
+    font: 400 8px/1 'Inter', sans-serif;
+    color: #aaa;
+    display: block;
+    margin-top: 1px;
+  }
+  #vault-lollipop .lp-track {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  #vault-lollipop .lp-line {
+    position: absolute;
+    left: 0;
+    height: 2px;
+    border-radius: 1px;
+  }
+  #vault-lollipop .lp-baseline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #eee;
+    top: 50%;
+  }
+  #vault-lollipop .lp-dot {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.15);
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  #vault-lollipop .lp-val {
+    position: absolute;
+    transform: translateX(-50%);
+    top: -2px;
+    font: 700 9px/1 'JetBrains Mono', monospace;
+    z-index: 3;
+  }
+  /* Threshold zones */
+  #vault-lollipop .lp-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    opacity: .04;
+    pointer-events: none;
+  }
+  #vault-lollipop .lp-zone-label {
+    position: absolute;
+    bottom: -22px;
+    font: 500 8px/1 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  #vault-lollipop .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 16px;
+  }
+  #vault-lollipop .lp-insight {
+    font: 400 11px/1.5 'Inter', sans-serif;
+    color: #555;
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    border-left: 3px solid #2563eb;
+  }
+</style>
+
+<div class="card-title">Jamnagar dominates; OMC refineries cluster at the bottom</div>
+<div class="card-subtitle">Nelson Complexity Index &middot; higher = more sophisticated conversion capacity</div>
+
+<div class="lp-container">
+  <div class="lp-axis">
+    <span>0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span>
+  </div>
+
+  <div id="lp-rows"></div>
+</div>
+
+<div class="lp-insight">Higher NCI refineries can process heavier, discounted crudes (Urals, Basrah Heavy) and produce more high-value products. Jamnagar's 21.1 NCI means it profits where OMCs lose.</div>
+
+<div class="card-source">Source: Oil &amp; Gas Journal, company reports &middot; 2024 data</div>
+
+<script>
+(function(){
+  var data = [
+    { name:'Jamnagar (DTA)', owner:'RIL', nci:21.1, color:'#10b981' },
+    { name:'Jamnagar (SEZ)', owner:'RIL', nci:15.2, color:'#10b981' },
+    { name:'Vadinar', owner:'Nayara', nci:11.8, color:'#2563eb' },
+    { name:'Kochi', owner:'BPCL', nci:11.6, color:'#d97706' },
+    { name:'Paradip', owner:'IOCL', nci:10.9, color:'#d97706' },
+    { name:'Mangalore', owner:'MRPL', nci:10.2, color:'#d97706' },
+    { name:'Panipat', owner:'IOCL', nci:10.0, color:'#d97706' },
+    { name:'Mumbai', owner:'HPCL', nci:9.4, color:'#dc2626' },
+    { name:'Vizag', owner:'HPCL', nci:8.8, color:'#dc2626' },
+    { name:'Bina', owner:'BPCL', nci:7.5, color:'#dc2626' }
+  ];
+  var max = 25;
+  var container = document.getElementById('lp-rows');
+  data.forEach(function(d){
+    var pct = (d.nci / max) * 100;
+    var row = document.createElement('div');
+    row.className = 'lp-row';
+
+    row.innerHTML =
+      '<div class="lp-label">' + d.name + '<span class="lp-owner">' + d.owner + '</span></div>' +
+      '<div class="lp-track">' +
+        '<div class="lp-baseline"></div>' +
+        '<div class="lp-line" style="width:' + pct + '%;background:' + d.color + ';opacity:.3"></div>' +
+        '<div class="lp-dot" style="left:' + pct + '%;background:' + d.color + '"></div>' +
+        '<div class="lp-val" style="left:' + pct + '%;color:' + d.color + '">' + d.nci.toFixed(1) + '</div>' +
+      '</div>';
+    container.appendChild(row);
+  });
+})();
+</script>
+</div>

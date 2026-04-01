@@ -1,0 +1,199 @@
+<!-- VAULT: structure / metric_comparison_strip — Before vs after horizontal strip comparing 3 metrics with arrows -->
+<div class="card" id="vault-metstrip">
+<style>
+  #vault-metstrip {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 620px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-metstrip .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-metstrip .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-metstrip .ms-strip {
+    display: flex;
+    gap: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  #vault-metstrip .ms-item {
+    flex: 1;
+    padding: 20px 18px;
+    position: relative;
+    background: #fff;
+  }
+  #vault-metstrip .ms-item:not(:last-child) {
+    border-right: 1px solid #e5e7eb;
+  }
+  #vault-metstrip .ms-label {
+    font: 600 9px/1 'Inter', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 14px;
+  }
+  /* Before / After rows */
+  #vault-metstrip .ms-pair {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+  #vault-metstrip .ms-before {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  #vault-metstrip .ms-after {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  #vault-metstrip .ms-tag {
+    font: 500 7px/1 'Inter', sans-serif;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 4px;
+  }
+  #vault-metstrip .ms-val {
+    font: 700 18px/1 'JetBrains Mono', monospace;
+  }
+  #vault-metstrip .ms-val.muted { color: #888; }
+  #vault-metstrip .ms-arrow {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    min-width: 40px;
+  }
+  #vault-metstrip .ms-arrow-line {
+    height: 2px;
+    width: 100%;
+    position: relative;
+  }
+  #vault-metstrip .ms-arrow-line::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+  #vault-metstrip .ms-arrow-line.red { background: #dc2626; }
+  #vault-metstrip .ms-arrow-line.red::after { border-left-color: #dc2626; }
+  #vault-metstrip .ms-arrow-line.green { background: #10b981; }
+  #vault-metstrip .ms-arrow-line.green::after { border-left-color: #10b981; }
+  #vault-metstrip .ms-delta {
+    font: 700 9px/1 'JetBrains Mono', monospace;
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+  #vault-metstrip .ms-delta.red { color: #dc2626; background: #fef2f2; }
+  #vault-metstrip .ms-delta.green { color: #10b981; background: #ecfdf5; }
+  /* Context row */
+  #vault-metstrip .ms-context {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #999;
+    margin-top: 8px;
+    text-align: center;
+  }
+  #vault-metstrip .ms-insight {
+    font: 400 11px/1.5 'Inter', sans-serif;
+    color: #555;
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: #fef2f2;
+    border-radius: 4px;
+    border-left: 3px solid #dc2626;
+  }
+  #vault-metstrip .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+</style>
+
+<div class="card-title">Three numbers that define the macro damage</div>
+<div class="card-subtitle">Baseline (pre-crisis) vs current &middot; Day 20</div>
+
+<div class="ms-strip">
+  <!-- Urals Discount -->
+  <div class="ms-item">
+    <div class="ms-label">Urals Discount</div>
+    <div class="ms-pair">
+      <div class="ms-before">
+        <div class="ms-tag">Before</div>
+        <div class="ms-val muted">-$13</div>
+      </div>
+      <div class="ms-arrow">
+        <div class="ms-delta green">+$18</div>
+        <div class="ms-arrow-line green"></div>
+      </div>
+      <div class="ms-after">
+        <div class="ms-tag">Now</div>
+        <div class="ms-val" style="color:#10b981">+$5</div>
+      </div>
+    </div>
+    <div class="ms-context">Discount flipped to premium</div>
+  </div>
+
+  <!-- Import Bill -->
+  <div class="ms-item">
+    <div class="ms-label">Annual Import Bill</div>
+    <div class="ms-pair">
+      <div class="ms-before">
+        <div class="ms-tag">Before</div>
+        <div class="ms-val muted">$100B</div>
+      </div>
+      <div class="ms-arrow">
+        <div class="ms-delta red">+166%</div>
+        <div class="ms-arrow-line red"></div>
+      </div>
+      <div class="ms-after">
+        <div class="ms-tag">Now</div>
+        <div class="ms-val" style="color:#dc2626">$266B</div>
+      </div>
+    </div>
+    <div class="ms-context">+$166B annualized burden</div>
+  </div>
+
+  <!-- Rupee -->
+  <div class="ms-item">
+    <div class="ms-label">USD / INR</div>
+    <div class="ms-pair">
+      <div class="ms-before">
+        <div class="ms-tag">Before</div>
+        <div class="ms-val muted">&#x20B9;87.0</div>
+      </div>
+      <div class="ms-arrow">
+        <div class="ms-delta red">+6.5%</div>
+        <div class="ms-arrow-line red"></div>
+      </div>
+      <div class="ms-after">
+        <div class="ms-tag">Now</div>
+        <div class="ms-val" style="color:#dc2626">&#x20B9;92.64</div>
+      </div>
+    </div>
+    <div class="ms-context">Record low, RBI intervening</div>
+  </div>
+</div>
+
+<div class="ms-insight">The Urals discount vanishing is the single worst signal for Indian refiners. The entire Russian crude arbitrage that saved $5-8B/yr in FY23-24 is gone.</div>
+
+<div class="card-source">Source: Reuters, PPAC, RBI &middot; Day 20 assessment</div>
+</div>

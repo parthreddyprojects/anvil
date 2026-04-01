@@ -1,0 +1,209 @@
+<!-- VAULT: deviation / slope_chart — Pre-crisis vs crisis GRM slope chart, green lines up (RIL), red lines down (OMCs) -->
+<div class="card" id="vault-slope">
+<style>
+  #vault-slope {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 560px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-slope .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-slope .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 24px;
+  }
+  #vault-slope .sl-chart {
+    position: relative;
+    height: 320px;
+    display: flex;
+    margin-bottom: 16px;
+  }
+  #vault-slope .sl-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 120px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+  #vault-slope .sl-col-header {
+    font: 600 9px/1 'Inter', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  #vault-slope .sl-canvas {
+    flex: 1;
+    position: relative;
+  }
+  #vault-slope .sl-dot {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+  }
+  #vault-slope .sl-dot.left { right: 0; flex-direction: row-reverse; }
+  #vault-slope .sl-dot.right { left: 0; }
+  #vault-slope .sl-dot-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    flex-shrink: 0;
+  }
+  #vault-slope .sl-dot-label {
+    font: 600 10px/1.2 'Inter', sans-serif;
+    color: #333;
+    white-space: nowrap;
+  }
+  #vault-slope .sl-dot-val {
+    font: 700 10px/1 'JetBrains Mono', monospace;
+    white-space: nowrap;
+  }
+  #vault-slope .sl-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #vault-slope .sl-insight {
+    font: 400 11px/1.5 'Inter', sans-serif;
+    color: #555;
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    border-left: 3px solid #dc2626;
+  }
+  #vault-slope .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+  /* Legend */
+  #vault-slope .sl-legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  #vault-slope .sl-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: 400 9px/1 'Inter', sans-serif;
+    color: #888;
+  }
+  #vault-slope .sl-legend-line {
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+  }
+</style>
+
+<div class="card-title">RIL margins expanded while every OMC went negative</div>
+<div class="card-subtitle">Gross Refining Margin &middot; $/bbl &middot; pre-crisis vs Day 20</div>
+
+<div class="sl-legend">
+  <div class="sl-legend-item"><div class="sl-legend-line" style="background:#10b981"></div>Margin improved</div>
+  <div class="sl-legend-item"><div class="sl-legend-line" style="background:#dc2626"></div>Margin destroyed</div>
+</div>
+
+<div class="sl-chart">
+  <!-- Left column: Pre-crisis -->
+  <div class="sl-col" id="slLeft">
+    <div class="sl-col-header">Pre-Crisis GRM</div>
+  </div>
+
+  <!-- SVG lines in middle -->
+  <div class="sl-canvas">
+    <svg class="sl-lines" id="slSvg" preserveAspectRatio="none"></svg>
+  </div>
+
+  <!-- Right column: Crisis -->
+  <div class="sl-col" id="slRight">
+    <div class="sl-col-header">Crisis GRM (Day 20)</div>
+  </div>
+</div>
+
+<div class="sl-insight">Frozen retail prices mean OMCs absorb the full crude price increase. RIL exports diesel/ATF at Singapore cracks, which widen in supply crunches.</div>
+
+<div class="card-source">Source: Company quarterly reports, broker estimates &middot; Scenario analysis</div>
+
+<script>
+(function(){
+  var data = [
+    { name:'RIL (Jamnagar)', pre:12.5, post:18.4, color:'#10b981' },
+    { name:'Nayara', pre:8.2, post:9.1, color:'#10b981' },
+    { name:'MRPL', pre:6.8, post:1.2, color:'#dc2626' },
+    { name:'IOCL', pre:7.1, post:-2.3, color:'#dc2626' },
+    { name:'BPCL', pre:6.4, post:-3.8, color:'#dc2626' },
+    { name:'HPCL', pre:5.2, post:-5.6, color:'#dc2626' }
+  ];
+
+  // Scale: map GRM values to Y positions
+  var minV = -8, maxV = 20, chartH = 280, topPad = 20;
+  function yPos(v) { return topPad + ((maxV - v) / (maxV - minV)) * chartH; }
+
+  var leftCol = document.getElementById('slLeft');
+  var rightCol = document.getElementById('slRight');
+  var svg = document.getElementById('slSvg');
+
+  data.forEach(function(d) {
+    // Left dot
+    var ldiv = document.createElement('div');
+    ldiv.className = 'sl-dot left';
+    ldiv.style.top = yPos(d.pre) + 'px';
+    ldiv.innerHTML =
+      '<div class="sl-dot-circle" style="background:' + d.color + '"></div>' +
+      '<div><div class="sl-dot-label">' + d.name + '</div>' +
+      '<div class="sl-dot-val" style="color:' + d.color + '">$' + d.pre.toFixed(1) + '</div></div>';
+    leftCol.appendChild(ldiv);
+
+    // Right dot
+    var rdiv = document.createElement('div');
+    rdiv.className = 'sl-dot right';
+    rdiv.style.top = yPos(d.post) + 'px';
+    rdiv.innerHTML =
+      '<div class="sl-dot-circle" style="background:' + d.color + '"></div>' +
+      '<div><div class="sl-dot-val" style="color:' + d.color + '">' + (d.post >= 0 ? '$' + d.post.toFixed(1) : '-$' + Math.abs(d.post).toFixed(1)) + '</div></div>';
+    rightCol.appendChild(rdiv);
+
+    // SVG line
+    var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1','0');
+    line.setAttribute('y1', yPos(d.pre));
+    line.setAttribute('x2','100%');
+    line.setAttribute('y2', yPos(d.post));
+    line.setAttribute('stroke', d.color);
+    line.setAttribute('stroke-width','2');
+    line.setAttribute('stroke-linecap','round');
+    line.setAttribute('opacity','0.5');
+    svg.appendChild(line);
+  });
+
+  // Zero line
+  var zline = document.createElementNS('http://www.w3.org/2000/svg','line');
+  zline.setAttribute('x1','0');
+  zline.setAttribute('y1', yPos(0));
+  zline.setAttribute('x2','100%');
+  zline.setAttribute('y2', yPos(0));
+  zline.setAttribute('stroke','#ddd');
+  zline.setAttribute('stroke-width','1');
+  zline.setAttribute('stroke-dasharray','4,4');
+  svg.insertBefore(zline, svg.firstChild);
+})();
+</script>
+</div>

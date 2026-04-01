@@ -1,0 +1,160 @@
+<!-- VAULT: magnitude / comparison_towers — SPR days-of-cover vertical towers comparing India vs Japan vs China -->
+<div class="card" id="vault-towers">
+<style>
+  #vault-towers {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 28px 32px 20px;
+    max-width: 540px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  #vault-towers .card-title {
+    font: 600 15px/1.3 'Inter', sans-serif;
+    color: #111;
+    margin: 0 0 4px;
+  }
+  #vault-towers .card-subtitle {
+    font: 400 11px/1.4 'Inter', sans-serif;
+    color: #888;
+    margin: 0 0 28px;
+  }
+  #vault-towers .tw-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 36px;
+    height: 300px;
+    padding-bottom: 36px;
+    position: relative;
+  }
+  /* IEA 90-day line */
+  #vault-towers .tw-chart::before {
+    content: 'IEA 90-day minimum';
+    position: absolute;
+    top: 12px;
+    left: 0;
+    right: 0;
+    border-top: 1.5px dashed #d97706;
+    font: 500 8px/1 'Inter', sans-serif;
+    color: #d97706;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding-top: 4px;
+    text-align: right;
+  }
+  #vault-towers .tw-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  #vault-towers .tw-value {
+    font: 800 20px/1 'JetBrains Mono', monospace;
+    margin-bottom: 6px;
+  }
+  #vault-towers .tw-unit {
+    font: 400 9px/1 'Inter', sans-serif;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  #vault-towers .tw-bar {
+    width: 72px;
+    border-radius: 5px 5px 0 0;
+    position: relative;
+    transition: height .8s ease;
+  }
+  #vault-towers .tw-bar-inner {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font: 600 9px/1.3 'Inter', sans-serif;
+    color: rgba(255,255,255,.8);
+  }
+  #vault-towers .tw-flag {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+  #vault-towers .tw-country {
+    font: 600 11px/1 'Inter', sans-serif;
+    color: #333;
+    margin-top: 10px;
+  }
+  #vault-towers .tw-sub {
+    font: 400 9px/1.2 'Inter', sans-serif;
+    color: #888;
+    margin-top: 2px;
+    text-align: center;
+    max-width: 90px;
+  }
+  #vault-towers .tw-insight {
+    font: 400 11px/1.5 'Inter', sans-serif;
+    color: #555;
+    margin-top: 20px;
+    padding: 10px 12px;
+    background: #fef2f2;
+    border-radius: 4px;
+    border-left: 3px solid #dc2626;
+  }
+  #vault-towers .card-source {
+    font: 400 9px/1.3 'Inter', sans-serif;
+    color: #aaa;
+    margin-top: 12px;
+  }
+</style>
+
+<div class="card-title">India's strategic reserves cover 9.5 days; peers hold 90+</div>
+<div class="card-subtitle">Strategic Petroleum Reserve &middot; days of import cover</div>
+
+<div class="tw-chart">
+  <!-- India -->
+  <div class="tw-col">
+    <div class="tw-value" style="color:#dc2626">9.5</div>
+    <div class="tw-unit">days</div>
+    <div class="tw-bar" style="height:28px;background:linear-gradient(180deg,#dc2626,#f87171)">
+      <div class="tw-bar-inner">5.3 MMT</div>
+    </div>
+    <div class="tw-country">India</div>
+    <div class="tw-sub">Visakhapatnam, Mangaluru, Padur</div>
+  </div>
+
+  <!-- USA -->
+  <div class="tw-col">
+    <div class="tw-value" style="color:#d97706">32</div>
+    <div class="tw-unit">days</div>
+    <div class="tw-bar" style="height:94px;background:linear-gradient(180deg,#d97706,#fbbf24)">
+      <div class="tw-bar-inner">372M bbl</div>
+    </div>
+    <div class="tw-country">United States</div>
+    <div class="tw-sub">Post-drawdown from 700M peak</div>
+  </div>
+
+  <!-- Japan -->
+  <div class="tw-col">
+    <div class="tw-value" style="color:#10b981">90</div>
+    <div class="tw-unit">days</div>
+    <div class="tw-bar" style="height:264px;background:linear-gradient(180deg,#10b981,#6ee7b7)">
+      <div class="tw-bar-inner">Gov't + private obligation</div>
+    </div>
+    <div class="tw-country">Japan</div>
+    <div class="tw-sub">IEA member, mandatory 90d</div>
+  </div>
+
+  <!-- China -->
+  <div class="tw-col">
+    <div class="tw-value" style="color:#10b981">~90</div>
+    <div class="tw-unit">days</div>
+    <div class="tw-bar" style="height:264px;background:linear-gradient(180deg,#334155,#64748b)">
+      <div class="tw-bar-inner">~950M bbl est.</div>
+    </div>
+    <div class="tw-country">China</div>
+    <div class="tw-sub">Classified; est. 80-100d</div>
+  </div>
+</div>
+
+<div class="tw-insight">India is the world's 3rd-largest importer with the smallest strategic buffer. At crisis consumption rates, 9.5 days drops to 7.</div>
+
+<div class="card-source">Source: IEA, ISPRL, EIA, Reuters estimates</div>
+</div>
