@@ -430,49 +430,67 @@ def cmd_init(args):
     print(ANVIL_BANNER)
 
     home = Path.home()
-    anvil_root = Path(__file__).parent.resolve()
+    cwd = Path.cwd().resolve()
+    pkg_root = Path(__file__).parent.resolve()
 
     # 1. Create ~/.claude/commands/ if needed
     global_cmd_dir = home / ".claude" / "commands"
     global_cmd_dir.mkdir(parents=True, exist_ok=True)
 
-    # 2. Copy the /anvil slash command
-    src_cmd = anvil_root / ".claude" / "commands" / "anvil.md"
+    # 2. Install the /anvil slash command — try file first, fall back to embedded
+    src_cmd = pkg_root / ".claude" / "commands" / "anvil.md"
     dst_cmd = global_cmd_dir / "anvil.md"
 
     if src_cmd.exists():
-        # Update paths in the command file to point to this install location
         cmd_content = src_cmd.read_text(encoding="utf-8")
-        cmd_content = cmd_content.replace(
-            "C:\\Users\\Lenovo\\briefing-engine",
-            str(anvil_root)
-        )
+        cmd_content = cmd_content.replace("C:\\Users\\Lenovo\\briefing-engine", str(cwd))
         dst_cmd.write_text(cmd_content, encoding="utf-8")
         _narrate(f"Installed /anvil command -> {dst_cmd}", "done")
     else:
-        _narrate("Command template not found — skipping slash command", "warn")
+        # Embedded fallback — minimal command that tells Claude to run anvil
+        dst_cmd.write_text(f"""# ANVIL — Strategic Problem-Solving Engine
+
+You are now Anvil. Type the banner below, then ask "What problem are you working on?"
+
+The pipeline lives at `{cwd}`. Use `anvil run --topic "..." --audience "..."` for autopilot or orchestrate step-by-step in guided mode.
+
+See CLAUDE.md in the project directory for full orchestration instructions.
+""", encoding="utf-8")
+        _narrate(f"Installed /anvil command (embedded) -> {dst_cmd}", "done")
 
     # 3. Create project-level .claude/commands/ too
-    project_cmd_dir = anvil_root / ".claude" / "commands"
+    project_cmd_dir = cwd / ".claude" / "commands"
     project_cmd_dir.mkdir(parents=True, exist_ok=True)
+    if not (project_cmd_dir / "anvil.md").exists():
+        import shutil
+        shutil.copy2(str(dst_cmd), str(project_cmd_dir / "anvil.md"))
 
-    # 4. Set up CLAUDE.md in the project if not present
-    claude_md = anvil_root / "CLAUDE.md"
+    # 4. Check for CLAUDE.md
+    claude_md = cwd / "CLAUDE.md"
     if claude_md.exists():
-        _narrate(f"CLAUDE.md already exists at {claude_md}", "done")
+        _narrate(f"CLAUDE.md found", "done")
     else:
-        _narrate("CLAUDE.md not found — you may need to create one", "warn")
+        # Copy from package if available
+        pkg_claude = pkg_root / "CLAUDE.md"
+        if pkg_claude.exists():
+            import shutil
+            shutil.copy2(str(pkg_claude), str(claude_md))
+            _narrate(f"CLAUDE.md installed", "done")
+        else:
+            _narrate("CLAUDE.md not found — create one for full guided mode", "warn")
 
     # 5. Check for API key
-    env_file = anvil_root / ".env"
+    env_file = cwd / ".env"
     if env_file.exists() and "ANTHROPIC_API_KEY" in env_file.read_text(encoding="utf-8"):
         _narrate("API key found in .env", "done")
+    elif os.environ.get("ANTHROPIC_API_KEY"):
+        _narrate("API key found in environment", "done")
     else:
         _narrate("No API key found. Set ANTHROPIC_API_KEY in .env or environment", "warn")
         print(f"\n  {A}  echo ANTHROPIC_API_KEY=sk-ant-... > {env_file}{R}\n")
 
     # 6. Create outputs directory
-    (anvil_root / "outputs" / "runs").mkdir(parents=True, exist_ok=True)
+    (cwd / "outputs" / "runs").mkdir(parents=True, exist_ok=True)
     _narrate("Output directory ready", "done")
 
     # 7. Create telemetry directory

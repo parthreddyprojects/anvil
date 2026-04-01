@@ -27,7 +27,7 @@ screenshots = ["puppeteer"]
 anvil = "anvil:main"
 
 [project.urls]
-Homepage = "https://github.com/parthreddy123/anvil"
+Homepage = "https://github.com/parthreddyprojects/anvil"
 
 [tool.setuptools]
 py-modules = ["anvil", "pipeline", "telemetry"]
