@@ -120,7 +120,7 @@
     <h1>Strategic Problem-Solving Engine</h1>
     <p class="tagline">If you're a strategy professional who has felt the gap between what AI promises and what it actually delivers for real strategy work — this is an attempt to close it.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/parthreddyprojects/anvil">Get Anvil on GitHub</a>
+      <a class="btn btn-primary" href="#get-access" onclick="document.getElementById('access-form').style.display='block';return false;">Get Access</a>
       <a class="btn btn-secondary" href="https://parthreddy.substack.com">Read the Substack</a>
     </div>
   </div>
@@ -179,24 +179,81 @@
   </div>
 
 
-  <!-- Install -->
-  <div class="section">
-    <div class="section-label">Get started</div>
-    <div class="install-block">
-<pre><span class="comment"># Install</span>
+  <!-- Access Form -->
+  <div class="section" id="get-access">
+    <div class="section-label">Get access</div>
+    <div id="access-form" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:32px;max-width:500px;margin:0 auto;">
+      <p style="font-size:1rem;font-weight:700;margin-bottom:4px;color:var(--text);">Get Anvil</p>
+      <p style="font-size:0.85rem;color:var(--dim);margin-bottom:20px;">Fill in your details and we'll send you the install instructions.</p>
+      <form id="anvil-form" onsubmit="return submitForm(event)">
+        <input type="text" name="name" placeholder="Full name" required style="width:100%;padding:10px 14px;margin-bottom:10px;border:1px solid var(--border);border-radius:4px;font:400 14px 'Inter',sans-serif;background:var(--bg);color:var(--text);">
+        <input type="email" name="email" placeholder="Email" required style="width:100%;padding:10px 14px;margin-bottom:10px;border:1px solid var(--border);border-radius:4px;font:400 14px 'Inter',sans-serif;background:var(--bg);color:var(--text);">
+        <select name="role" required style="width:100%;padding:10px 14px;margin-bottom:10px;border:1px solid var(--border);border-radius:4px;font:400 14px 'Inter',sans-serif;background:var(--bg);color:var(--text);">
+          <option value="" disabled selected>What describes you best?</option>
+          <option value="strategy-professional">Strategy professional</option>
+          <option value="founder-ceo">Founder / CEO</option>
+          <option value="vc-investor">VC / Investor</option>
+          <option value="consultant">Consultant</option>
+          <option value="product-leader">Product leader</option>
+          <option value="engineer">Engineer / Developer</option>
+          <option value="other">Other</option>
+        </select>
+        <input type="text" name="company" placeholder="Company (optional)" style="width:100%;padding:10px 14px;margin-bottom:16px;border:1px solid var(--border);border-radius:4px;font:400 14px 'Inter',sans-serif;background:var(--bg);color:var(--text);">
+        <button type="submit" class="btn btn-primary" style="width:100%;border:none;cursor:pointer;font-size:15px;">Get Install Instructions</button>
+      </form>
+      <div id="form-success" style="display:none;text-align:center;padding:20px 0;">
+        <p style="font-size:1.1rem;font-weight:700;color:var(--green);margin-bottom:12px;">You're in.</p>
+        <div class="install-block" style="text-align:left;margin:16px 0;">
+<pre style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#F5A623;line-height:1.7;"><span style="color:#666;"># Install</span>
 pip install git+https://github.com/parthreddyprojects/anvil.git
 
-<span class="comment"># Set up Claude Code integration</span>
+<span style="color:#666;"># Set up Claude Code integration</span>
 anvil init
 
-<span class="comment"># Run inside Claude Code</span>
-/anvil
-
-<span class="comment"># Or run directly</span>
-anvil run --topic "What should OpenAI do as foundation models commoditize?" --audience "CEO, Board"</pre>
+<span style="color:#666;"># Run inside Claude Code</span>
+/anvil</pre>
+        </div>
+        <a class="btn btn-primary" href="https://github.com/parthreddyprojects/anvil" target="_blank" style="display:inline-block;margin-top:8px;text-decoration:none;">Go to GitHub →</a>
+        <p style="font-size:0.8rem;color:var(--dim);margin-top:12px;">Requires: Python 3.10+, <a href="https://console.anthropic.com" style="color:var(--amber);">Anthropic API key</a>, <a href="https://claude.com/claude-code" style="color:var(--amber);">Claude Code</a></p>
+      </div>
     </div>
-    <p style="font-size:0.88rem;color:var(--text-sec);margin-top:12px;">Requires: Python 3.10+, an <a href="https://console.anthropic.com" style="color:var(--amber);">Anthropic API key</a>, and <a href="https://claude.com/claude-code" style="color:var(--amber);">Claude Code</a> for guided mode.</p>
   </div>
+
+  <script>
+  function submitForm(e) {
+    e.preventDefault();
+    var form = document.getElementById('anvil-form');
+    var data = {
+      name: form.name.value,
+      email: form.email.value,
+      role: form.role.value,
+      company: form.company.value,
+      timestamp: new Date().toISOString()
+    };
+    // Store locally + send to email via formsubmit.co
+    localStorage.setItem('anvil_user_' + Date.now(), JSON.stringify(data));
+
+    // Send via formsubmit.co (free, no signup needed — emails to parth.reddy@live.com)
+    fetch('https://formsubmit.co/ajax/parth.reddy@live.com', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        company: data.company,
+        _subject: 'Anvil Access Request: ' + data.name
+      })
+    }).catch(function(){});
+
+    // Show success
+    form.style.display = 'none';
+    document.querySelector('#access-form p:first-child').style.display = 'none';
+    document.querySelector('#access-form p:nth-child(2)').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+    return false;
+  }
+  </script>
 
   <!-- Screenshot -->
   <div class="screenshot">
