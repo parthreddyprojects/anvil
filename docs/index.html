@@ -120,7 +120,7 @@
     <h1>Strategic Problem-Solving Engine</h1>
     <p class="tagline">If you're a strategy professional who has felt the gap between what AI promises and what it actually delivers for real strategy work — this is an attempt to close it.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="#get-access" onclick="document.getElementById('access-form').style.display='block';return false;">Get Access</a>
+      <a class="btn btn-primary" href="#get-access" onclick="document.getElementById('get-access').scrollIntoView({behavior:'smooth'});return false;">Install Anvil</a>
       <a class="btn btn-secondary" href="https://parthreddy.substack.com/p/i-built-a-tool-that-runs-the-method">Read the Substack</a>
     </div>
   </div>
@@ -203,18 +203,19 @@
       </form>
       <div id="form-success" style="display:none;text-align:center;padding:20px 0;">
         <p style="font-size:1.1rem;font-weight:700;color:var(--green);margin-bottom:12px;">You're in.</p>
+        <p style="font-size:0.9rem;color:var(--text-sec);margin-bottom:16px;">Run these 3 commands:</p>
         <div class="install-block" style="text-align:left;margin:16px 0;">
-<pre style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#F5A623;line-height:1.7;"><span style="color:#666;"># Install</span>
+<pre style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#F5A623;line-height:1.7;"><span style="color:#666;"># 1. Install (one command)</span>
 pip install git+https://github.com/parthreddyprojects/anvil.git
 
-<span style="color:#666;"># Set up Claude Code integration</span>
+<span style="color:#666;"># 2. Set up — creates /anvil command, prompts for API key</span>
 anvil init
 
-<span style="color:#666;"># Run inside Claude Code</span>
+<span style="color:#666;"># 3. Open Claude Code and type</span>
 /anvil</pre>
         </div>
-        <a class="btn btn-primary" href="https://github.com/parthreddyprojects/anvil" target="_blank" style="display:inline-block;margin-top:8px;text-decoration:none;">Go to GitHub →</a>
-        <p style="font-size:0.8rem;color:var(--dim);margin-top:12px;">Requires: Python 3.10+, <a href="https://console.anthropic.com" style="color:var(--amber);">Anthropic API key</a>, <a href="https://claude.com/claude-code" style="color:var(--amber);">Claude Code</a></p>
+        <p style="font-size:0.8rem;color:var(--dim);margin-top:12px;">Requires: Python 3.10+ · <a href="https://console.anthropic.com" style="color:var(--amber);">Anthropic API key</a> · <a href="https://claude.com/claude-code" style="color:var(--amber);">Claude Code</a></p>
+        <p style="font-size:0.8rem;color:var(--dim);margin-top:8px;"><a href="https://github.com/parthreddyprojects/anvil" style="color:var(--dim);text-decoration:underline;" target="_blank">View source on GitHub</a></p>
       </div>
     </div>
   </div>
