@@ -9,18 +9,19 @@
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600;700&family=Inter:wght@400;600;700;800;900&display=swap');
 
   :root {
-    --amber: #F5A623;
+    --amber: #C97800;
     --amber-dim: #9B6A14;
-    --amber-bright: #FFD080;
-    --bg: #0C0C0C;
-    --bg2: #111111;
-    --border: #1F1F1F;
-    --text: #E0E0E0;
-    --text-sec: #AAAAAA;
-    --dim: #555;
-    --green: #22C55E;
-    --red: #EF4444;
-    --cyan: #06B6D4;
+    --amber-bright: #B06D00;
+    --bg: #FAFAFA;
+    --bg2: #FFFFFF;
+    --border: #E5E7EB;
+    --text: #1a1a1a;
+    --text-sec: #555;
+    --dim: #999;
+    --green: #16A34A;
+    --red: #DC2626;
+    --cyan: #0891B2;
+    --code-bg: #0C0C0C;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -30,28 +31,29 @@
 
   /* Hero */
   .hero { text-align:center; padding:80px 0 60px; position:relative; }
-  .hero::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:600px; height:600px; background:radial-gradient(circle,rgba(245,166,35,0.06) 0%,transparent 70%); pointer-events:none; }
+  .hero::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:600px; height:600px; background:radial-gradient(circle,rgba(201,120,0,0.04) 0%,transparent 70%); pointer-events:none; }
 
   .ascii-logo {
     font-family:'IBM Plex Mono',monospace; font-size:14px; line-height:1.35;
-    white-space:pre; color:var(--amber); text-shadow:0 0 15px rgba(245,166,35,0.35);
+    white-space:pre; color:#F5A623; text-shadow:0 0 12px rgba(245,166,35,0.3);
     margin-bottom:32px; display:inline-block;
+    background:var(--code-bg); padding:20px 28px; border-radius:8px;
   }
 
-  .hero h1 { font-size:2.8rem; font-weight:900; letter-spacing:-1px; margin-bottom:16px; color:#fff; }
+  .hero h1 { font-size:2.8rem; font-weight:900; letter-spacing:-1px; margin-bottom:16px; color:var(--text); }
   .hero .tagline { font-size:1.15rem; color:var(--text-sec); max-width:600px; margin:0 auto 32px; line-height:1.7; }
 
   .cta-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:20px; }
   .btn { padding:14px 32px; border-radius:6px; font:700 15px 'Inter'; text-decoration:none; transition:all 0.2s; }
-  .btn-primary { background:var(--amber); color:var(--bg); }
-  .btn-primary:hover { background:var(--amber-bright); transform:translateY(-2px); box-shadow:0 8px 24px rgba(245,166,35,0.3); }
-  .btn-secondary { border:1px solid var(--border); color:var(--text-sec); background:transparent; }
+  .btn-primary { background:var(--amber); color:#fff; }
+  .btn-primary:hover { background:var(--amber-bright); transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,120,0,0.2); }
+  .btn-secondary { border:1px solid var(--border); color:var(--text-sec); background:var(--bg2); }
   .btn-secondary:hover { border-color:var(--amber); color:var(--amber); }
 
   /* Stats */
   .stats { display:flex; justify-content:center; gap:32px; padding:28px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin:0 0 60px; flex-wrap:wrap; }
   .stat { text-align:center; }
-  .stat-val { font-size:1.6rem; font-weight:800; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .stat-val { font-size:1.6rem; font-weight:800; color:var(--text); font-variant-numeric:tabular-nums; }
   .stat-label { font-size:0.7rem; color:var(--dim); text-transform:uppercase; letter-spacing:0.1em; }
 
   /* Sections */
@@ -65,21 +67,21 @@
 
   /* Cards */
   .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
-  .card { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--amber); padding:20px 22px; transition:border-color 0.2s; }
-  .card:hover { border-color:rgba(245,166,35,0.3); }
+  .card { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--amber); padding:20px 22px; transition:all 0.2s; }
+  .card:hover { border-color:var(--amber); box-shadow:0 2px 8px rgba(0,0,0,0.06); }
   .card-num { font-family:'IBM Plex Mono'; font-size:0.7rem; color:var(--amber-dim); letter-spacing:2px; margin-bottom:6px; }
-  .card-title { font-size:1rem; font-weight:700; color:var(--amber-bright); margin-bottom:4px; }
+  .card-title { font-size:1rem; font-weight:700; color:var(--amber); margin-bottom:4px; }
   .card-desc { font-size:0.85rem; color:var(--text-sec); line-height:1.5; }
   .card-you { font-size:0.8rem; color:var(--cyan); margin-top:6px; }
 
   /* Install */
-  .install-block { background:#0A0A0A; border:1px solid var(--border); border-radius:6px; padding:28px 32px; margin:24px 0; }
-  .install-block pre { font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--amber); line-height:1.7; }
-  .install-block .comment { color:var(--dim); }
+  .install-block { background:var(--code-bg); border:1px solid var(--border); border-radius:6px; padding:28px 32px; margin:24px 0; }
+  .install-block pre { font-family:'IBM Plex Mono',monospace; font-size:14px; color:#F5A623; line-height:1.7; }
+  .install-block .comment { color:#666; }
 
   /* Two modes */
   .modes { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:24px 0; }
-  .mode { background:var(--bg2); border:1px solid var(--border); padding:24px; }
+  .mode { background:var(--bg2); border:1px solid var(--border); padding:24px; border-radius:6px; }
   .mode h3 { font-size:1rem; margin-bottom:8px; }
   .mode h3.guided { color:var(--cyan); }
   .mode h3.auto { color:var(--amber); }
@@ -88,10 +90,10 @@
   /* Screenshots */
   .screenshot { margin:32px 0; border:1px solid var(--border); border-radius:6px; overflow:hidden; }
   .screenshot img { width:100%; display:block; }
-  .screenshot-caption { font-size:0.75rem; color:var(--dim); padding:10px 16px; background:var(--bg2); text-align:center; }
+  .screenshot-caption { font-size:0.75rem; color:var(--dim); padding:10px 16px; background:#f5f5f5; text-align:center; border-top:1px solid var(--border); }
 
   /* Quote */
-  .quote { border-left:3px solid var(--amber); padding:20px 24px; margin:32px 0; background:rgba(245,166,35,0.03); }
+  .quote { border-left:3px solid var(--amber); padding:20px 24px; margin:32px 0; background:rgba(201,120,0,0.04); border-radius:0 6px 6px 0; }
   .quote p { font-size:0.95rem; color:var(--text-sec); font-style:italic; line-height:1.7; }
 
   /* Footer */
@@ -169,11 +171,6 @@
     </div>
   </div>
 
-  <!-- Screenshot -->
-  <div class="screenshot">
-    <img src="screenshots/social_pipeline.png" alt="Pipeline complete">
-    <div class="screenshot-caption">A completed run — "The Hormuz Endgame"</div>
-  </div>
 
   <!-- What makes it different -->
   <div class="section">
@@ -181,11 +178,6 @@
     <div class="quote"><p>A chatbot gives you one pass. Anvil gives you eight, each building on the last. A chatbot never tries to disprove itself. Anvil has a hypothesis graveyard. A chatbot doesn't tell you what it doesn't know. Anvil lists every data gap, names who can fill it, and says by when.</p></div>
   </div>
 
-  <!-- Screenshot -->
-  <div class="screenshot">
-    <img src="screenshots/social_graveyard.png" alt="Hypothesis graveyard">
-    <div class="screenshot-caption">The hypothesis graveyard — what Anvil considered and why it didn't hold</div>
-  </div>
 
   <!-- Install -->
   <div class="section">
