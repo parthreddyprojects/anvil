@@ -479,15 +479,37 @@ See CLAUDE.md in the project directory for full orchestration instructions.
         else:
             _narrate("CLAUDE.md not found — create one for full guided mode", "warn")
 
-    # 5. Check for API key
+    # 5. Check for API key — prompt if missing
     env_file = cwd / ".env"
+    has_key = False
     if env_file.exists() and "ANTHROPIC_API_KEY" in env_file.read_text(encoding="utf-8"):
         _narrate("API key found in .env", "done")
+        has_key = True
     elif os.environ.get("ANTHROPIC_API_KEY"):
         _narrate("API key found in environment", "done")
-    else:
-        _narrate("No API key found. Set ANTHROPIC_API_KEY in .env or environment", "warn")
-        print(f"\n  {A}  echo ANTHROPIC_API_KEY=sk-ant-... > {env_file}{R}\n")
+        has_key = True
+
+    if not has_key:
+        print(f"\n  {A}Anvil needs an Anthropic API key to run.{R}")
+        print(f"  {AD}Get one at: https://console.anthropic.com/settings/keys{R}\n")
+        try:
+            key = input(f"  {A}Paste your API key (sk-ant-...): {R}").strip()
+            if key and key.startswith("sk-ant-"):
+                # Write to .env
+                if env_file.exists():
+                    existing = env_file.read_text(encoding="utf-8")
+                    if "ANTHROPIC_API_KEY" not in existing:
+                        env_file.write_text(existing.rstrip() + f"\nANTHROPIC_API_KEY={key}\n", encoding="utf-8")
+                else:
+                    env_file.write_text(f"ANTHROPIC_API_KEY={key}\n", encoding="utf-8")
+                _narrate("API key saved to .env", "done")
+            elif key:
+                _narrate("Key doesn't look right (should start with sk-ant-). You can set it later in .env", "warn")
+            else:
+                _narrate("Skipped. Set ANTHROPIC_API_KEY in .env before running.", "warn")
+        except (EOFError, KeyboardInterrupt):
+            print()
+            _narrate("Skipped. Set ANTHROPIC_API_KEY in .env before running.", "warn")
 
     # 6. Create outputs directory
     (cwd / "outputs" / "runs").mkdir(parents=True, exist_ok=True)
