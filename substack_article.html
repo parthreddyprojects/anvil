@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anvil — Strategic Problem Engine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Charter:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700;800&display=swap');
+  :root { --bg:#fff; --text:#1a1a1a; --text-sec:#555; --text-muted:#888; --accent:#F5A623; --border:#e5e7eb; --code-bg:#0C0C0C; --quote-bg:#faf9f7; --link:#c97800; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Charter',Georgia,serif; background:var(--bg); color:var(--text); line-height:1.85; font-size:18px; -webkit-font-smoothing:antialiased; }
+  .container { max-width:680px; margin:0 auto; padding:60px 24px 100px; }
+  .logo-block { background:var(--code-bg); border-radius:8px; padding:28px 32px 24px; margin-bottom:48px; overflow-x:auto; }
+  .logo-block pre { font-family:'IBM Plex Mono',monospace; font-size:13px; line-height:1.35; color:var(--accent); text-shadow:0 0 10px rgba(245,166,35,0.3); margin:0; }
+  h1 { font-family:'Inter',sans-serif; font-size:34px; font-weight:800; line-height:1.2; letter-spacing:-0.5px; margin-bottom:16px; }
+  .subtitle { font-size:19px; color:var(--text-sec); margin-bottom:40px; line-height:1.6; }
+  p { margin:0 0 20px; }
+  p strong { color:var(--text); }
+  h2 { font-family:'Inter',sans-serif; font-size:24px; font-weight:800; margin:56px 0 20px; letter-spacing:-0.3px; }
+  h3 { font-family:'Inter',sans-serif; font-size:18px; font-weight:700; margin:36px 0 12px; }
+  hr { border:none; border-top:1px solid var(--border); margin:44px 0; }
+  blockquote { background:var(--quote-bg); border-left:3px solid var(--accent); padding:20px 24px; margin:24px 0; font-style:italic; color:var(--text-sec); border-radius:0 4px 4px 0; }
+  blockquote p { margin:0 0 8px; } blockquote p:last-child { margin:0; }
+  pre { background:var(--code-bg); color:#e0e0e0; padding:20px 24px; border-radius:6px; font-family:'IBM Plex Mono',monospace; font-size:14px; line-height:1.5; overflow-x:auto; margin:24px 0; }
+  code { font-family:'IBM Plex Mono',monospace; font-size:0.88em; background:#f3f4f6; padding:2px 6px; border-radius:3px; color:#c97800; }
+  pre code { background:none; padding:0; color:inherit; }
+  ul,ol { margin:16px 0 20px; padding-left:28px; } li { margin-bottom:8px; }
+  .img-block { margin:32px 0; border-radius:8px; overflow:hidden; border:1px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+  .img-block img { width:100%; display:block; }
+  .img-caption { font-family:'Inter',sans-serif; font-size:13px; color:var(--text-muted); text-align:center; padding:10px 16px; background:#fafafa; border-top:1px solid var(--border); }
+  .byline { font-family:'Inter',sans-serif; font-size:14px; color:var(--text-muted); margin-top:48px; padding-top:24px; border-top:1px solid var(--border); }
+  .byline a { color:var(--link); text-decoration:none; }
+  @media(max-width:640px) { h1{font-size:26px;} body{font-size:17px;} .container{padding:40px 18px 80px;} }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo-block"><pre>╔══════════════════════════════════════╗
+<p>║  ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄   ║</p>
+<p>║  █   A N V I L                █   ║</p>
+<p>║  ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀   ║</p>
+<p>║       ╲▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄╱            ║</p>
+<p>║        ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀             ║</p>
+<p>║  strategic problem engine           ║</p>
+<p>╚══════════════════════════════════════╝</pre></div></p>
+
+<h1>I Built a Tool That Runs the Method a Strategy Team Uses — in 20 Minutes</h1>
+
+<strong>It decomposes your problem. Researches every angle. Stress-tests hypotheses. Writes the brief. And you steer it at every step.</strong>
+
+<hr>
+
+<p>You know the moment.</p>
+
+<p>You're in the car to the airport. Someone senior wants a view on something by tomorrow. You have a thesis in your head, but no one to throw it against. No analyst to run the numbers. No associate to check if your framing even holds up.</p>
+
+<p>So you open ChatGPT. You type your question. You get back a five-paragraph essay that sounds confident and says nothing. No structure. No sources. No opposing view. No sense of what would flip the answer.</p>
+
+<p>Just vibes dressed up as analysis.</p>
+
+<p>That moment is why I built Anvil.</p>
+
+<hr>
+
+<h2>What Anvil Is</h2>
+
+<p>Anvil is a strategic problem-solving engine with Claude as your co-problem-solver. You give it a hard question — the kind that lands on a VP's desk or a CEO's agenda — and Claude walks you through the full problem-solving method. Not a summary. Not a chat. The actual method, step by step, with you in the driver's seat.</p>
+
+<p>There are two modes:</p>
+
+<strong>Guided</strong> — Claude pauses at every step. It shows you what the research found, what patterns it sees, what hypotheses survived. You push back, inject your own data, challenge the framing, redirect the analysis. Claude holds the full context — all 10 buckets, all 50 findings, all 8 patterns — while you bring the judgment. You're co-solving the problem together.
+
+<strong>Autopilot</strong> — Claude runs end-to-end and narrates as it goes. You come back to a finished brief. Good for speed. But the guided mode is where the real work happens.
+
+<p>Under the hood: ~45 LLM calls across two models (Claude Sonnet for reasoning, Haiku for fast operations), 120+ web search queries via DuckDuckGo, 50+ full articles fetched and read, 6 parallel research workers, an 8-step pipeline with structured quality gates at every stage. Total API cost: $2-4 per run. About 20 minutes.</p>
+
+<div class="img-block"><img src="screenshots/report.png" alt="screenshot of the final brief — "The Hormuz Endgame""><div class="img-caption">The final strategic brief — every claim sourced, every assumption surfaced.</div></div>
+
+<hr>
+
+<h2>The Problem With Every Tool You've Tried</h2>
+
+<strong>ChatGPT / Deep Research.</strong> You type a question. You get a long essay. It reads well. But there's no decomposition — it didn't map the problem space before jumping to conclusions. No hypothesis testing — it never tried to kill its own arguments. And there's no way to steer it mid-analysis. You get one pass. Take it or leave it.
+
+<strong>Claude in a chat window.</strong> Better reasoning. But the context window is a cage. You can't hold a 10-bucket MECE decomposition, 30 research briefs, a synthesis layer, a hypothesis tree, and a final document in one conversation. And there's no persistent state — close the tab, lose the work.
+
+<strong>Perplexity / search-first tools.</strong> Good for "what happened" questions. Useless for "what should we do" questions. Strategy isn't a search problem. It's a decomposition problem, then a research problem, then a synthesis problem, then a judgment problem. These tools do step two and skip the rest.
+
+<strong>A strategy team.</strong> Does all of this. Takes two weeks. And you can't run it at 11pm on a Sunday when the insight hits you.
+
+<p>Anvil is not the team. It doesn't have client context, institutional history, or the judgment that comes from having been wrong before. What it does is compress the structured thinking work — decomposition, research, synthesis, hypothesis testing — so the judgment work can start faster. And in guided mode, your judgment is in the loop at every step.</p>
+
+<hr>
+
+<h2>How It Actually Works</h2>
+
+<p>The pipeline has eight steps. Each one has a specific job, a specific output, and a specific quality gate. In guided mode, Claude pauses after each step — shows you what it found, explains what surprised it, and asks what you want to change before continuing.</p>
+
+<div class="img-block"><img src="screenshots/claude_anvil_launch.jpg" alt="screenshot of Anvil running inside Claude Code"><div class="img-caption">Anvil running inside Claude Code. Type /anvil and the pipeline begins.</div></div>
+
+<h3>Step 0: Problem Statement</h3>
+
+<p>This is the most important step. Anvil doesn't just accept whatever you type. Claude acts like a senior advisor in the first meeting.</p>
+
+<p>You say "How should we respond to the Hormuz closure?" Claude pushes back: that's one-sided framing. "Respond" presumes defense. Should this be open to finding an opportunity? What's the timeframe? Who acts on this? What number would flip the recommendation?</p>
+
+<strong>In guided mode:</strong> This is a real conversation. You go back and forth with Claude until the problem statement is sharp. You might start with a vague question and iterate three times before the PS is locked. Claude won't move on until you confirm.
+
+<p>The output is a SMART problem statement with a decision sensitivity break point — the specific condition under which the opposite answer becomes correct.</p>
+
+<p>Here's an actual one Anvil produced:</p>
+
+<blockquote>
+<p>"What actions must the United States take in the next 60 days to optimize its strategic position as the Strait of Hormuz closure reshapes global energy flows, alliance structures, and the Iran deterrence calculus?"</p>
+</blockquote>
+
+<blockquote>
+<p>Decision sensitivity: The recommendation reverses if (a) closure resolves within 15-20 days, (b) oil prices stabilize below $100/bbl without intervention, or (c) allied coalition fractures — suggesting unilateral action carries more cost than the crisis itself.</p>
+</blockquote>
+
+<p>Notice: "optimize," not "respond." The framing is neutral. The break point is quantified.</p>
+
+<h3>Step 1: MECE Decomposition</h3>
+
+<p>Anvil breaks the problem into 4-10 mutually exclusive, collectively exhaustive buckets. Each bucket gets 5-8 sub-questions. An adversarial audit checks for missing dimensions, and a separate overlap check flags any bucket pairs with conceptual overlap.</p>
+
+<strong>In guided mode:</strong> Claude shows you the buckets and asks: "Anything missing? Any overlap? Should I add a bucket about X?" You might say "You're missing the domestic politics angle" or "Merge buckets 3 and 7, they're covering the same ground." Claude adjusts and re-runs.
+
+<p>For the Hormuz case, this produced 10 buckets with 76 sub-questions. Every sub-question is investigative, not prescriptive.</p>
+
+<div class="img-block"><img src="screenshots/tree.png" alt="screenshot of the MECE issue tree"><div class="img-caption">The MECE issue tree — 10 buckets, 76 sub-questions.</div></div>
+
+<h3>Step 2: Research</h3>
+
+<p>This is where it gets real. Anvil runs live web research — not "LLM knowledge."</p>
+
+<p>Per bucket: 10-15 targeted search queries, DuckDuckGo news + web results, full article fetch from non-paywalled sources (6 parallel workers). For a 10-bucket problem, that's 120+ search queries, 135+ snippets, and 50+ full articles actually read and synthesized.</p>
+
+<strong>In guided mode:</strong> Before research begins, Claude shows you the research requirements and asks how you want to proceed:
+<ul>
+<li><strong>Public only</strong> — proceed with web sources</li>
+<li><strong>Upload files</strong> — inject your own data: internal reports, financials, competitive intelligence. These get marked as HIGH confidence evidence</li>
+<li><strong>Selective</strong> — provide specific data for some items, let Anvil research the rest</li>
+</ul>
+
+<p>This is where Anvil becomes more than a research tool. You bring what you know. Anvil researches what you don't. The synthesis combines both.</p>
+
+<p>Every number gets a chain of custody. Source data is tagged <code>(per source, date)</code>. The model's own reasoning is tagged <code>[LLM reasoning]</code>. No pretending.</p>
+
+<h3>Step 3: Working Document + Research Debrief</h3>
+
+<p>Research findings get compiled into a per-bucket narrative. Bottom line up front for every question. A 2-5 page research debrief summarizes what was found, what's uncertain, and what remains thin.</p>
+
+<strong>In guided mode:</strong> Claude presents the debrief and asks for your reaction. "The research on bucket 3 is thin — we couldn't find good public data on actual inventory levels. Do you have internal numbers you can share?" You type your answer, and it gets incorporated as high-confidence evidence.
+
+<h3>Step 4: Synthesis</h3>
+
+<p>This is where the engine earns its keep. It reads across all buckets and pulls out:</p>
+
+<ul>
+<li><strong>Convergence</strong>: Multiple independent findings point the same direction</li>
+<li><strong>Tension</strong>: Two findings from different buckets contradict each other</li>
+<li><strong>Surprise</strong>: Something breaks the expected pattern</li>
+<li><strong>Binding constraint</strong>: One finding that dominates everything else</li>
+<li><strong>Cascade</strong>: Finding A triggers consequence B in a different bucket</li>
+</ul>
+
+<strong>In guided mode:</strong> Claude walks you through the patterns and asks: "Do you see connections I'm missing?" This is where your domain expertise matters most. You might say "The pricing constraint in bucket 6 and the margin opportunity in bucket 3 are connected — that's the real insight." Claude re-runs synthesis with your input and the pattern shows up as a named finding.
+
+<p>This is exactly what a chat window can't do. The context isn't big enough to hold 10 buckets, 50 findings, and 8 patterns simultaneously. Anvil can because it holds state in persistent files. And in guided mode, you're the tenth analyst reading across the buckets.</p>
+
+<h3>Step 5: Hypotheses</h3>
+
+<p>Anvil generates 5-8 testable hypotheses that directly answer the problem statement. Then it tries to kill each one.</p>
+
+<p>Six-point stress test per hypothesis: evidence-claim mismatch, break point plausibility, internal consistency, confidence calibration, steel-man counterargument, and diagnosticity.</p>
+
+<p>The survivors become the backbone of the final brief. The dead go to the Hypothesis Graveyard.</p>
+
+<strong>In guided mode:</strong> Claude shows you the hypothesis table — confirmed, uncertain, killed — and asks: "Do you have evidence that would change any of these?" You might say "H3 is wrong — I know from internal data that the actual number is X, not Y." Claude re-runs the stress test with your input. Or you add your own hypothesis: "Test this: what if the real risk isn't supply, it's insurance?"
+
+<p>The governing hypothesis gets generated from survivors only. Not before. The answer emerges from tested evidence, not from a first guess that never got challenged.</p>
+
+<div class="img-block"><img src="screenshots/claude_hypotheses.jpg" alt="screenshot of hypothesis stress test results"><div class="img-caption">8 hypotheses tested. Each stress-tested against 6 failure modes.</div></div>
+
+<p>From the OpenAI commoditization run — a killed hypothesis:</p>
+
+<blockquote>
+<p>Rejected: Proprietary AI platforms constitute a durable competitive moat. AI efficiency gains transfer to clients within 1-2 contract cycles. Companies actively marketing AI-driven speed as a benefit are the precise mechanism that accelerates this transfer.</p>
+</blockquote>
+
+<p>That sounds plausible. A chatbot would present it as an option. Anvil killed it with specifics.</p>
+
+<h3>Step 6: Final Document</h3>
+
+<p>A 3-5 page strategic brief. Fixed structure: title as conclusion headline, context, numbered beliefs, decisions required with owners and deadlines, hypotheses tested and rejected, data gaps with providers and deadlines.</p>
+
+<strong>In guided mode:</strong> Claude shows you the draft and asks for feedback. "The section on competitive response is too generic — sharpen it with the specific numbers from bucket 4." Claude rewrites and the feedback actually changes the output.
+
+<p>Every claim carries its source citation through. Unsourced numbers get marked <code>(unverified)</code>.</p>
+
+<h3>Step 7: Appendix</h3>
+
+<p>Proof charts. Every claim with a hard number maps to exactly one chart. Chart type chosen by data relationship — ranking gets a bar chart, change over time gets a line, part-to-whole gets a donut.</p>
+
+<p>Each chart makes one point obvious in 3 seconds. If you have to explain the chart, the chart failed.</p>
+
+<div class="img-block"><img src="screenshots/appendix.png" alt="screenshot of an appendix proof chart"><div class="img-caption">Appendix: one claim, one chart, one conclusion.</div></div>
+
+<hr>
+
+<h2>What the Output Actually Looks Like</h2>
+
+<p>Here are excerpts from two real runs. Unedited.</p>
+
+<h3>Run 1: Hormuz Crisis</h3>
+
+<strong>Title</strong>: "The Hormuz Endgame"
+
+<strong>Opening thesis</strong>: <em>The United States must deliver a complete settlement framework through Pakistan by April 8, 2026 or surrender its negotiating position to Beijing — and no framework is enforceable until Washington determines whether a wounded, constitutionally contested Supreme Leader can visibly endorse it.</em>
+
+<strong>One of the beliefs</strong>: <em>IEA strategic reserves cover only 25% of the actual supply gap — the buffer is designed for disruptions of 3 million bpd, not the 13 million bpd that transits Hormuz.</em>
+
+<strong>A killed hypothesis</strong>: <em>Rejected: Allied coalition will hold beyond 30 days. Historical precedent from 2003 and 2011 shows allied patience erodes within 2-4 weeks when domestic energy costs spike.</em>
+
+<strong>A data gap</strong>: <em>Actual IRGC command-and-control status post-strikes. Provider: CENTCOM intelligence assessment. Required by: before any ceasefire framework is tabled. Without this, every assumption about Iran's capacity to enforce a deal carries low confidence.</em>
+
+<p>That last line is important. The document tells you what it doesn't know. It tells you who can fill the gap and by when. It doesn't pretend certainty it doesn't have.</p>
+
+<h3>Run 2: OpenAI Commoditization</h3>
+
+<strong>Title</strong>: "OpenAI's Margin Trap"
+
+<strong>Opening thesis</strong>: <em>OpenAI must execute a forced-march pivot from consumer subscriptions to high-ACV enterprise workflows in the next 12-18 months — specifically by converting its 2 billion daily prompts into proprietary fine-tuned artifacts before the inference margin compresses to zero.</em>
+
+<strong>The core insight</strong>: <em>The company's 40-60% gross margins on inference are structurally temporary. Open-weight models are closing the capability gap on a 6-month cycle. The moat isn't the model — it's the workflow data generated by 100M+ weekly users, which no competitor can replicate.</em>
+
+<div class="img-block"><img src="screenshots/claude_anvil_launch.jpg" alt="screenshot of pipeline complete inside Claude Code"><div class="img-caption">Anvil running inside Claude Code. Type /anvil and the pipeline begins.</div></div>
+
+<hr>
+
+<h2>The Situations This Is Built For</h2>
+
+<strong>You're preparing for a board meeting.</strong> You have a thesis but need it pressure-tested. Run Anvil in guided mode — it decomposes the question, researches every angle, and you inject your internal data at step 2. By the time you're at hypotheses, you're debating the analysis with Claude, not waiting for a deck.
+
+<strong>You're a founder wrestling with a hard call.</strong> Should you raise at this valuation? Should you enter this market? Run Anvil, inject your financials and competitive data, and get a structured brief with numbered decisions and explicit break points. The hypothesis graveyard tells you what you considered and why it didn't hold.
+
+<strong>You're managing a crisis.</strong> Things are moving fast. You need structured options, not a brainstorming session. Anvil gives you a decision tree with deadlines, dependencies, and consequences of inaction. In guided mode, you can redirect the analysis as new information comes in.
+
+<strong>You wake up at 2am with a thesis.</strong> You think a crisis creates an opportunity, not a threat. Run Anvil in autopilot. It decomposes your thesis, researches it, stress-tests it, and either confirms with evidence or kills it with specifics. Either way, you walk into the morning meeting knowing.
+
+<strong>You're running a strategy project over weeks.</strong> Start in guided mode. Run step 0 and step 1 on day one — lock the PS and MECE. Gather proprietary data over the week. Come back, inject files, run steps 2-5. Review the hypotheses with your team. Revise. Run the final document. Anvil holds the full state — you can pause, resume, inject, revise, and re-run any step without losing progress.
+
+<hr>
+
+<h2>Where It Breaks</h2>
+
+<p>Every tool has failure modes. Pretending otherwise is a credibility problem.</p>
+
+<strong>When research is thin.</strong> Some topics don't have good public sources. The pipeline tracks search failure rates and flags when queries return empty, but the output quality is directly tied to what's publicly available. This is where guided mode helps — you inject what the web can't provide.
+
+<strong>When the problem is genuinely novel.</strong> If nobody has written about it, the web research returns nothing useful and the pipeline falls back on LLM reasoning — marked <code>[LLM reasoning]</code> but still the model guessing.
+
+<strong>When the MECE framing is wrong.</strong> Garbage in, garbage out. The challenge at step 0 catches most framing errors, but if you confirm a bad problem statement, every downstream step amplifies the error.
+
+<strong>Source quality.</strong> A blog post and a government statistical release get equal weight in the LLM's synthesis. There's no automated source credibility scoring. Yet.
+
+<hr>
+
+<h2>What I Actually Learned Building This</h2>
+
+<strong>The problem statement is 80% of the work.</strong> If the PS is wrong, every downstream step amplifies the error. The senior advisor flow — where Claude pushes back on your framing — was the single most valuable feature. Most people's first problem statement is one-sided, too specific, or missing a timeframe. The tool's job is to catch this before committing 20 minutes to the wrong question.
+
+<strong>LLMs don't try to disprove themselves — and neither do most analysts.</strong> This was the biggest surprise. Left to their own devices, they find supporting evidence for whatever they already said. The hypothesis graveyard — where Anvil actively tries to kill its own claims — is what separates this from a chatbot. A killed hypothesis with a specific kill reason often teaches you more about the problem than a confirmed one.
+
+<strong>The human in the loop changes everything.</strong> The autopilot output is good. The guided mode output is significantly better — because you bring context the web can't provide. "I know the actual number is X" or "You're missing the regulatory angle" or "Merge those two patterns, they're the same thing." Every injection of human judgment sharpens the analysis. Claude holds the structure. You bring the insight.
+
+<strong>Source quality matters more than source quantity.</strong> The temptation is to throw more data at the problem. But the bottleneck is synthesis, not search. Fewer facts with clear provenance produce sharper findings than a hundred unsourced assertions. The <code>[LLM reasoning]</code> tag forces the reader to distinguish between "someone reported this" and "I inferred this."
+
+<strong>The synthesis step is where the insight lives.</strong> No individual bucket produces the answer. The answer lives in the connections between buckets. A chat window can't hold all of this at once. A pipeline can. This is the structural advantage: persistent state across the full problem decomposition.
+
+<strong>The tool doesn't make you smarter.</strong> It removes the parts of the process that don't require you — the decomposition, the search, the compilation, the pattern detection — so the time you do spend is actually on the problem, not on organizing your own thinking. That's what 20 minutes buys you. Not an answer. A structured starting point for judgment.
+
+<hr>
+
+<h2>What's Next</h2>
+
+<p>Anvil is open source. You can try it.</p>
+
+<p>It runs inside Claude Code. You type <code>/anvil</code>, describe your problem, and Claude becomes your co-problem-solver — challenges your framing, runs the pipeline, pauses at every step for your input, holds the full context while you bring the judgment.</p>
+
+<pre><code>pip install anvil-engine
+<p>anvil init</code></pre></p>
+
+<p>Then in Claude Code: <code>/anvil</code></p>
+
+<p>If you're a strategy professional who has felt the gap between what AI promises and what it actually delivers for real analytical work — this is an attempt to close it.</p>
+
+<p>Not with a better chatbot. With a better method. And a co-pilot that actually listens.</p>
+
+<div class="img-block"><img src="screenshots/dashboard.png" alt="screenshot of the live dashboard"><div class="img-caption">Live dashboard — tracks every step, every KPI, every dollar.</div></div>
+
+<hr>
+
+<em>Built by Parth Reddy. Anvil is open-source and runs on Claude.</em>
+
+<em>GitHub: github.com/parthreddyprojects/anvil</em>
+
+<div class="byline">
+<p><em>Built by Parth Reddy. Anvil is open-source and runs on Claude.</em></p>
+<p><a href="https://github.com/parthreddyprojects/anvil">github.com/parthreddyprojects/anvil</a></p>
+</div>
+</div>
+</body>
+</html>
