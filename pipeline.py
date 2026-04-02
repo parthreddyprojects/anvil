@@ -2326,20 +2326,20 @@ Return JSON:
 
 
 # ---------------------------------------------------------------------------
-# STEP 5: Hypotheses
+# STEP 5: Hypotheses (Iterative Hypothesis Tree)
 # ---------------------------------------------------------------------------
 
+# Load hypothesis tree vault
+HYP_VAULT = load_vault("hypothesis_tree_vault")
+
 def step5_hypotheses(state, mece, working_doc, synthesis, feedback=None):
-    print(f"  {C.GREEN}Generating hypotheses from synthesis...{C.R}")
+    print(f"  {C.GREEN}Building hypothesis tree (iterative)...{C.R}")
 
     # Check for human-dropped hypothesis files
     files = scan_inputs(state.dir, "hypothesis")
     human_hyps = extract_from_files(files) if files else []
-
-    # Include human-added hypotheses from terminal
     added = [h for h in state.data.get("human_inputs", []) if h["type"] == "add" and h["step"] == 5]
     human_adds = "\n".join(f"- {h['content']}" for h in added)
-
     human_context = ""
     if human_hyps:
         human_context += "\n\nHUMAN-PROVIDED EVIDENCE:\n" + "\n".join(f"From {d['file']}:\n{d['findings']}" for d in human_hyps)
@@ -2348,245 +2348,404 @@ def step5_hypotheses(state, mece, working_doc, synthesis, feedback=None):
 
     ps = mece.get("smart_statement", "")
     sens = mece.get("decision_sensitivity", "")
-
-    # Format synthesis for the prompt
     syn_findings = json.dumps(synthesis.get("findings", {}), indent=2, ensure_ascii=False)
     syn_patterns = json.dumps(synthesis.get("patterns", {}), indent=2, ensure_ascii=False)
     syn_inferences = json.dumps(synthesis.get("inferences", {}), indent=2, ensure_ascii=False)
 
-    # Generate hypotheses from synthesis (not raw working doc)
-    hyp_tree = llm_json(
-        f"""The problem statement below is a DECISION QUESTION. Synthesize the research into hypotheses that directly answer it.
+    # Vault excerpts for prompts
+    vault_conditions = json.dumps(HYP_VAULT.get("DECOMPOSITION_METHOD", {}).get("types_of_necessary_conditions", []), indent=2, ensure_ascii=False)
+    vault_quality = json.dumps(HYP_VAULT.get("QUALITY_CHECKS", {}).get("five_tests_for_each_hypothesis", []), indent=2, ensure_ascii=False)
+    vault_mistakes = json.dumps(HYP_VAULT.get("COMMON_MISTAKES", []), indent=2, ensure_ascii=False)
 
-CRITICAL: Preserve all "(per source, date)" citations and "[LLM reasoning]" tags in evidence_for and evidence_against fields. Every number must carry its source.
+    hyp_dir = state.dir / "hypotheses"
+    hyp_dir.mkdir(exist_ok=True)
+    all_graveyard = []
+    MAX_ITERATIONS = 3
 
-You have been given a STRUCTURED SYNTHESIS that contains:
-1. KEY FINDINGS — atomic facts extracted from research, with confidence levels
-2. PATTERNS — cross-bucket relationships (convergences, tensions, surprises, binding constraints, cascades)
-3. "SO WHAT" INFERENCES — what each pattern implies for the decision-maker
+    # ════════════════════════════════════════════
+    # PHASE 1: Form the Day 1 governing hypothesis
+    # ════════════════════════════════════════════
+    print(f"    {C.DIM}Phase 1: Forming Day 1 governing hypothesis...{C.R}")
+    day1 = llm_json(
+        f"""You are a senior strategist forming the "Day 1 answer" — your best hypothesis for the answer to the problem statement BEFORE deep testing.
 
-Your job: convert the inferences into 5-8 HYPOTHESES that DIRECTLY ANSWER the problem statement. Each hypothesis is a concrete, actionable claim that tells the decision-maker what to do and why.
+Read the synthesis (findings, patterns, inferences) and form ONE governing hypothesis: a single sentence that directly answers the problem statement.
 
-THE CONVERSION (Pyramid Principle):
-- Each inference says "this pattern implies X for the decision"
-- Your hypothesis says "THEREFORE, the decision-maker should do Y, because X"
-- The strongest inferences become the strongest hypotheses
-- A hypothesis may combine multiple inferences if they converge
+This is your starting point, not your final answer. It will be decomposed, tested, and potentially revised.
 
-CRITICAL RULES:
-- Each hypothesis must be a DIRECT ANSWER to the problem statement — "You should do X because Y."
-- Each hypothesis must trace back to specific patterns and findings (cite P1, F2.3, etc.)
-- Each hypothesis must contain a specific NUMBER or THRESHOLD that makes it testable.
-- BINDING CONSTRAINT patterns should generate hypotheses first — they dominate the decision.
-- TENSION patterns should generate competing hypotheses — let the stress test resolve them.
-- Do NOT generate a governing hypothesis yet — that comes AFTER stress testing.
-- Today is {TODAY_STR}.
+The governing hypothesis must:
+1. DIRECTLY answer the problem statement
+2. Include a specific number, threshold, or timeframe
+3. Be testable — you could prove it wrong with data
+4. Be non-obvious — the opposite must also be plausible
+5. Point to a specific action
 
-Each hypothesis must include: statement (with number/threshold), source_inferences (which inference IDs it derives from), source_patterns (which pattern IDs), source_findings (which finding IDs), break_point (the condition under which this answer reverses), evidence_for (specific facts), evidence_against (strongest contrarian case), confidence (HIGH/MEDIUM/LOW), status (confirmed/uncertain/killed), data_required (live data needed to confirm).
+Today is {TODAY_STR}.
 
-Also list data_gaps: what needs live data, who provides, by when, what it blocks.
-
-Return JSON: {{"hypotheses": [...], "data_gaps": [...]}}""",
-        f"PROBLEM STATEMENT (this is the question your hypotheses must answer):\n{ps}\n\nDECISION SENSITIVITY:\n{sens}\n\n{('USER FEEDBACK (you MUST address this — it overrides your prior analysis):\n' + feedback + '\n\n') if feedback else ''}FINDINGS:\n{syn_findings}\n\nPATTERNS:\n{syn_patterns}\n\nINFERENCES:\n{syn_inferences}{human_context}\n\nConvert the inferences into hypotheses that directly answer the problem statement."
+Return JSON: {{"governing_hypothesis": "...", "confidence": "HIGH/MEDIUM/LOW", "key_reasoning": "2-3 sentences on why this is the best starting hypothesis"}}""",
+        f"PROBLEM STATEMENT: {ps}\n\nDECISION SENSITIVITY: {sens}\n\n{('USER FEEDBACK: ' + feedback + '\n\n') if feedback else ''}INFERENCES:\n{syn_inferences}\n\nPATTERNS:\n{syn_patterns}\n\nForm the Day 1 governing hypothesis.",
+        model=SONNET
     )
+    governing = day1.get("governing_hypothesis", "")
+    print(f"    {C.BOLD}Day 1: {governing[:120]}{C.R}")
 
-    # Review — structured stress-test
-    print(f"  {C.GREEN}Reviewing hypotheses (structured stress-test)...{C.R}")
-    review = llm_json(
-        """You are a contrarian analyst running a structured stress-test on hypotheses. For EACH hypothesis, check these specific failure modes:
+    # ════════════════════════════════════════════
+    # ITERATION LOOP
+    # ════════════════════════════════════════════
+    hyp_tree = {"governing_hypothesis": governing, "hypotheses": [], "graveyard": [], "iterations": []}
 
-1. EVIDENCE-CLAIM MISMATCH: Does the cited evidence actually PROVE the claim, or just correlate with it? A finding that "revenue declined 15%" does not prove "the product is failing" without segmenting by channel and cohort.
+    for iteration in range(MAX_ITERATIONS):
+        print(f"\n  {C.GREEN}{'='*50}{C.R}")
+        print(f"  {C.GREEN}Iteration {iteration + 1}/{MAX_ITERATIONS}{C.R}")
+        print(f"  {C.GREEN}{'='*50}{C.R}")
 
-2. BREAK POINT PLAUSIBILITY: Is the stated break point realistic under current conditions? If the break point is "market share below 5%" but current share is 35%, the hypothesis is unfalsifiable in the decision timeframe.
+        # ════════════════════════════════════════════
+        # PHASE 2: Decompose into necessary conditions
+        # ════════════════════════════════════════════
+        print(f"    {C.DIM}Phase 2: Decomposing into necessary conditions...{C.R}")
+        decomposition = llm_json(
+            f"""You are decomposing a GOVERNING HYPOTHESIS into a HYPOTHESIS TREE.
 
-3. INTERNAL CONSISTENCY: Does this hypothesis contradict another hypothesis in the set? Two hypotheses cannot both be confirmed if they recommend opposite actions.
+GOVERNING HYPOTHESIS: {governing}
 
-4. CONFIDENCE CALIBRATION: Is the confidence level justified? HIGH confidence requires multiple independent findings. A single data point with no corroboration is MEDIUM at best.
+A hypothesis tree starts with an ANSWER and works backward to find what must be true for that answer to hold.
 
-5. STRONGEST STEEL-MAN COUNTERARGUMENT: What is the best possible argument AGAINST this hypothesis? Not a straw man — the real objection a smart skeptic would raise.
+FOR EACH PRIMARY HYPOTHESIS, ask: "What must be true for this to hold?"
+Each sub-hypothesis is a NECESSARY CONDITION — if false, the parent weakens or collapses.
 
-6. DIAGNOSTICITY: Is the evidence cited diagnostic (distinguishes this hypothesis from alternatives) or is it consistent with multiple competing hypotheses? Non-diagnostic evidence should not drive HIGH confidence.
+TYPES OF NECESSARY CONDITIONS to consider:
+{vault_conditions}
 
-Kill hypotheses that fail checks 1 or 3. Downgrade confidence for failures on 2, 4, or 6.
+KILL TEST — for each proposed sub-hypothesis, ask: "If this is false, does the parent still hold?"
+- If YES → it's NOT a necessary condition → remove it
+- If NO → it's load-bearing → keep it
 
-Return JSON: {"reviewed": [{"id": "H1", "new_status": "confirmed/uncertain/killed", "new_confidence": "HIGH/MEDIUM/LOW", "checks": {"evidence_match": "pass/fail", "break_point": "pass/fail", "consistency": "pass/fail", "confidence_calibration": "pass/fail", "steel_man": "...", "diagnosticity": "high/low"}, "notes": "..."}], "graveyard": [{"id": "...", "statement": "...", "killed_by": "..."}]}""",
-        "HYPOTHESES:\n{hyps}\n\nStress-test each hypothesis against the six failure modes.".format(
-            hyps=json.dumps([{
-                "id": h.get("id"), "statement": h.get("statement", ""),
-                "confidence": h.get("confidence"), "status": h.get("status"),
-                "break_point": h.get("break_point", "")[:500],
-                "evidence_for": (h.get("evidence_for", "") if isinstance(h.get("evidence_for"), str) else str(h.get("evidence_for", "")))[:1500],
-                "evidence_against": (h.get("evidence_against", "") if isinstance(h.get("evidence_against"), str) else str(h.get("evidence_against", "")))[:1500],
-            } for h in hyp_tree.get("hypotheses", [])], indent=2, ensure_ascii=False)
-        )
-    )
+FOR EACH LEAF (deepest sub-hypothesis), define BEFORE testing:
+- test: what specific analysis or data proves/disproves this
+- evidence_expected_if_true: what you'd see in the data
+- evidence_expected_if_false: what would kill it
+- decision_threshold: the specific number/condition that flips (e.g., "freight > $8/bbl = dead")
 
-    # Merge stress-test results
-    reviewed_map = {r["id"]: r for r in review.get("reviewed", [])}
-    for h in hyp_tree.get("hypotheses", []):
-        r = reviewed_map.get(h["id"])
-        if r:
-            h["status"] = r.get("new_status", h.get("status"))
-            h["confidence"] = r.get("new_confidence", h.get("confidence"))
-            if r.get("notes"):
-                h["review_notes"] = r["notes"]
-            if r.get("checks"):
-                h["stress_checks"] = r["checks"]
-    hyp_tree["graveyard"] = review.get("graveyard", [])
+LOGIC TYPE per parent:
+- AND: ALL sub-hypotheses must be true (most common for strategy)
+- OR: ANY being true is sufficient (usually for "how to grow" questions)
 
-    # ── Coverage check + ACH diagnosticity (parallel) ──
-    print(f"  {C.GREEN}Running coverage check + diagnosticity analysis in parallel...{C.R}")
-    sections = mece.get("sections", [])
-    bucket_titles = {s["section_id"]: s["title"] for s in sections}
-    buckets_json = json.dumps([{"id": s["section_id"], "title": s["title"]} for s in sections], indent=2)
-    active_hyps = [h for h in hyp_tree.get("hypotheses", []) if h.get("status") != "killed"]
-    active_hyps_json = json.dumps([{"id": h.get("id"), "statement": h.get("statement"), "source_findings": h.get("source_findings", [])} for h in active_hyps], indent=2)
+QUALITY CHECKS:
+{vault_quality}
 
-    def _run_coverage():
-        return llm_json(
-            f"""You have a set of MECE buckets and a set of hypotheses. Check whether every bucket is represented.
+COMMON MISTAKES TO AVOID:
+{vault_mistakes}
 
-MECE BUCKETS:
-{buckets_json}
-
-HYPOTHESES:
-{active_hyps_json}
-
-For each bucket, determine:
-- COVERED: at least one non-killed hypothesis addresses this bucket's domain
-- UNCOVERED: no hypothesis addresses it
-
-For uncovered buckets, explain: is it because (a) the bucket is not decision-relevant, or (b) a hypothesis is missing?
-
-Return JSON: {{"coverage": [{{"bucket_id": 1, "bucket_title": "...", "status": "covered|uncovered", "covered_by": ["H1"], "reason_if_uncovered": "..."}}], "gaps": ["Bucket X has no hypothesis because..."]}}""",
-            "Check coverage.",
-            model=HAIKU, max_tokens=2048
-        )
-
-    def _run_diagnosticity():
-        return llm_json(
-            f"""You are running an Analysis of Competing Hypotheses (ACH) diagnosticity check.
-
-For each key finding from the synthesis, score it against ALL active hypotheses:
-- C = Consistent (finding supports this hypothesis)
-- I = Inconsistent (finding contradicts this hypothesis)
-- N = Neutral (finding is irrelevant to this hypothesis)
-
-A finding that is Consistent with MANY hypotheses has LOW diagnosticity — it doesn't help distinguish between them and should not drive high confidence in any single hypothesis.
-
-A finding that is Consistent with ONE hypothesis but Inconsistent with others has HIGH diagnosticity — it is a discriminating piece of evidence.
-
-ACTIVE HYPOTHESES:
-{json.dumps([{"id": h.get("id"), "statement": h.get("statement")} for h in active_hyps], indent=2)}
-
-KEY FINDINGS:
-{syn_findings}
+Generate 3-5 primary hypotheses, each with 2-4 sub-hypotheses (leaves). Two levels deep is enough.
 
 Return JSON:
-{{"matrix": [
-  {{"finding_id": "F1.1", "finding": "...", "scores": {{"H1": "C", "H2": "I", "H3": "N"}}, "diagnosticity": "HIGH|MEDIUM|LOW"}}
-],
-"high_diagnosticity_findings": ["F1.1 strongly favors H2 over H1 because..."],
-"low_diagnosticity_warnings": ["F2.3 is consistent with all hypotheses — should not be cited as strong evidence for any single one"],
-"confidence_adjustments": [{{"hypothesis_id": "H1", "new_confidence": "MEDIUM", "adjustment": "downgrade to MEDIUM", "reason": "All cited evidence is low-diagnosticity"}}]}}""",
-            "Run the diagnosticity analysis.",
+{{"primary_hypotheses": [
+  {{
+    "id": "H1",
+    "statement": "...",
+    "logic": "AND|OR",
+    "necessary_because": "if false, the governing hypothesis fails because...",
+    "sub_hypotheses": [
+      {{
+        "id": "H1.1",
+        "statement": "...",
+        "test": "what analysis proves/disproves this",
+        "decision_threshold": "specific number or condition",
+        "evidence_expected_if_true": "...",
+        "evidence_expected_if_false": "..."
+      }}
+    ]
+  }}
+]}}""",
+            f"PROBLEM STATEMENT: {ps}\n\nGOVERNING HYPOTHESIS: {governing}\n\nFINDINGS:\n{syn_findings[:15000]}\n\nPATTERNS:\n{syn_patterns}\n\nDecompose into a hypothesis tree of necessary conditions.",
             model=SONNET
         )
 
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        cov_future = executor.submit(_run_coverage)
-        diag_future = executor.submit(_run_diagnosticity)
-        coverage = cov_future.result()
-        diagnosticity = diag_future.result()
+        primary_hyps = decomposition.get("primary_hypotheses", [])
+        total_leaves = sum(len(h.get("sub_hypotheses", [])) for h in primary_hyps)
+        print(f"    {C.GREEN}Tree: {len(primary_hyps)} primary hypotheses, {total_leaves} leaves{C.R}")
+        for ph in primary_hyps:
+            logic = ph.get("logic", "AND")
+            print(f"      {ph['id']} [{logic}]: {ph.get('statement','')[:80]}")
+            for sh in ph.get("sub_hypotheses", []):
+                print(f"        {sh['id']}: {sh.get('statement','')[:70]}")
 
-    hyp_tree["coverage"] = coverage
-    hyp_tree["diagnosticity"] = diagnosticity
+        # ════════════════════════════════════════════
+        # PHASE 3: Test at the leaves
+        # ════════════════════════════════════════════
+        print(f"    {C.DIM}Phase 3: Testing {total_leaves} leaves against research...{C.R}")
 
-    # Flag uncovered buckets
-    uncovered = [c for c in coverage.get("coverage", []) if c.get("status") == "uncovered"]
-    if uncovered:
-        print(f"  {C.YELLOW}Warning: {len(uncovered)} bucket(s) have no hypothesis coverage:{C.R}")
-        for u in uncovered:
-            print(f"    {C.DIM}Bucket {u['bucket_id']}: {u.get('bucket_title', '')} — {u.get('reason_if_uncovered', '?')}{C.R}")
+        # Build all leaves with their parent context for one batch call
+        all_leaves = []
+        for ph in primary_hyps:
+            for sh in ph.get("sub_hypotheses", []):
+                all_leaves.append({
+                    "id": sh["id"],
+                    "parent_id": ph["id"],
+                    "parent_statement": ph.get("statement", ""),
+                    "parent_logic": ph.get("logic", "AND"),
+                    "statement": sh.get("statement", ""),
+                    "test": sh.get("test", ""),
+                    "decision_threshold": sh.get("decision_threshold", ""),
+                    "evidence_expected_if_true": sh.get("evidence_expected_if_true", ""),
+                    "evidence_expected_if_false": sh.get("evidence_expected_if_false", ""),
+                })
 
-    # Apply diagnosticity-based confidence adjustments
-    for adj in diagnosticity.get("confidence_adjustments", []):
-        hid = adj.get("hypothesis_id")
-        for h in hyp_tree.get("hypotheses", []):
-            if h.get("id") == hid:
-                old_conf = h.get("confidence", "?")
-                # Use new_confidence field directly (structured output, not free-text parsing)
-                new_conf = adj.get("new_confidence", "").upper().strip()
-                if new_conf in ("HIGH", "MEDIUM", "LOW"):
-                    h["confidence"] = new_conf
+        test_results = llm_json(
+            f"""You are testing LEAF-LEVEL sub-hypotheses against research evidence. Today is {TODAY_STR}.
+
+For each leaf, search the research findings and working document for evidence. Then render a verdict.
+
+VERDICT RULES:
+- GREEN: Decision threshold met. Multiple sources. High confidence the sub-hypothesis holds.
+- AMBER: Evidence is directional but not conclusive. Single source, thin data, or [LLM reasoning] only. Could flip either way with more data.
+- RED: Evidence contradicts. Decision threshold failed. Multiple sources say no, or a single authoritative source kills it.
+
+IMPORTANT DISTINCTIONS:
+- ABSENT evidence ≠ RED. If no data exists on this condition, verdict is AMBER (uncertain), not RED (disproven).
+- [LLM reasoning] evidence = AMBER at best, never GREEN. It's the model's inference, not sourced fact.
+- One weak source (blog post) supporting = AMBER. One strong source (government data, company filing) supporting = GREEN.
+
+For each leaf return:
+- verdict: GREEN/AMBER/RED
+- evidence_quality: STRONG (multiple independent sources) / MODERATE (1-2 sources) / THIN (single source or [LLM reasoning]) / ABSENT (no relevant data found)
+- what_supports: specific evidence supporting this sub-hypothesis (with source citations)
+- what_contradicts: specific evidence against (with source citations)
+- what_is_missing: what data would resolve uncertainty
+- decision_threshold_met: true/false/unknown
+- confidence_in_verdict: HIGH/MEDIUM/LOW
+
+Return JSON: {{"leaf_results": [...]}}""",
+            "LEAVES TO TEST:\n{leaves}\n\nRESEARCH FINDINGS:\n{findings}\n\nWORKING DOCUMENT (detailed evidence):\n{wd}\n\nTest each leaf.".format(
+                leaves=json.dumps(all_leaves, indent=2, ensure_ascii=False),
+                findings=syn_findings[:20000],
+                wd=working_doc[:20000]
+            ),
+            model=SONNET
+        )
+
+        # Map results back to leaves
+        leaf_map = {r.get("id"): r for r in test_results.get("leaf_results", [])}
+
+        # ════════════════════════════════════════════
+        # PHASE 4: Kill propagation
+        # ════════════════════════════════════════════
+        print(f"    {C.DIM}Phase 4: Kill propagation...{C.R}")
+
+        killed_parents = []
+        iteration_log = {"iteration": iteration + 1, "governing": governing, "results": []}
+
+        for ph in primary_hyps:
+            logic = ph.get("logic", "AND").upper()
+            sub_verdicts = []
+            for sh in ph.get("sub_hypotheses", []):
+                result = leaf_map.get(sh["id"], {})
+                verdict = result.get("verdict", "AMBER").upper()
+                sh["verdict"] = verdict
+                sh["evidence_quality"] = result.get("evidence_quality", "ABSENT")
+                sh["what_supports"] = result.get("what_supports", "")
+                sh["what_contradicts"] = result.get("what_contradicts", "")
+                sh["what_is_missing"] = result.get("what_is_missing", "")
+                sh["decision_threshold_met"] = result.get("decision_threshold_met", "unknown")
+                sh["confidence_in_verdict"] = result.get("confidence_in_verdict", "LOW")
+                sub_verdicts.append(verdict)
+
+                color = C.GREEN if verdict == "GREEN" else C.RED if verdict == "RED" else C.YELLOW
+                qual = result.get("evidence_quality", "?")
+                print(f"        {color}{sh['id']}: {verdict}{C.R} [{qual}] {sh.get('statement','')[:60]}")
+
+            # Propagate
+            if logic == "AND":
+                if "RED" in sub_verdicts:
+                    ph["status"] = "killed"
+                    red_leaves = [sh["id"] for sh in ph.get("sub_hypotheses", []) if sh.get("verdict") == "RED"]
+                    ph["killed_by"] = f"AND-logic: leaf {', '.join(red_leaves)} tested RED"
+                    killed_parents.append(ph)
+                    all_graveyard.append({"id": ph["id"], "statement": ph.get("statement", ""), "killed_by": ph["killed_by"]})
+                    print(f"      {C.RED}✗ {ph['id']} KILLED — {ph['killed_by']}{C.R}")
+                elif all(v == "GREEN" for v in sub_verdicts):
+                    ph["status"] = "confirmed"
+                    ph["confidence"] = "HIGH"
+                    print(f"      {C.GREEN}✓ {ph['id']} CONFIRMED — all leaves GREEN{C.R}")
                 else:
-                    # Fallback: parse from adjustment text, but match the LAST confidence word
-                    # to handle "downgrade from HIGH to MEDIUM" correctly
-                    adj_text = adj.get("adjustment", "").upper()
-                    for word in reversed(adj_text.split()):
-                        if word in ("HIGH", "MEDIUM", "LOW"):
-                            h["confidence"] = word
-                            break
-                if old_conf != h["confidence"]:
-                    h["diagnosticity_note"] = adj.get("reason", "")
-                    print(f"    {C.YELLOW}{hid}: {old_conf} -> {h['confidence']} (diagnosticity){C.R}")
+                    ph["status"] = "uncertain"
+                    amber_count = sub_verdicts.count("AMBER")
+                    ph["confidence"] = "MEDIUM" if amber_count <= 1 else "LOW"
+                    print(f"      {C.YELLOW}? {ph['id']} UNCERTAIN — {amber_count} AMBER leaves{C.R}")
+            else:  # OR logic
+                if all(v == "RED" for v in sub_verdicts):
+                    ph["status"] = "killed"
+                    ph["killed_by"] = "OR-logic: ALL leaves tested RED"
+                    killed_parents.append(ph)
+                    all_graveyard.append({"id": ph["id"], "statement": ph.get("statement", ""), "killed_by": ph["killed_by"]})
+                    print(f"      {C.RED}✗ {ph['id']} KILLED — all leaves RED (OR-logic){C.R}")
+                elif any(v == "GREEN" for v in sub_verdicts):
+                    ph["status"] = "confirmed"
+                    ph["confidence"] = "HIGH"
+                    print(f"      {C.GREEN}✓ {ph['id']} CONFIRMED — at least one GREEN leaf (OR-logic){C.R}")
+                else:
+                    ph["status"] = "uncertain"
+                    ph["confidence"] = "MEDIUM"
+                    print(f"      {C.YELLOW}? {ph['id']} UNCERTAIN (OR-logic){C.R}")
 
-    # ── Generate governing hypothesis from SURVIVING hypotheses only ──
-    active_after_test = [h for h in hyp_tree.get("hypotheses", []) if h.get("status") != "killed"]
-    print(f"  {C.GREEN}Generating governing hypothesis from {len(active_after_test)} survivors...{C.R}")
-    gov_result = llm_json(
-        f"""You are synthesizing the surviving hypotheses into a single GOVERNING HYPOTHESIS — the one-sentence answer to the problem statement.
+            iteration_log["results"].append({
+                "id": ph["id"], "statement": ph.get("statement", "")[:100],
+                "status": ph.get("status"), "logic": logic,
+                "leaf_verdicts": {sh["id"]: sh.get("verdict") for sh in ph.get("sub_hypotheses", [])}
+            })
 
-The stress test has been run. Some hypotheses were killed. The survivors are below.
+        hyp_tree["iterations"].append(iteration_log)
+
+        # ════════════════════════════════════════════
+        # PHASE 5: Check if governing hypothesis survives
+        # ════════════════════════════════════════════
+        active = [ph for ph in primary_hyps if ph.get("status") != "killed"]
+        killed_count = len(killed_parents)
+
+        if killed_count == 0:
+            print(f"\n    {C.GREEN}Governing hypothesis stable — no kills this iteration. Stopping.{C.R}")
+            hyp_tree["hypotheses"] = primary_hyps
+            break
+        elif len(active) == 0:
+            print(f"\n    {C.RED}ALL primary hypotheses killed. Governing hypothesis must be revised.{C.R}")
+        else:
+            print(f"\n    {C.YELLOW}{killed_count} primary hypothesis(es) killed. Revising governing hypothesis...{C.R}")
+
+        # ════════════════════════════════════════════
+        # PHASE 6: Revise governing hypothesis
+        # ════════════════════════════════════════════
+        if iteration < MAX_ITERATIONS - 1:
+            survivors_json = json.dumps([{
+                "id": h.get("id"), "statement": h.get("statement"), "status": h.get("status"), "confidence": h.get("confidence"),
+                "leaf_results": [{
+                    "id": sh.get("id"), "verdict": sh.get("verdict"), "what_supports": str(sh.get("what_supports",""))[:200]
+                } for sh in h.get("sub_hypotheses", [])]
+            } for h in primary_hyps], indent=2, ensure_ascii=False)
+
+            killed_json = json.dumps([{
+                "id": k["id"], "statement": k["statement"], "killed_by": k["killed_by"]
+            } for k in killed_parents], indent=2, ensure_ascii=False)
+
+            revision = llm_json(
+                f"""The hypothesis tree was tested and some branches were killed. Revise the governing hypothesis.
+
+ORIGINAL GOVERNING HYPOTHESIS: {governing}
+
+SURVIVING HYPOTHESES:
+{survivors_json}
+
+KILLED HYPOTHESES:
+{killed_json}
+
+Based on what survived and what was killed:
+1. What does the evidence now support as the best answer?
+2. Does the original governing hypothesis need to change, or just be refined?
+3. If it changes, what specific kill caused the revision?
+
+Return JSON: {{
+  "revised_governing_hypothesis": "...",
+  "changed": true/false,
+  "revision_reason": "...",
+  "what_the_kills_taught_us": "..."
+}}""",
+                f"PROBLEM STATEMENT: {ps}\n\nRevise the governing hypothesis based on test results.",
+                model=SONNET
+            )
+
+            new_gov = revision.get("revised_governing_hypothesis", governing)
+            if revision.get("changed"):
+                print(f"    {C.YELLOW}Governing hypothesis revised:{C.R}")
+                print(f"    {C.DIM}Was: {governing[:100]}{C.R}")
+                print(f"    {C.BOLD}Now: {new_gov[:100]}{C.R}")
+                print(f"    {C.DIM}Reason: {revision.get('revision_reason', '')[:100]}{C.R}")
+                governing = new_gov
+                hyp_tree["governing_hypothesis"] = governing
+            else:
+                print(f"    {C.GREEN}Governing hypothesis confirmed — refining, not replacing.{C.R}")
+                hyp_tree["hypotheses"] = primary_hyps
+                break
+        else:
+            # Final iteration — keep what we have
+            hyp_tree["hypotheses"] = primary_hyps
+
+    # If we didn't set hypotheses in the loop (e.g., all iterations ran)
+    if not hyp_tree.get("hypotheses"):
+        hyp_tree["hypotheses"] = primary_hyps
+
+    hyp_tree["graveyard"] = all_graveyard
+
+    # ════════════════════════════════════════════
+    # PHASE 7: Final governing hypothesis from survivors
+    # ════════════════════════════════════════════
+    active_final = [h for h in hyp_tree["hypotheses"] if h.get("status") != "killed"]
+    if active_final:
+        print(f"\n  {C.GREEN}Finalizing governing hypothesis from {len(active_final)} survivors...{C.R}")
+        gov_result = llm_json(
+            f"""Synthesize the surviving tested hypotheses into a final GOVERNING HYPOTHESIS.
+
+This is the FINAL answer after {len(hyp_tree.get('iterations', []))} iteration(s) of testing. The hypothesis tree has been built, tested at the leaves, and branches have been killed.
 
 The governing hypothesis must:
 1. Directly answer the problem statement
-2. Synthesize across the strongest surviving hypotheses (not just restate the top one)
+2. Synthesize across survivors (not just restate the top one)
 3. Include a specific number, threshold, or timeframe
-4. Be one sentence that a decision-maker can act on immediately
+4. Acknowledge what was killed and how that shapes the answer
 
 Return JSON: {{"governing_hypothesis": "..."}}""",
-        "PROBLEM STATEMENT: {ps}\n\nSURVIVING HYPOTHESES (after stress test):\n{hyps_json}\n\nWrite the governing hypothesis.".format(
-            ps=ps,
-            hyps_json=json.dumps([{"id": h.get("id"), "statement": h.get("statement"), "confidence": h.get("confidence"), "evidence_for": str(h.get("evidence_for", ""))[:500]} for h in active_after_test], indent=2, ensure_ascii=False)
-        ),
-        model=SONNET
-    )
-    hyp_tree["governing_hypothesis"] = gov_result.get("governing_hypothesis", "")
-
-    # ── Update decision sensitivity based on evidence discovered ──
-    if sens:
-        print(f"  {C.GREEN}Checking if decision sensitivity break point needs updating...{C.R}")
-        _sens_hyps_json = json.dumps([{"id": h.get("id"), "statement": h.get("statement"), "break_point": h.get("break_point"), "confidence": h.get("confidence")} for h in active_after_test], indent=2, ensure_ascii=False)
-        sens_update = llm_json(
-            f"""The decision sensitivity break point was written BEFORE research. Now that we have evidence, check if it should be updated.
-
-ORIGINAL BREAK POINT: {sens}
-
-SURVIVING HYPOTHESES WITH EVIDENCE:
-{_sens_hyps_json}
-
-Should the break point be updated based on what the research actually found? If yes, provide the updated version with specific numbers/thresholds discovered in research.
-
-Return JSON: {{"should_update": true/false, "updated_break_point": "...", "reason": "..."}}""",
-            "Review the break point against the evidence.",
+            "PROBLEM STATEMENT: {ps}\n\nSURVIVORS:\n{s}\n\nKILLED:\n{k}\n\nFinalize.".format(
+                ps=ps,
+                s=json.dumps([{"id": h.get("id"), "statement": h.get("statement"), "confidence": h.get("confidence")} for h in active_final], indent=2, ensure_ascii=False),
+                k=json.dumps([{"id": g.get("id"), "statement": g.get("statement"), "killed_by": g.get("killed_by")} for g in all_graveyard], indent=2, ensure_ascii=False)
+            ),
             model=HAIKU
         )
+        hyp_tree["governing_hypothesis"] = gov_result.get("governing_hypothesis", governing)
+
+    # ════════════════════════════════════════════
+    # PHASE 8: Coverage check + decision sensitivity update
+    # ════════════════════════════════════════════
+    print(f"  {C.GREEN}Running coverage check...{C.R}")
+    sections = mece.get("sections", [])
+    buckets_json = json.dumps([{"id": s["section_id"], "title": s["title"]} for s in sections], indent=2)
+    active_json = json.dumps([{"id": h.get("id"), "statement": h.get("statement", "")[:100]} for h in active_final], indent=2)
+
+    coverage = llm_json(
+        f"""Check whether every MECE bucket is represented by at least one surviving hypothesis.
+
+MECE BUCKETS:\n{buckets_json}\n\nHYPOTHESES:\n{active_json}
+
+Return JSON: {{"coverage": [{{"bucket_id": 1, "status": "covered|uncovered", "covered_by": ["H1"]}}], "gaps": [...]}}""",
+        "Check coverage.", model=HAIKU, max_tokens=2048
+    )
+    hyp_tree["coverage"] = coverage
+
+    uncovered = [c for c in coverage.get("coverage", []) if c.get("status") == "uncovered"]
+    if uncovered:
+        print(f"  {C.YELLOW}Coverage gaps: {len(uncovered)} bucket(s){C.R}")
+
+    # Update decision sensitivity
+    if sens and active_final:
+        print(f"  {C.GREEN}Updating decision sensitivity...{C.R}")
+        _sens_json = json.dumps([{"id": h.get("id"), "statement": h.get("statement", "")[:100]} for h in active_final], indent=2, ensure_ascii=False)
+        sens_update = llm_json(
+            f"""Update the decision sensitivity break point based on what the hypothesis tree testing revealed.
+
+ORIGINAL: {sens}\n\nSURVIVORS:\n{_sens_json}\n\nKILLED: {len(all_graveyard)} hypotheses
+
+Return JSON: {{"should_update": true/false, "updated_break_point": "...", "reason": "..."}}""",
+            "Update.", model=HAIKU
+        )
         if sens_update.get("should_update") and sens_update.get("updated_break_point"):
-            old_sens = mece.get("decision_sensitivity", "")
             mece["decision_sensitivity"] = sens_update["updated_break_point"]
-            # Update the decomposition file
             mece_path = state.get("mece_path")
             if mece_path and Path(mece_path).exists():
                 json.dump(mece, open(mece_path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-            print(f"    {C.YELLOW}Break point updated: {sens_update['updated_break_point'][:120]}{C.R}")
-            print(f"    {C.DIM}Reason: {sens_update.get('reason', '')[:120]}{C.R}")
+            print(f"    {C.YELLOW}Break point updated{C.R}")
 
+    # ════════════════════════════════════════════
     # Save
-    hyp_dir = state.dir / "hypotheses"
-    hyp_dir.mkdir(exist_ok=True)
+    # ════════════════════════════════════════════
     json.dump(hyp_tree, open(hyp_dir / "hypotheses.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-    json.dump(diagnosticity, open(hyp_dir / "diagnosticity.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
     state.set("hyp_path", str(hyp_dir / "hypotheses.json"))
 
     # Build summary
@@ -2599,21 +2758,22 @@ Return JSON: {{"should_update": true/false, "updated_break_point": "...", "reaso
             tag = f"{C.RED}KILLED{C.R}"
         else:
             tag = f"{C.YELLOW}UNCERTAIN{C.R}"
-        diag_note = f" {C.DIM}(low diagnosticity){C.R}" if h.get("diagnosticity_note") else ""
-        lines.append(f"    {h.get('id','?')} [{tag}] {h.get('statement','')[:85]}{diag_note}")
+        lines.append(f"    {h.get('id','?')} [{tag}] {h.get('statement','')[:85]}")
+        for sh in h.get("sub_hypotheses", []):
+            v = sh.get("verdict", "?")
+            vc = C.GREEN if v == "GREEN" else C.RED if v == "RED" else C.YELLOW
+            lines.append(f"      {vc}{sh.get('id','?')}: {v}{C.R} {sh.get('statement','')[:65]}")
 
     gov = hyp_tree.get("governing_hypothesis", "")
     graveyard = hyp_tree.get("graveyard", [])
-    summary = f"  {C.BOLD}Governing:{C.R} {gov[:150]}\n\n" + "\n".join(lines)
+    iterations = len(hyp_tree.get("iterations", []))
+    summary = f"  {C.BOLD}Governing:{C.R} {gov[:150]}\n"
+    summary += f"  {C.DIM}({iterations} iteration(s), {len(active_final)} survived, {len(graveyard)} killed){C.R}\n\n"
+    summary += "\n".join(lines)
     if graveyard:
-        summary += f"\n\n  {C.DIM}Graveyard: {len(graveyard)} killed{C.R}"
-    if uncovered:
-        summary += f"\n\n  {C.YELLOW}Coverage gaps: {len(uncovered)} bucket(s) with no hypothesis{C.R}"
-    high_diag = diagnosticity.get("high_diagnosticity_findings", [])
-    if high_diag:
-        summary += f"\n\n  {C.BOLD}Key discriminating evidence:{C.R}"
-        for hd in high_diag[:3]:
-            summary += f"\n    {C.DIM}{hd[:120]}{C.R}"
+        summary += f"\n\n  {C.RED}Graveyard ({len(graveyard)}):{C.R}"
+        for g in graveyard:
+            summary += f"\n    {C.DIM}{g.get('id','?')}: {g.get('killed_by','')[:80]}{C.R}"
 
     return summary, hyp_tree
 
