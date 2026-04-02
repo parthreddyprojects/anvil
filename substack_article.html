@@ -46,7 +46,7 @@
 
 <h1>I Built a Tool That Runs the Method a Strategy Team Uses — in 20 Minutes</h1>
 
-<strong>It decomposes your problem. Researches every angle. Stress-tests hypotheses. Writes the brief. And you steer it at every step.</strong>
+<strong>If you're a strategy professional who has felt the gap between what AI promises and what it actually delivers for real strategy work — this is an attempt to close it.</strong>
 
 <hr>
 
@@ -68,7 +68,7 @@
 
 <p>There are two modes:</p>
 
-<strong>Guided</strong> — Claude pauses at every step. It shows you what the research found, what patterns it sees, what hypotheses survived. You push back, inject your own data, challenge the framing, redirect the analysis. Claude holds the full context — all 10 buckets, all 50 findings, all 8 patterns — while you bring the judgment. You're co-solving the problem together.
+<strong>Guided</strong> — Claude pauses at every step. Shows you what it found, what patterns it sees, what hypotheses survived. You push back, inject your own data, challenge the framing, redirect the analysis. Essentially running your entire strategy project with Anvil as your co-pilot.
 
 <strong>Autopilot</strong> — Claude runs end-to-end and narrates as it goes. You come back to a finished brief. Good for speed. But the guided mode is where the real work happens.
 
@@ -219,7 +219,7 @@
 
 <strong>Opening thesis</strong>: <em>The United States must deliver a complete settlement framework through Pakistan by April 8, 2026 or surrender its negotiating position to Beijing — and no framework is enforceable until Washington determines whether a wounded, constitutionally contested Supreme Leader can visibly endorse it.</em>
 
-<strong>One of the beliefs</strong>: <em>IEA strategic reserves cover only 25% of the actual supply gap — the buffer is designed for disruptions of 3 million bpd, not the 13 million bpd that transits Hormuz.</em>
+<strong>One of the beliefs</strong>: <em>U.S. allies are bleeding $200-300 million per day in extra energy costs. Allied strategic reserves buy 90-120 days of buffer — putting the breaking point squarely in June 2026.</em>
 
 <strong>A killed hypothesis</strong>: <em>Rejected: Allied coalition will hold beyond 30 days. Historical precedent from 2003 and 2011 shows allied patience erodes within 2-4 weeks when domestic energy costs spike.</em>
 
@@ -255,15 +255,14 @@
 
 <h2>Where It Breaks</h2>
 
-<p>Every tool has failure modes. Pretending otherwise is a credibility problem.</p>
-
-<strong>When research is thin.</strong> Some topics don't have good public sources. The pipeline tracks search failure rates and flags when queries return empty, but the output quality is directly tied to what's publicly available. This is where guided mode helps — you inject what the web can't provide.
-
-<strong>When the problem is genuinely novel.</strong> If nobody has written about it, the web research returns nothing useful and the pipeline falls back on LLM reasoning — marked <code>[LLM reasoning]</code> but still the model guessing.
-
-<strong>When the MECE framing is wrong.</strong> Garbage in, garbage out. The challenge at step 0 catches most framing errors, but if you confirm a bad problem statement, every downstream step amplifies the error.
-
-<strong>Source quality.</strong> A blog post and a government statistical release get equal weight in the LLM's synthesis. There's no automated source credibility scoring. Yet.
+<p>Autopilot has real limitations:</p>
+<ul>
+<li><strong>Thin research.</strong> Some topics don't have good public sources. The output degrades silently.</li>
+<li><strong>Novel problems.</strong> If nobody has written about it, the pipeline falls back on LLM reasoning — still guessing.</li>
+<li><strong>Bad framing.</strong> If the problem statement is wrong, every downstream step amplifies the error.</li>
+<li><strong>Source quality.</strong> A blog post and a government statistical release get equal weight. No automated credibility scoring.</li>
+</ul>
+<p>This is exactly why guided mode exists. When you're in the loop, none of these are fatal. You inject what the web can't find. You catch bad framing before research begins. You flag weak sources at the debrief. You add domain knowledge at synthesis. You and Claude develop the strategy together — the tool handles the structure, you handle the judgment.</p>
 
 <hr>
 
@@ -294,7 +293,7 @@
 
 <p>Then in Claude Code: <code>/anvil</code></p>
 
-<p>If you're a strategy professional who has felt the gap between what AI promises and what it actually delivers for real analytical work — this is an attempt to close it.</p>
+<p>If you're a strategy professional who has felt the gap between what AI promises and what it actually delivers for real strategy work — this is an attempt to close it.</p>
 
 <p>Not with a better chatbot. With a better method. And a co-pilot that actually listens.</p>
 

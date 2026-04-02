@@ -1,0 +1,26 @@
+{
+  "story_score": 7,
+  "brevity_score": 4,
+  "problems": [
+    "RANGES EVERYWHERE: Every single number is a range. 'Negative $8–15/bbl', '10–12 days', '70–80%', '₹40,000–50,000 crore', '₹2.5–3.5 lakh crore'. Ranges signal the analyst hasn't committed. CEO hears 'we don't know.' Pick the single most defensible number for each.",
+    "SITUATION IS 112 WORDS: Target is 2 sentences creating urgency. This is a paragraph. Cut by 60%.",
+    "JARGON — MULTIPLE VIOLATIONS: 'bbl', 'bpd', 'ESPO', 'Kozmino', 'Section 35A', 'ADNOC', 'Fujairah cargo loading slot', 'MoPNG', 'PSU refiners'. A non-oil CEO will lose the thread at 'Section 35A'. Each one costs 5+ seconds.",
+    "PERFORMANCE DATA HAS FOUR KPIs, EACH WITH RANGES: Maximum 3 numbers per field. The KPI block alone has 14+ numbers. It reads as a data dump, not a proof. Two of these KPIs (refining margin, April supply) are inputs to the crisis — they belong in situation, not a separate data block.",
+    "DECISION 2 IS A DECISION TREE, NOT A DECISION: 'If X do Y, if not do Z' means the CEO is being asked to pre-approve two contradictory actions. A decision asks for one commitment. Split into two decisions or collapse into the single most likely path with a named fallback.",
+    "DECISION 3 IS OPERATIONALLY DENSE: 'Two parallel calls', 'Fujairah cargo loading slot', 'Kozmino loading order', 'ESPO grace period' — this is a to-do list for a logistics manager, not a CEO ask. CEO needs to authorise MEA to act, not understand the supply chain.",
+    "ANALYSIS FINDING 2 BURIES THE LEAD: The so-what ('activate fuel depot rationing') is the most operationally urgent action on the page and it's hidden at the end of bullet 2. It should surface in decisions immediately.",
+    "CONDENSED PS HAS RANGES AND DOUBLE-COUNTS SITUATION: The PS repeats numbers from the situation field verbatim. It should add framing, not restate facts.",
+    "HEADER IS STRONG BUT PASSIVE ON TIMING: 'within days' is vague when the body says 3–5 days. Header should use the hardest number available.",
+    "'WASHINGTON CALL' IS UNDEFINED: Analysis finding 3 says 'a Washington call within 24 hours' without naming who calls whom about what. CEO cannot act on this without clarification."
+  ],
+  "fixes": [
+    "HEADER REWRITE: 'Approve financial guarantees and crude reallocation by midnight April 2 — HPCL Mumbai shuts in 4 days and IOCL Bina cuts fuel to 200 million people by April 5.'",
+    "SITUATION REWRITE (2 sentences): 'One refinery has already shut; six more follow within 4 days because refiners are losing ₹500 crore daily and have no legal cover to keep operating. Maharashtra and Karnataka lose fuel first — then landlocked central India, triggering a humanitarian crisis the ₹45,000 crore backstop prevents.'",
+    "COLLAPSE PERFORMANCE DATA TO 3 NUMBERS, NO RANGES: (1) Refining margin: negative $12/bbl today vs. positive $5/bbl last quarter. (2) Crude runway at highest-risk sites: 11 days vs. government minimum of 15. (3) Guarantee required: ₹45,000 crore — less than 2% of GDP at stake.",
+    "REPLACE ALL JARGON: 'bpd' → 'barrels per day (a daily flow measure)' or cut entirely; 'ESPO/Kozmino' → 'Russian crude pipeline shipment'; 'Section 35A circular' → 'emergency RBI banking directive'; 'ADNOC Fujairah slot' → 'UAE emergency crude cargo'; 'MoPNG' → spell out on first use.",
+    "DECISION 2 REWRITE — ONE ASK: 'Confirm by April 2, 18:00 IST how much domestic ONGC crude can legally be redirected to Mumbai. If below 10,000 barrels/day, activate 15% fuel rationing across four states the same night. Owner: Petroleum Secretary.' Remove the conditional framing — brief the CEO on both paths verbally.",
+    "DECISION 3 REWRITE — ONE ASK: 'Authorise MEA to open simultaneous diplomatic calls within 24 hours to secure UAE emergency crude and a 60-day extension on Russian supply access, framed as a humanitarian food-and-fuel request. Require binary confirmation by April 4 midnight. Owner: MEA Secretary.'",
+    "NAME THE 'WASHINGTON CALL': Replace 'Washington call' with 'a direct call from the Foreign Secretary to the US Deputy Secretary of State requesting humanitarian flexibility on Russian crude sanctions enforcement' — or if that is not the right channel, name the correct one.",
+    "CONDENSED PS REWRITE: 'Six refineries shut in 4 days without action. The ₹45,000 crore guarantee required is less than 2% of the ₹3 lakh crore GDP loss if they do. Three decisions — issued simultaneously, tonight — prevent it.'"
+  ]
+}

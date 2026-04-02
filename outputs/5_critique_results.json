@@ -1,0 +1,100 @@
+{
+  "average": 8.31578947368421,
+  "cards": [
+    {
+      "id": "c1",
+      "score": 9,
+      "issue": "Strong hero card with clear KPIs and urgency framing. Minor issue: '8M bbl/d offline' lacks specificity on which producers are down."
+    },
+    {
+      "id": "c2",
+      "score": 9,
+      "issue": "Excellent escalation timeline with clear phase structure and animated delivery. Well-sourced. Could benefit from a single synthesizing metric at the top."
+    },
+    {
+      "id": "c3",
+      "score": 8,
+      "issue": "Effective dot-grid visualization for fleet status. The 22-ship narrative is specific and actionable. Crew count (611) adds human dimension. Slightly narrow — only covers ships, not broader logistics picture."
+    },
+    {
+      "id": "c4",
+      "score": 9,
+      "issue": "Exceptional insight hierarchy — crude is the headline, LPG is the crisis, fertilizer is the delayed bomb. The 10-week kharif framing creates urgency. Chart and dominos reinforce each other well."
+    },
+    {
+      "id": "c5",
+      "score": 10,
+      "issue": "Best card in the deck. The Gantt chart reframes the entire discourse — mine clearance as bottleneck is a non-obvious, high-value insight. Quote pair sets up the gap between rhetoric and physical reality. 91-day total is devastating."
+    },
+    {
+      "id": "c6",
+      "score": 7,
+      "issue": "Clean act break with clear audience framing. Functional but adds no analytical value — purely structural. The three topic pills are helpful orientation."
+    },
+    {
+      "id": "c7",
+      "score": 9,
+      "issue": "Comprehensive supply-side teardown. Three sources, three problems structure is clear. Voyage time comparison is excellent. Grade mismatch callout is a non-obvious insight most audiences would miss."
+    },
+    {
+      "id": "c8",
+      "score": 8,
+      "issue": "Nelson Complexity as destiny is a strong analytical frame. Bubble chart effectively separates winners from losers. GRM change axis could use clearer labeling — unclear if values are absolute or scenario-based."
+    },
+    {
+      "id": "c9",
+      "score": 9,
+      "issue": "ESMA directive card is highly differentiated — shows government override of commercial optimization. Flow diagram is clear. The 'diesel is next' forward-looking callout is valuable for planning."
+    },
+    {
+      "id": "c10",
+      "score": 8,
+      "issue": "Actionable checklist with deadlines. Items are specific and sequenced. Slight weakness: item 02 (model Nelson upgrade ROI) feels like a multi-month workstream disguised as a weekly action."
+    },
+    {
+      "id": "c11",
+      "score": 6,
+      "issue": "Act break for CFO section. The four topic pills are useful but the ₹ symbol hero element is decorative rather than informative. Could embed a single shocking number to earn the full-screen real estate."
+    },
+    {
+      "id": "c12",
+      "score": 9,
+      "issue": "Well-structured scenario framework with probabilities summing to ~85-95%, appropriately leaving residual. Import bill quantification across scenarios is the key CFO metric. 'Nobody privately believes' on resolution scenario is a strong editorial judgment."
+    },
+    {
+      "id": "c13",
+      "score": 8,
+      "issue": "Earnings impact waterfall is clear. RIL vs OMC divergence is a key tradeable insight. Chart data appears illustrative rather than sourced — the specific percentage impacts (55-62%) need stronger attribution."
+    },
+    {
+      "id": "c14",
+      "score": 9,
+      "issue": "Futures curve card is genuinely actionable — backwardation as hedging opportunity is CFO-grade advice. 'Do NOT sell calls' is a strong, specific recommendation. Annotation on the chart adds clarity."
+    },
+    {
+      "id": "c15",
+      "score": 9,
+      "issue": "April 3 waiver cliff is a concrete, time-bound risk. Three scenario structure is clean. Progress bar creates visceral urgency. The real insight — pricing erosion, not non-renewal — is correctly identified."
+    },
+    {
+      "id": "c16",
+      "score": 8,
+      "issue": "Specific, time-bound CFO actions. OPEC+ April 5 as external deadline is well-integrated. The $14-16B per $10 sensitivity in the insight box is the most important number in the card — could be promoted higher."
+    },
+    {
+      "id": "c17",
+      "score": 6,
+      "issue": "Policy advisor act break. The three levers are clearly named. The scales emoji feels slightly informal for a senior briefing. Structurally necessary but analytically empty."
+    },
+    {
+      "id": "c18",
+      "score": 9,
+      "issue": "IEA refusal as revealed preference is an excellent analytical frame. The release-vs-hoard comparison is well-structured. 74-day reserve bar with SPR/commercial split is clear. 'Government expects months' is the right synthesizing conclusion."
+    },
+    {
+      "id": "c19",
+      "score": 8,
+      "issue": "OMC cash runway chart with insolvency line is visually powerful. ₹19.8/litre loss and ₹25-30K crore/month burn rate are specific. The dilemma framing (inflation vs insolvency) is correct. Script appears truncated — minor technical issue."
+    }
+  ]
+}

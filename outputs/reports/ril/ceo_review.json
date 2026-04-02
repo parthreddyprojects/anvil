@@ -1,0 +1,36 @@
+{
+  "verdict": "REVISE",
+  "clarity_score": 7,
+  "actionability_score": 8,
+  "credibility_score": 6,
+  "problems": [
+    "The Hormuz mining claim is unverified and load-bearing. '~700–900 kbd of Middle East term liftings suspended' with 'force majeure notices expected within days' — expected by whom? If this is speculative, the entire triple-threat framing collapses to a single sanctions risk, and the urgency calculus changes significantly.",
+    "The 60–70% crude supply at-risk figure in the analysis directly contradicts the confidence of the recommendation header. If 60–70% of crude diet is simultaneously at risk, this isn't a 24-hour sprint to capitalize — it's a potential existential operational crisis. The brief doesn't reconcile this tension; it buries it in the analysis section.",
+    "The Q2 $270–540M incremental contribution is never fully derived in this document. The $3–6M/day GRM figure times 90 days is $270–540M — fine, but that assumes nameplate throughput for the full quarter with confirmed replacement crude and no credit constraint. All three of those conditions are currently unmet. This number is being used to justify aggressive action but is built on unconfirmed assumptions.",
+    "MAC clause risk is flagged but not sized. If Western revolving credit facilities freeze due to OFAC enforcement posture shift, what is the actual credit gap? The brief says $2–3B residual headroom 'may' be legally dangerous but doesn't tell me the fallback if counsel says the draw is blocked. Decision 2 is structurally incomplete without that scenario.",
+    "The Aramco CEO direct call as a 12-hour ask is unrealistic without knowing current relationship status, existing term contract obligations, and whether Yanbu loading slots are physically available. This reads like a wish, not an action.",
+    "The domestic arbitrage numbers are internally contradicted. The brief corrects the hypothesis tree's $320–700K/day to $80–245K/day, which is good intellectual honesty — but then Decision 3 treats MoPNG engagement as a high-value strategic lever. If the direct margin is $80–245K/day on 20–35 kbd, the leverage argument has to carry the entire weight of that decision. The brief asserts diplomatic value 'materially exceeds direct margin' without quantifying it at all.",
+    "Inventory cover range is too wide. '18–25 days estimated' — that's a 7-day spread on the most critical number in this brief. Is this an estimate or is there a live tank measurement? The difference between 18 and 25 days changes the decision timeline materially.",
+    "No mention of shipping availability or VLCC fixture lead times for West African/USGC alternatives. If the procurement-replacement lead time is 30 days, I need to know whether VLCCs are available to load in time, at what freight premium, and whether the $5/bbl landed premium threshold already accounts for elevated freight. It probably doesn't."
+  ],
+  "missing": [
+    "Source and confidence level for the Hormuz mining / force majeure claim — is this confirmed intelligence, market rumor, or internal risk modeling?",
+    "Current confirmed crude inventory in absolute barrels, not a day-range estimate. I need the actual number.",
+    "Existing Aramco term contract status — volume, pricing formula, remaining Q2 obligations — before I authorize a CEO-to-CEO call requesting spot cargoes that may already be contractually owed.",
+    "Legal opinion or at minimum a preliminary verbal from sanctions counsel on MAC clause exposure — this should have been initiated before this brief landed on my desk.",
+    "VLCC availability and freight cost for West African/USGC routes factored into the $5/bbl premium threshold.",
+    "Fallback plan if Decision 2 counsel opinion is negative — i.e., Western credit draw is legally blocked. What is the non-Western credit capacity alone, and does it cover the cargo requirement?",
+    "Confirmation that Oman DME spot market has 4–6 cargo availability at any price right now, given every other refiner in the region is presumably facing the same Hormuz exposure.",
+    "Timeline for DTA legal clearance — the brief says it 'cannot clear in 72 hours' but gives no actual timeline, which makes Decision 3's 24-hour MoPNG engagement feel disconnected from legal reality."
+  ],
+  "suggested_changes": [
+    "Open with a single verified fact: confirmed crude inventory in barrels and days at current run-rate — not a range. Everything else flows from that number.",
+    "Separate the Hormuz risk from the sanctions risk with explicit confidence levels. Label one 'confirmed' and one 'assessed probability X%' so I know which part of the triple-threat is real and which is scenario planning.",
+    "Add a one-line fallback to Decision 2: 'If counsel opinion is negative on MAC clause, CFO to confirm maximum non-Western LC capacity within 6 hours and present revised cargo-purchase ceiling to CEO.' Right now Decision 2 has no failure branch.",
+    "Remove the Q2 $270–540M number from the header/situation unless you can show it's achievable under the specific conditions this brief is trying to create. As written it's aspirational math presented as realized upside.",
+    "In Decision 1, replace 'CEO/MD to execute direct call to Saudi Aramco CEO within 12 hours' with a specific instruction that includes: confirming existing term contract status first, identifying the right counterpart (may not be CEO-level), and getting Head of Supply to pre-verify Yanbu slot availability before the call happens.",
+    "The MRPL arbitrage diplomatic value argument needs one concrete data point — e.g., estimated customs duty waiver value on X cargoes of spot crude, or precedent from a prior GoI facility — or it should be downgraded from a strategic lever to a tactical nice-to-have."
+  ],
+  "would_sign_off": false,
+  "ceo_note": "The analytical work here is genuinely strong — the team caught the internal contradictions in the hypothesis tree, correctly sequenced crude confirmation before run-rate authorization, and the MAC clause flag is exactly the kind of thing that should be in a crisis brief. But I can't sign Decision 2 without a sanctions counsel opinion already in motion, I can't sign Decision 1 without knowing whether Oman spot even has cargo availability given market-wide Hormuz stress, and I can't validate the entire risk framing until someone tells me whether the Hormuz mining claim is confirmed intelligence or a scenario assumption. The brief is hiding two things behind confident language: the inventory number is a range when it should be a fact, and the Hormuz risk is presented as near-certain when it may be speculative. Fix those, get me a preliminary legal read on MAC exposure, and confirm Oman spot availability — then bring this back. I'm not rejecting the direction, I'm rejecting the gaps."
+}

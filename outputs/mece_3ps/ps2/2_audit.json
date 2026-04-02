@@ -1,0 +1,782 @@
+{
+  "bucket_audits": [
+    {
+      "section_id": 1,
+      "title": "What is our true current position\u2014inventory, exposure, and operational headroom\u2014across all four refineries right now?",
+      "dimensions_found": [
+        {
+          "dimension": "Crude inventory days-cover by grade at each refinery",
+          "status": "covered",
+          "existing_question_id": "1.1"
+        },
+        {
+          "dimension": "In-transit crude volumes, ETAs, and vessel routing through Hormuz",
+          "status": "covered",
+          "existing_question_id": "1.2"
+        },
+        {
+          "dimension": "War-risk insurance validity on in-transit vessels",
+          "status": "covered",
+          "existing_question_id": "1.2"
+        },
+        {
+          "dimension": "Contracted term crude volumes at-risk by origin for April\u2013June",
+          "status": "covered",
+          "existing_question_id": "1.3"
+        },
+        {
+          "dimension": "Product inventory levels by product type and refinery vs. safety stock thresholds",
+          "status": "covered",
+          "existing_question_id": "1.4"
+        },
+        {
+          "dimension": "Open payment obligations and LC headroom at PSU lenders",
+          "status": "covered",
+          "existing_question_id": "1.5"
+        },
+        {
+          "dimension": "Minimum economic run-rate per CDU at each refinery and technical authority confirmation",
+          "status": "covered",
+          "existing_question_id": "1.6"
+        },
+        {
+          "dimension": "Port and pipeline logistics constraints and crude grade compatibility",
+          "status": "covered",
+          "existing_question_id": "1.7"
+        },
+        {
+          "dimension": "War-risk insurance availability for new voyages and premium uplift",
+          "status": "covered",
+          "existing_question_id": "1.8"
+        },
+        {
+          "dimension": "Under-recovery per barrel by product and refinery at current basket",
+          "status": "covered",
+          "existing_question_id": "1.9"
+        },
+        {
+          "dimension": "MRPL shutdown impact on southern India product redistribution obligations",
+          "status": "covered",
+          "existing_question_id": "1.10"
+        },
+        {
+          "dimension": "Force majeure clause status in term crude contracts under Hormuz closure",
+          "status": "covered",
+          "existing_question_id": "completeness_check"
+        },
+        {
+          "dimension": "Current utilization rate at each refinery nameplate capacity",
+          "status": "covered",
+          "existing_question_id": "1.1"
+        },
+        {
+          "dimension": "Crude compatibility and blend-ratio constraints by refinery CDU design",
+          "status": "covered",
+          "existing_question_id": "1.7"
+        },
+        {
+          "dimension": "Environmental and effluent permit status at each refinery under reduced run-rate operations",
+          "status": "missing",
+          "new_question": {
+            "id": "1.11",
+            "question": "Do any of the four refineries hold environmental consents or CPCB/SPCB effluent and emission permits that are conditioned on minimum throughput levels, and if run-rates are reduced below 65%, will any site risk permit breach or mandatory notice obligations to state pollution control boards\u2014confirmed by each refinery's Environment, Health & Safety head by April 5?"
+          }
+        },
+        {
+          "dimension": "Crude quality degradation risk for inventory already in tank under extended storage",
+          "status": "missing",
+          "new_question": {
+            "id": "1.12",
+            "question": "For any crude grades currently in tank at Paradip, Panipat, Gujarat, or Bathinda that were procured for near-term processing, what is the maximum safe storage duration before quality degradation (sediment build-up, API gravity shift, H2S evolution) forces disposal or blending write-down, and which specific parcels are approaching that threshold within the next 30 days\u2014confirmed by each refinery's crude quality team by April 4?"
+          }
+        },
+        {
+          "dimension": "Counterparty credit risk exposure to crude suppliers who may themselves face sanctions or financial stress",
+          "status": "missing",
+          "new_question": {
+            "id": "1.13",
+            "question": "Among IOCL's and HMEL's active crude suppliers, which counterparties are themselves under sanctions pressure, have deteriorating credit ratings, or have had letters of credit returned or disputed in the past 90 days, and does IOCL's trade finance team have a current counterparty credit risk register that flags any supplier exposure above \u20b9500 crore\u2014reviewed and confirmed by April 4?"
+          }
+        },
+        {
+          "dimension": "Real-time product dispatch rates versus normal off-take and whether demand has already shifted due to price signals or market anticipation",
+          "status": "missing",
+          "new_question": {
+            "id": "1.14",
+            "question": "What are the current actual product dispatch rates\u2014MS, HSD, LPG, ATF\u2014from each refinery's marketing terminals over the past 7 days compared to the same period last year, and is there evidence of demand hoarding, front-loading, or panic-buying in any regional market that would compress product inventory faster than normal off-take models predict\u2014confirmed by IOCL's Marketing Division by April 4?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 2,
+      "title": "What alternative crude volumes can IOCL and HMEL physically secure within 5, 30, and 90 days to replace disrupted Hormuz and Russian supply?",
+      "dimensions_found": [
+        {
+          "dimension": "G2G emergency uplift from Saudi Aramco and ADNOC",
+          "status": "covered",
+          "existing_question_id": "2.1"
+        },
+        {
+          "dimension": "West African spot crude availability and delivered cost",
+          "status": "covered",
+          "existing_question_id": "2.2"
+        },
+        {
+          "dimension": "Russian ESPO legal risk post-sanctions waiver expiry",
+          "status": "covered",
+          "existing_question_id": "2.3"
+        },
+        {
+          "dimension": "Domestic ONGC and Cairn crude redirection to Panipat and Gujarat",
+          "status": "covered",
+          "existing_question_id": "2.4"
+        },
+        {
+          "dimension": "SPR drawdown authorization and technical release timeline",
+          "status": "covered",
+          "existing_question_id": "2.5"
+        },
+        {
+          "dimension": "US, Brazilian, and North Sea crude compatibility and delivered cost differential",
+          "status": "covered",
+          "existing_question_id": "2.6"
+        },
+        {
+          "dimension": "At-sea diversion of VLCC or Suezmax cargoes from other buyers",
+          "status": "covered",
+          "existing_question_id": "2.7"
+        },
+        {
+          "dimension": "HMEL independent sourcing versus unified IOCL-led protocol",
+          "status": "covered",
+          "existing_question_id": "2.8"
+        },
+        {
+          "dimension": "Condensate and light crude blend ratio compatibility and margin impact",
+          "status": "covered",
+          "existing_question_id": "2.9"
+        },
+        {
+          "dimension": "G2G deals with Iraq SOMO, QatarEnergy, KazMunayGas via Ceyhan",
+          "status": "covered",
+          "existing_question_id": "2.10"
+        },
+        {
+          "dimension": "VLCC and Suezmax shipping availability and war-risk freight premium",
+          "status": "covered",
+          "existing_question_id": "completeness_check"
+        },
+        {
+          "dimension": "East African crude sources (e.g., Uganda, Tanzania future supply, Mozambique LNG condensate) as emerging non-Hormuz alternatives",
+          "status": "missing",
+          "new_question": {
+            "id": "2.11",
+            "question": "Are there any East African crude or condensate cargoes\u2014from Uganda's Tilenga field via EACOP (if operational), Mozambique, or South Sudan's Nile blend via Port Sudan\u2014available for spot or short-term term lifting within 45 days at a volume above 500,000 barrels, and has IOCL's trading desk assessed their CDU compatibility and delivered cost vs. $156 basket\u2014confirmed by April 10?"
+          }
+        },
+        {
+          "dimension": "Payment modality and currency risk for alternative crude sources\u2014specifically ability to pay in INR, AED, or non-USD currencies under sanctions avoidance",
+          "status": "missing",
+          "new_question": {
+            "id": "2.12",
+            "question": "For each alternative crude source identified under G2G or spot channels, what is the payment currency and modality\u2014USD LC, INR settlement, AED direct transfer, barter\u2014acceptable to the seller, and which payment channels are free of OFAC secondary sanctions risk for IOCL, with a bank-by-bank confirmation from SBI and BoB's sanctions compliance desks by April 5?"
+          }
+        },
+        {
+          "dimension": "Refinery crude processing economics for each alternative grade\u2014yield loss, energy cost, additive cost vs. habitual heavy sour diet",
+          "status": "missing",
+          "new_question": {
+            "id": "2.13",
+            "question": "For each alternative crude grade being considered\u2014Angolan Girassol, US WTI Midland, Brazilian Tupi, North Sea Johan Sverdrup\u2014what is the refinery-specific yield differential versus the current Urals/Arab Heavy diet at Panipat, Paradip, Gujarat, and Bathinda, expressed in USD/bbl net margin impact including additive costs, hydrogen uplift, and product slate shift, confirmed by each refinery's planning team by April 7?"
+          }
+        },
+        {
+          "dimension": "Crude import from Central Asian states via overland or Caspian-Iranian route alternatives",
+          "status": "missing",
+          "new_question": {
+            "id": "2.14",
+            "question": "Is there any viable overland or Caspian-to-Indian-Ocean crude routing from Kazakhstani or Azerbaijani production (Tengiz, ACG) via alternative export terminals\u2014Ceyhan, Novorossiysk, or Baku-Tbilisi-Ceyhan\u2014that bypasses the Hormuz Strait and can deliver to Indian ports within 30 days at competitive pricing, and has IOCL's supply chain team assessed the logistics feasibility and cost by April 10?"
+          }
+        },
+        {
+          "dimension": "Strategic relationship with BPCL and HPCL to pool sourcing power and avoid competitive bidding against each other in a tight spot market",
+          "status": "missing",
+          "new_question": {
+            "id": "2.15",
+            "question": "Has MoPNG directed IOCL, BPCL, and HPCL to coordinate crude spot purchasing through a joint procurement committee to avoid three Indian PSU refiners bidding competitively against each other in the same West African or US spot market during the crisis\u2014thereby inflating prices\u2014and if not, can such a coordination directive be issued by MoPNG within 48 hours with IOCL designated as the lead coordinator?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 3,
+      "title": "What run-rate and product-mix decisions should each refinery take immediately to minimize cash burn while meeting mandatory supply obligations?",
+      "dimensions_found": [
+        {
+          "dimension": "ESMA LPG minimum production volume per refinery and minimum CDU utilization to meet it",
+          "status": "covered",
+          "existing_question_id": "3.1"
+        },
+        {
+          "dimension": "Pipeline product commitment penalties vs. production loss tradeoff",
+          "status": "covered",
+          "existing_question_id": "3.2"
+        },
+        {
+          "dimension": "Minimum CDU utilization for technical integrity by refinery",
+          "status": "covered",
+          "existing_question_id": "3.3"
+        },
+        {
+          "dimension": "Export-parity positive margin product streams\u2014petcoke, naphtha, fuel oil",
+          "status": "covered",
+          "existing_question_id": "3.4"
+        },
+        {
+          "dimension": "Legal authority to export above domestic obligation and MoPNG export permission order",
+          "status": "covered",
+          "existing_question_id": "3.5"
+        },
+        {
+          "dimension": "Accelerating planned turnarounds to legitimately reduce run-rate",
+          "status": "covered",
+          "existing_question_id": "3.6"
+        },
+        {
+          "dimension": "Bathinda HMEL throughput reduction constraints from state, HPCL, and Mittal",
+          "status": "covered",
+          "existing_question_id": "3.7"
+        },
+        {
+          "dimension": "Fuel substitution in refinery furnaces to reduce crude intake",
+          "status": "covered",
+          "existing_question_id": "3.8"
+        },
+        {
+          "dimension": "IAF and AAI ATF mandatory supply and interaction with other product curtailment",
+          "status": "covered",
+          "existing_question_id": "3.9"
+        },
+        {
+          "dimension": "Aggregate national product shortfall under 65% utilization across all four refineries",
+          "status": "covered",
+          "existing_question_id": "3.10"
+        },
+        {
+          "dimension": "Labor and statutory obligations under Industrial Disputes Act for workforce reduction",
+          "status": "covered",
+          "existing_question_id": "completeness_check"
+        },
+        {
+          "dimension": "Kerosene and PDS supply obligations\u2014Public Distribution System commitments that are legally separate from ESMA",
+          "status": "missing",
+          "new_question": {
+            "id": "3.11",
+            "question": "What are the refinery-specific PDS kerosene allocation commitments under the National Food Security Act and state government offtake agreements, are these obligations legally enforceable at the refinery level separately from ESMA mandates, and can any PDS kerosene obligation be suspended or redirected to alternate supply by MoPNG directive within 7 days without triggering state government legal challenge\u2014confirmed by MoPNG's Petroleum Distribution Division and IOCL's legal team by April 6?"
+          }
+        },
+        {
+          "dimension": "Utilities and feedstock interaction\u2014specifically hydrogen plant turndown affecting hydrodesulfurization capacity and Euro VI compliance of output",
+          "status": "missing",
+          "new_question": {
+            "id": "3.12",
+            "question": "If CDU throughput is reduced by 25\u201335% at Panipat or Paradip, what is the resulting hydrogen plant load factor, and does reduced hydrogen availability constrain hydrodesulfurization capacity in a way that forces production of off-spec HSD below BS-VI sulfur limits\u2014which would be illegal to sell domestically\u2014and what is the minimum CDU rate above which BS-VI compliant diesel output can be maintained continuously, confirmed by Panipat's and Paradip's process engineering teams by April 5?"
+          }
+        },
+        {
+          "dimension": "Bitumen and specialty product obligations\u2014supply to National Highways Authority and state road construction programs with contractual commitments",
+          "status": "missing",
+          "new_question": {
+            "id": "3.13",
+            "question": "What are the contractual bitumen supply commitments from Paradip, Gujarat, and Panipat to NHAI and state PWDs for the April\u2013June construction season, what is the financial penalty for shortfall, and at what minimum VDU throughput can bitumen production be maintained to honor these contracts\u2014with the penalty-vs.-production-loss tradeoff calculated by IOCL's Marketing and Finance teams by April 7?"
+          }
+        },
+        {
+          "dimension": "Interaction between run-rate reduction and IOCL's marketing arm's retailer and dealer network obligations\u2014bulk consumer contracts",
+          "status": "missing",
+          "new_question": {
+            "id": "3.14",
+            "question": "Does IOCL have bulk consumer HSD supply contracts\u2014with railways, DISCOMs, mining companies, or large industrial users\u2014that contain minimum delivery volume clauses with penalties, what is the aggregate contracted volume per month across all four refineries' marketing zones, and at what combined refinery utilization rate does IOCL breach these bulk contracts triggering financial liability\u2014confirmed by IOCL's Retail and Bulk Marketing Division by April 6?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 4,
+      "title": "What is the financial and liquidity impact of the crisis, and what government relief mechanisms must be activated within what timeframe to prevent a cash crisis?",
+      "dimensions_found": [
+        {
+          "dimension": "Under-recovery per barrel by product and refinery at $156 basket",
+          "status": "covered",
+          "existing_question_id": "4.1"
+        },
+        {
+          "dimension": "Days of operating liquidity before LC default and hard-stop date",
+          "status": "covered",
+          "existing_question_id": "4.2"
+        },
+        {
+          "dimension": "Emergency liquidity line request to MoF and RBI\u2014instrument and quantum",
+          "status": "covered",
+          "existing_question_id": "4.3"
+        },
+        {
+          "dimension": "Oil bond and budgetary cash transfer timeline based on historical precedent",
+          "status": "covered",
+          "existing_question_id": "4.4"
+        },
+        {
+          "dimension": "DBTL LPG subsidy reimbursement cycle and advance payment request",
+          "status": "covered",
+          "existing_question_id": "4.5"
+        },
+        {
+          "dimension": "HMEL covenant breach risk and lender notification obligation",
+          "status": "covered",
+          "existing_question_id": "4.6"
+        },
+        {
+          "dimension": "Export revenue as offset to under-recovery\u2014maximum permissible volume",
+          "status": "covered",
+          "existing_question_id": "4.7"
+        },
+        {
+          "dimension": "Existing crude price hedge book P&L at $156 basket",
+          "status": "covered",
+          "existing_question_id": "4.8"
+        },
+        {
+          "dimension": "GST input credit and advance income tax refund acceleration",
+          "status": "covered",
+          "existing_question_id": "4.9"
+        },
+        {
+          "dimension": "Scenario-specific monthly cash burn at 100%, 75%, 60% utilization",
+          "status": "covered",
+          "existing_question_id": "4.10"
+        },
+        {
+          "dimension": "Inter-PSU upstream subsidy contribution from ONGC",
+          "status": "covered",
+          "existing_question_id": "completeness_check"
+        },
+        {
+          "dimension": "Foreign currency exposure and INR depreciation risk\u2014crude purchased in USD, domestic revenue in INR, and forex hedging adequacy",
+          "status": "missing",
+          "new_question": {
+            "id": "4.11",
+            "question": "At $156 crude, what is IOCL's and HMEL's monthly USD crude payment obligation, what is the current INR/USD hedge cover ratio and maturity profile, and if INR depreciates a further 3\u20135% under capital flight triggered by the geopolitical crisis, what is the incremental INR cash burn from currency exposure\u2014with a treasury stress test submitted by IOCL's CFO by April 5?"
+          }
+        },
+        {
+          "dimension": "Working capital impact of product price receivable lag from OMC marketing subsidiaries and state-level distribution entities",
+          "status": "missing",
+          "new_question": {
+            "id": "4.12",
+            "question": "What is the average collection period for product sales revenue from IOCL's retail and bulk marketing channels\u2014distributor credit days, OMC inter-company settlement lag\u2014and under the current crisis, has any extension of credit to dealers or distributors been requested that would further widen the working capital gap beyond what is modeled in the LC default timeline at question 4.2, confirmed by IOCL's Credit Control and Marketing Finance teams by April 5?"
+          }
+        },
+        {
+          "dimension": "Capital expenditure deferral as an immediate liquidity measure\u2014which planned FY26 capex can be frozen without safety or compliance breach",
+          "status": "missing",
+          "new_question": {
+            "id": "4.13",
+            "question": "What is the total FY26 planned capital expenditure across Paradip, Panipat, Gujarat, and Bathinda that can be deferred for 60\u201390 days without breaching statutory safety upgrade deadlines, environmental compliance orders, or debt covenant capex maintenance requirements, and what is the quarterly cash release from such deferral\u2014with a list of deferrable vs. non-deferrable projects confirmed by each refinery's Capital Projects team and IOCL's CFO by April 6?"
+          }
+        },
+        {
+          "dimension": "Dividend obligation and share buyback moratorium\u2014whether IOCL can suspend planned shareholder returns to preserve liquidity without triggering market panic",
+          "status": "missing",
+          "new_question": {
+            "id": "4.14",
+            "question": "Does IOCL have a declared or anticipated dividend obligation for Q4 FY25 or FY26 annual dividend that would consume cash during the crisis period, can the board legally defer or reduce the dividend under current Articles of Association and SEBI listing obligations without triggering a mandatory disclosure that spooks bond markets, and has IOCL's Company Secretary confirmed the legal pathway for dividend deferral by April 6?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 5,
+      "title": "What are the principal risks to operations, supply, finance, and national energy security, and what specific hedges or contingency actions must be pre-positioned now?",
+      "dimensions_found": [
+        {
+          "dimension": "Hormuz closure duration scenarios and crude inventory depletion trajectory",
+          "status": "covered",
+          "existing_question_id": "5.1"
+        },
+        {
+          "dimension": "Price escalation scenarios to $175 and $200 basket and break-even price revision analysis",
+          "status": "covered",
+          "existing_question_id": "5.2"
+        },
+        {
+          "dimension": "OFAC secondary sanctions legal exposure for post-April 3 Russian crude purchases",
+          "status": "covered",
+          "existing_question_id": "5.3"
+        },
+        {
+          "dimension": "War-risk insurer withdrawal and GIC Re backstop capacity",
+          "status": "covered",
+          "existing_question_id": "5.4"
+        },
+        {
+          "dimension": "Refinery forced shutdown restart cost and minimum timeline",
+          "status": "covered",
+          "existing_question_id": "5.5"
+        },
+        {
+          "dimension": "MRPL shutdown contingency and southern India supply gap coverage",
+          "status": "covered",
+          "existing_question_id": "5.6"
+        },
+        {
+          "dimension": "Standby crude offtake facility with non-Hormuz suppliers on 72-hour notice",
+          "status": "covered",
+          "existing_question_id": "5.7"
+        },
+        {
+          "dimension": "ESMA enforcement action risk for LPG shortfall and force majeure defense",
+          "status": "covered",
+          "existing_question_id": "5.8"
+        },
+        {
+          "dimension": "Conflict expansion to Cape of Good Hope or Red Sea and tertiary routing plan",
+          "status": "covered",
+          "existing_question_id": "5.9"
+        },
+        {
+          "dimension": "IOCL credit rating outlook under 90-day crisis with no fiscal transfer",
+          "status": "covered",
+          "existing_question_id": "5.10"
+        },
+        {
+          "dimension": "Workforce and community risk under extended low utilization",
+          "status": "covered",
+          "existing_question_id": "completeness_check"
+        },
+        {
+          "dimension": "Cyber and physical security risk\u2014refineries as critical national infrastructure may face heightened threat during geopolitical conflict",
+          "status": "missing",
+          "new_question": {
+            "id": "5.11",
+            "question": "Has IOCL's CISO and each refinery's physical security team conducted an emergency threat assessment in the past 48 hours to identify elevated cyber intrusion or physical sabotage risk to refinery SCADA systems, crude receipt pipelines, and SPM infrastructure given the escalating Iran-regional conflict, and has the National Critical Information Infrastructure Protection Centre (NCIIPC) issued any specific threat advisory for PSU refinery assets that requires immediate countermeasures\u2014response required by April 4?"
+          }
+        },
+        {
+          "dimension": "Risk of crude supplier declaring force majeure on existing term contracts\u2014legal and volume exposure",
+          "status": "missing",
+          "new_question": {
+            "id": "5.12",
+            "question": "Which of IOCL's and HMEL's top-10 term crude suppliers have contractual force majeure clauses broad enough to cover the Hormuz mining event or Iranian government action restricting exports, what is the aggregate contracted volume at risk if two or more suppliers simultaneously invoke force majeure for April and May, and has IOCL's legal and supply team quantified this worst-case volume gap and matched it against the maximum alternative supply identified in Section 2\u2014analysis completed by April 5?"
+          }
+        },
+        {
+          "dimension": "Contagion risk to BPCL and HPCL\u2014if peer refiners face the same crisis, does government bandwidth to provide relief get rationed, reducing per-company support",
+          "status": "missing",
+          "new_question": {
+            "id": "5.13",
+            "question": "What is the aggregate fiscal support demand that MoF and MoPNG will face simultaneously from IOCL, HPCL, BPCL, and HMEL under the current crisis, and is there a risk that government fiscal response is rationed across multiple PSU claimants in a way that reduces IOCL's and HMEL's individual relief below what is needed to sustain operations\u2014with IOCL's policy team preparing a comparative sectoral ask analysis for MoPNG by April 5 to pre-empt inter-PSU competition for relief?"
+          }
+        },
+        {
+          "dimension": "Political risk of state government overriding central mandates\u2014e.g., Punjab ordering Bathinda not to curtail LPG below state-determined levels independent of MoPNG directive",
+          "status": "missing",
+          "new_question": {
+            "id": "5.14",
+            "question": "Is there a risk that Punjab, Odisha, Haryana, or Gujarat state governments will issue their own directives to refinery management\u2014on product pricing, supply priority, or staffing\u2014that conflict with central MoPNG directions, and has IOCL's legal team assessed whether state government authority can override central ESMA directives or whether Article 246 federal precedence protects MoPNG's crisis directives from state government interference\u2014opinion confirmed by April 5?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 6,
+      "title": "What immediate and structured engagement must IOCL and HMEL undertake with MoPNG, MoF, MEA, and ESMA authorities to secure the policy decisions and fiscal commitments needed to sustain operations?",
+      "dimensions_found": [
+        {
+          "dimension": "MoPNG emergency meeting for four specific government authorizations",
+          "status": "covered",
+          "existing_question_id": "6.1"
+        },
+        {
+          "dimension": "MEA and PMO G2G crude supply escalation to Gulf states",
+          "status": "covered",
+          "existing_question_id": "6.2"
+        },
+        {
+          "dimension": "US Embassy sanctions waiver extension request and US government response timeline",
+          "status": "covered",
+          "existing_question_id": "6.3"
+        },
+        {
+          "dimension": "CCEA emergency meeting authorization for fiscal package",
+          "status": "covered",
+          "existing_question_id": "6.4"
+        },
+        {
+          "dimension": "Material Adverse Change clause invocation in crude supply contracts and MoPNG notification",
+          "status": "covered",
+          "existing_question_id": "6.5"
+        },
+        {
+          "dimension": "MoPNG force majeure declaration covering LPG ESMA obligations",
+          "status": "covered",
+          "existing_question_id": "6.6"
+        },
+        {
+          "dimension": "ONGC crude redirection directive and capacity confirmation",
+          "status": "covered",
+          "existing_question_id": "6.7"
+        },
+        {
+          "dimension": "State government engagement\u2014Odisha, Haryana, Gujarat, Punjab",
+          "status": "covered",
+          "existing_question_id": "6.8"
+        },
+        {
+          "dimension": "Credit rating agency briefing to prevent negative watch placement",
+          "status": "covered",
+          "existing_question_id": "6.9"
+        },
+        {
+          "dimension": "Public communication posture cleared by MoPNG to prevent retail panic",
+          "status": "covered",
+          "existing_question_id": "6.10"
+        },
+        {
+          "dimension": "Parliamentary accountability and emergency statement preparation",
+          "status": "covered",
+          "existing_question_id": "completeness_check"
+        },
+        {
+          "dimension": "International Energy Agency (IEA) coordination\u2014India as an IEA association member with access to collective action oil release mechanisms",
+          "status": "missing",
+          "new_question": {
+            "id": "6.11",
+            "question": "Has MoPNG or MEA formally engaged with the IEA Secretariat to assess whether the Hormuz mining event qualifies as a global supply disruption triggering IEA collective action, and can India\u2014as an IEA Association Country\u2014request access to IEA member strategic reserve releases or coordinated demand restraint measures that would reduce global crude price pressure and supplement Indian SPR drawdown within 30 days\u2014engagement initiated by April 5?"
+          }
+        },
+        {
+          "dimension": "Engagement with domestic petrochemical and industrial consumers who buy naphtha and fuel oil from IOCL\u2014managing their expectations on supply continuity",
+          "status": "missing",
+          "new_question": {
+            "id": "6.12",
+            "question": "What is IOCL's communication and contractual engagement plan for major domestic petrochemical buyers\u2014Reliance, GAIL, ONGC Petro, BPCL Petrochemicals\u2014who purchase naphtha and fuel oil under term contracts from IOCL's four refineries, and if IOCL reduces run-rates, which of these downstream supply contracts contain force majeure protections versus hard delivery obligations with penalty clauses, with a contract exposure register submitted to IOCL's commercial team by April 6?"
+          }
+        },
+        {
+          "dimension": "Engagement with Indian banks on LC rollover and extension\u2014preventing supplier refusal due to LC quality concerns",
+          "status": "missing",
+          "new_question": {
+            "id": "6.13",
+            "question": "Have SBI, BoB, and BoI\u2014as lead LC-issuing banks for IOCL crude purchases\u2014confirmed in writing by April 4 that they will continue to open new crude LCs and roll over existing ones without demanding additional collateral or margin during the crisis period, and if any bank has informally signaled LC tightening, has IOCL's CFO escalated this to RBI's Department of Regulation to invoke the PSU strategic sector carve-out?"
+          }
+        },
+        {
+          "dimension": "Engagement with IMO or Indian Maritime Administration regarding war-risk vessel declarations affecting Indian-chartered tankers' right to call at Indian ports",
+          "status": "missing",
+          "new_question": {
+            "id": "6.14",
+            "question": "Has the Directorate General of Shipping confirmed that Indian-chartered or Indian-flagged vessels declaring war-risk in the Persian Gulf zone will not face port state control complications or flag state recall obligations that prevent them from completing crude delivery to Paradip SPM, Vadinar, or Mundra, and has MoPNG coordinated with MoS Ports, Shipping & Waterways to issue a blanket operational clearance for war-risk-declared vessels calling at strategic refinery ports during the crisis\u2014confirmed by April 5?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 7,
+      "title": "What medium-term structural decisions\u2014on supply diversification, infrastructure, pricing reform, and strategic positioning\u2014should be initiated now under crisis cover to reduce systemic vulnerability beyond the immediate 90-day horizon?",
+      "dimensions_found": [
+        {
+          "dimension": "Hormuz crude dependence reduction target and non-Hormuz term contract portfolio",
+          "status": "covered",
+          "existing_question_id": "7.1"
+        },
+        {
+          "dimension": "SPR expansion from 9.5 to 30 days cover and shovel-ready sites",
+          "status": "covered",
+          "existing_question_id": "7.2"
+        },
+        {
+          "dimension": "Automatic retail fuel price pass-through mechanism design and Cabinet note",
+          "status": "covered",
+          "existing_question_id": "7.3"
+        },
+        {
+          "dimension": "Crude processing flexibility investments\u2014crude diet broadening capex by refinery",
+          "status": "covered",
+          "existing_question_id": "7.4"
+        },
+        {
+          "dimension": "Government-backed war-risk insurance pool co-capitalized by PSU refiners",
+          "status": "covered",
+          "existing_question_id": "7.5"
+        },
+        {
+          "dimension": "India-flagged VLCC fleet expansion through SCI and private operators",
+          "status": "covered",
+          "existing_question_id": "7.6"
+        },
+        {
+          "dimension": "Structural crude procurement financing reform\u2014sovereign guarantees, rupee trade, barter",
+          "status": "covered",
+          "existing_question_id": "7.7"
+        },
+        {
+          "dimension": "Bio-feedstock co-processing feasibility at Paradip and Gujarat",
+          "status": "covered",
+          "existing_question_id": "7.8"
+        },
+        {
+          "dimension": "National Refinery Emergency Protocol codification as institutional learning",
+          "status": "covered",
+          "existing_question_id": "7.9"
+        },
+        {
+          "dimension": "Southern India refinery gap\u2014MRPL restart, Nagapattinam greenfield, CPCL expansion",
+          "status": "covered",
+          "existing_question_id": "7.10"
+        },
+        {
+          "dimension": "Digital supply chain platform for real-time PSU refinery inventory and crude tracking",
+          "status": "covered",
+          "existing_question_id": "completeness_check"
+        },
+        {
+          "dimension": "Structural reduction of under-recovery on LPG through rationalization of subsidy to non-BPL consumers\u2014demand-side reform to reduce mandated volume obligations",
+          "status": "missing",
+          "new_question": {
+            "id": "7.11",
+            "question": "Should MoPNG use this crisis as the trigger to submit a Cabinet note recommending the restriction of subsidized LPG cylinder allocation to verified BPL and Ujjwala beneficiaries only\u2014eliminating the cross-subsidy burden from non-targeted consumers\u2014thereby structurally reducing IOCL's and HMEL's mandated under-recovery volume obligation by an estimated 20\u201330% and improving long-term refinery financial sustainability, with a policy design and implementation timeline presented to CCEA within 60 days?"
+          }
+        },
+        {
+          "dimension": "Upstream equity crude acquisition\u2014India's strategic investment in overseas oil fields to create a captive non-Hormuz supply source",
+          "status": "missing",
+          "new_question": {
+            "id": "7.12",
+            "question": "Should IOCL, ONGC Videsh, and MoPNG identify and fast-track equity crude offtake from existing Indian overseas upstream assets\u2014Sakhalin-I (ONGC Videsh), Sudan/South Sudan (OVL), Venezuela (OVL), or Brazil (ONGC Videsh)\u2014to create a structural captive non-Hormuz crude stream of at least 5% of total IOCL intake by FY27, and can MoPNG direct ONGC Videsh to assess divertible equity crude volumes and shipping logistics to Indian ports within 30 days?"
+          }
+        },
+        {
+          "dimension": "Refinery-to-refinery crude and product pipeline interconnection to improve optionality and crisis resilience across the four-refinery network",
+          "status": "missing",
+          "new_question": {
+            "id": "7.13",
+            "question": "Is there a case for investing in direct crude or intermediate feedstock pipeline interconnection between Panipat and Gujarat refineries, or between Paradip and Haldia, to enable dynamic redistribution of crude parcels or semi-processed streams between sites during future supply shocks\u2014what would be the capital cost, implementation timeline, and TAMP regulatory approval pathway, with a feasibility study commissioned by IOCL's Projects Division by June 30?"
+          }
+        },
+        {
+          "dimension": "India's engagement with OPEC+ as a major consumer nation to secure structural price moderation or consumer-nation representation in supply decisions",
+          "status": "missing",
+          "new_question": {
+            "id": "7.14",
+            "question": "Should MoPNG and MEA use the current crisis to formally propose to OPEC+ through India's Energy Ministry a consumer-producer dialogue mechanism\u2014analogous to the IEA-OPEC dialogue\u2014that gives India advance notice of supply adjustment decisions and access to emergency volume commitments from Gulf producers, and can MEA submit a diplomatic initiative proposal to PMO within 45 days for consideration at the next India-Gulf heads of government engagement?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    }
+  ],
+  "missing_buckets": [
+    {
+      "title": "What is the inter-refinery and system-level product logistics and allocation plan to ensure national fuel security is maintained even if individual refineries reduce throughput or face temporary shutdown?",
+      "rationale": "The decomposition addresses each refinery's run-rate and obligations in isolation (Section 3) and risk scenarios (Section 5), but there is no dedicated bucket that synthesizes the national-level product logistics question: if Refinery A cuts 25% and Refinery B cuts 20%, which regional markets face shortfall, which product pipelines and coastal shipping routes can re-balance supply, which OMC storage depots can buffer, and how does MoPNG operationally direct inter-OMC product transfers. This is a distinct bucket from sourcing (Section 2), run-rate (Section 3), and risk (Section 5)\u2014it is the distribution and allocation logistics layer that determines whether even reduced refinery output reaches end consumers without stock-outs. The MRPL shutdown has already created a redistribution need, and simultaneous run-rate cuts across four refineries could create a multi-regional crisis requiring active MoPNG-directed product redistribution that is not addressed in any existing bucket.",
+      "questions": [
+        {
+          "id": "8.1",
+          "question": "What is the current national product pipeline and coastal shipping redistribution capacity available to MoPNG to re-route HSD, MS, and LPG from surplus-producing refineries to deficit regions if Paradip, Panipat, Gujarat, and Bathinda simultaneously reduce to 65\u201370% utilization\u2014specifically: which pipeline segments have spare hydraulic capacity, which coastal tankers are available for product movement, and which product depots have sufficient ullage to receive re-routed supplies, confirmed by IOCL's Pipelines Division and MoPNG's Supply Chain cell by April 5?"
+        },
+        {
+          "id": "8.2",
+          "question": "Has MoPNG activated its National Crisis Fuel Allocation Protocol\u2014if one exists\u2014to formally direct inter-OMC product transfers between IOCL, HPCL, and BPCL marketing terminals, and if no such protocol exists, can MoPNG issue an emergency product allocation directive within 48 hours specifying priority regions, minimum depot stock levels, and the authority chain for approving inter-OMC product transfers without commercial settlement delays?"
+        },
+        {
+          "id": "8.3",
+          "question": "Which specific state markets\u2014by state and district\u2014are most exposed to stock-out risk within 15 days if refinery run-rates fall to 65%, based on current depot inventory levels, normal replenishment frequencies, and distance from the nearest operating refinery, and has IOCL's logistics planning team produced a heat map of at-risk districts for MoPNG's allocation decisions by April 5?"
+        },
+        {
+          "id": "8.4",
+          "question": "Can LPG bottling plants affiliated with IOCL, HPCL, and BPCL draw down cylinder inventory buffers and adjust bottling schedules to absorb a 15\u201320% reduction in refinery LPG output for up to 21 days without triggering visible retail shortages, and has IOCL's LPG Division confirmed the available system buffer in filled cylinders and un-bottled propane/butane inventory across all four regional grids?"
+        },
+        {
+          "id": "8.5",
+          "question": "What is the aviation fuel (ATF) supply chain resilience plan if Panipat or Gujarat reduces throughput by 25%\u2014specifically which alternative refinery or import terminal can supply major airport hubs (Delhi, Mumbai, Ahmedabad, Amritsar) within 5 days, and has AAI and IndiGo/Air India been notified of potential ATF supply constraints to enable proactive tankering from alternate airports?"
+        },
+        {
+          "id": "8.6",
+          "question": "Is there a mechanism for IOCL to import refined petroleum products\u2014diesel, petrol, LPG\u2014from international markets on an emergency basis to substitute for reduced domestic refinery output, what are the import duty implications under current tariff schedules, and which trading companies or Singapore traders can deliver product parcels to JNPT, Kandla, or Haldia within 21 days at a cost that is economically preferable to domestic production at $156 crude\u2014assessed by IOCL Trading by April 7?"
+        }
+      ]
+    },
+    {
+      "title": "What are the human factors, organizational decision-making authority, and crisis management governance arrangements needed to execute all decisions across IOCL, HMEL, and MoPNG within the 72-hour and 90-day horizons?",
+      "rationale": "The decomposition is comprehensive on what decisions need to be made but has a significant gap on who has authority to make them, under what governance structure, with what escalation paths, and with what crisis management organization. The problem statement explicitly involves the Chairman (IOCL), MD (HMEL), and MoPNG Secretary\u2014but there is no bucket addressing: Is there a crisis management committee? Who has authority to commit to a G2G crude contract worth \u20b95,000 crore without a board meeting? Who can authorize run-rate reduction without triggering Industrial Disputes Act issues? What is the decision rights matrix under ESMA emergency? This organizational and governance dimension is entirely absent from the decomposition and is critical because in a 72-hour window, the speed of decision-making is determined by governance clarity, not analytical quality.",
+      "questions": [
+        {
+          "id": "9.1",
+          "question": "Has the IOCL Chairman constituted a formal Crisis Management Committee with defined membership, authority matrix, and daily decision cadence\u2014specifying which decisions can be taken at MD/ED level, which require Board authorization, and which require MoPNG ministerial approval\u2014with the committee's first meeting convened and the authority matrix circulated by April 3 at 0800 hrs?"
+        },
+        {
+          "id": "9.2",
+          "question": "Under IOCL's Articles of Association, Companies Act 2013, and DPE guidelines for Maharatna CPSEs, what is the maximum financial commitment that the Chairman can authorize unilaterally versus what requires board approval, and for emergency crude purchases above that threshold, has the Company Secretary confirmed the fastest legally valid board authorization mechanism\u2014circular resolution, emergency EGM, or standing board delegation\u2014that can be executed within 24 hours?"
+        },
+        {
+          "id": "9.3",
+          "question": "Has MoPNG's Secretary designated a Crisis Coordinator with 24/7 authority to issue written directives to IOCL, HMEL, HPCL, BPCL, and ONGC without standard inter-ministerial consultation delays, and is there an existing legal instrument\u2014such as a standing Essential Services Maintenance Act order or ESMA notification\u2014that provides this authority, or does a fresh notification need to be issued by April 3?"
+        },
+        {
+          "id": "9.4",
+          "question": "What is the information reporting protocol\u2014frequency, format, recipients\u2014that IOCL and HMEL must use to keep MoPNG, MoF, and PMO updated on refinery inventory levels, crude payment status, and product dispatch in real time during the crisis, and has a standardized daily situation report template been agreed and the first report issued by April 3?"
+        },
+        {
+          "id": "9.5",
+          "question": "Is HMEL's MD empowered under HMEL's joint venture governance agreement between HPCL and Mittal Energy to make unilateral run-rate and sourcing decisions during a declared national energy emergency, or does any material operational change require consent from Mittal Energy's representative directors\u2014and if the latter, has HPCL as the government equity partner invoked any emergency authority provision to override commercial JV governance for the crisis duration, confirmed by HMEL's legal team by April 4?"
+        }
+      ]
+    }
+  ],
+  "duplicate_flags": [
+    {
+      "question_ids": [
+        "1.8",
+        "5.4"
+      ],
+      "reason": "Both address war-risk insurance availability for Persian Gulf crude voyages and GIC Re backstop capacity. Q1.8 asks about premium uplift and insurer confirmation for new voyages; Q5.4 asks which insurers cover Hormuz transits and whether any have issued cancellation notices. These are substantively overlapping\u2014the distinction between 'new voyage' and 'existing coverage' is thin and the same insurer intelligence-gathering exercise answers both. Consider merging into one question in Section 1 with risk monitoring tracked in Section 5."
+    },
+    {
+      "question_ids": [
+        "2.5",
+        "5.1"
+      ],
+      "reason": "Q2.5 asks about SPR drawdown volume, technical release timeline, and CCEA authorization. Q5.1 asks about crude inventory depletion trajectory and when each refinery crosses minimum inventory threshold. While framed differently, the SPR drawdown timing and the refinery inventory depletion timeline are answering the same underlying question\u2014at what point does the SPR become the only remaining supply buffer. The SPR authorization question in 2.5 and the depletion modeling in 5.1 should be explicitly cross-referenced to ensure they are driven by the same volume and timing assumptions."
+    },
+    {
+      "question_ids": [
+        "3.4",
+        "3.5"
+      ],
+      "reason": "Q3.4 asks which product streams yield positive contribution at export parity and whether production can be shifted toward them within license conditions. Q3.5 asks whether IOCL can legally export diesel, petrol, or ATF above domestic obligation volumes. These are partially duplicative\u2014both are asking the same underlying question about export-oriented production shift under current regulatory constraints, differing only in which products are named. A single question combining both the margin analysis and the legal authority check would be cleaner."
+    },
+    {
+      "question_ids": [
+        "4.3",
+        "6.4"
+      ],
+      "reason": "Q4.3 asks whether IOCL's CFO has requested an emergency meeting with MoF Secretary and RBI to activate a \u20b915,000\u201320,000 crore liquidity line. Q6.4 asks whether MoPNG has requested MoF to convene a CCEA emergency meeting to authorize an oil subsidy package including RBI liquidity window. Both are asking MoF/RBI to convene emergency meetings for overlapping fiscal relief purposes. The CCEA meeting and the CFO's bilateral meeting with MoF Secretary should be sequenced and treated as one coordinated government engagement decision, not two separate questions."
+    },
+    {
+      "question_ids": [
+        "2.3",
+        "5.3"
+      ],
+      "reason": "Q2.3 asks about the legal risk of continuing Russian ESPO purchases after April 3 and requests a legal opinion distinguishing ESPO from Urals. Q5.3 asks about specific legal exposure\u2014designation risk, secondary sanctions, correspondent banking cutoff\u2014for post-April 3 Russian crude and also requests external legal counsel confirmation. These are substantively the same question: what is the post-waiver sanctions legal risk for Russian crude, and has external legal counsel opined. One should be primary (recommend consolidating in Section 2 as the sourcing decision question) with a cross-reference from Section 5 for risk monitoring purposes."
+    }
+  ],
+  "overall_verdict": "gaps_found",
+  "total_questions_added": 27
+}

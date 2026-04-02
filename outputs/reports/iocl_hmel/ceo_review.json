@@ -1,0 +1,38 @@
+{
+  "verdict": "REVISE",
+  "clarity_score": 7,
+  "actionability_score": 6,
+  "credibility_score": 5,
+  "problems": [
+    "Decision #1 is one sentence containing three separate asks from three separate authorities (PMO, MoF, RBI) — this is not a decision, it's a legislative agenda. Each requires its own owner, approval path, and deadline. Bundling them guarantees diffusion of accountability.",
+    "The ₹2,16,700 crore cross-default figure is the most dangerous number in this brief and it has zero sourcing footnote. If a journalist or opposition MP asks where that came from and we can't answer in 10 seconds, this entire brief becomes a liability.",
+    "Bathinda 8–12 days crude cover is explicitly flagged as 'extrapolated' with a live data gap. I am being asked to approve a ₹25,000–35,000 crore commitment and PMO-level authority delegation partly on a number the team admits it does not have. That is not acceptable.",
+    "'₹160–180 crore/month per dollar above pivot' is internally inconsistent with the daily burn figure. At $32/bbl premium over break-even and ₹160–180 crore per dollar per month, monthly burn should be ~₹5,120–5,760 crore/month — but ₹750–965 crore/day implies ₹22,500–29,000 crore/month. The variance section tries to explain this but it reads as two different metrics mashed together. It will undermine credibility in the room.",
+    "The ADNOC Fujairah 600,000-barrel figure is presented as the minimum required but there is no calculation showing how 600,000 barrels bridges Bathinda's gap. What is Bathinda's daily crude intake? What does 600k bbls buy in days-cover? This is the single most time-critical action in the brief and the math is missing.",
+    "Decision #3 contains a retail price recommendation (₹15–20/litre HSD hike) buried in the same paragraph as a War Room constitution request. A retail fuel price increase is a politically explosive, standalone decision that will consume all the oxygen in any room it enters. It cannot be an afterthought in Decision #3.",
+    "MRPL shutdown is cited as a cause of southern grid LPG stress but there is no explanation of why MRPL is down, whether it is recoverable within the crisis window, or whether restoring it changes the calculus. If MRPL comes back online in 4 days, the southern grid ask changes materially.",
+    "The brief assumes Russian crude payment channels are fully blocked post-April 3 but Decision #3 simultaneously asks for authorization of CNY/dirham-denominated LC switches for Russian crude. If alternative payment rails exist, why is the Russian crude disruption framed as binary? This is either a hedge that undermines the urgency framing or an incomplete analysis of what the sanctions waiver expiry actually blocks.",
+    "The War Room composition in Decision #3 excludes MEA, which would be the executing ministry for any ADNOC diplomatic engagement and any sanctions waiver extension negotiation. This is a structural gap."
+  ],
+  "missing": [
+    "Confirmed, live Bathinda crude inventory figure from HMEL operations — not an extrapolation. This is non-negotiable before sign-off.",
+    "A one-paragraph reconciliation of the ₹2,16,700 crore cross-default figure: which debt instruments, which cross-default clauses, verified by which legal/financial authority.",
+    "Bathinda daily crude intake (barrels/day) so the 600,000-barrel ADNOC cargo can be validated as sufficient for the claimed days-cover bridge.",
+    "Status of MRPL shutdown: cause, estimated restoration timeline, impact on southern grid LPG scenario if restored within the crisis window.",
+    "Has any preliminary contact been made with ADNOC? Is the Fujairah cargo physically available or is this a theoretical sourcing option? 'Must confirm by April 5' is meaningless if ADNOC hasn't been approached.",
+    "What happens if PMO authority delegation is granted but the ADNOC cargo is not available — is there a fallback sourcing option with any timeline compatibility with Bathinda's window, even a partial one?",
+    "Legal opinion on PC Act coverage for emergency procurement — even a one-line confirmation that the Law Ministry has been consulted, because without it, IOCL Chairman will not move regardless of what PMO writes.",
+    "Scenario sensitivity: what does the burn rate and default timeline look like if crude drops back to $130/bbl? The entire brief is premised on $156/bbl holding — is there a range?"
+  ],
+  "suggested_changes": [
+    "Split Decision #1 into three separate line items, each with a single owner, single ask, and single deadline. PMO authority delegation, MoF LC backstop, and RBI dispensation are three different bureaucratic actions requiring three different approval chains.",
+    "Move the retail price hike out of Decision #3 and either give it its own decision item or explicitly defer it with a stated consequence — 'Retail price decision deferred; second fiscal tranche of ₹15,000–20,000 crore pre-authorized contingently.' Do not bury it.",
+    "Add a single KPI row: 'Bathinda daily crude intake (barrels/day) — LIVE figure required by [time].' Make the data gap visible at the KPI level, not hidden in a footnote.",
+    "Rewrite the burn rate variance note to use a single consistent metric. Either daily or monthly — not both with different implied bases. Right now it looks like a math error.",
+    "Add a one-line sourcing status field to the ADNOC ask: 'Preliminary contact made: Yes/No. Cargo availability confirmed: Yes/No/Pending.' If the answer is No on both, this is not a decision for me — this is still a staff task.",
+    "Add MEA to the War Room composition in Decision #3, specifically tagged as lead for ADNOC diplomatic channel and sanctions waiver extension.",
+    "Add a 'Base assumptions' box — three bullets: assumed crude price ($156/bbl), assumed Russian channel fully blocked post-April 3 (Y/N qualifier), assumed MRPL offline for full crisis window (Y/N). Assumptions drive every number in this brief and they are currently invisible."
+  ],
+  "would_sign_off": false,
+  "ceo_note": "The analytical horsepower here is real — the financing-before-physical-supply insight is correct and the Bathinda asymmetric downside framing is exactly the right way to prioritize. But I cannot sign this in its current form for three reasons: one, the single most important operational number in the brief — Bathinda's actual crude inventory — is an extrapolation and the team knows it; two, the decisions are structured for a policy document, not for a room where three different ministries need to leave with unambiguous, separated marching orders; and three, the ₹2,16,700 crore cross-default figure will be the first thing Finance Ministry challenges, and if we can't defend it cold, we lose the room before we get to the ask. Get me confirmed Bathinda inventory, source the cross-default number, split the decisions by owner, and pull the retail price hike into its own line. That's a 90-minute revision. Bring it back."
+}

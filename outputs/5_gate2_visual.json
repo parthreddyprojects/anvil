@@ -1,0 +1,144 @@
+[
+  {
+    "card": "card_03",
+    "issues": [
+      "Map zoom is quite close with vessel cluster markers overlapping near the Strait of Hormuz area",
+      "Map labels (Bandar Abbas, Dubai, etc.) are partially obscured by vessel markers"
+    ],
+    "severity": "medium"
+  },
+  {
+    "card": "card_04",
+    "issues": [
+      "Empty/blank chart container - the LPG supply availability chart area appears to have no visible data or chart rendered",
+      "Large white empty space in the chart container where data visualization should appear"
+    ],
+    "severity": "high"
+  },
+  {
+    "card": "card_05",
+    "issues": [
+      "Timeline label text overlapping: '8-12 weeks clearance op' and 'best case open' text overlaps around the Jun 6 marker",
+      "Timeline annotation 'Earliest possible strait reopening - week-by-week from March 28 agreement' partially overlaps with milestone labels"
+    ],
+    "severity": "medium"
+  },
+  {
+    "card": "card_07",
+    "issues": [
+      "Capacity utilization bar chart label '100K bbl/d' and '200K bbl/d' text appears cramped within the bar segments"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_08",
+    "issues": [
+      "Chart label 'FULL COMPLEXITY +6.2%' text is small and cramped next to the RIL (Jamnagar) bar",
+      "X-axis labels '+10%+12%' appear merged/overlapping at the right end of the chart"
+    ],
+    "severity": "medium"
+  },
+  {
+    "card": "card_09",
+    "issues": [
+      "Chart bar labels 'prioritized above all' and 'cut from 100%' text appears cramped within the bars",
+      "The '70% guaranteed' label inside the green bar is slightly hard to read against the background"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_11",
+    "issues": [
+      "The 'RETAIL CAP \u20b987.57' label on the chart overlaps with the dashed green line and is partially difficult to read",
+      "The 'EFFECTIVE COST \u20b9140+' label at the top right of the chart appears cut off/cramped with the red dashed line",
+      "The 'GAP: \u20b952/Litre' annotation overlaps with chart elements"
+    ],
+    "severity": "medium"
+  },
+  {
+    "card": "card_12",
+    "issues": [
+      "The progress bar at the bottom showing MAR 5 to APR 3-5 has small text labels that may be hard to read"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_13",
+    "issues": [
+      "Excessive whitespace above and below the main content, content appears vertically compressed into the middle third of the card",
+      "Chart labels are small and potentially hard to read at normal viewing distance"
+    ],
+    "severity": "medium"
+  },
+  {
+    "card": "card_14",
+    "issues": [
+      "Large amount of empty space above and below the centered content, card appears mostly empty",
+      "Roman numeral 'III' watermark text at bottom right is cut off/partially visible"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_15",
+    "issues": [
+      "Excessive whitespace above and below the main content area"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_16",
+    "issues": [
+      "Excessive whitespace above and below the main content area"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_17",
+    "issues": [
+      "Gauge chart labels overlap - '30% SHORTFALL' text overlaps with '70%' percentage display",
+      "Multiple text elements in the gauge center area are overlapping and hard to read ('Gas Allocated' text overlaps with percentage)",
+      "Gauge chart annotations 'vs.' and other small text are partially obscured"
+    ],
+    "severity": "high"
+  },
+  {
+    "card": "card_18",
+    "issues": [
+      "Large 'IV' watermark text in bottom-right corner partially cut off by card edge",
+      "Card is mostly empty white space with minimal content centered vertically"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_19",
+    "issues": [
+      "Waterfall chart '+$120B SHOCK' label text overlaps with the red bar area",
+      "'CURRENT BILL ~$225B' label at top right of chart is slightly cramped near the edge"
+    ],
+    "severity": "medium"
+  },
+  {
+    "card": "card_21",
+    "issues": [
+      "Excessive whitespace above and below the content, content appears vertically centered but sparse",
+      "Large empty areas taking up most of the card with minimal content"
+    ],
+    "severity": "low"
+  },
+  {
+    "card": "card_22",
+    "issues": [
+      "Chart label '8-12 WK CLEARANCE WINDOW' appears partially cut off/overlapping with data point at T+5",
+      "Large empty whitespace in top and bottom portions of card"
+    ],
+    "severity": "medium"
+  },
+  {
+    "card": "card_23",
+    "issues": [
+      "Badge/tag labels ('Mar 24', 'Apr 3', '0', '$100', '$126', '-$26', 'WH', '$100', 'Apr 3') have low contrast with olive/brown backgrounds making them difficult to read",
+      "Tags text 'Extensions expected', 'Brent today', 'Conflict peak', 'Current discount', 'Cover horizon', 'Lock-in level', 'Act before' are barely legible due to small size and poor contrast"
+    ],
+    "severity": "medium"
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "condensed_ps": "Two state refiners are burning ₹850 crore a day with no ability to pay for crude after April 3. Without three government decisions by April 5, India faces a banking default, a refinery shutdown, and cooking-gas rationing in the south—all within two weeks.",
+  "header": "Approve emergency procurement authority, a ₹30,000 crore fiscal backstop, and one critical crude cargo by April 5—or face a refinery shutdown and sovereign debt default by April 13.",
+  "situation": "Crude costs ₹32 more per barrel than frozen retail prices allow IOCL and HMEL to recover. That gap is burning ₹850 crore every day with no internal fix available. Both crude supply routes—Hormuz and Russia—are disrupted simultaneously, and the sanctions window that enables Russian payments closes April 3. If government does not act by April 5, a banking default triggers cross-default on ₹2,16,700 crore of state-enterprise debt, one refinery shuts down within two weeks, and southern India faces cooking-gas rationing.",
+  "performance_data": [
+    {
+      "kpi": "Daily cash burn",
+      "value": "₹850 crore/day",
+      "variance": "₹0 at break-even price; ₹850 crore lost every 24 hours of inaction",
+      "direction": "down"
+    },
+    {
+      "kpi": "Secure crude supply available",
+      "value": "20–25% of requirement",
+      "variance": "vs. 100% needed; up to 80% of supply at risk in current crisis",
+      "direction": "down"
+    },
+    {
+      "kpi": "Bathinda refinery crude runway",
+      "value": "8–12 days",
+      "variance": "vs. 15–21 day safety norm; 6–13 days below minimum buffer",
+      "direction": "down"
+    },
+    {
+      "kpi": "Southern LPG stock (Karnataka/Goa)",
+      "value": "5–7 days to shortage",
+      "variance": "vs. 10-day mandated minimum; panic-buying has cut buffer by 3–5 days",
+      "direction": "down"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "The payment system breaks before the physical crude runs out.",
+      "impact": "LC default probable by April 13, triggering ₹2,16,700 crore in cross-defaults.",
+      "so_what": "Fixing the banking channel is more urgent than fixing sourcing—you cannot buy crude if you cannot pay for it."
+    },
+    {
+      "finding": "Only one cargo can reach Bathinda before it shuts down: ADNOC Fujairah, loaded by April 5.",
+      "impact": "Missing that window extends any restart from two weeks to six weeks, costing ₹4,000 crore.",
+      "so_what": "Every other supply option arrives after the shutdown—this is the single most time-critical decision on the board."
+    },
+    {
+      "finding": "Standard government approval timelines take 5–10 days; the market window is 24 hours.",
+      "impact": "A standard 5-day approval cycle wastes ₹4,250 crore and loses the West African cargo window entirely.",
+      "so_what": "Without delegated authority in writing, the crisis task force has no power to act."
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "ask": "PMO: Issue written procurement authority to IOCL Chairman—up to ₹15,000 crore per contract, no case-by-case MoF sign-off—by April 3, 20:00. MoF: Backstop IOCL bank guarantees up to ₹60,000 crore by the same deadline. RBI: Grant emergency LC headroom to SBI and Bank of Baroda by April 3, 20:00."
+    },
+    {
+      "number": 2,
+      "ask": "MoPNG: Authorize IOCL to confirm the ADNOC Fujairah cargo—600,000 barrels, loaded and in transit to Vadinar by April 5—by April 4, 08:00. Direct Paradip and Panipat to cut to 70% capacity to extend runway. Issue an Essential Commodities Act directive routing IOCL LPG through HPCL Mangalore to prevent southern shortage."
+    },
+    {
+      "number": 3,
+      "ask": "CCEA: Approve a ₹30,000 crore fiscal transfer and a ₹17/litre diesel price increase effective April 10 by April 5. MoPNG: Stand up a crisis decision room—IOCL Chairman, HMEL MD, MoF Joint Secretary, RBI ED—with authority to approve non-dollar crude payments within two hours of any request."
+    }
+  ]
+}

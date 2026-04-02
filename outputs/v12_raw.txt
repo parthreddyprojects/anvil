@@ -1,0 +1,905 @@
+{
+  "cards": [
+    {
+      "card_id": "card_01",
+      "act": "1",
+      "card_type": "hero",
+      "key_message": "Day 20: The largest oil supply disruption in history has put India's energy security on a 74-day clock.",
+      "sub_messages": [
+        {
+          "text": "Indian crude basket at $146.09/bbl — up 112% in 20 days. Every hour of inaction costs more than the last.",
+          "visual_weight": "3/4",
+          "visual_type": "big_number",
+          "chart_type": null
+        },
+        {
+          "text": "~20M bbl/d (30% of global seaborne oil) blocked. 42% of India's crude imports at risk. This is not a spike — it's a structural rupture.",
+          "visual_weight": "1/4",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A single dominant big number ($146.09) anchors the gravity of the crisis in one glance. The +112% delta is the visceral proof point. Supporting text contextualizes the global scale without competing for attention.",
+      "data": {
+        "basket_price_today": 146.09,
+        "basket_price_feb": 69.01,
+        "pct_change": 112,
+        "day_of_conflict": 20,
+        "hormuz_daily_flow_mbbld": 20,
+        "india_import_share_pct": 42,
+        "total_reserve_cover_days": 74
+      },
+      "source": "PPAC FY25-26; Indian Petroleum Ministry; Argus Media, March 19, 2026"
+    },
+    {
+      "card_id": "card_02",
+      "act": "1",
+      "card_type": "timeline",
+      "key_message": "In 20 days the conflict crossed four thresholds — each one reset the price, the risk, and the options available to Indian refiners.",
+      "sub_messages": [
+        {
+          "text": "Feb 28→Mar 4: Shipping collapses, China exempted, Iran mines the strait. India's non-alignment window opens.",
+          "visual_weight": "1/3",
+          "visual_type": "timeline",
+          "chart_type": "annotated_timeline"
+        },
+        {
+          "text": "Mar 10→Mar 17: Mines laid, merchant ships attacked, Gulf facilities hit. An energy infrastructure war has begun.",
+          "visual_weight": "1/3",
+          "visual_type": "timeline",
+          "chart_type": "annotated_timeline"
+        },
+        {
+          "text": "Mar 18–19 — THE CROSSING POINT: South Pars struck, Ras Laffan damaged, Ras Tanura shut. Quick Resolution is effectively dead.",
+          "visual_weight": "1/3",
+          "visual_type": "timeline",
+          "chart_type": "annotated_timeline"
+        }
+      ],
+      "relationship": "escalating",
+      "visual_decision": "An animated horizontal timeline with four phase-colored segments and pulsing dots at key threshold events makes the escalation ladder viscerally clear. Each phase has a distinct color (yellow→orange→red→dark red) so the eye reads 'things are getting worse' without reading the labels. The March 18 node should pulse in alarm red as THE CROSSING POINT.",
+      "data": {
+        "phases": [
+          {
+            "phase": 1,
+            "label": "Closure Begins",
+            "date_range": "Feb 28 – Mar 4",
+            "color": "amber",
+            "events": ["900 strikes in 12h", "Tanker traffic -70%", "China exempted"]
+          },
+          {
+            "phase": 2,
+            "label": "Mining & Attacks",
+            "date_range": "Mar 5 – Mar 12",
+            "color": "orange",
+            "events": ["Iran lays naval mines", "US sinks 16 minelayers", "21 merchant ship attacks", "Russia waiver issued Mar 5-6"]
+          },
+          {
+            "phase": 3,
+            "label": "Gulf Assets Threatened",
+            "date_range": "Mar 13 – Mar 17",
+            "color": "red",
+            "events": ["Larijani killed", "UAE Shah gas field hit", "Fujairah port hit", "Zero AIS crossings Mar 14"]
+          },
+          {
+            "phase": 4,
+            "label": "Infrastructure War",
+            "date_range": "Mar 18 – Mar 19",
+            "color": "dark_red",
+            "events": ["South Pars struck", "Ras Laffan damaged", "Ras Tanura shut", "US bunker busters on Hormuz missile sites"]
+          }
+        ],
+        "brent_at_each_phase": [69, 85, 98, 108]
+      },
+      "source": "S&P Global; Fars News; CNN; IRGC statements; Argus Media"
+    },
+    {
+      "card_id": "card_03",
+      "act": "1",
+      "card_type": "kpi_card",
+      "key_message": "Five numbers define India's exposure — and every one is worse than it was 48 hours ago.",
+      "sub_messages": [
+        {
+          "text": "$146.09/bbl Indian crude basket — all-time crisis high, trading $34+ premium to Brent due to Gulf sour grade concentration.",
+          "visual_weight": "1/5",
+          "visual_type": "big_number",
+          "chart_type": null
+        },
+        {
+          "text": "74 days total reserve cover (SPR + commercial) — India refused IEA/G7 release, signaling the government expects prolonged disruption.",
+          "visual_weight": "1/5",
+          "visual_type": "gauge",
+          "chart_type": null
+        },
+        {
+          "text": "₹92.64/USD — record low rupee, compounding every dollar of crude cost into a larger rupee import bill.",
+          "visual_weight": "1/5",
+          "visual_type": "big_number",
+          "chart_type": null
+        },
+        {
+          "text": "22 Indian vessels stranded west of Hormuz carrying 1.7 MMT of energy cargo — only 3 ships have made it through.",
+          "visual_weight": "1/5",
+          "visual_type": "big_number",
+          "chart_type": null
+        },
+        {
+          "text": "April 3: Russia waiver expires in 15 days — India's largest alternative supply source hangs on a single OFAC decision.",
+          "visual_weight": "1/5",
+          "visual_type": "big_number",
+          "chart_type": null
+        }
+      ],
+      "relationship": "parallel",
+      "visual_decision": "Five KPI tiles in a single row, each with a dominant number in crisis red/amber and a one-line context label below. The gauge visual for reserve cover (showing a tank draining toward a red zone at day 74) makes the countdown visceral in a way a number alone cannot. No charts needed — the numbers themselves are the argument.",
+      "data": {
+        "kpis": [
+          {"label": "Indian Crude Basket", "value": "$146.09/bbl", "delta": "+112% vs Feb", "status": "crisis"},
+          {"label": "Total Reserve Cover", "value": "74 days", "spr_days": 9.5, "commercial_days": 64.5, "status": "warning"},
+          {"label": "USD/INR", "value": "₹92.64", "delta": "Record low", "status": "crisis"},
+          {"label": "Vessels Stranded", "value": "22 ships / 1.7 MMT", "transited": 3, "status": "critical"},
+          {"label": "Russia Waiver Expires", "value": "April 3", "days_remaining": 15, "status": "urgent"}
+        ]
+      },
+      "source": "PPAC; Indian Petroleum Ministry; RBI; Kpler; OFAC; March 19, 2026"
+    },
+    {
+      "card_id": "card_04",
+      "act": "1",
+      "card_type": "chart_card",
+      "key_message": "This is the largest oil supply disruption in history — and unlike all prior crises, it has no end date and no precedent.",
+      "sub_messages": [
+        {
+          "text": "~8M bbl/d offline on Day 20, with energy infrastructure actively being destroyed — the 1973 embargo (4.4M bbl/d) and 1979 revolution (5.6M bbl/d) are dwarfed by this crisis.",
+          "visual_weight": "2/3",
+          "visual_type": "chart",
+          "chart_type": "horizontal_bar"
+        },
+        {
+          "text": "Every prior crisis had a defined ceiling — Abqaiq recovered in 2 weeks, Gulf War resolved in 9 months. The 2026 crisis has no off-ramp and both sides are targeting energy infrastructure.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "compare_contrast",
+      "visual_decision": "A horizontal butterfly-style bar chart comparing the 5 crises on two axes simultaneously — volume offline (left bars, sized) and peak price impact (right bars, percentage). This lets the eye instantly see 2026 as the outlier on volume while also showing that the 1973 embargo still holds the price record, which is the frightening implication: if this extends, we haven't seen the worst of price impact yet.",
+      "data": {
+        "crises": [
+          {"name": "1973 Arab Embargo", "volume_offline_mbbld": 4.4, "duration": "5 months", "peak_price_pct": 300},
+          {"name": "1979 Iran Revolution", "volume_offline_mbbld": 5.6, "duration": "6 months", "peak_price_pct": 150},
+          {"name": "1990 Gulf War", "volume_offline_mbbld": 4.3, "duration": "9 months", "peak_price_pct": 130},
+          {"name": "2019 Abqaiq", "volume_offline_mbbld": 5.7, "duration": "2 weeks", "peak_price_pct": 15},
+          {"name": "2026 Hormuz (Day 20)", "volume_offline_mbbld": 8.0, "duration": "No end date", "peak_price_pct": 80, "highlight": true}
+        ]
+      },
+      "source": "IEA; EIA; Wood Mackenzie; Goldman Sachs; analyst working document"
+    },
+    {
+      "card_id": "card_05",
+      "act": "1",
+      "card_type": "act_break",
+      "key_message": "ACT 2 — THE FOUR LENSES: What the crisis means for refinery operations, CFO balance sheets, government mandates, and board strategy.",
+      "sub_messages": [
+        {
+          "text": "Refinery CEO: Can you run your plant on non-Gulf crude, and for how long?",
+          "visual_weight": "1/4",
+          "visual_type": "text",
+          "chart_type": null
+        },
+        {
+          "text": "CFO: At $146, which refineries are solvent and which are not — and what does the hedge book look like?",
+          "visual_weight": "1/4",
+          "visual_type": "text",
+          "chart_type": null
+        },
+        {
+          "text": "Policy: ESMA is already overriding product slates. What comes next from North Block?",
+          "visual_weight": "1/4",
+          "visual_type": "text",
+          "chart_type": null
+        },
+        {
+          "text": "Board: Three scenarios, 41 days to act, one strategic question — are you a winner or a casualty of this crisis?",
+          "visual_weight": "1/4",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "parallel",
+      "visual_decision": "Act break card with four quadrant labels in bold type, each with a persona icon. Minimal data — this is a structural navigation card to orient the audience before the deep dives begin.",
+      "data": {},
+      "source": null
+    },
+    {
+      "card_id": "card_06",
+      "act": "2a",
+      "card_type": "map_card",
+      "key_message": "India's crude supply map has been redrawn overnight — 70% non-Hormuz is real for crude, but LPG and LNG remain fatally Gulf-dependent.",
+      "sub_messages": [
+        {
+          "text": "Non-Hormuz crude routes (Russia Baltic/Pacific, West Africa, Americas) cover ~70% of crude volume — but these are light/sweet grades that don't match Indian refinery configurations built for Gulf sour.",
+          "visual_weight": "2/3",
+          "visual_type": "map",
+          "chart_type": "supply_route_map"
+        },
+        {
+          "text": "LPG is the exposure consensus is missing: 90%+ of imports are Gulf-sourced. Emergency procurement from US, Norway, Canada, Algeria has only reduced Gulf LPG dependence to ~70%.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "before_after",
+      "visual_decision": "A world map with numbered supply route arrows radiating toward India. Active routes (Russia, West Africa, Americas) in green with volume labels. Blocked Hormuz routes in red with X markers. A small inset table shows the grade mismatch: Indian refinery diet (sour/heavy) vs available alternatives (light/sweet). The geographic rendering makes the 'rerouting' narrative undeniable — and the grade mismatch inset shows why 70% non-Hormuz is misleading.",
+      "data": {
+        "routes": [
+          {"source": "Russia (Baltic/Pacific)", "share_pct": 30, "route": "Non-Hormuz", "grade": "Medium-sour (Urals)", "status": "active", "marker": 1},
+          {"source": "Iraq (Basra)", "share_pct": 22, "route": "Hormuz", "grade": "Heavy sour (Basra Heavy)", "status": "blocked", "marker": 2},
+          {"source": "Saudi Arabia", "share_pct": 15, "route": "Hormuz", "grade": "Medium-heavy sour", "status": "blocked", "marker": 3},
+          {"source": "UAE", "share_pct": 6, "route": "Hormuz", "grade": "Medium sour", "status": "blocked", "marker": 4},
+          {"source": "West Africa (Nigeria/Angola)", "share_pct": 9, "route": "Non-Hormuz", "grade": "Light sweet", "status": "active", "marker": 5},
+          {"source": "Americas (US/Brazil/Guyana)", "share_pct": 7, "route": "Non-Hormuz", "grade": "Light sweet/medium", "status": "active", "marker": 6}
+        ],
+        "irreplaceable_volume_mbbld": 1.3,
+        "lpg_gulf_dependence_pct": 90,
+        "lpg_post_emergency_pct": 70
+      },
+      "source": "PPAC; Indian Oil Ministry; Kpler; Argus Media, March 2026"
+    },
+    {
+      "card_id": "card_07",
+      "act": "2a",
+      "card_type": "chart_card",
+      "key_message": "Nelson Complexity Index is no longer a refinery metric — it is now the single most important P&L determinant in this crisis.",
+      "sub_messages": [
+        {
+          "text": "RIL Jamnagar at NCI 21.1 is printing money at $146 crude. HPCL Mumbai at NCI 5.6 cannot survive frozen retail prices above $100/bbl — a breakeven it crossed six weeks ago.",
+          "visual_weight": "2/3",
+          "visual_type": "chart",
+          "chart_type": "bubble_scatter"
+        },
+        {
+          "text": "High-NCI refineries can pivot to whatever crude is available. Low-NCI refineries are locked into narrow Gulf sour diets — and the Gulf is closed.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "compare_contrast",
+      "visual_decision": "A bubble scatter plot with NCI on the X-axis, GRM at $146 crude on the Y-axis, and bubble size representing refinery capacity (MMTPA). Color coding: green bubbles (NCI>12, positive margin), amber (NCI 9-12, breakeven), red (NCI<8, loss-making). RIL Jamnagar is the obvious outlier — a massive green bubble far right and up. HPCL Mumbai is a small red bubble bottom-left. This visual makes the winner/loser split undeniable without a single word of explanation.",
+      "data": {
+        "refineries": [
+          {"name": "RIL Jamnagar DTA+SEZ", "owner": "RIL", "nci": 21.1, "capacity_mmtpa": 68.2, "grm_at_146": 7, "tier": 1, "color": "green"},
+          {"name": "Nayara Vadinar", "owner": "Nayara/Rosneft", "nci": 12.8, "capacity_mmtpa": 20.0, "grm_at_146": 5, "tier": 1, "color": "green"},
+          {"name": "Panipat", "owner": "IOCL", "nci": 13.7, "capacity_mmtpa": 15.0, "grm_at_146": 4, "tier": 1, "color": "green"},
+          {"name": "Paradip", "owner": "IOCL", "nci": 12.2, "capacity_mmtpa": 15.0, "grm_at_146": 3.5, "tier": 1, "color": "green"},
+          {"name": "HMEL Bathinda", "owner": "HPCL-Mittal", "nci": 12.6, "capacity_mmtpa": 11.3, "grm_at_146": 3, "tier": 1, "color": "green"},
+          {"name": "Kochi", "owner": "BPCL", "nci": 10.8, "capacity_mmtpa": 15.5, "grm_at_146": 1, "tier": 2, "color": "amber"},
+          {"name": "MRPL Mangalore", "owner": "MRPL", "nci": 10.6, "capacity_mmtpa": 15.0, "grm_at_146": 1, "tier": 2, "color": "amber"},
+          {"name": "Haldia", "owner": "IOCL", "nci": 10.4, "capacity_mmtpa": 7.5, "grm_at_146": 0.5, "tier": 2, "color": "amber"},
+          {"name": "Vizag", "owner": "HPCL", "nci": 7.8, "capacity_mmtpa": 12.0, "grm_at_146": -1, "tier": 3, "color": "red"},
+          {"name": "Mumbai", "owner": "BPCL", "nci": 6.0, "capacity_mmtpa": 12.0, "grm_at_146": -2, "tier": 3, "color": "red"},
+          {"name": "Mumbai", "owner": "HPCL", "nci": 5.6, "capacity_mmtpa": 9.5, "grm_at_146": -3, "tier": 3, "color": "red"}
+        ],
+        "breakeven_crude_by_nci": [
+          {"tier": "NCI 5-6", "breakeven_usd": 97},
+          {"tier": "NCI 10-11", "breakeven_usd": 115},
+          {"tier": "NCI 12+", "breakeven_usd": 135},
+          {"tier": "NCI 21.1 (RIL)", "breakeven_usd": "No meaningful ceiling"}
+        ]
+      },
+      "source": "Wood Mackenzie; Nomura; UBS; company filings; analyst estimates, March 2026"
+    },
+    {
+      "card_id": "card_08",
+      "act": "2a",
+      "card_type": "chart_card",
+      "key_message": "ESMA has overridden every refiner's product slate — all C3/C4 streams must go to cooking gas, not petrochemicals, until the LPG crisis is resolved.",
+      "sub_messages": [
+        {
+          "text": "Government invoked Essential Services Maintenance Act on March 5: 100% of propane, butane, propylene, and butene streams redirected from petrochemical units to OMC cooking gas supply. No exceptions.",
+          "visual_weight": "2/3",
+          "visual_type": "sankey",
+          "chart_type": "sankey"
+        },
+        {
+          "text": "Domestic LPG production up 38% in 5 days. But 330 million households still face 25-45 day refill gaps. 3 AM queues and Rs 4,000/cylinder black market prices signal the crisis is deepening, not resolving.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "before_after",
+      "visual_decision": "A Sankey diagram is the only chart that shows stream redirection compellingly. Left nodes: crude distillation units feeding into C3/C4 intermediate streams. Right nodes: PRE-ESMA (split between petrochemicals ~60% and LPG ~40%) and POST-ESMA (100% to LPG/cooking gas, petrochemical node grayed out). The visual drama of all flow lines bending toward one destination makes the magnitude of the government override impossible to miss.",
+      "data": {
+        "pre_esma": {
+          "lpg_pct": 40,
+          "petrochemicals_pct": 60
+        },
+        "post_esma": {
+          "lpg_pct": 100,
+          "petrochemicals_pct": 0
+        },
+        "production_increase_pct": 38,
+        "household_refill_gap_urban_days": 25,
+        "household_refill_gap_rural_days": 45,
+        "commercial_allocation_cut_pct": 80,
+        "black_market_price_inr": 4000,
+        "regulated_price_inr": 913,
+        "households_affected_mn": 330
+      },
+      "source": "Indian Petroleum Ministry; ESMA Order March 5-8, 2026; Bloomberg; CNN"
+    },
+    {
+      "card_id": "card_09",
+      "act": "2b",
+      "card_type": "chart_card",
+      "key_message": "At $146 crude with frozen retail prices, PSU OMCs are not losing margin — they are operationally insolvent on marketing.",
+      "sub_messages": [
+        {
+          "text": "Each $5/bbl crude increase destroys 55-62% of FY27 consensus earnings for IOC, BPCL, and HPCL. At today's $146 basket, OMCs are losing Rs 19.8/litre on every litre of fuel sold.",
+          "visual_weight": "2/3",
+          "visual_type": "waterfall_chart",
+          "chart_type": "waterfall_chart"
+        },
+        {
+          "text": "UBS has downgraded all three: IOC and BPCL to Neutral, HPCL to Sell with a -37% target cut to Rs 340. The structural trap: retail price controls prevent pass-through while crude costs have doubled.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A waterfall chart showing IOC PAT destruction step-by-step: start from FY27 consensus earnings baseline, then subtract successive $5/bbl crude increments from $80 to $146 as negative red bars, landing on a deeply negative terminal value. Parallel thin lines for BPCL and HPCL below the main waterfall let comparison happen simultaneously. The step-by-step collapse is more emotionally arresting than a bar chart showing two endpoints.",
+      "data": {
+        "omc_sensitivity": [
+          {
+            "company": "IOC",
+            "fy27_consensus_earnings_rs_bn": 278,
+            "pat_loss_per_5bbl_rs_bn": 153,
+            "pct_earnings_destroyed_per_5bbl": 55,
+            "crude_breakeven_usd": 97,
+            "ubs_rating": "Neutral"
+          },
+          {
+            "company": "BPCL",
+            "fy27_consensus_earnings_rs_bn": 192,
+            "pat_loss_per_5bbl_rs_bn": 98,
+            "pct_earnings_destroyed_per_5bbl": 51,
+            "crude_breakeven_usd": 97,
+            "ubs_rating": "Neutral"
+          },
+          {
+            "company": "HPCL",
+            "fy27_consensus_earnings_rs_bn": 142,
+            "pat_loss_per_5bbl_rs_bn": 88,
+            "pct_earnings_destroyed_per_5bbl": 62,
+            "crude_breakeven_usd": 97,
+            "ubs_rating": "Sell",
+            "target_cut_pct": -37,
+            "new_target_rs": 340
+          }
+        ],
+        "marketing_loss_per_litre_rs": 19.8,
+        "crude_price_today": 146.09,
+        "grm_at_146_psu": "0-3"
+      },
+      "source": "UBS India Energy Research, March 9, 2026; Nomura; PPAC"
+    },
+    {
+      "card_id": "card_10",
+      "act": "2b",
+      "card_type": "chart_card",
+      "key_message": "The Russia discount is dead — it flipped to a premium overnight, costing Indian refiners an extra $17-18/bbl on their single largest alternative supply.",
+      "sub_messages": [
+        {
+          "text": "February: Urals at $13/bbl DISCOUNT to Brent. March (post-waiver): Urals at $4-5/bbl PREMIUM. Delivered to India west coast: $98.93/bbl. The supply shock absorbed the entire discount buffer in three weeks.",
+          "visual_weight": "2/3",
+          "visual_type": "before_after_bars",
+          "chart_type": "before_after_bars"
+        },
+        {
+          "text": "The waiver expires April 3 — 15 days away. If not renewed, India loses access to sanctioned Russian tonnage entirely. Every barrel of Russian crude bought before April 3, even at a premium, is still cheaper than the $146 Indian basket.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "before_after",
+      "visual_decision": "A before/after paired bar chart with a clear zero-line dividing discount (below, green) and premium (above, red). February bar: -$13 (deep green, labeled DISCOUNT). March bar: +$4.5 (red, labeled PREMIUM). A bold annotation arrow spanning the two bars labels the net swing: $17-18/bbl cost increase. Simple, unambiguous, and the sign-flip from green to red delivers the message in one visual beat.",
+      "data": {
+        "feb_urals_vs_brent": -13,
+        "mar_urals_vs_brent": 4.5,
+        "net_swing_usd": 17.5,
+        "delivered_price_india_west_coast": 98.93,
+        "waiver_expiry": "April 3, 2026",
+        "days_to_expiry": 15,
+        "volumes_purchased_mn_barrels": 30,
+        "buyers": [
+          {"company": "Reliance", "volume_mn_bbl": 10},
+          {"company": "IOC", "volume_mn_bbl": 10},
+          {"company": "BPCL/HPCL/MRPL", "volume_mn_bbl": 10}
+        ]
+      },
+      "source": "Argus Media, March 14, 2026; OFAC General License; The Wire; Nomura"
+    },
+    {
+      "card_id": "card_11",
+      "act": "2b",
+      "card_type": "chart_card",
+      "key_message": "The futures curve is giving CFOs a once-in-a-decade hedging window — lock in deferred crude at $69-75/bbl while the market still believes this crisis is temporary.",
+      "sub_messages": [
+        {
+          "text": "Steep backwardation: Prompt WTI ~$99 → Dec 2026 ~$69 → 2027 ~$58. The market is pricing a quick resolution. If our base case (3-6 months) is correct, Dec 2026 futures at $69 are dramatically mispriced.",
+          "visual_weight": "2/3",
+          "visual_type": "line_chart",
+          "chart_type": "futures_curve"
+        },
+        {
+          "text": "Strategy: Buy Dec 2026 crude futures at ~$69. Buy 3-6 month puts on Brent at $100-105 strike. Do NOT sell calls — $150+ tail risk is live given South Pars escalation. Diesel crack backwardation (1,060→620 EUR/t) offers additional hedge opportunity.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A line chart showing the WTI futures curve from prompt (March) through December 2027, in steep downward slope. A horizontal shaded band from $69-75 highlights the deferred buying opportunity. A second annotated line shows the 'Our Base Case' scenario path — flat/higher than the futures curve — making the mispricing gap visually obvious as a shaded area between the two lines. The gap IS the trade.",
+      "data": {
+        "futures_curve": [
+          {"month": "Mar 2026", "wti_usd": 99},
+          {"month": "Jun 2026", "wti_usd": 85},
+          {"month": "Sep 2026", "wti_usd": 76},
+          {"month": "Dec 2026", "wti_usd": 69},
+          {"month": "Mar 2027", "wti_usd": 63},
+          {"month": "Dec 2027", "wti_usd": 58}
+        ],
+        "base_case_brent_range": {"low": 100, "high": 130},
+        "diesel_crack_apr": 1060,
+        "diesel_crack_2027": 630,
+        "recommended_put_strike": 102,
+        "deferred_buy_range": {"low": 69, "high": 75}
+      },
+      "source": "CME Group; Goldman Sachs; Argus Media; Morgan Stanley; March 19, 2026"
+    },
+    {
+      "card_id": "card_12",
+      "act": "2c",
+      "card_type": "chart_card",
+      "key_message": "India's non-alignment is delivering marginal gains over Japan and Korea — but China's blanket passage exemption makes India's 3-ship transit look like a consolation prize.",
+      "sub_messages": [
+        {
+          "text": "China: 11 vessels through Hormuz since Feb 28. India: 3. Japan: 0. Korea: 0. Beijing's 'supportive stance toward Iran' is paying concrete, countable dividends in barrels.",
+          "visual_weight": "2/3",
+          "visual_type": "chart",
+          "chart_type": "horizontal_bar"
+        },
+        {
+          "text": "India's case-by-case escort model (Operation Sankalp) requires individual Iranian negotiation for every ship movement. MEA: 'There is no formal blanket arrangement.' This is not a policy — it is a prayer.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "compare_contrast",
+      "visual_decision": "A ranked horizontal bar chart showing vessels transited by country since Feb 28: China (11, green), India (3, amber), Pakistan (1, yellow), Japan (0, red), South Korea (0, red), Europe (0, red). Add a second row below each country bar showing their SPR response (released vs refused) as a colored dot. The visual shows India sitting uncomfortably between China's privileged access and the Western allies' complete blockout — but closer to the bottom than the top.",
+      "data": {
+        "country_transit": [
+          {"country": "China", "vessels_through": 11, "hormuz_status": "Blanket passage", "spr_response": "No release needed", "color": "green"},
+          {"country": "India", "vessels_through": 3, "hormuz_status": "Case-by-case", "spr_response": "Refused IEA/G7", "color": "amber"},
+          {"country": "Pakistan", "vessels_through": 1, "hormuz_status": "Limited transit", "spr_response": "Own operation", "color": "yellow"},
+          {"country": "Japan", "vessels_through": 0, "hormuz_status": "Zero", "spr_response": "80M bbl release", "color": "red"},
+          {"country": "South Korea", "vessels_through": 0, "hormuz_status": "Zero", "spr_response": "IEA contributor", "color": "red"},
+          {"country": "Europe", "vessels_through": 0, "hormuz_status": "Zero", "spr_response": "IEA 400M release", "color": "red"}
+        ]
+      },
+      "source": "S&P Global Kpler; IEA; MEA India statement; Indian Navy; March 19, 2026"
+    },
+    {
+      "card_id": "card_13",
+      "act": "2c",
+      "card_type": "chart_card",
+      "key_message": "The Hormuz mine threat won't resolve the day shooting stops — clearance alone could take longer than the war itself.",
+      "sub_messages": [
+        {
+          "text": "Historical benchmark: Operation Desert Storm 1991 took 51 days to clear 907 mines off Kuwait — WITH minefield maps from defeated Iraq. Iran has 2,000-6,000 mines and will not surrender maps. The UK pulled its last Gulf minesweeper home days before Iran mined the strait.",
+          "visual_weight": "2/3",
+          "visual_type": "timeline",
+          "chart_type": "phase_timeline"
+        },
+        {
+          "text": "Iran's EM-52 Chinese-supplied rising mines use composite non-magnetic casings and acoustic sensors — they defeat conventional minesweeping. 'Best European minesweepers are months away from showing up' (Columbia University).",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A horizontal phase timeline showing the clearance pipeline: Phase 1 'Ceasefire/Hostilities End' (unknown, shown as open-ended), Phase 2 'Hasty single-lane clearance' (days-weeks), Phase 3 'Minimum safe transit confidence' (weeks-months), Phase 4 'Full sweep' (months, possibly never complete). Each phase gets a color gradient from amber to red. The 51-day 1991 benchmark is shown as a vertical reference line with a label: '51 days WITH maps. Iran has 2,000-6,000 mines and won't give maps.' The visual makes the post-ceasefire delay tangible.",
+      "data": {
+        "phase_clearance": [
+          {"phase": "Ceasefire", "min_days": 0, "max_days": "unknown", "color": "gray"},
+          {"phase": "Hasty single-lane clearance", "min_days": 7, "max_days": 21, "color": "amber"},
+          {"phase": "Minimum safe transit confidence", "min_days": 21, "max_days": 90, "color": "orange"},
+          {"phase": "Full sweep", "min_days": 90, "max_days": 365, "color": "red"}
+        ],
+        "historical_benchmark_days": 51,
+        "historical_mines_cleared": 907,
+        "iran_mine_arsenal_low": 2000,
+        "iran_mine_arsenal_high": 6000,
+        "mine_types": [
+          {"type": "EM-52 (Chinese)", "warhead_kg": 300, "threat": "Defeats conventional minesweeping"},
+          {"type": "SADAF-01", "warhead_kg": 100, "threat": "Cheap, numerous"},
+          {"type": "Bottom-influence", "warhead_kg": 200, "threat": "Hardest to sweep"}
+        ]
+      },
+      "source": "US Navy; Columbia University SIPA; CNN; Israeli military analysts; March 19, 2026"
+    },
+    {
+      "card_id": "card_14",
+      "act": "2d",
+      "card_type": "scenario_card",
+      "key_message": "The board must plan for two scenarios simultaneously — Prolonged Standoff is the base case, but Conflagration probability has risen to 30-35% after South Pars.",
+      "sub_messages": [
+        {
+          "text": "5 scenarios from Quick Resolution (5-10%) to Democratic Iran (10-15%). But the distribution has shifted: post-March 18, Quick Resolution is effectively dead and Conflagration probability is rising toward the base case.",
+          "visual_weight": "2/3",
+          "visual_type": "scenario_cards",
+          "chart_type": "scenario_probability_tiles"
+        },
+        {
+          "text": "Both sides are now deliberately targeting energy infrastructure. No active negotiations. Iran's 3 ceasefire conditions are non-starters for Washington. CSIS: 'Crisis will last longer than markets anticipate.'",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "parallel",
+      "visual_decision": "Five horizontally arranged scenario tiles, each with a gradient background color mapped to probability (light green→light amber→deep amber→orange→red). Each tile shows: scenario name, probability %, Brent range, Hormuz timeline. The tiles are sized proportionally to probability so Prolonged Standoff and Conflagration visually dominate. An upward probability arrow on the Conflagration tile signals the post-South Pars shift.",
+      "data": {
+        "scenarios": [
+          {
+            "id": 1,
+            "name": "Quick Resolution / Ceasefire",
+            "probability_pct": 7,
+            "brent_range": "$75-85",
+            "hormuz_timeline": "Reopen in 60-90 days (mine clearance)",
+            "color": "light_green",
+            "trend": "falling"
+          },
+          {
+            "id": 2,
+            "name": "Prolonged Standoff",
+            "probability_pct": 37,
+            "brent_range": "$100-130",
+            "hormuz_timeline": "Closed Q2, partial Q3",
+            "color": "amber",
+            "trend": "stable",
+            "label": "BASE CASE"
+          },
+          {
+            "id": 3,
+            "name": "Conflagration — Energy War",
+            "probability_pct": 32,
+            "brent_range": "$130-200",
+            "hormuz_timeline": "Closed through 2026; Gulf facilities damaged",
+            "color": "orange_red",
+            "trend": "rising",
+            "label": "RISING ↑"
+          },
+          {
+            "id": 4,
+            "name": "Democratic Iran / Regime Change",
+            "probability_pct": 12,
+            "brent_range": "$80-100 (initial), long-term lower",
+            "hormuz_timeline": "6-12 months war + reconstruction",
+            "color": "light_amber",
+            "trend": "stable"
+          },
+          {
+            "id": 5,
+            "name": "De-escalation / Managed Exit",
+            "probability_pct": 12,
+            "brent_range": "$85-100",
+            "hormuz_timeline": "90-120 days to reopen",
+            "color": "light_green",
+            "trend": "stable"
+          }
+        ]
+      },
+      "source": "Goldman Sachs; CSIS; International Crisis Group; CFR; analyst working document, March 19, 2026"
+    },
+    {
+      "card_id": "card_15",
+      "act": "2d",
+      "card_type": "chart_card",
+      "key_message": "Iran has named 5 Gulf loading facilities as next strike targets — every major loading terminal serving Indian imports is either already damaged or explicitly threatened.",
+      "sub_messages": [
+        {
+          "text": "Already hit: Ras Laffan (Qatar), Ras Tanura (Saudi), Fujairah (UAE), Shah Gas Field (UAE). Explicitly named next: SAMREF, Jubail, Al Hosn, Mesaieed. Iran's Fattah-1 hypersonic missiles (Mach 13, 1,500km range) can reach every Gulf facility.",
+          "visual_weight": "2/3",
+          "visual_type": "map",
+          "chart_type": "threat_map"
+        },
+        {
+          "text": "The implication for Indian procurement: diversification away from Hormuz is insufficient. If Gulf loading terminals are further damaged, you need non-Gulf supply entirely — US, Brazil, West Africa, Guyana, Russia. Begin stress-testing that scenario now.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A Gulf region map with facility markers in two states: red flaming icons for already-struck facilities (Ras Laffan, Ras Tanura, Fujairah, Shah Gas) and amber warning triangle icons for explicitly named next targets (SAMREF, Jubail, Al Hosn, Mesaieed). Fattah-1 missile range shown as a dashed circle from Iran's coast, demonstrating all facilities are within range. A small legend table lists each facility's capacity and India relevance.",
+      "data": {
+        "struck_facilities": [
+          {"name": "Ras Laffan", "country": "Qatar", "status": "HIT", "damage": "Extensive"},
+          {"name": "Ras Tanura", "country": "Saudi Arabia", "status": "HIT", "damage": "Shut down"},
+          {"name": "Fujairah Oil Industry Zone", "country": "UAE", "status": "HIT", "damage": "Port suspended"},
+          {"name": "Shah Gas Field", "country": "UAE", "status": "HIT", "damage": "Fire"}
+        ],
+        "named_next_targets": [
+          {"name": "SAMREF Refinery", "country": "Saudi Arabia", "capacity_kbpd": 400, "owner": "Aramco/ExxonMobil JV"},
+          {"name": "Jubail Petrochemical Complex", "country": "Saudi Arabia", "significance": "World's largest integrated petrochemical complex"},
+          {"name": "Al Hosn Gas Field", "country": "UAE", "significance": "Major sour gas processing"},
+          {"name": "Mesaieed Petrochemical", "country": "Qatar", "significance": "Major petrochemical hub"}
+        ],
+        "fattah_1_range_km": 1500,
+        "fattah_1_mach": 13,
+        "iran_ballistic_missile_count": 2500
+      },
+      "source": "IRGC Tasnim News Agency, March 18, 2026; Rystad Energy; CSIS; Israeli military intelligence"
+    },
+    {
+      "card_id": "card_16",
+      "act": "2d",
+      "card_type": "checklist",
+      "key_message": "Five actions, five deadlines — the window to act is measured in days, not weeks.",
+      "sub_messages": [
+        {
+          "text": "Action 1 (by March 21): Stress-test procurement for 6-month Hormuz closure. Model crude diet with zero Gulf, zero Russian post-April 3. Identify the gap in barrels and grade.",
+          "visual_weight": "1/5",
+          "visual_type": "checklist",
+          "chart_type": null
+        },
+        {
+          "text": "Action 2 (by April 3): Pre-position maximum non-Gulf spot cargoes. Every available Russian, West African, Latin American barrel. Accept the premium — it is still cheaper than $146.",
+          "visual_weight": "1/5",
+          "visual_type": "checklist",
+          "chart_type": null
+        },
+        {
+          "text": "Action 3 (board meeting): Model Nelson upgrade ROI at $120-150 Brent. The complexity premium payback has never been faster. Accelerate any planned FCC/hydrocracker/residue upgrades.",
+          "visual_weight": "1/5",
+          "visual_type": "checklist",
+          "chart_type": null
+        },
+        {
+          "text": "Action 4 (this week): Scenario-plan for INR 88-95. Hedge FX exposure. Model import bill at ₹95/USD × $150 basket = $266B annualized.",
+          "visual_weight": "1/5",
+          "visual_type": "checklist",
+          "chart_type": null
+        },
+        {
+          "text": "Action 5 (next board meeting): Brief the board on dual-chokepoint risk. If Iran retaliates further on Gulf facilities, this is no longer a Hormuz story — it is Gulf-wide supply destruction.",
+          "visual_weight": "1/5",
+          "visual_type": "checklist",
+          "chart_type": null
+        }
+      ],
+      "relationship": "parallel",
+      "visual_decision": "Five numbered checklist rows, each with a deadline badge (color-coded: red for March 21/April 3 urgency, amber for board meeting, yellow for 'this week'). Each row has an action verb in bold, a one-line description, and a deadline. A countdown clock element beside Actions 1 and 2 (March 21: 2 days; April 3: 15 days) makes the urgency visceral. This is a decision aid, not a data chart.",
+      "data": {
+        "actions": [
+          {"id": 1, "action": "Stress-test 6-month Hormuz closure procurement model", "deadline": "March 21", "days_remaining": 2, "urgency": "critical"},
+          {"id": 2, "action": "Pre-position non-Gulf spot cargoes (Russian, West African, Latin American)", "deadline": "April 3", "days_remaining": 15, "urgency": "critical"},
+          {"id": 3, "action": "Model Nelson upgrade ROI at $120-150 Brent; accelerate FCC/hydrocracker capex", "deadline": "Board meeting", "days_remaining": null, "urgency": "high"},
+          {"id": 4, "action": "Scenario-plan INR 88-95 range; hedge FX exposure", "deadline": "This week", "days_remaining": 5, "urgency": "high"},
+          {"id": 5, "action": "Board briefing: dual-chokepoint risk (Hormuz + Gulf facilities)", "deadline": "Next board meeting", "days_remaining": null, "urgency": "medium"}
+        ]
+      },
+      "source": "Analyst working document; UBS; Wood Mackenzie; Nomura, March 2026"
+    },
+    {
+      "card_id": "card_17",
+      "act": "3",
+      "card_type": "act_break",
+      "key_message": "ACT 3 — THE EDGE: What the sell-side consensus is getting wrong, and what the market is not pricing.",
+      "sub_messages": [
+        {
+          "text": "Goldman, JP Morgan, and Morgan Stanley are modelling 3-6 week resolution. Our assessment: 3-6 months minimum. The gap between those two assumptions is $200 billion in India's import bill.",
+          "visual_weight": "2/3",
+          "visual_type": "text",
+          "chart_type": null
+        },
+        {
+          "text": "Three underpriced risks: (1) LPG humanitarian crisis deeper than crude disruption; (2) fertilizer — 40% of India's imports from ME, kharif planting June; (3) OMC cash burn unsustainable beyond Q2.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "compare_contrast",
+      "visual_decision": "Act break card with bold contrast typography: 'WHAT THE MARKET BELIEVES' on the left vs 'WHAT THE DATA SUGGESTS' on the right. No charts — this is a framing card that signals the audience is about to hear contrarian intelligence.",
+      "data": {},
+      "source": null
+    },
+    {
+      "card_id": "card_18",
+      "act": "3",
+      "card_type": "verdict_panel",
+      "key_message": "Banks say 3-6 weeks. Our base case says 3-6 months. The South Pars exchange on March 18 already broke the fast-resolution model.",
+      "sub_messages": [
+        {
+          "text": "Goldman/JPM/Morgan Stanley base cases were built before March 18. They assume: quick US military victory → ceasefire → Hormuz reopens. Reality: zero active negotiations, mine clearance alone = 51+ days, both sides targeting energy infrastructure.",
+          "visual_weight": "1/2",
+          "visual_type": "quote_pair",
+          "chart_type": null
+        },
+        {
+          "text": "CSIS: 'Iran's strategy is not to calibrate — but to escalate. Market assumption of limited conflict has clearly come to an end.' ICG: 'US demand for unconditional surrender makes negotiation impossible for Iran.' Wood Mac: $200/bbl not outside realms of possibility.",
+          "visual_weight": "1/2",
+          "visual_type": "quote_pair",
+          "chart_type": null
+        }
+      ],
+      "relationship": "compare_contrast",
+      "visual_decision": "A split-screen quote pair card. Left panel (bank consensus, blue tint): Goldman year-end Brent $71, JPM FY2026 $68, MS '70% probability few weeks only.' Right panel (our divergence + think tank validation, amber tint): CSIS escalation quote, Wood Mac $200 call, ICG negotiation impossibility quote. The visual juxtaposition of confident bank numbers vs authoritative analytical quotes makes the divergence argument without needing a chart.",
+      "data": {
+        "bank_consensus": [
+          {"bank": "Goldman Sachs", "brent_yearend": 71, "duration": "3-6 weeks"},
+          {"bank": "JP Morgan", "brent_fy2026": 68, "duration": "~1 month closure, H2 normalization"},
+          {"bank": "Morgan Stanley", "probability_short": "70% few weeks only"}
+        ],
+        "our_divergence": {
+          "war_duration": "3-6 months minimum",
+          "brent_yearend_range": "90-110",
+          "base_scenario": "Standoff trending toward Conflagration",
+          "mine_clearance_alone_days": 51
+        },
+        "supporting_quotes": [
+          {"source": "CSIS", "quote": "Iran's strategy: Don't calibrate — escalate. Market assumption of limited conflict has clearly come to an end."},
+          {"source": "Wood Mackenzie", "quote": "$200/bbl not outside the realms of possibility"},
+          {"source": "ICG", "quote": "US demand for unconditional surrender makes negotiation impossible for Iran"}
+        ]
+      },
+      "source": "Goldman Sachs; JP Morgan; Morgan Stanley; CSIS; Wood Mackenzie; ICG; March 2026"
+    },
+    {
+      "card_id": "card_19",
+      "act": "3",
+      "card_type": "chart_card",
+      "key_message": "Fertilizer is the crisis nobody in this room is talking about — and it peaks exactly when India's kharif planting season begins.",
+      "sub_messages": [
+        {
+          "text": "MUFG flags India's 40% fertilizer import dependence on the Middle East — vs less than 10% for most Asian peers. The Hormuz closure has disrupted 50% of global urea supply. Kharif planting begins in June.",
+          "visual_weight": "2/3",
+          "visual_type": "chart",
+          "chart_type": "bubble_scatter"
+        },
+        {
+          "text": "The LPG crisis is visible because 330 million households feel it in their kitchens. The fertilizer crisis arrives in 60-90 days — when farmers can't plant and food inflation begins its secondary wave. This is the sleeper risk in every OMC earnings model.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A bubble scatter showing Asian countries mapped on 'Middle East fertilizer import dependence (%)' on the X-axis vs 'Food inflation vulnerability index' on the Y-axis. India is the clear outlier — large bubble, far right on X-axis, high on Y-axis. Peer countries (Japan, Korea, China, Thailand) cluster in the bottom-left. This instantly shows India is uniquely exposed in a way no other country in the room's competitive set is.",
+      "data": {
+        "countries": [
+          {"country": "India", "me_fertilizer_dependence_pct": 40, "food_inflation_vulnerability": 8.5, "population_mn": 1420, "highlight": true},
+          {"country": "China", "me_fertilizer_dependence_pct": 8, "food_inflation_vulnerability": 5.0, "population_mn": 1400},
+          {"country": "Japan", "me_fertilizer_dependence_pct": 7, "food_inflation_vulnerability": 4.0, "population_mn": 125},
+          {"country": "South Korea", "me_fertilizer_dependence_pct": 9, "food_inflation_vulnerability": 4.5, "population_mn": 52},
+          {"country": "Thailand", "me_fertilizer_dependence_pct": 12, "food_inflation_vulnerability": 6.0, "population_mn": 70},
+          {"country": "Bangladesh", "me_fertilizer_dependence_pct": 35, "food_inflation_vulnerability": 8.0, "population_mn": 170}
+        ],
+        "global_urea_disruption_pct": 50,
+        "kharif_planting_start": "June 2026",
+        "days_until_kharif": 75
+      },
+      "source": "MUFG India Energy Research; FAO; PPAC; March 2026"
+    },
+    {
+      "card_id": "card_20",
+      "act": "3",
+      "card_type": "chart_card",
+      "key_message": "The macro damage from $146 crude extends far beyond the refinery P&L — India's current account, fiscal deficit, GDP growth, and inflation are all simultaneously under pressure.",
+      "sub_messages": [
+        {
+          "text": "Annual import bill at $146: ~$266B vs ~$100B annualized at $70 baseline — an incremental $166B/year. CAD widens to 2.2%+ of GDP. Fiscal deficit target of 4.3% requires cutting infrastructure capex. GDP growth hit ~100bps at $130+ sustained.",
+          "visual_weight": "2/3",
+          "visual_type": "waterfall_chart",
+          "chart_type": "waterfall_chart"
+        },
+        {
+          "text": "RBI is already pricing ≥2 rate hikes starting August 2026. Oxford Economics: Oil at $140 for 2 months = mild recession in Eurozone, UK, Japan; US near standstill; global GDP -0.7%. India is not immune to a global demand destruction feedback loop.",
+          "visual_weight": "1/3",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A waterfall cascade showing how $146 crude flows through the Indian macro system: Start bar = pre-crisis baseline. Then sequential negative bars: +$166B import bill → CAD widening to 2.2% → fiscal pressure Rs 3.6L crore → inflation +80-100 bps per $10 → GDP growth -100 bps → INR depreciation to ₹92-95. Each bar is labeled and colored in gradient red to signal compounding damage. The waterfall form makes the transmission mechanism — not just the endpoints — legible.",
+      "data": {
+        "baseline_import_bill_bn_usd": 100,
+        "current_run_rate_bn_usd": 266,
+        "incremental_cost_bn_usd": 166,
+        "cad_pre_crisis_pct_gdp": 0.75,
+        "cad_at_100_pct_gdp": 2.0,
+        "cad_at_146_pct_gdp": 2.5,
+        "fiscal_pressure_rs_lakh_crore": 3.6,
+        "gdp_growth_base": 7.0,
+        "gdp_growth_at_130_sustained": 6.0,
+        "cpi_sensitivity_per_10bbl_bps": 50,
+        "wpi_sensitivity_per_10bbl_bps": 90,
+        "rbi_rate_hikes_priced": 2,
+        "usd_inr_current": 92.64,
+        "usd_inr_stress": 97.5
+      },
+      "source": "Goldman Sachs India; RBI; BusinessToday; Oxford Economics; MUFG; March 2026"
+    },
+    {
+      "card_id": "card_21",
+      "act": "3",
+      "card_type": "chart_card",
+      "key_message": "The NCI 21.1 vs NCI 5.6 gap is not a margin difference — it is a structural divergence that this crisis is making permanent.",
+      "sub_messages": [
+        {
+          "text": "At $146 crude: RIL Jamnagar (NCI 21.1) GRM $7/bbl positive. HPCL Mumbai (NCI 5.6) GRM deeply negative. Singapore GRM jumped from $3.4 to ~$30/bbl. Nomura: RIL is top pick for the crisis.",
+          "visual_weight": "1/2",
+          "visual_type": "before_after_bars",
+          "chart_type": "before_after_bars"
+        },
+        {
+          "text": "The crisis accelerates every complexity upgrade thesis. Rs 3+ lakh crore (~$34B) of industry capex into petrochemical integration was the right call — payback periods have collapsed from 10 years to 3-4 years at current spreads. Every refinery not investing in NCI upgrades is falling further behind.",
+          "visual_weight": "1/2",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "compare_contrast",
+      "visual_decision": "A paired before/after bar chart showing Singapore GRM (proxy for high-complexity refinery economics) before the crisis ($3.4/bbl, green) and after ($30/bbl, bright green). Alongside it, a second pair for PSU OMC marketing margin: before (+$6-8/bbl, green) and after (-$19.8/litre equivalent, deep red). The contrast between two bars going in opposite directions on the same chart makes the winner/loser narrative undeniable.",
+      "data": {
+        "singapore_grm_before": 3.4,
+        "singapore_grm_after": 30,
+        "psu_marketing_margin_before_usd": 7,
+        "psu_marketing_margin_after_rs_per_litre": -19.8,
+        "rel_jamnagar_nci": 21.1,
+        "hpcl_mumbai_nci": 5.6,
+        "industry_capex_petrochems_rs_lakh_crore": 3,
+        "payback_period_pre_crisis_years": 10,
+        "payback_period_at_crisis_prices_years": 3.5,
+        "nomura_ril_call": "Top pick"
+      },
+      "source": "Nomura India; UBS; S&P Global Platts; Company filings; March 2026"
+    },
+    {
+      "card_id": "card_22",
+      "act": "3",
+      "card_type": "closing",
+      "key_message": "The companies that survive this crisis will be the ones who stopped waiting for Hormuz to reopen and built a supply architecture for a world where it doesn't.",
+      "sub_messages": [
+        {
+          "text": "The 41-day window closes faster than it looks: April 3 (Russia waiver), April 26 (Chabahar), May-June (kharif/fertilizer), Q4 FY26 earnings. Each deadline without action makes the next one more expensive.",
+          "visual_weight": "1/2",
+          "visual_type": "gauge",
+          "chart_type": null
+        },
+        {
+          "text": "Three structural winners from this crisis: (1) High-NCI refineries with non-Gulf crude flexibility. (2) Companies with Brazil/West Africa long-term supply contracts signed NOW, before the market fully reprices. (3) Refineries that accelerated NCI upgrade capex — the payback window has compressed from a decade to under 4 years.",
+          "visual_weight": "1/2",
+          "visual_type": "text",
+          "chart_type": null
+        }
+      ],
+      "relationship": "cause_effect",
+      "visual_decision": "A depleting fuel gauge or hourglass visual showing the 41-day action window draining, with four red deadline markers at April 3, April 26, May-June, and Q4 earnings. This makes the time urgency visceral. Below the gauge, a three-item 'structural winners' list in bold type as the forward-looking counterpoint to the crisis framing — ending on a strategic, not a distressed, note.",
+      "data": {
+        "action_window_days": 41,
+        "deadlines": [
+          {"label": "Russia Waiver Expires", "date": "April 3", "days_from_today": 15},
+          {"label": "Chabahar Waiver Decision", "date": "April 26", "days_from_today": 38},
+          {"label": "Kharif Fertilizer Crunch", "date": "May-June", "days_from_today": 60},
+          {"label": "Q4 FY26 Earnings", "date": "May", "days_from_today

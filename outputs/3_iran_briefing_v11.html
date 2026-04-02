@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Strategic Intelligence Briefing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+/* ============================================================
+   Style DNA — Single source of truth for all visual styling
+   Extracted from iran-crisis briefing_v6.html (approved design)
+   ============================================================ */
+
+/* Reset */
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* Variables */
+:root{
+  --bg:#0a0a0a;
+  --card-bg:#111;
+  --red:#ff3b3b;
+  --amber:#ffb020;
+  --green:#34d399;
+  --blue:#3b82f6;
+  --purple:#a78bfa;
+  --text:#e5e5e5;
+  --muted:#888;
+  --dim:#333
+}
+
+/* Scroll system */
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Card system — full viewport, scroll-snap */
+.card{min-height:100vh;min-height:100dvh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 24px 56px;position:relative;overflow:hidden}
+.card-inner{width:100%;max-width:600px;text-align:center}
+
+/* Progress bar */
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:1000;transition:width .3s}
+
+/* Card counter */
+.card-counter{position:fixed;top:8px;right:12px;font:500 11px/1 'JetBrains Mono';color:var(--muted);z-index:1000;background:rgba(10,10,10,.7);padding:4px 8px;border-radius:4px;backdrop-filter:blur(4px)}
+
+/* Typography */
+.label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600}
+.label.red{color:var(--red)}
+.label.green{color:var(--green)}
+.label.blue{color:var(--blue)}
+.label.amber{color:var(--amber)}
+.card-title{font:800 28px/1.1 'Inter';margin-bottom:16px;max-width:600px;text-align:center}
+.card-sub{font:400 14px/1.5 'Inter';color:var(--muted);max-width:440px;margin-left:auto;margin-right:auto;text-align:center}
+.hero-num{font:800 72px/1 'JetBrains Mono';letter-spacing:-2px}
+
+/* Stat row */
+.stat-row{display:flex;gap:32px;margin:24px 0;flex-wrap:wrap;justify-content:center}
+.stat{text-align:center}
+.stat .val{font:700 42px/1 'JetBrains Mono';letter-spacing:-1px}
+.stat .lbl{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-top:4px}
+
+/* Mixed panels — dark and light */
+.panel-dark{background:#1a1a1a;border-radius:8px;padding:16px;border-left:3px solid var(--dim)}
+.panel-dark .kl{font:500 10px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+.panel-dark .kv{font:700 28px/1 'JetBrains Mono'}
+.panel-dark .kd{font:600 11px/1 'JetBrains Mono';margin-top:4px}
+.panel-light{background:#fafafa;border-radius:12px;padding:20px;color:#1a1a1a;text-align:left}
+.panel-light .p-label{font:700 14px/1 'Inter';color:#1a1a1a;margin-bottom:2px}
+.panel-light .p-sub{font:400 10px/1.2 'Inter';color:#888;margin-bottom:10px}
+
+/* Verdict banners */
+.source-panel{background:#fafafa;border-radius:12px;overflow:hidden;color:#1a1a1a;text-align:left;margin-bottom:10px}
+.verdict{padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.verdict .v-source{font:800 14px/1 'Inter';color:#fff}
+.verdict .v-msg{font:700 11px/1 'JetBrains Mono';color:#fff;letter-spacing:.5px}
+.panel-body{padding:16px 20px}
+
+/* Grids */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+
+/* KPI grid — dark panels */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;max-width:520px;margin:16px auto}
+.kpi{padding:14px;background:#1a1a1a;border-radius:6px;border-left:3px solid var(--dim)}
+.kpi .kl{font:500 10px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+.kpi .kv{font:700 28px/1 'JetBrains Mono'}
+.kpi .kd{font:600 11px/1 'JetBrains Mono';margin-top:4px}
+
+/* Maps: white tiles, inside light panels */
+.map-c{width:100%;height:55vh;max-height:340px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.15);position:relative;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+.map-c .leaflet-control-attribution,.map-c .leaflet-control-zoom{display:none}
+.map-label{background:rgba(255,255,255,.9)!important;border:none!important;font:500 10px/1.4 'Inter'!important;color:#333!important;padding:3px 7px!important;border-radius:3px!important;pointer-events:none;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.map-label-red{color:#cc2020!important;font-weight:700!important;border-left:2px solid #dc2626!important;background:rgba(255,255,255,.92)!important}
+.map-label-green{color:#1a7a4a!important;font-weight:700!important;border-left:2px solid #16a34a!important;background:rgba(255,255,255,.92)!important}
+.leaflet-div-icon{background:none!important;border:none!important}
+
+/* Pulsing map marker */
+.pulse-marker{width:12px;height:12px;background:var(--red);border-radius:50%;box-shadow:0 0 10px var(--red);animation:mapPulse 2s infinite}
+@keyframes mapPulse{0%{box-shadow:0 0 0 0 rgba(255,59,59,.7)}70%{box-shadow:0 0 0 15px rgba(255,59,59,0)}100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}}
+
+/* Charts inside light panels */
+.chart-c{width:100%;height:220px;position:relative}
+.chart-c canvas{width:100%!important;height:100%!important}
+
+/* Before/after comparison */
+.compare-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--dim)}
+.compare-row .cr-label{font:500 12px/1 'Inter';color:var(--muted);width:100px}
+.compare-row .cr-before{font:600 18px/1 'JetBrains Mono';color:var(--muted)}
+.compare-row .cr-arrow{color:var(--red);font-size:20px;margin:0 8px}
+.compare-row .cr-after{font:700 22px/1 'JetBrains Mono';color:var(--red)}
+
+/* Bars (before/after butterfly) */
+.ba-row{display:flex;gap:3px;align-items:center;height:36px;margin-bottom:4px}
+.ba-half{width:50%;height:100%;display:flex}
+.ba-half.left{justify-content:flex-end}
+.ba-center{width:2px;height:100%;background:#ccc;flex-shrink:0}
+.ba-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 10px;font:700 11px/1 'JetBrains Mono';color:#fff;white-space:nowrap}
+.ba-axis{text-align:center;font:500 8px/1 'JetBrains Mono';color:#aaa;margin:4px 0 8px}
+
+/* Voyage bars */
+.v-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.v-label{font:500 10px/1 'Inter';width:100px;flex-shrink:0;color:#666}
+.v-track{flex:1;height:22px;background:#eee;border-radius:3px;overflow:hidden}
+.v-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:8px;font:700 9px/1 'JetBrains Mono';color:#fff}
+.v-days{font:600 10px/1 'JetBrains Mono';width:55px;text-align:right;flex-shrink:0}
+
+/* Animated timeline */
+.timeline{position:relative;padding-left:28px;width:100%;max-width:500px;text-align:left}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--dim)}
+.tl-item{position:relative;margin-bottom:16px;opacity:0}
+.tl-item::before{content:'';position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:mapPulse 2s infinite}
+.tl-item.amber::before{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.tl-item .tl-time{font:600 12px/1 'JetBrains Mono';color:var(--red);margin-bottom:2px}
+.tl-item.amber .tl-time{color:var(--amber)}
+.tl-item .tl-text{font:400 13px/1.4 'Inter';color:var(--text)}
+.card.in-view .tl-item{animation:fadeSlide .5s ease forwards}
+.card.in-view .tl-item:nth-child(1){animation-delay:.1s}
+.card.in-view .tl-item:nth-child(2){animation-delay:.2s}
+.card.in-view .tl-item:nth-child(3){animation-delay:.3s}
+.card.in-view .tl-item:nth-child(4){animation-delay:.4s}
+.card.in-view .tl-item:nth-child(5){animation-delay:.5s}
+.card.in-view .tl-item:nth-child(6){animation-delay:.6s}
+.card.in-view .tl-item:nth-child(7){animation-delay:.7s}
+.card.in-view .tl-item:nth-child(8){animation-delay:.8s}
+.card.in-view .tl-item:nth-child(9){animation-delay:.9s}
+.card.in-view .tl-item:nth-child(10){animation-delay:1s}
+@keyframes fadeSlide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* Scenario cards — full bleed */
+.scenario-card{border-radius:12px;padding:24px;width:100%;max-width:520px;margin:10px auto;text-align:left}
+.scenario-card .sc-prob{font:800 52px/1 'JetBrains Mono';margin-bottom:6px}
+.scenario-card .sc-title{font:700 18px/1.1 'Inter';margin-bottom:10px}
+.scenario-card .sc-stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.scenario-card .sc-stat{padding:6px 10px;background:rgba(0,0,0,.3);border-radius:6px}
+.scenario-card .sc-stat .ss-v{font:700 14px/1 'JetBrains Mono'}
+.scenario-card .sc-stat .ss-l{font:400 9px/1 'Inter';color:rgba(255,255,255,.5);margin-top:2px}
+.scenario-card .sc-insight{font:400 12px/1.4 'Inter';color:rgba(255,255,255,.7);margin-top:8px}
+
+/* Dominoes — falling animation */
+.dominoes{display:flex;gap:8px;width:100%;max-width:520px;margin:16px auto;align-items:flex-end;justify-content:center}
+.domino{flex:1;min-width:60px;padding:14px 6px;background:#1a1a1a;border:1px solid var(--dim);border-radius:6px;text-align:center;opacity:0}
+.domino .d-val{font:700 18px/1 'JetBrains Mono';margin-bottom:4px}
+.domino .d-name{font:500 9px/1.2 'Inter';color:var(--muted)}
+.card.in-view .domino{animation:dominoFall .5s ease forwards}
+.card.in-view .domino:nth-child(1){animation-delay:.1s}
+.card.in-view .domino:nth-child(2){animation-delay:.2s}
+.card.in-view .domino:nth-child(3){animation-delay:.3s}
+.card.in-view .domino:nth-child(4){animation-delay:.4s}
+.card.in-view .domino:nth-child(5){animation-delay:.5s}
+.card.in-view .domino:nth-child(6){animation-delay:.6s}
+.card.in-view .domino:nth-child(7){animation-delay:.7s}
+.card.in-view .domino:nth-child(8){animation-delay:.8s}
+@keyframes dominoFall{from{opacity:0;transform:rotateX(90deg) translateY(-10px)}to{opacity:1;transform:rotateX(0) translateY(0)}}
+
+/* Dot grid — ship visualization */
+.dot-grid{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;width:100%;max-width:300px;margin:12px auto}
+.dot{width:100%;aspect-ratio:1;border-radius:50%;transition:all .3s}
+
+/* Insight box */
+.insight{margin:16px 0 0;padding:10px 14px;background:rgba(255,59,59,.06);border-left:3px solid var(--red);border-radius:0 6px 6px 0;width:100%;font:500 12px/1.4 'Inter';color:var(--text);text-align:left}
+.insight.g{background:rgba(52,211,153,.06);border-color:var(--green)}
+.insight.a{background:rgba(255,176,32,.06);border-color:var(--amber)}
+.insight.b{background:rgba(59,130,246,.06);border-color:var(--blue)}
+.src{font:400 9px/1 'Inter';color:var(--dim);margin-top:6px;text-align:center}
+
+/* Quote boxes */
+.quote-box{padding:14px 16px;border-radius:8px;margin-bottom:8px;text-align:left}
+.quote-box .q-text{font:600 14px/1.4 'Inter';margin-bottom:6px}
+.quote-box .q-attr{font:500 10px/1 'Inter';opacity:.7}
+
+/* Checklist */
+.checklist{text-align:left;width:100%;max-width:520px;margin:0 auto}
+.cl-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #1a1a1a}
+.cl-item .cl-num{font:800 28px/1 'JetBrains Mono';color:var(--red);min-width:36px}
+.cl-item .cl-action{font:600 13px/1.3 'Inter';margin-bottom:4px}
+.cl-item .cl-deadline{font:600 10px/1 'JetBrains Mono';color:var(--amber)}
+
+/* Act breaks */
+.act-card{background:var(--bg)}
+.act-card .act-num{font:800 120px/1 'JetBrains Mono';color:#1a1a1a;position:absolute;right:20px;bottom:20px}
+.act-title{font:900 14px/1 'Inter';text-transform:uppercase;letter-spacing:4px;color:var(--red);margin-bottom:12px}
+
+/* Swipe hint */
+.swipe-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);animation:sh 2s ease-in-out infinite;opacity:.4;font:500 11px/1 'Inter';color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.swipe-hint::after{content:'';display:block;width:16px;height:16px;margin:6px auto 0;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg)}
+@keyframes sh{0%,100%{opacity:.3;transform:translateX(-50%) translateY(0)}50%{opacity:.6;transform:translateX(-50%) translateY(-6px)}}
+
+/* Countdown pulse */
+@keyframes countPulse{0%,100%{opacity:1}50%{opacity:.7}}
+.countdown{animation:countPulse 1.5s ease-in-out infinite}
+
+/* Responsive */
+@media(max-width:480px){
+  .card{padding:44px 14px 36px}
+  .card-title{font-size:22px}
+  .hero-num{font-size:48px}
+  .stat .val{font-size:28px}
+  .map-c{height:45vh}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .scenario-card .sc-prob{font-size:40px}
+  .dominoes{flex-wrap:wrap}
+  .domino{min-width:45px}
+}
+
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<div class="card-counter" id="ctr">1/28</div>
+
+<!-- ===== CARD 1: c1 (hero) ===== -->
+<div class="card" id="c1" style="background:radial-gradient(ellipse at 50% 60%,#1a0000,#0a0a0a)">
+<div class="card-inner">
+  <p class="label" style="color:var(--red);margin-bottom:16px">
+    <span class="countdown">STRATEGIC INTELLIGENCE BRIEFING · INDIA PERSPECTIVE</span>
+  </p>
+  <h1 style="font:900 44px/1 'Inter';background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px;overflow-wrap:break-word">India's Energy War</h1>
+  <div class="hero-num countdown" style="color:var(--red);text-shadow:0 0 40px rgba(255,59,59,.3)">DAY 20</div>
+  <p class="card-sub" style="margin-top:8px;margin-bottom:28px;color:#888">No ceasefire. No playbook. No precedent.</p>
+  <div class="stat-row">
+    <div class="stat">
+      <div class="val" style="color:var(--red);text-shadow:0 0 20px rgba(255,59,59,.25)">8M</div>
+      <div class="lbl">bbl/d offline</div>
+      <div style="font:400 9px/1 'Inter';color:#555;margin-top:4px">Largest disruption in history</div>
+    </div>
+    <div class="stat">
+      <div class="val" style="color:var(--amber);text-shadow:0 0 20px rgba(255,176,32,.2)">$146</div>
+      <div class="lbl">Indian basket</div>
+      <div style="font:400 9px/1 'Inter';color:#555;margin-top:4px">+112% in 3 weeks</div>
+    </div>
+    <div class="stat">
+      <div class="val" style="color:var(--red);text-shadow:0 0 20px rgba(255,59,59,.25)">74d</div>
+      <div class="lbl">reserve cover</div>
+      <div style="font:400 9px/1 'Inter';color:#555;margin-top:4px">Refused IEA &amp; G7 release</div>
+    </div>
+  </div>
+  <div style="margin-top:20px;padding:6px 16px;background:var(--red);border-radius:4px;display:inline-block;box-shadow:0 0 24px rgba(255,59,59,.3)">
+    <span class="mono" style="font-size:11px;font-weight:700;color:#fff;letter-spacing:1px">ZERO NEGOTIATIONS ACTIVE</span>
+  </div>
+  <p class="src" style="margin-top:18px;color:#444">EIA, S&amp;P Global, India Petroleum Ministry</p>
+  <div class="swipe-hint">scroll</div>
+</div>
+</div>
+
+<!-- ===== CARD 2: c2 (timeline) ===== -->
+<div class="card" id="c2" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label" style="color:#888;margin-bottom:12px">Escalation Timeline · 20 Days</p>
+  <h2 class="card-title" style="color:#1a1a1a;margin-bottom:6px">From Strikes to Infrastructure War</h2>
+  <p class="card-sub" style="margin-bottom:20px">Phase 1 closed the strait. Phase 2 is destroying what lies behind it.</p>
+
+  <div style="display:flex;gap:10px;justify-content:center;margin-bottom:18px">
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:#ef4444;flex-shrink:0"></div><span style="font:600 10px/1 'Inter';color:#888;text-transform:uppercase;letter-spacing:1px">Phase 1 — Strait Closure</span></div>
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:#f97316;flex-shrink:0"></div><span style="font:600 10px/1 'Inter';color:#888;text-transform:uppercase;letter-spacing:1px">Phase 2 — Infrastructure War</span></div>
+  </div>
+
+  <div class="timeline" style="margin:0 auto;">
+
+    <div class="tl-item" style="margin-bottom:14px">
+      <div class="tl-time" style="color:#ef4444;font:600 11px/1 'JetBrains Mono'">FEB 28 — DAY 1</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333">900 strikes in 12 hours. <strong style="color:#1a1a1a">Khamenei killed.</strong> Iran retaliates — 500+ missiles, 2,000 drones.</div>
+    </div>
+
+    <div class="tl-item" style="margin-bottom:14px">
+      <div class="tl-time" style="color:#ef4444;font:600 11px/1 'JetBrains Mono'">MAR 1 — DAY 2</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333">Traffic drops 70%. Maersk, CMA CGM, Hapag-Lloyd suspend all transits.</div>
+    </div>
+
+    <div class="tl-item" style="margin-bottom:14px">
+      <div class="tl-time" style="color:#ef4444;font:600 11px/1 'JetBrains Mono'">MAR 4 — DAY 5</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333">Strait officially closed. Only Chinese vessels permitted passage.</div>
+    </div>
+
+    <div class="tl-item" style="margin-bottom:14px">
+      <div class="tl-time" style="color:#ef4444;font:600 11px/1 'JetBrains Mono'">MAR 10 — DAY 11</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333">Iran lays naval mines. US sinks 16 minelayers. 21 attacks on merchant ships.</div>
+    </div>
+
+    <div class="tl-item amber" style="margin-bottom:14px">
+      <div class="tl-time" style="color:#f97316;font:600 11px/1 'JetBrains Mono'">MAR 14 — DAY 15</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333"><strong style="color:#1a1a1a">First day of zero crossings.</strong> 850 tankers stranded globally.</div>
+    </div>
+
+    <div class="tl-item amber" style="margin-bottom:14px">
+      <div class="tl-time" style="color:#f97316;font:600 11px/1 'JetBrains Mono'">MAR 17 — DAY 18</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333">Shah gas field + Fujairah hit. Larijani killed. Israel invades Lebanon.</div>
+    </div>
+
+    <div class="tl-item amber" style="margin-bottom:14px">
+      <div class="tl-time" style="color:#f97316;font:600 11px/1 'JetBrains Mono'">MAR 18 — DAY 19</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333"><strong style="color:#1a1a1a">South Pars struck.</strong> Iran hits Ras Laffan, Ras Tanura. Energy infrastructure war begins.</div>
+    </div>
+
+    <div class="tl-item amber" style="margin-bottom:0">
+      <div class="tl-time" style="color:#f97316;font:600 11px/1 'JetBrains Mono'">MAR 19 — DAY 20</div>
+      <div class="tl-text" style="font:400 12px/1.4 'Inter';color:#333">US bunker busters on Hormuz. Trump threatens to 'massively blow up' South Pars.</div>
+    </div>
+
+  </div>
+
+  <div class="insight" style="background:rgba(0,0,0,.04);border-left:3px solid #1a1a1a;color:#1a1a1a;margin-top:18px">
+    Phase 1 closed the strait. Phase 2 is destroying the infrastructure behind it. Even when the strait reopens, the loading terminals need months of repair.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:10px">Sources: Wikipedia, Al Jazeera, CNN, CNBC</p>
+</div>
+
+<script>
+(function(){
+  var card = document.getElementById('c2');
+  var items = card.querySelectorAll('.tl-item');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        card.classList.add('in-view');
+        observer.disconnect();
+      }
+    });
+  },{threshold:0.2});
+  observer.observe(card);
+})();
+</script>
+</div>
+
+<!-- ===== CARD 3: c3 (kpi_card) ===== -->
+<div class="card" id="c3" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+<p class="label red" style="margin-bottom:12px">Fleet Status · March 18, 2026</p>
+<h2 class="card-title" style="color:#1a1a1a">22 Ships. 1.7 Million Tonnes. Stuck.</h2>
+<p class="card-sub" style="margin-bottom:20px">611 crew members. 19 vessels west of Hormuz. 3 made it through — with Navy escort.</p>
+
+<!-- Dot Grid -->
+<div style="background:#fff;border-radius:12px;padding:16px 20px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px">
+  <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:#888;text-align:center;margin-bottom:10px">Fleet Position — Each dot = 1 vessel</div>
+  <div class="dot-grid" style="max-width:280px">
+    <!-- 19 red dots -->
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <div class="dot" style="background:#ff3b3b;box-shadow:0 0 6px rgba(255,59,59,.4)"></div>
+    <!-- 3 green dots -->
+    <div class="dot" style="background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.5)"></div>
+    <div class="dot" style="background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.5)"></div>
+    <div class="dot" style="background:#34d399;box-shadow:0 0 6px rgba(52,211,153,.5)"></div>
+  </div>
+  <!-- Legend -->
+  <div style="display:flex;gap:20px;justify-content:center;margin-top:8px">
+    <div style="display:flex;align-items:center;gap:6px">
+      <div style="width:10px;height:10px;border-radius:50%;background:#ff3b3b"></div>
+      <span style="font:500 10px/1 'Inter';color:#666">19 stranded</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <div style="width:10px;height:10px;border-radius:50%;background:#34d399"></div>
+      <span style="font:500 10px/1 'Inter';color:#666">3 through (92,700 MT LPG)</span>
+    </div>
+  </div>
+</div>
+
+<!-- KPI Grid -->
+<div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;margin:0 auto 12px">
+  <div class="kpi" style="background:#fff;border-left:3px solid #ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">Crude</div>
+    <div class="kv" style="color:#ff3b3b;font-size:22px">1.67M</div>
+    <div class="kd" style="color:#ff3b3b;font-size:9px">tonnes · 4 tankers</div>
+  </div>
+  <div class="kpi" style="background:#fff;border-left:3px solid #ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">LPG</div>
+    <div class="kv" style="color:#ff3b3b;font-size:22px">320K</div>
+    <div class="kd" style="color:#ff3b3b;font-size:9px">tonnes · 6 tankers</div>
+  </div>
+  <div class="kpi" style="background:#fff;border-left:3px solid #ffb020;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">LNG</div>
+    <div class="kv" style="color:#ffb020;font-size:22px">200K</div>
+    <div class="kd" style="color:#ffb020;font-size:9px">tonnes · 1 tanker</div>
+  </div>
+</div>
+
+<!-- Insight -->
+<div class="insight" style="background:rgba(26,26,26,.04);border-left:3px solid #ff3b3b;border-radius:0 6px 6px 0;padding:10px 14px;margin-top:0">
+  <span style="color:#1a1a1a;font:500 12px/1.5 'Inter'">Each transit is individually negotiated with Iran — no blanket deal. India MEA: <em>"Every ship movement is an individual happening."</em></span>
+</div>
+
+<p class="src" style="color:#aaa;margin-top:10px">BusinessToday, IAAN Express, Onmanorama — March 18, 2026</p>
+
+</div>
+</div>
+
+<!-- ===== CARD 4: c4 (chart_card) ===== -->
+<div class="card" id="c4" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label amber" style="margin-bottom:12px">Three Crises, One Chokepoint</p>
+  <h3 class="card-title" style="color:#1a1a1a">Crude. Cooking Gas. Fertilizer.</h3>
+  <p class="card-sub" style="margin-bottom:16px">Most people only see the first one.</p>
+
+  <div class="panel-light" style="background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #eee">
+    <div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;text-align:center">India's Hormuz Dependency by Product — % of imports via Strait</div>
+    <div class="chart-c" style="height:180px"><canvas id="ch-c4"></canvas></div>
+  </div>
+
+  <div class="dominoes" style="margin:10px auto 12px">
+    <div class="domino" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05)">
+      <div class="d-val" style="color:var(--amber);font-size:16px">42%</div>
+      <div class="d-name" style="color:#666">Crude Oil</div>
+      <div style="font:700 8px/1 'JetBrains Mono';color:var(--amber);margin-top:4px;letter-spacing:.5px">MANAGEABLE</div>
+    </div>
+    <div class="domino" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05)">
+      <div class="d-val" style="color:var(--red);font-size:16px">90%</div>
+      <div class="d-name" style="color:#666">LPG</div>
+      <div style="font:700 8px/1 'JetBrains Mono';color:var(--red);margin-top:4px;letter-spacing:.5px">HUMANITARIAN</div>
+    </div>
+    <div class="domino" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05)">
+      <div class="d-val" style="color:var(--red);font-size:16px">40%</div>
+      <div class="d-name" style="color:#666">Fertilizer</div>
+      <div style="font:700 8px/1 'JetBrains Mono';color:var(--red);margin-top:4px;letter-spacing:.5px">COMING</div>
+    </div>
+    <div class="domino" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05)">
+      <div class="d-val" style="color:var(--red);font-size:15px">₹4K</div>
+      <div class="d-name" style="color:#666">Black Mkt</div>
+      <div style="font:700 8px/1 'JetBrains Mono';color:var(--red);margin-top:4px;letter-spacing:.5px">per cylinder</div>
+    </div>
+    <div class="domino" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05)">
+      <div class="d-val" style="color:var(--red);font-size:13px">330M</div>
+      <div class="d-name" style="color:#666">Households</div>
+      <div style="font:700 8px/1 'JetBrains Mono';color:var(--red);margin-top:4px;letter-spacing:.5px">affected</div>
+    </div>
+  </div>
+
+  <div class="insight" style="background:#1a1a1a;border-left:3px solid var(--red);border-radius:6px;color:#e5e5e5;padding:12px 16px;margin-top:4px">
+    The crude crisis is on every front page. The LPG crisis is on every doorstep. The fertilizer crisis hasn't hit yet — but kharif planting is in 10 weeks.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:8px">Sources: EIA, IEA, PPAC, MUFG</p>
+</div>
+
+<script>
+(function(){
+  var ctx = document.getElementById('ch-c4');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Crude Oil', 'LPG', 'LNG', 'Fertilizer'],
+      datasets: [{
+        label: '% via Hormuz',
+        data: [42, 90, 35, 40],
+        backgroundColor: [
+          'rgba(255,176,32,.75)',
+          'rgba(255,59,59,.8)',
+          'rgba(59,130,246,.7)',
+          'rgba(255,59,59,.65)'
+        ],
+        borderColor: [
+          '#ffb020',
+          '#ff3b3b',
+          '#3b82f6',
+          '#ff3b3b'
+        ],
+        borderWidth: 2,
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx){ return ' ' + ctx.raw + '% of imports via Strait of Hormuz'; }
+          },
+          titleFont: { family: 'Inter' },
+          bodyFont: { family: 'JetBrains Mono' }
+        }
+      },
+      scales: {
+        x: {
+          min: 0,
+          max: 100,
+          grid: { color: 'rgba(0,0,0,.06)' },
+          ticks: {
+            color: '#888',
+            font: { family: 'JetBrains Mono', size: 10 },
+            callback: function(v){ return v + '%'; }
+          },
+          border: { color: '#eee' }
+        },
+        y: {
+          grid: { display: false },
+          ticks: {
+            color: '#333',
+            font: { family: 'Inter', size: 12, weight: '600' }
+          },
+          border: { color: '#eee' }
+        }
+      }
+    }
+  });
+
+  var card = document.getElementById('c4');
+  var dominoes = card.querySelectorAll('.domino');
+  dominoes.forEach(function(d, i){
+    d.style.opacity = '0';
+  });
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        card.classList.add('in-view');
+        dominoes.forEach(function(d, i){
+          setTimeout(function(){
+            d.style.opacity = '1';
+            d.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            d.style.transform = 'translateY(0)';
+          }, 150 * (i + 1));
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  observer.observe(card);
+  dominoes.forEach(function(d){
+    d.style.transform = 'translateY(12px)';
+  });
+})();
+</script>
+</div>
+
+<!-- ===== CARD 5: c5 (quote_pair) ===== -->
+<div class="card" id="c5" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label" style="color:#888;margin-bottom:12px">Conflict Timeline</p>
+  <h2 class="card-title" style="color:#1a1a1a;font-size:24px">The Wrong Question Is "When Does the War End."</h2>
+  <p class="card-sub" style="margin-bottom:18px">The right question is "When are the mines cleared."</p>
+
+  <!-- Quote Pair -->
+  <div class="grid-2" style="gap:8px;margin-bottom:14px">
+    <div class="quote-box" style="background:#eff6ff;border-left:3px solid #3b82f6;padding:12px 14px;border-radius:8px">
+      <div class="q-text" style="font:600 13px/1.4 'Inter';color:#1e3a5f;margin-bottom:6px">"The terms aren't good enough yet."</div>
+      <div class="q-attr" style="font:600 10px/1 'JetBrains Mono';color:#3b82f6">Trump — March 15</div>
+    </div>
+    <div class="quote-box" style="background:#fff5f5;border-left:3px solid #dc2626;padding:12px 14px;border-radius:8px">
+      <div class="q-text" style="font:600 13px/1.4 'Inter';color:#5f1e1e;margin-bottom:6px">"We never asked for a ceasefire."</div>
+      <div class="q-attr" style="font:600 10px/1 'JetBrains Mono';color:#dc2626">Iran FM Araghchi — March 15</div>
+    </div>
+  </div>
+
+  <!-- Gantt Timeline -->
+  <div style="background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px">
+    <p class="label" style="color:#888;margin-bottom:10px;text-align:left">Days to commercial flow resumption</p>
+    <div style="width:100%;position:relative">
+      <!-- Gantt row labels + bars -->
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <!-- Ceasefire -->
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="font:500 10px/1 'Inter';color:#555;width:88px;flex-shrink:0;text-align:right">Ceasefire (IF)</div>
+          <div style="flex:1;background:#f0f0f0;border-radius:3px;height:20px;position:relative">
+            <div style="position:absolute;left:0;top:0;height:100%;width:5.4%;background:#16a34a;border-radius:3px;display:flex;align-items:center;padding-left:4px;min-width:28px">
+              <span style="font:700 9px/1 'JetBrains Mono';color:#fff">5d</span>
+            </div>
+          </div>
+        </div>
+        <!-- Mine clearance -->
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="font:500 10px/1 'Inter';color:#555;width:88px;flex-shrink:0;text-align:right">Mine clearance</div>
+          <div style="flex:1;background:#f0f0f0;border-radius:3px;height:20px;position:relative">
+            <div style="position:absolute;left:0;top:0;height:100%;width:55.4%;background:#dc2626;border-radius:3px;display:flex;align-items:center;padding-left:6px">
+              <span style="font:700 9px/1 'JetBrains Mono';color:#fff">51 days</span>
+            </div>
+          </div>
+        </div>
+        <!-- Insurance recertification -->
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="font:500 10px/1 'Inter';color:#555;width:88px;flex-shrink:0;text-align:right;line-height:1.2">Insurance recert.</div>
+          <div style="flex:1;background:#f0f0f0;border-radius:3px;height:20px;position:relative">
+            <div style="position:absolute;left:0;top:0;height:100%;width:22.8%;background:#d97706;border-radius:3px;display:flex;align-items:center;padding-left:6px">
+              <span style="font:700 9px/1 'JetBrains Mono';color:#fff">21d</span>
+            </div>
+          </div>
+        </div>
+        <!-- Commercial flow -->
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="font:500 10px/1 'Inter';color:#555;width:88px;flex-shrink:0;text-align:right;line-height:1.2">Commercial flow</div>
+          <div style="flex:1;background:#f0f0f0;border-radius:3px;height:20px;position:relative">
+            <div style="position:absolute;left:0;top:0;height:100%;width:15.2%;background:#78350f;border-radius:3px;display:flex;align-items:center;padding-left:6px">
+              <span style="font:700 9px/1 'JetBrains Mono';color:#fff">14d</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;padding-left:96px">
+        <span style="font:500 8px/1 'JetBrains Mono';color:#aaa">Day 0</span>
+        <span style="font:500 8px/1 'JetBrains Mono';color:#aaa">Day 91+</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dominoes -->
+  <div class="dominoes" style="margin:10px auto">
+    <div class="domino in-view" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05);opacity:1">
+      <div class="d-val" style="color:#dc2626;font-size:15px">2,000+</div>
+      <div class="d-name" style="color:#888">Mines in arsenal</div>
+    </div>
+    <div class="domino in-view" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05);opacity:1">
+      <div class="d-val" style="color:#dc2626;font-size:15px">0</div>
+      <div class="d-name" style="color:#888">UK sweepers in Gulf</div>
+    </div>
+    <div class="domino in-view" style="background:#fff;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.05);opacity:1">
+      <div class="d-val" style="color:#dc2626;font-size:15px">51d</div>
+      <div class="d-name" style="color:#888">1991 benchmark</div>
+    </div>
+    <div class="domino in-view" style="background:#fff4e6;border:1px solid #fed7aa;box-shadow:0 2px 6px rgba(0,0,0,.05);opacity:1">
+      <div class="d-val" style="color:#d97706;font-size:15px">Aug 26</div>
+      <div class="d-name" style="color:#888">Earliest reopening</div>
+    </div>
+  </div>
+
+  <!-- Insight -->
+  <div class="insight" style="background:rgba(0,0,0,.88);border-left:3px solid #dc2626;border-radius:0 6px 6px 0;padding:12px 14px;margin-top:10px">
+    <span style="color:#e5e5e5;font:500 12px/1.5 'Inter'">Banks assume 3–6 weeks. Mine clearance alone is 51+ days — and the UK pulled its last Gulf minesweeper home before the war. Hormuz doesn't reopen until August at earliest.</span>
+  </div>
+
+  <p class="src" style="color:#bbb;margin-top:8px">Sources: CNN, Fortune, Foreign Affairs, Columbia University</p>
+</div>
+</div>
+
+<!-- ===== CARD 6: c6 (act_break) ===== -->
+<div class="card" id="c6" style="background:#fafafa;color:#1a1a1a;justify-content:center;align-items:center">
+  <div class="card-inner" style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh">
+
+    <!-- Faded act number background -->
+    <div style="position:absolute;right:-10px;bottom:-20px;font:900 180px/1 'JetBrains Mono';color:#e8e8e8;pointer-events:none;user-select:none;z-index:0;letter-spacing:-8px">II</div>
+
+    <!-- Act label -->
+    <p class="act-title" style="color:#ff3b3b;position:relative;z-index:1;margin-bottom:16px">Act II</p>
+
+    <!-- Section title -->
+    <h2 style="font:900 38px/1.1 'Inter';color:#1a1a1a;text-align:center;max-width:480px;margin:0 auto 20px;position:relative;z-index:1">Indian Refinery CEO.</h2>
+
+    <!-- Subtitle -->
+    <p style="font:400 14px/1.6 'Inter';color:#666;text-align:center;max-width:400px;margin:0 auto;position:relative;z-index:1">Which refineries survive. What crude to buy. When the government overrides your product slate.</p>
+
+    <!-- Divider accent -->
+    <div style="width:48px;height:3px;background:linear-gradient(90deg,#ff3b3b,#ffb020);border-radius:2px;margin:28px auto 0;position:relative;z-index:1"></div>
+
+  </div>
+</div>
+
+<!-- ===== CARD 7: c7 (verdict_panel) ===== -->
+<div class="card" id="c7" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+<p class="label" style="color:#888;margin-bottom:12px">Supply Alternatives</p>
+<h3 class="card-title" style="color:#1a1a1a">Your Crude Diet Just Changed.</h3>
+<p class="card-sub" style="margin-bottom:16px">Three sources. Three problems. No clean answer.</p>
+
+<!-- Russia -->
+<div class="source-panel" style="margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+  <div class="verdict" style="background:linear-gradient(90deg,#dc2626,#991b1b)">
+    <div class="v-source">Russia</div>
+    <div class="v-msg">MORE EXPENSIVE · <span class="countdown">EXPIRING IN 15 DAYS</span></div>
+  </div>
+  <div class="panel-body">
+    <div class="compare-row" style="border-bottom:none;padding:8px 0">
+      <div class="cr-label" style="color:#666">Feb: −$13/bbl</div>
+      <div class="cr-before" style="color:#888;font-family:'JetBrains Mono',monospace">−$13</div>
+      <div class="cr-arrow" style="color:#dc2626">→</div>
+      <div class="cr-after" style="color:#dc2626;font-family:'JetBrains Mono',monospace">+$5</div>
+      <div style="font:700 12px/1 'JetBrains Mono',monospace;color:#dc2626;margin-left:8px">$18 swing</div>
+    </div>
+    <div style="font:400 10px/1.4 'Inter',sans-serif;color:#888">30M bbl · RIL ~10M, IOCL ~10M · Delivered: <span style="font-family:'JetBrains Mono',monospace;color:#dc2626;font-weight:700">$98.93/bbl</span></div>
+  </div>
+</div>
+
+<!-- Gulf States -->
+<div class="source-panel" style="margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+  <div class="verdict" style="background:linear-gradient(90deg,#7f1d1d,#450a0a)">
+    <div class="v-source">Gulf States</div>
+    <div class="v-msg">ALL TERMINALS OFFLINE</div>
+  </div>
+  <div class="panel-body">
+    <div style="font:400 10px/1.4 'Inter',sans-serif;color:#888;margin-bottom:10px">Every major loading terminal serving India — offline or damaged.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+      <div style="text-align:center;padding:10px 6px;background:#f5f5f5;border-radius:6px;border:1px solid #eee">
+        <div style="font:800 20px/1 'Inter',sans-serif;color:#cc2020">✕</div>
+        <div style="font:600 10px/1.3 'Inter',sans-serif;color:#1a1a1a;margin-top:4px">Ras Tanura</div>
+        <div style="font:400 9px/1.2 'Inter',sans-serif;color:#888">Saudi · Shut down</div>
+      </div>
+      <div style="text-align:center;padding:10px 6px;background:#f5f5f5;border-radius:6px;border:1px solid #eee">
+        <div style="font:800 20px/1 'Inter',sans-serif;color:#cc2020">✕</div>
+        <div style="font:600 10px/1.3 'Inter',sans-serif;color:#1a1a1a;margin-top:4px">Fujairah</div>
+        <div style="font:400 9px/1.2 'Inter',sans-serif;color:#888">UAE · Suspended</div>
+      </div>
+      <div style="text-align:center;padding:10px 6px;background:#f5f5f5;border-radius:6px;border:1px solid #eee">
+        <div style="font:800 20px/1 'Inter',sans-serif;color:#cc2020">✕</div>
+        <div style="font:600 10px/1.3 'Inter',sans-serif;color:#1a1a1a;margin-top:4px">Ras Laffan</div>
+        <div style="font:400 9px/1.2 'Inter',sans-serif;color:#888">Qatar · Damaged</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Alternatives -->
+<div class="source-panel" style="margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+  <div class="verdict" style="background:linear-gradient(90deg,#92400e,#78350f)">
+    <div class="v-source">Alternatives</div>
+    <div class="v-msg">SLOW &amp; WRONG GRADE</div>
+  </div>
+  <div class="panel-body">
+    <div class="v-row">
+      <div class="v-label" style="text-decoration:line-through;color:#cc2020">Gulf → India</div>
+      <div class="v-track"><div class="v-fill" style="width:12%;background:#dc2626;opacity:.5"></div></div>
+      <div class="v-days" style="color:#cc2020;text-decoration:line-through;font-family:'JetBrains Mono',monospace">5-7d</div>
+    </div>
+    <div class="v-row">
+      <div class="v-label">W. Africa</div>
+      <div class="v-track"><div class="v-fill" style="width:50%;background:linear-gradient(90deg,#d97706,#fbbf24)">20-25d</div></div>
+      <div class="v-days" style="color:#b45309;font-weight:800;font-family:'JetBrains Mono',monospace">4×</div>
+    </div>
+    <div class="v-row">
+      <div class="v-label">Brazil</div>
+      <div class="v-track"><div class="v-fill" style="width:85%;background:linear-gradient(90deg,#d97706,#fbbf24)">30-45d</div></div>
+      <div class="v-days" style="color:#b45309;font-weight:800;font-family:'JetBrains Mono',monospace">7×</div>
+    </div>
+    <div style="margin-top:8px;padding:8px 12px;background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.3);border-radius:6px;font:600 10px/1.3 'Inter',sans-serif;color:#b45309">⚠ Grade mismatch: light/sweet available — your refinery wants heavy/sour.</div>
+  </div>
+</div>
+
+<!-- KPI Strip -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:10px 0">
+  <div style="background:#fff;border-radius:6px;border-left:3px solid #dc2626;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div style="font:700 22px/1 'JetBrains Mono',monospace;color:#dc2626">$18</div>
+    <div style="font:500 9px/1.2 'Inter',sans-serif;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:4px">More Expensive</div>
+  </div>
+  <div style="background:#fff;border-radius:6px;border-left:3px solid #dc2626;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div style="font:700 22px/1 'JetBrains Mono',monospace;color:#dc2626">0</div>
+    <div style="font:500 9px/1.2 'Inter',sans-serif;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:4px">Terminals Left</div>
+  </div>
+  <div style="background:#fff;border-radius:6px;border-left:3px solid #d97706;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div style="font:700 22px/1 'JetBrains Mono',monospace;color:#d97706">30-45d</div>
+    <div style="font:500 9px/1.2 'Inter',sans-serif;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:4px">Wrong Grade</div>
+  </div>
+</div>
+
+<div class="insight" style="background:#1a1a1a;border-left:3px solid #dc2626;border-radius:6px;padding:12px 16px;color:#e5e5e5;font:500 12px/1.5 'Inter',sans-serif;text-align:left;margin-top:10px">No crude source remains without significant compromise. Russia is expensive and the discount window closes in 15 days. Gulf terminals are offline. Alternative origins are slow to arrive and mismatched to Indian refinery configurations.</div>
+
+<p class="src" style="color:#aaa;margin-top:8px">Sources: Argus Media, S&P Global Platts, Kpler, BusinessToday</p>
+</div>
+</div>
+
+<!-- ===== CARD 8: c8 (chart_card) ===== -->
+<div class="card" id="c8" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+<p class="label green" style="margin-bottom:12px">Refinery Economics</p>
+<h3 class="card-title" style="color:#1a1a1a">Configuration Is Destiny.</h3>
+<p class="card-sub" style="margin-bottom:16px">Nelson Complexity determines who profits and who bleeds at $146.</p>
+
+<div class="panel-light" style="padding:16px;margin-bottom:16px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #eee">
+<div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">NCI vs GRM Impact — Bubble = Capacity</div>
+<div class="chart-c" style="height:260px"><canvas id="ch-c8"></canvas></div>
+</div>
+
+<div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr">
+<div class="kpi" style="background:#fff;border-color:var(--green);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+  <div class="kl" style="color:#888">Jamnagar</div>
+  <div class="kv" style="color:var(--green);font-size:22px">21.1</div>
+  <div class="kd" style="color:var(--green)">Profitable at $200</div>
+</div>
+<div class="kpi" style="background:#fff;border-color:var(--amber);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+  <div class="kl" style="color:#888">OMC Avg</div>
+  <div class="kv" style="color:var(--amber);font-size:22px">~10</div>
+  <div class="kd" style="color:var(--amber)">Breakeven $110-120</div>
+</div>
+<div class="kpi" style="background:#fff;border-color:var(--red);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+  <div class="kl" style="color:#888">HPCL Mum</div>
+  <div class="kv" style="color:var(--red);font-size:22px">5.6</div>
+  <div class="kd" style="color:var(--red)">Breakeven $95</div>
+</div>
+</div>
+
+<div class="insight" style="background:#1a1a1a;border-left:3px solid var(--red);color:#e5e5e5;border-radius:0 6px 6px 0;margin-top:12px">One refinery — Jamnagar — has processed 216 crude grades. The other 22 are a bet on Gulf crude arriving. That bet just lost.</div>
+
+<p class="src" style="color:#aaa;margin-top:10px">Sources: PPAC, Company filings, Solomon Associates, UBS</p>
+</div>
+
+<script>
+(function(){
+  new Chart(document.getElementById('ch-c8'),{
+    type:'bubble',
+    data:{
+      datasets:[
+        {label:'Jamnagar',data:[{x:21.1,y:3.2,r:22}],backgroundColor:'rgba(52,211,153,.4)',borderColor:'#34d399',borderWidth:2},
+        {label:'Nayara',data:[{x:12.8,y:1.5,r:10}],backgroundColor:'rgba(52,211,153,.25)',borderColor:'#34d399',borderWidth:1},
+        {label:'Paradip',data:[{x:12.2,y:0.5,r:8}],backgroundColor:'rgba(255,176,32,.25)',borderColor:'#ffb020',borderWidth:1},
+        {label:'Panipat',data:[{x:13.7,y:0.8,r:8}],backgroundColor:'rgba(255,176,32,.25)',borderColor:'#ffb020',borderWidth:1},
+        {label:'Kochi',data:[{x:10.8,y:-0.5,r:7}],backgroundColor:'rgba(255,176,32,.2)',borderColor:'#ffb020',borderWidth:1},
+        {label:'MRPL',data:[{x:10.6,y:-2,r:7}],backgroundColor:'rgba(255,176,32,.2)',borderColor:'#ffb020',borderWidth:1},
+        {label:'BPCL Mum',data:[{x:6,y:-5,r:6}],backgroundColor:'rgba(255,59,59,.35)',borderColor:'#ff3b3b',borderWidth:2},
+        {label:'HPCL Mum',data:[{x:5.6,y:-6,r:5}],backgroundColor:'rgba(255,59,59,.45)',borderColor:'#ff3b3b',borderWidth:2}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          labels:{
+            color:'#555',
+            font:{family:'Inter',size:8},
+            boxWidth:10,
+            padding:8
+          }
+        }
+      },
+      scales:{
+        x:{
+          title:{display:true,text:'Nelson Complexity Index →',color:'#888',font:{family:'Inter',size:10}},
+          grid:{color:'rgba(0,0,0,.06)'},
+          ticks:{color:'#888',font:{family:'JetBrains Mono',size:9}},
+          min:4,
+          max:23
+        },
+        y:{
+          title:{display:true,text:'GRM Change $/bbl →',color:'#888',font:{family:'Inter',size:10}},
+          grid:{color:'rgba(0,0,0,.06)'},
+          ticks:{color:'#888',font:{family:'JetBrains Mono',size:9}},
+          min:-8,
+          max:5
+        }
+      }
+    }
+  });
+})();
+</script>
+</div>
+
+<!-- ===== CARD 9: c9 (kpi_card) ===== -->
+<div class="card" id="c9" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+  <p class="label red" style="margin-bottom:12px">ESMA Directive · March 5</p>
+  <h2 class="card-title" style="color:#1a1a1a">The Government Is Running Your Product Slate.</h2>
+  <p class="card-sub" style="margin-bottom:20px;color:#666">ESMA invoked March 5. You optimize for cooking gas, not margin.</p>
+
+  <!-- Flow diagram -->
+  <div style="background:#fff;border-radius:12px;padding:18px 16px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px;width:100%">
+    <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:#aaa;text-align:center;margin-bottom:14px">C3 / C4 Stream Mandate</div>
+
+    <!-- Inputs -->
+    <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px">
+      <div style="padding:5px 10px;background:#fff3f3;border:1px solid #fca5a5;border-radius:6px;font:600 11px/1 'JetBrains Mono';color:#dc2626">Propane</div>
+      <div style="padding:5px 10px;background:#fff3f3;border:1px solid #fca5a5;border-radius:6px;font:600 11px/1 'JetBrains Mono';color:#dc2626">Butane</div>
+      <div style="padding:5px 10px;background:#fff3f3;border:1px solid #fca5a5;border-radius:6px;font:600 11px/1 'JetBrains Mono';color:#dc2626">Propylene</div>
+      <div style="padding:5px 10px;background:#fff3f3;border:1px solid #fca5a5;border-radius:6px;font:600 11px/1 'JetBrains Mono';color:#dc2626">Butenes</div>
+    </div>
+
+    <!-- Arrow + output -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
+      <div style="height:2px;flex:1;max-width:60px;background:linear-gradient(90deg,#fca5a5,#dc2626)"></div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="padding:8px 20px;background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:8px;text-align:center">
+          <div style="font:800 22px/1 'JetBrains Mono';color:#fff">LPG</div>
+          <div style="font:700 11px/1 'JetBrains Mono';color:rgba(255,255,255,.8);margin-top:2px">+38%</div>
+        </div>
+      </div>
+      <div style="height:2px;flex:1;max-width:60px;background:linear-gradient(90deg,#dc2626,#fca5a5)"></div>
+    </div>
+
+    <!-- Destination -->
+    <div style="text-align:center">
+      <span style="display:inline-block;padding:5px 14px;background:#1a1a1a;border-radius:20px;font:600 10px/1 'Inter';color:#fff;letter-spacing:.5px">→ 330M households</span>
+    </div>
+  </div>
+
+  <!-- KPI grid -->
+  <div class="kpi-grid" style="grid-template-columns:1fr 1fr;margin:0 0 12px">
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--red);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Commercial LPG</div>
+      <div class="kv" style="color:var(--red);font-size:26px">−80%</div>
+      <div class="kd" style="color:#aaa">quota vs normal</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--red);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Petrochemical Feed</div>
+      <div class="kv" style="color:var(--red);font-size:26px">0%</div>
+      <div class="kd" style="color:#aaa">allocation remaining</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--red);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Black Market</div>
+      <div class="kv" style="color:var(--red);font-size:26px">₹4K</div>
+      <div class="kd" style="color:#aaa">per cylinder</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--amber);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Coming Next</div>
+      <div class="kv" style="color:var(--amber);font-size:22px">DIESEL</div>
+      <div class="kd" style="color:var(--amber)">Kharif priority</div>
+    </div>
+  </div>
+
+  <!-- Insight -->
+  <div style="background:#1a1a1a;border-radius:8px;padding:12px 16px;width:100%;text-align:left">
+    <div style="font:500 10px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:#666;margin-bottom:6px">Partner Implication</div>
+    <div style="font:500 13px/1.5 'Inter';color:#e5e5e5">Not a suggestion — a legal directive. Petrochemical margins are gone until the LPG crisis resolves.</div>
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:8px">Source: Angel One, The Print, CNN — March 2026</p>
+</div>
+</div>
+
+<!-- ===== CARD 10: c10 (checklist) ===== -->
+<div class="card" id="c10" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+  <p class="label" style="color:var(--red);margin-bottom:8px">ACT II · REFINERY CEO</p>
+  <h2 class="card-title" style="color:#1a1a1a;margin-bottom:6px">Refinery CEO — Monday Checklist.</h2>
+  <p class="card-sub" style="margin-bottom:16px">Four actions this week. Two clocks running.</p>
+
+  <!-- Urgency KPIs -->
+  <div class="kpi-grid" style="margin:0 auto 16px;max-width:400px">
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--red);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Russia Waiver</div>
+      <div class="kv" style="color:var(--red)">15d</div>
+      <div class="kd" style="color:#888">Expires April 3</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--amber);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Kharif Planting</div>
+      <div class="kv" style="color:var(--amber)">10wk</div>
+      <div class="kd" style="color:#888">Diesel directive coming</div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist" style="max-width:540px;margin:0 auto">
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease .1s forwards">
+      <div class="cl-num" style="color:var(--red)">01</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Stress-test crude diet: 6 months zero Gulf, zero Russian. Identify the gap.</div>
+        <div class="cl-deadline" style="color:var(--amber)">DEADLINE: Friday March 21</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease .25s forwards">
+      <div class="cl-num" style="color:var(--red)">02</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Model Nelson upgrade ROI at $120–150 Brent. Accelerate FCC/hydrocracker.</div>
+        <div class="cl-deadline" style="color:var(--amber)">DEADLINE: Next board meeting</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease .4s forwards">
+      <div class="cl-num" style="color:var(--red)">03</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">ESMA compliance: recalibrate yields assuming LPG-max through monsoon.</div>
+        <div class="cl-deadline" style="color:var(--red)">DEADLINE: Immediate</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:none;opacity:0;animation:fadeSlide .5s ease .55s forwards">
+      <div class="cl-num" style="color:var(--red)">04</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Prepare for diesel maximization directive for kharif (June).</div>
+        <div class="cl-deadline" style="color:var(--amber)">DEADLINE: Before June</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Insight box -->
+  <div style="margin:16px 0 0;padding:12px 16px;background:#1a1a1a;border-left:3px solid var(--red);border-radius:0 6px 6px 0;width:100%;text-align:left">
+    <span style="font:500 12px/1.5 'Inter';color:#e5e5e5">Every day you delay is a day closer to April 3, when 25–36% of your supply may disappear.</span>
+  </div>
+
+  <p class="src" style="color:#bbb;margin-top:10px">Sources: MoPNG directives · PPAC supply data · IOC/RIL filings · IMF commodity outlook</p>
+
+</div>
+</div>
+
+<!-- ===== CARD 11: c11 (act_break) ===== -->
+<div class="card" id="c11" style="background:#fafafa;color:#1a1a1a;justify-content:center;align-items:center">
+  <div class="card-inner" style="position:relative;text-align:center">
+    <div class="act-title" style="color:#cc2020">Act II — CFO Perspective</div>
+    <h2 style="font:900 38px/1.1 'Inter';color:#1a1a1a;margin-bottom:14px;max-width:500px;margin-left:auto;margin-right:auto">CFO / Treasury.</h2>
+    <p class="card-sub" style="color:#666;font-size:13px;max-width:400px;margin:0 auto 0 auto">Scenarios, margins, hedges, and the April 3 cliff.</p>
+    <div style="font:900 160px/1 'JetBrains Mono';color:#e5e5e5;position:absolute;right:-10px;bottom:-40px;pointer-events:none;user-select:none;z-index:0;line-height:1">₹</div>
+  </div>
+</div>
+
+<!-- ===== CARD 12: c12 (scenario_card) ===== -->
+<div class="card" id="c12" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+<p class="label" style="color:#888;margin-bottom:12px">Scenario Planning</p>
+<h3 class="card-title" style="color:#1a1a1a">Three Scenarios. Three Price Worlds.</h3>
+
+<div class="scenario-card" style="background:linear-gradient(135deg,rgba(255,176,32,.15),rgba(255,176,32,.04));border:1px solid rgba(255,176,32,.35);padding:16px;margin:8px auto">
+<div style="font:600 9px 'Inter',sans-serif;text-transform:uppercase;letter-spacing:1.5px;color:rgba(200,130,0,.7);margin-bottom:4px">Probability</div>
+<div class="sc-prob" style="color:var(--amber);font-size:36px">35-40%</div>
+<div class="sc-title" style="color:#b8860b">Prolonged Standoff — BASE CASE</div>
+<div class="sc-stats">
+<div class="sc-stat" style="background:rgba(255,176,32,.12)"><div class="ss-v" style="color:var(--amber)">$100-130</div><div class="ss-l" style="color:rgba(150,100,0,.6)">Brent range</div></div>
+<div class="sc-stat" style="background:rgba(255,176,32,.12)"><div class="ss-v" style="color:var(--amber)">Q2-Q3</div><div class="ss-l" style="color:rgba(150,100,0,.6)">Hormuz closed</div></div>
+<div class="sc-stat" style="background:rgba(255,176,32,.12)"><div class="ss-v" style="color:var(--amber)">$220-266B</div><div class="ss-l" style="color:rgba(150,100,0,.6)">Import bill/yr</div></div>
+</div>
+<div class="sc-insight" style="color:#5a4a1a;background:rgba(255,176,32,.08);padding:8px 10px;border-radius:4px;border-left:2px solid rgba(255,176,32,.5)">Both sides dug in. Mine clearance 51+ days after any ceasefire. No off-ramp visible.</div>
+</div>
+
+<div class="scenario-card" style="background:linear-gradient(135deg,rgba(255,59,59,.15),rgba(255,59,59,.04));border:1px solid rgba(255,59,59,.35);padding:16px;margin:8px auto">
+<div style="font:600 9px 'Inter',sans-serif;text-transform:uppercase;letter-spacing:1.5px;color:rgba(200,50,50,.6);margin-bottom:4px">Probability</div>
+<div class="sc-prob" style="color:var(--red);font-size:36px">30-35%</div>
+<div class="sc-title" style="color:#c0392b">Conflagration — Energy War ↑</div>
+<div class="sc-stats">
+<div class="sc-stat" style="background:rgba(255,59,59,.1)"><div class="ss-v" style="color:var(--red)">$130-200</div><div class="ss-l" style="color:rgba(150,30,30,.6)">Brent range</div></div>
+<div class="sc-stat" style="background:rgba(255,59,59,.1)"><div class="ss-v" style="color:var(--red)">2026+</div><div class="ss-l" style="color:rgba(150,30,30,.6)">Hormuz closed</div></div>
+<div class="sc-stat" style="background:rgba(255,59,59,.1)"><div class="ss-v" style="color:var(--red)">$266-400B+</div><div class="ss-l" style="color:rgba(150,30,30,.6)">Import bill/yr</div></div>
+</div>
+<div class="sc-insight" style="color:#5a1a1a;background:rgba(255,59,59,.07);padding:8px 10px;border-radius:4px;border-left:2px solid rgba(255,59,59,.4)">South Pars + Ras Laffan crossed a threshold. Gulf infrastructure under sustained attack. Probability rising.</div>
+</div>
+
+<div class="scenario-card" style="background:linear-gradient(135deg,rgba(52,211,153,.12),rgba(52,211,153,.03));border:1px solid rgba(52,211,153,.35);padding:16px;margin:8px auto">
+<div style="font:600 9px 'Inter',sans-serif;text-transform:uppercase;letter-spacing:1.5px;color:rgba(20,140,80,.6);margin-bottom:4px">Probability</div>
+<div class="sc-prob" style="color:var(--green);font-size:36px">15-20%</div>
+<div class="sc-title" style="color:#0e7a4a">Resolution / De-escalation</div>
+<div class="sc-stats">
+<div class="sc-stat" style="background:rgba(52,211,153,.1)"><div class="ss-v" style="color:var(--green)">$75-85</div><div class="ss-l" style="color:rgba(10,90,50,.6)">Brent range</div></div>
+<div class="sc-stat" style="background:rgba(52,211,153,.1)"><div class="ss-v" style="color:var(--green)">60-90d</div><div class="ss-l" style="color:rgba(10,90,50,.6)">To reopen</div></div>
+<div class="sc-stat" style="background:rgba(52,211,153,.1)"><div class="ss-v" style="color:var(--green)">~$165B</div><div class="ss-l" style="color:rgba(10,90,50,.6)">Import bill/yr</div></div>
+</div>
+<div class="sc-insight" style="color:#0e4a2a;background:rgba(52,211,153,.08);padding:8px 10px;border-radius:4px;border-left:2px solid rgba(52,211,153,.4)">Still 51 days of mine clearance. The optimistic scenario nobody privately believes.</div>
+</div>
+
+<p class="src" style="color:#aaa;margin-top:8px">Sources: Goldman Sachs, JP Morgan, Rystad, Wood Mackenzie</p>
+</div>
+</div>
+
+<!-- ===== CARD 13: c13 (chart_card) ===== -->
+<div class="card" id="c13" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label amber" style="margin-bottom:12px">Analyst Ratings</p>
+  <h3 class="card-title" style="color:#1a1a1a">Every $5 Wipes 55–62% of Earnings.</h3>
+  <p class="card-sub" style="margin-bottom:16px">UBS downgraded all OMCs. RIL is going the other direction.</p>
+
+  <div class="panel-light" style="background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #eee">
+    <div style="font:600 9px Inter;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">Impact Since Crisis (% Change from Baseline)</div>
+    <div class="chart-c" style="height:240px"><canvas id="ch-c13"></canvas></div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;margin:0 auto 12px">
+    <div class="kpi" style="background:#fff;border-color:#ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">HPCL</div>
+      <div class="kv" style="color:#ff3b3b;font-size:20px">SELL</div>
+      <div class="kd" style="color:#ff3b3b">Target −37%</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-color:#ffb020;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">IOCL/BPCL</div>
+      <div class="kv" style="color:#ffb020;font-size:16px">NEUTRAL</div>
+      <div class="kd" style="color:#ffb020">UBS downgrade</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-color:#34d399;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">RIL</div>
+      <div class="kv" style="color:#34d399;font-size:20px">BUY</div>
+      <div class="kd" style="color:#34d399">Nomura top pick</div>
+    </div>
+  </div>
+
+  <div class="insight" style="background:#1a1a1a;border-left:3px solid #ff3b3b;border-radius:0 6px 6px 0;color:#e5e5e5">
+    OMCs are negatively levered: frozen retail prices mean every dollar up in crude is a dollar lost. RIL exports 60% of output at market prices — it benefits from the same shock that breaks the OMCs.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:8px">UBS, Nomura, BusinessToday — March 2026</p>
+</div>
+
+<script>
+(function(){
+  var labels = ['RIL','ONGC','Oil India','Nayara','Airlines','Fertilizer','BPCL','IOCL','HPCL'];
+  var values = [45, 40, 35, 25, -30, -25, -51, -55, -62];
+  var colors = values.map(function(v){ return v >= 0 ? 'rgba(52,211,153,.75)' : 'rgba(255,59,59,.75)'; });
+  var borderColors = values.map(function(v){ return v >= 0 ? '#34d399' : '#ff3b3b'; });
+
+  new Chart(document.getElementById('ch-c13'),{
+    type:'bar',
+    data:{
+      labels: labels,
+      datasets:[{
+        data: values,
+        backgroundColor: colors,
+        borderColor: borderColors,
+        borderWidth: 1.5,
+        borderRadius: 4
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:function(ctx){return ' '+ctx.raw+'%';}
+          },
+          titleFont:{family:'Inter',size:11},
+          bodyFont:{family:'JetBrains Mono',size:11}
+        }
+      },
+      scales:{
+        x:{
+          min:-75,
+          max:55,
+          grid:{color:'rgba(0,0,0,.06)'},
+          ticks:{
+            color:'#888',
+            font:{family:'JetBrains Mono',size:9},
+            callback:function(v){return v+'%';}
+          },
+          border:{color:'#eee'}
+        },
+        y:{
+          grid:{display:false},
+          ticks:{
+            color:'#444',
+            font:{family:'JetBrains Mono',size:10,weight:'600'}
+          },
+          border:{display:false}
+        }
+      }
+    }
+  });
+})();
+</script>
+</div>
+
+<!-- ===== CARD 14: c14 (chart_card) ===== -->
+<div class="card" id="c14" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label blue" style="margin-bottom:12px">CFO Playbook</p>
+  <h3 class="card-title" style="color:#1a1a1a">The Market Thinks This Is Temporary.</h3>
+  <p class="card-sub" style="margin-bottom:16px">The futures curve is your opportunity — if you disagree.</p>
+
+  <div class="panel-light" style="padding:16px;margin-bottom:12px;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div style="font:600 9px 'Inter';color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center">WTI Futures Curve — Steep Backwardation</div>
+    <div class="chart-c" style="height:200px"><canvas id="ch-c14"></canvas></div>
+  </div>
+
+  <div class="dominoes" style="margin:10px auto 12px">
+    <div class="domino" style="border-left:3px solid var(--green);opacity:1">
+      <div class="d-val" style="color:var(--green);font-size:12px">BUY PUTS</div>
+      <div class="d-name" style="color:#555">Brent $100-105</div>
+      <div style="font:400 8px 'Inter';color:#999;margin-top:3px">Cheap in backwardation</div>
+    </div>
+    <div class="domino" style="border-left:3px solid var(--blue);opacity:1">
+      <div class="d-val" style="color:var(--blue);font-size:12px">LOCK</div>
+      <div class="d-name" style="color:#555">Dec 26 $69-75</div>
+      <div style="font:400 8px 'Inter';color:#999;margin-top:3px">Strategic hedge</div>
+    </div>
+    <div class="domino" style="border-left:3px solid var(--red);opacity:1">
+      <div class="d-val" style="color:var(--red);font-size:12px">NO CALLS</div>
+      <div class="d-name" style="color:#555">$150+ is real</div>
+      <div style="font:400 8px 'Inter';color:#999;margin-top:3px">South Pars risk</div>
+    </div>
+  </div>
+
+  <div class="insight b" style="background:rgba(59,130,246,.06);border-color:var(--blue);color:#1a1a1a">
+    The $36 basket premium is structural — physical sour scarcity. Hedge the basket, not just Brent.
+  </div>
+
+  <p class="src" style="color:#bbb;margin-top:8px">Source: OilPrice.com, Commodity Board — March 2026</p>
+</div>
+
+<script>
+(function(){
+  var ctx = document.getElementById('ch-c14');
+  var gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 200);
+  gradient.addColorStop(0, 'rgba(59,130,246,0.18)');
+  gradient.addColorStop(1, 'rgba(59,130,246,0.01)');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Mar 26','Jun 26','Sep 26','Dec 26','Mar 27','Jun 27'],
+      datasets: [{
+        label: 'WTI Futures ($/bbl)',
+        data: [99, 85, 76, 69, 63, 58],
+        borderColor: '#3b82f6',
+        borderWidth: 2.5,
+        backgroundColor: gradient,
+        pointBackgroundColor: ['#ff3b3b','#3b82f6','#3b82f6','#ffb020','#3b82f6','#3b82f6'],
+        pointBorderColor: ['#ff3b3b','#3b82f6','#3b82f6','#ffb020','#3b82f6','#3b82f6'],
+        pointRadius: [6,4,4,8,4,4],
+        pointHoverRadius: 7,
+        tension: 0.35,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx){ return ' $' + ctx.parsed.y + '/bbl'; }
+          },
+          backgroundColor: '#fff',
+          borderColor: '#eee',
+          borderWidth: 1,
+          titleColor: '#1a1a1a',
+          bodyColor: '#3b82f6',
+          titleFont: { family: 'JetBrains Mono', size: 10 },
+          bodyFont: { family: 'JetBrains Mono', size: 11 }
+        },
+        annotation: {
+          annotations: {
+            lockZone: {
+              type: 'box',
+              xMin: 2.7,
+              xMax: 3.3,
+              yMin: 69,
+              yMax: 75,
+              backgroundColor: 'rgba(255,176,32,0.12)',
+              borderColor: 'rgba(255,176,32,0.5)',
+              borderWidth: 1
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(0,0,0,.06)' },
+          ticks: { color: '#888', font: { family: 'JetBrains Mono', size: 9 } }
+        },
+        y: {
+          min: 50,
+          max: 110,
+          grid: { color: 'rgba(0,0,0,.06)' },
+          ticks: {
+            color: '#888',
+            font: { family: 'JetBrains Mono', size: 9 },
+            callback: function(v){ return '$' + v; }
+          },
+          title: {
+            display: true,
+            text: '$/bbl',
+            color: '#aaa',
+            font: { family: 'Inter', size: 9 }
+          }
+        }
+      }
+    }
+  });
+
+  // Annotate Dec 26 lock zone manually via afterDraw plugin
+  Chart.register({
+    id: 'lockLabel',
+    afterDraw: function(chart) {
+      var ctx2 = chart.ctx;
+      var xScale = chart.scales.x;
+      var yScale = chart.scales.y;
+      if (!xScale || !yScale) return;
+      var xPos = xScale.getPixelForValue(3);
+      var yPos = yScale.getPixelForValue(72);
+      ctx2.save();
+      ctx2.font = '700 9px JetBrains Mono';
+      ctx2.fillStyle = '#ffb020';
+      ctx2.textAlign = 'center';
+      ctx2.fillText('▶ LOCK $69-75', xPos + 2, yPos - 10);
+      ctx2.restore();
+    }
+  });
+})();
+</script>
+</div>
+
+<!-- ===== CARD 15: c15 (kpi_card) ===== -->
+<div class="card" id="c15" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+  <p class="label red" style="margin-bottom:12px">Act II · CFO Exposure</p>
+  <h2 class="card-title" style="color:#1a1a1a">The April 3 Cliff.</h2>
+  <p class="card-sub" style="margin-bottom:20px;color:#666">Russia waiver expires in 15 days. Three outcomes.</p>
+
+  <!-- Hero countdown -->
+  <div style="margin:0 auto 20px;text-align:center">
+    <div class="hero-num countdown" style="color:#ff3b3b;font-size:80px">15</div>
+    <p style="font:600 11px/1 'Inter';text-transform:uppercase;letter-spacing:2px;color:#888;margin-top:4px">Days Until Waiver Expires</p>
+  </div>
+
+  <!-- Progress bar -->
+  <div style="width:100%;max-width:520px;margin:0 auto 20px">
+    <div style="position:relative;height:10px;background:#e5e5e5;border-radius:99px;overflow:hidden">
+      <div style="position:absolute;left:0;top:0;height:100%;width:60%;background:linear-gradient(90deg,#34d399,#ffb020);border-radius:99px"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:5px">
+      <span style="font:600 9px/1 'JetBrains Mono';color:#888">Mar 6 (issued)</span>
+      <span style="font:700 9px/1 'JetBrains Mono';color:#ff3b3b">Today</span>
+      <span style="font:600 9px/1 'JetBrains Mono';color:#888">Apr 3 (expires)</span>
+    </div>
+  </div>
+
+  <!-- Scenarios -->
+  <div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:520px;margin:0 auto 14px">
+
+    <!-- Scenario A -->
+    <div style="background:#fff;border-radius:10px;padding:12px 16px;border-left:4px solid #34d399;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;align-items:center;gap:14px;text-align:left">
+      <div style="flex-shrink:0">
+        <div style="font:800 10px/1 'JetBrains Mono';color:#34d399;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">HIGH</div>
+        <div style="font:700 16px/1 'Inter';color:#1a1a1a">A: Renewed</div>
+      </div>
+      <div style="font:400 11px/1.4 'Inter';color:#555;border-left:1px solid #eee;padding-left:14px">Bessent signals yes. Quid pro quo: buy US crude.</div>
+    </div>
+
+    <!-- Scenario B -->
+    <div style="background:#fff;border-radius:10px;padding:12px 16px;border-left:4px solid #ffb020;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;align-items:center;gap:14px;text-align:left">
+      <div style="flex-shrink:0">
+        <div style="font:800 10px/1 'JetBrains Mono';color:#ffb020;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">MED</div>
+        <div style="font:700 16px/1 'Inter';color:#1a1a1a">B: 2-Week Gap</div>
+      </div>
+      <div style="font:400 11px/1.4 'Inter';color:#555;border-left:1px solid #eee;padding-left:14px">Congressional pushback delays renewal.</div>
+    </div>
+
+    <!-- Scenario C -->
+    <div style="background:#fff;border-radius:10px;padding:12px 16px;border-left:4px solid #ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;align-items:center;gap:14px;text-align:left">
+      <div style="flex-shrink:0">
+        <div style="font:800 10px/1 'JetBrains Mono';color:#ff3b3b;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">LOW</div>
+        <div style="font:700 16px/1 'Inter';color:#1a1a1a">C: Non-Renewal</div>
+      </div>
+      <div style="font:400 11px/1.4 'Inter';color:#555;border-left:1px solid #eee;padding-left:14px">25–36% of supply gone overnight. Catastrophic.</div>
+    </div>
+
+  </div>
+
+  <!-- Insight -->
+  <div class="insight a" style="background:rgba(255,176,32,.07);border-color:#ffb020;color:#1a1a1a;max-width:520px;margin:0 auto 8px">
+    Real risk isn't non-renewal — it's the pricing. Urals premium erodes India's one cost advantage.
+  </div>
+
+  <p class="src">CNBC, S&amp;P Global, Bloomberg — March 2026</p>
+
+</div>
+</div>
+
+<!-- ===== CARD 16: c16 (checklist) ===== -->
+<div class="card" id="c16" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label" style="color:var(--red);margin-bottom:12px">CFO Action Plan</p>
+  <h2 class="card-title" style="color:#1a1a1a">CFO — Monday Checklist.</h2>
+  <p class="card-sub" style="margin-bottom:20px">Five decisions that cannot wait for the next board cycle.</p>
+
+  <div class="checklist">
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards .1s">
+      <div class="cl-num" style="color:var(--red)">01</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Model 3 scenarios: P&amp;L, cash flow at $100, $146, $200.</div>
+        <div class="cl-deadline">DEADLINE: This week</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards .2s">
+      <div class="cl-num" style="color:var(--red)">02</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Lock deferred crude at $69–75 (Dec 2026). Build hedge book.</div>
+        <div class="cl-deadline">DEADLINE: Before OPEC+ Apr 5</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards .3s">
+      <div class="cl-num" style="color:var(--red)">03</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Buy puts on Brent $100–105. Do NOT sell calls.</div>
+        <div class="cl-deadline">DEADLINE: This week</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards .4s">
+      <div class="cl-num" style="color:var(--red)">04</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">FX hedge at ₹88–95. Model ₹95 × $150 basket.</div>
+        <div class="cl-deadline">DEADLINE: This week</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:none;opacity:0;animation:fadeSlide .5s ease forwards .5s">
+      <div class="cl-num" style="color:var(--red)">05</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Board paper: every $10 = $14–16B. At $146, run rate $266B/yr.</div>
+        <div class="cl-deadline">DEADLINE: Next board meeting</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="insight" style="background:rgba(255,59,59,.06);border-left:3px solid var(--red);color:#1a1a1a;margin-top:16px">
+    Each item above has a compounding cost of inaction. The hedge window narrows daily; the board paper frames every subsequent decision. Sequence matters — execute in order.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:10px">Sources: Bloomberg Commodity Desk · OPEC+ meeting calendar · Internal treasury benchmarks</p>
+</div>
+</div>
+
+<!-- ===== CARD 17: c17 (act_break) ===== -->
+<div class="card" id="c17" style="background:#fafafa;color:#1a1a1a;position:relative;overflow:hidden">
+  <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#3b82f6,#a78bfa)"></div>
+  <div style="position:absolute;right:-20px;bottom:-20px;font:900 220px/1 'JetBrains Mono';color:#e5e5e5;pointer-events:none;user-select:none;line-height:1">⚖</div>
+  <div class="card-inner" style="position:relative;z-index:2">
+    <p class="act-title" style="color:#3b82f6;margin-bottom:20px">Act II — Policy</p>
+    <h1 style="font:900 52px/1 'Inter';color:#1a1a1a;margin-bottom:20px;max-width:500px;margin-left:auto;margin-right:auto">Policy<br>Advisor.</h1>
+    <p class="card-sub" style="color:#555;font-size:15px;max-width:420px;margin:0 auto">Three levers you control.<br>Three tradeoffs you can't avoid.</p>
+    <div style="margin-top:32px;display:flex;gap:24px;justify-content:center;align-items:center">
+      <div style="width:8px;height:8px;border-radius:50%;background:#3b82f6;opacity:.5"></div>
+      <div style="width:10px;height:10px;border-radius:50%;background:#a78bfa;opacity:.7"></div>
+      <div style="width:8px;height:8px;border-radius:50%;background:#3b82f6;opacity:.5"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CARD 18: c18 (kpi_card) ===== -->
+<div class="card" id="c18" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+  <p class="label red" style="margin-bottom:12px">Policy Signal</p>
+  <h2 class="card-title" style="color:#1a1a1a;max-width:500px;margin:0 auto 12px">India Refused the IEA. That's the Signal.</h2>
+  <p class="card-sub" style="margin-bottom:20px">Declined the largest coordinated release in IEA history. Declined G7. Hoarding every barrel.</p>
+
+  <!-- KPI Grid -->
+  <div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;margin:0 auto 16px">
+    <div class="kpi" style="background:#fff;border-color:#ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">SPR</div>
+      <div class="kv" style="color:#ff3b3b;font-size:26px">9.5d</div>
+      <div class="kd" style="color:#ff3b3b;font-size:10px">5.33 MMT</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-color:#ffb020;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Commercial</div>
+      <div class="kv" style="color:#ffb020;font-size:26px">64.5d</div>
+      <div class="kd" style="color:#ffb020;font-size:10px">OMC stocks</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-color:#ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Total</div>
+      <div class="kv" style="color:#ff3b3b;font-size:26px">74d</div>
+      <div class="kd" style="color:#ff3b3b;font-size:10px">All reserves</div>
+    </div>
+  </div>
+
+  <!-- Tradeoff Panel -->
+  <div class="grid-2" style="gap:10px;margin-bottom:14px">
+
+    <!-- Option A -->
+    <div style="background:#fff;border-radius:10px;padding:14px;border:1px solid #eee;border-top:3px solid #34d399;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:left">
+      <div style="font:700 11px/1 'Inter';color:#34d399;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">If You Release</div>
+      <div style="margin-bottom:6px">
+        <div style="font:500 10px/1 'Inter';color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Pros</div>
+        <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:2px">
+          <span style="color:#34d399;font-size:11px;margin-top:1px">✓</span>
+          <span style="font:400 11px/1.3 'Inter';color:#444">IEA goodwill</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:500 10px/1 'Inter';color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Cons</div>
+        <div style="display:flex;align-items:flex-start;gap:5px">
+          <span style="color:#ff3b3b;font-size:11px;margin-top:1px">✗</span>
+          <span style="font:400 11px/1.3 'Inter';color:#444">Lose 5–10 days buffer</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option B -->
+    <div style="background:rgba(255,176,32,.05);border-radius:10px;padding:14px;border:1px solid #f5d88a;border-top:3px solid #ffb020;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:left">
+      <div style="font:700 11px/1 'Inter';color:#b07800;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">If You Hoard ← RIGHT CALL</div>
+      <div style="margin-bottom:6px">
+        <div style="font:500 10px/1 'Inter';color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Pros</div>
+        <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:2px">
+          <span style="color:#34d399;font-size:11px;margin-top:1px">✓</span>
+          <span style="font:400 11px/1.3 'Inter';color:#444">Preserve every barrel</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:500 10px/1 'Inter';color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Cons</div>
+        <div style="display:flex;align-items:flex-start;gap:5px">
+          <span style="color:#ff3b3b;font-size:11px;margin-top:1px">✗</span>
+          <span style="font:400 11px/1.3 'Inter';color:#444">Damage IEA relationships</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Insight Box -->
+  <div style="background:#1a1a1a;border-radius:8px;padding:14px 16px;width:100%;text-align:left;border-left:3px solid #ff3b3b">
+    <div style="font:600 11px/1 'Inter';color:#ff3b3b;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Partner Read</div>
+    <div style="font:500 12px/1.5 'Inter';color:#e5e5e5">74 days is not enough to be generous. The refusal to release is the strongest signal: the government expects this to last months.</div>
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:10px">Sources: Bloomberg, Drishti IAS, Tribune India</p>
+
+</div>
+</div>
+
+<!-- ===== CARD 19: c19 (chart_card) ===== -->
+<div class="card" id="c19" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+  <p class="label red" style="margin-bottom:12px">Policy Dilemma</p>
+  <h3 class="card-title" style="color:#1a1a1a">When Do You Break?</h3>
+  <p class="card-sub" style="margin-bottom:20px">Frozen prices = OMC insolvency. When — not whether.</p>
+
+  <div style="text-align:center;margin-bottom:20px">
+    <div class="hero-num countdown" style="color:var(--red);font-size:64px">₹19.8</div>
+    <div class="label red" style="margin-top:6px;letter-spacing:1.5px">Per litre marketing loss</div>
+    <div style="font:600 13px/1 'JetBrains Mono';color:#888;margin-top:6px">₹25–30K crore per month</div>
+  </div>
+
+  <div class="panel-light" style="background:#fff;border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div style="font:600 9px 'Inter';color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;text-align:center">OMC Cash Runway at Current Burn (Indexed, Mar = 100)</div>
+    <div class="chart-c" style="height:200px"><canvas id="ch-c19"></canvas></div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:0;margin-bottom:14px">
+    <div class="kpi" style="background:#fff;border-color:var(--amber);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Hold Prices</div>
+      <div class="kv" style="color:var(--red);font-size:18px">Insolvency</div>
+      <div class="kd" style="color:#888">~Jul–Aug 2026</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-color:var(--red);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Release Prices</div>
+      <div class="kv" style="color:var(--amber);font-size:18px">Inflation</div>
+      <div class="kd" style="color:#888">+2–3% CPI est.</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-color:#ccc;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Breakeven Brent</div>
+      <div class="kv" style="color:#1a1a1a;font-size:18px">$72</div>
+      <div class="kd" style="color:#888">vs. ~$95 spot</div>
+    </div>
+  </div>
+
+  <div class="insight" style="background:rgba(0,0,0,.85);border-left:3px solid var(--red);color:#e5e5e5;border-radius:0 6px 6px 0">
+    Release prices → inflation. Hold prices → insolvency. No painless option — only a choice of which pain, and who absorbs it first.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:10px">Sources: UBS, Nomura, Outlook Business — March 2026</p>
+</div>
+
+<script>
+(function(){
+  const ctx = document.getElementById('ch-c19');
+  const labels = ['Mar','Apr','May','Jun','Jul','Aug'];
+  const values = [100, 72, 48, 28, 8, -10];
+  const pointColors = values.map(v => v < 0 ? '#ff3b3b' : v < 20 ? '#ffb020' : '#3b82f6');
+  const pointRadius = values.map(v => v < 0 ? 8 : 5);
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Cash Runway',
+          data: values,
+          borderColor: '#3b82f6',
+          backgroundColor: function(context) {
+            const chart = context.chart;
+            const {ctx: c, chartArea} = chart;
+            if (!chartArea) return 'rgba(59,130,246,.08)';
+            const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+            gradient.addColorStop(0, 'rgba(59,130,246,.18)');
+            gradient.addColorStop(0.75, 'rgba(255,176,32,.08)');
+            gradient.addColorStop(1, 'rgba(255,59,59,.22)');
+            return gradient;
+          },
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.35,
+          pointBackgroundColor: pointColors,
+          pointBorderColor: pointColors,
+          pointRadius: pointRadius,
+          pointHoverRadius: 7
+        },
+        {
+          label: 'INSOLVENCY',
+          data: [0, 0, 0, 0, 0, 0],
+          borderColor: 'rgba(255,59,59,.55)',
+          borderWidth: 1.5,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              return ctx.dataset.label === 'INSOLVENCY' ? ' Insolvency threshold' : ' Runway index: ' + ctx.parsed.y;
+            }
+          },
+          backgroundColor: '#1a1a1a',
+          titleColor: '#fff',
+          bodyColor: '#ccc',
+          titleFont: { family: 'JetBrains Mono', size: 11 },
+          bodyFont: { family: 'JetBrains Mono', size: 10 }
+        },
+        annotation: {}
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(0,0,0,.05)' },
+          ticks: { color: '#888', font: { family: 'JetBrains Mono', size: 10 } }
+        },
+        y: {
+          min: -20,
+          max: 110,
+          grid: { color: 'rgba(0,0,0,.05)' },
+          ticks: {
+            color: '#888',
+            font: { family: 'JetBrains Mono', size: 9 },
+            callback: function(val) { return val === 0 ? '0 ⚠' : val; }
+          }
+        }
+      }
+    }
+  });
+})();
+</script>
+</div>
+
+<!-- ===== CARD 20: c20 (map_card) ===== -->
+<div class="card" id="c20" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+<p class="label" style="margin-bottom:12px;color:#888">Lever 3: Non-Alignment</p>
+<h3 class="card-title" style="color:#1a1a1a">Who's Getting Through Hormuz?</h3>
+<p class="card-sub" style="margin-bottom:16px">India's non-alignment got 3 ships through. China got 11. Japan got zero.</p>
+<div id="map-c20" class="map-c" style="height:260px;border:1px solid #eee;box-shadow:0 2px 12px rgba(0,0,0,.08)"></div>
+<div style="display:flex;gap:8px;margin:10px 0;justify-content:center;flex-wrap:wrap">
+  <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:#16a34a;display:inline-block"></span><span style="font:500 10px/1 Inter;color:#555">China (through)</span></div>
+  <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:#d97706;display:inline-block"></span><span style="font:500 10px/1 Inter;color:#555">India (through)</span></div>
+  <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:#dc2626;display:inline-block"></span><span style="font:500 10px/1 Inter;color:#555">India (stranded)</span></div>
+</div>
+<div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:8px">
+  <div class="kpi" style="background:#fff;border-color:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">China</div>
+    <div class="kv" style="color:#16a34a">11</div>
+    <div class="kd" style="color:#16a34a">Blanket deal</div>
+  </div>
+  <div class="kpi" style="background:#fff;border-color:#d97706;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">India</div>
+    <div class="kv" style="color:#d97706">3</div>
+    <div class="kd" style="color:#d97706">Case-by-case</div>
+  </div>
+  <div class="kpi" style="background:#fff;border-color:#dc2626;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">Japan/Korea/EU</div>
+    <div class="kv" style="color:#dc2626">0</div>
+    <div class="kd" style="color:#dc2626">Nothing through</div>
+  </div>
+</div>
+<div class="insight" style="background:#1a1a1a;border-left:3px solid #ff3b3b;color:#e5e5e5;border-radius:6px;margin-top:10px">China is the real winner. India's 70% non-Hormuz diversification — not diplomacy — is the real insurance.</div>
+<p class="src" style="color:#aaa;margin-top:8px">Al Jazeera, CNBC, Bloomberg — March 2026</p>
+</div>
+<script>
+(function(){
+  var m = L.map('map-c20', {
+    zoomControl: false,
+    attributionControl: false,
+    dragging: false,
+    scrollWheelZoom: false
+  }).setView([25, 56], 5);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(m);
+
+  // Hormuz strait pulse marker
+  L.marker([26.6, 56.4], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div class="pulse-marker"></div>',
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    })
+  }).addTo(m);
+
+  // China ships — through (green)
+  var chinaLats = [25.1,25.4,25.7,26.0,26.2,25.9,25.3,26.4,25.6,25.2,26.1];
+  var chinaLngs = [55.2,55.8,56.1,56.5,57.0,57.4,57.8,55.5,56.8,57.2,55.9];
+  for(var i = 0; i < 11; i++){
+    L.circleMarker([chinaLats[i], chinaLngs[i]], {
+      radius: 5,
+      color: '#16a34a',
+      fillColor: '#16a34a',
+      fillOpacity: 0.7,
+      weight: 1.5
+    }).addTo(m);
+  }
+
+  // India ships — through (amber)
+  var indiaThruLats = [23.2, 23.7, 23.5];
+  var indiaThruLngs = [62.5, 64.2, 66.1];
+  for(var j = 0; j < 3; j++){
+    L.circleMarker([indiaThruLats[j], indiaThruLngs[j]], {
+      radius: 5,
+      color: '#d97706',
+      fillColor: '#d97706',
+      fillOpacity: 0.7,
+      weight: 1.5
+    }).addTo(m);
+  }
+
+  // India ships — stranded (red)
+  var strandedLats = [25.6,25.9,26.3,26.6,26.8,25.7,26.1,26.5,25.5,26.0,26.7,25.8,26.2,26.4,25.9,26.3,26.0,25.7,26.5];
+  var strandedLngs = [52.1,52.5,52.9,53.3,53.8,53.0,54.2,52.7,54.5,53.6,52.3,54.0,53.5,54.3,52.8,53.1,54.7,53.8,52.6];
+  for(var k = 0; k < 19; k++){
+    L.circleMarker([strandedLats[k], strandedLngs[k]], {
+      radius: 4,
+      color: '#dc2626',
+      fillColor: '#dc2626',
+      fillOpacity: 0.6,
+      weight: 1
+    }).addTo(m);
+  }
+
+  // India route arc
+  L.polyline([[26.0, 56.8],[24.5, 60.0],[23.5, 63.5]], {
+    color: '#d97706',
+    weight: 1.5,
+    dashArray: '5,5',
+    opacity: 0.6
+  }).addTo(m);
+
+  // Numbered legend markers
+  L.marker([27.6, 56.5], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="background:#16a34a;color:#fff;font:700 9px/1 JetBrains Mono;padding:3px 7px;border-radius:3px;white-space:nowrap">China: 11 through</div>',
+      iconSize: [100, 20],
+      iconAnchor: [50, 10]
+    })
+  }).addTo(m);
+
+  L.marker([22.2, 64.0], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="background:#d97706;color:#fff;font:700 9px/1 JetBrains Mono;padding:3px 7px;border-radius:3px;white-space:nowrap">India: 3 through</div>',
+      iconSize: [95, 20],
+      iconAnchor: [47, 10]
+    })
+  }).addTo(m);
+
+  L.marker([27.5, 52.8], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="background:#dc2626;color:#fff;font:700 9px/1 JetBrains Mono;padding:3px 7px;border-radius:3px;white-space:nowrap">India: 19 stranded</div>',
+      iconSize: [105, 20],
+      iconAnchor: [52, 10]
+    })
+  }).addTo(m);
+
+})();
+</script>
+</div>
+
+<!-- ===== CARD 21: c21 (checklist) ===== -->
+<div class="card" id="c21" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label" style="color:#888;margin-bottom:12px">Act II · Policy Agenda</p>
+  <h2 class="card-title" style="color:#1a1a1a;max-width:500px;margin:0 auto 8px">Policy — Monday Checklist.</h2>
+  <p class="card-sub" style="margin-bottom:24px">Four decisions that cannot wait. Each has a hard deadline.</p>
+
+  <div class="checklist">
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards .1s">
+      <div class="cl-num" style="color:#ff3b3b">01</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Secure Russia waiver renewal — commit to US crude as quid pro quo.</div>
+        <div class="cl-deadline" style="color:#ffb020">DEADLINE: Before April 3</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards .25s">
+      <div class="cl-num" style="color:#ff3b3b">02</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Model retail price breakpoint for OMC solvency.</div>
+        <div class="cl-deadline" style="color:#ffb020">DEADLINE: This week</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards .4s">
+      <div class="cl-num" style="color:#ff3b3b">03</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Fertilizer contingency for kharif — 50% urea disrupted.</div>
+        <div class="cl-deadline" style="color:#ffb020">DEADLINE: Before June</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:none;opacity:0;animation:fadeSlide .5s ease forwards .55s">
+      <div class="cl-num" style="color:#ff3b3b">04</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Brief CCS: Houthis + Hormuz = dual chokepoint.</div>
+        <div class="cl-deadline" style="color:#ffb020">DEADLINE: Next CCS meeting</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="insight" style="background:rgba(26,26,26,.96);border-left:3px solid #ff3b3b;border-radius:0 6px 6px 0;color:#e5e5e5;margin-top:20px">
+    Items 1 and 3 are time-bound by external calendars — April 3 and the kharif planting window. Delay on either forecloses the option entirely. Items 2 and 4 are inputs to every other decision in this briefing.
+  </div>
+
+  <p class="src" style="color:#bbb;margin-top:10px">Sources: MoPNG, MEA, Ministry of Agriculture · Prepared for internal policy review</p>
+</div>
+</div>
+
+<!-- ===== CARD 22: c22 (act_break) ===== -->
+<div class="card" id="c22" style="background:#fafafa;color:#1a1a1a;justify-content:center;align-items:center">
+  <div class="card-inner" style="position:relative;text-align:center">
+    <p class="act-title" style="color:var(--red);margin-bottom:20px">Board Briefing</p>
+    <h2 style="font:900 36px/1.1 'Inter';color:#1a1a1a;max-width:480px;margin:0 auto 16px;letter-spacing:-1px">What the Board<br>Needs to Know.</h2>
+    <p class="card-sub" style="color:#888;font-size:13px;margin-bottom:32px">Company-level impact. Competitive position.<br>Three risks. Five decisions.</p>
+    <div style="font:900 96px/1 'JetBrains Mono';color:#e5e5e5;position:absolute;right:-8px;bottom:-32px;pointer-events:none;user-select:none;z-index:0">&#9670;</div>
+    <div style="display:inline-flex;gap:24px;margin-top:8px;position:relative;z-index:1">
+      <div style="text-align:center;padding:12px 20px;border:1px solid #eee;border-radius:8px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+        <div style="font:800 28px/1 'JetBrains Mono';color:var(--red)">3</div>
+        <div style="font:500 10px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:#888;margin-top:4px">Risks</div>
+      </div>
+      <div style="text-align:center;padding:12px 20px;border:1px solid #eee;border-radius:8px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+        <div style="font:800 28px/1 'JetBrains Mono';color:#1a1a1a">5</div>
+        <div style="font:500 10px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:#888;margin-top:4px">Decisions</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CARD 23: c23 (kpi_card) ===== -->
+<div class="card" id="c23" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+<p class="label red" style="margin-bottom:12px">Macro Damage</p>
+<h3 class="card-title" style="color:#1a1a1a">What This Does to Your Numbers.</h3>
+<p class="card-sub" style="margin-bottom:18px">At $146 Indian basket — the damage across the value chain.</p>
+
+<!-- KPI Grid -->
+<div class="kpi-grid" style="margin:0 auto 14px">
+  <div class="kpi" style="background:#fff;border-color:#ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">Annual Import Bill</div>
+    <div class="kv" style="color:#ff3b3b;font-size:26px">$266B</div>
+    <div class="kd" style="color:#ff3b3b;font-size:10px">vs $100B baseline (+166%)</div>
+  </div>
+  <div class="kpi" style="background:#fff;border-color:#ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">Current Account Deficit</div>
+    <div class="kv" style="color:#ff3b3b;font-size:26px">3%+</div>
+    <div class="kd" style="color:#ff3b3b;font-size:10px">of GDP (vs 0.8% target)</div>
+  </div>
+  <div class="kpi" style="background:#fff;border-color:#ffb020;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">GDP Growth Impact</div>
+    <div class="kv" style="color:#ffb020;font-size:26px">−100bp</div>
+    <div class="kd" style="color:#ffb020;font-size:10px">6.6% vs 7%+ at $130 sustained</div>
+  </div>
+  <div class="kpi" style="background:#fff;border-color:#ffb020;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="kl" style="color:#888">Rupee</div>
+    <div class="kv" style="color:#ffb020;font-size:26px">₹92.64</div>
+    <div class="kd" style="color:#ffb020;font-size:10px">Record low, further downside</div>
+  </div>
+</div>
+
+<!-- Winners / Losers -->
+<div class="grid-2" style="gap:8px;margin-bottom:10px">
+  <!-- Winners -->
+  <div style="background:#fff;border-radius:8px;padding:12px;border-top:3px solid #34d399;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:left">
+    <div style="font:700 10px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:#34d399;margin-bottom:8px">Winners</div>
+    <div style="margin-bottom:6px">
+      <div style="font:700 12px/1 'Inter';color:#1a1a1a">RIL</div>
+      <div style="font:400 10px/1.3 'Inter';color:#666;margin-top:2px">GRM surge, export flexibility</div>
+    </div>
+    <div style="margin-bottom:6px">
+      <div style="font:700 12px/1 'Inter';color:#1a1a1a">ONGC / Oil India</div>
+      <div style="font:400 10px/1.3 'Inter';color:#666;margin-top:2px">Supernormal upstream earnings</div>
+    </div>
+    <div>
+      <div style="font:700 12px/1 'Inter';color:#1a1a1a">Nayara</div>
+      <div style="font:400 10px/1.3 'Inter';color:#666;margin-top:2px">Rosneft-backed, heavy crude ready</div>
+    </div>
+  </div>
+  <!-- Losers -->
+  <div style="background:#fff;border-radius:8px;padding:12px;border-top:3px solid #ff3b3b;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:left">
+    <div style="font:700 10px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:#ff3b3b;margin-bottom:8px">Losers</div>
+    <div style="margin-bottom:6px">
+      <div style="font:700 12px/1 'Inter';color:#1a1a1a">IOCL / BPCL / HPCL</div>
+      <div style="font:400 10px/1.3 'Inter';color:#666;margin-top:2px">55–62% earnings wipe</div>
+    </div>
+    <div style="margin-bottom:6px">
+      <div style="font:700 12px/1 'Inter';color:#1a1a1a">Airlines / Trucking</div>
+      <div style="font:400 10px/1.3 'Inter';color:#666;margin-top:2px">ATF/diesel surge</div>
+    </div>
+    <div>
+      <div style="font:700 12px/1 'Inter';color:#1a1a1a">Fertilizer / Agriculture</div>
+      <div style="font:400 10px/1.3 'Inter';color:#666;margin-top:2px">Kharif at risk</div>
+    </div>
+  </div>
+</div>
+
+<!-- Insight Box -->
+<div style="padding:12px 14px;background:#1a1a1a;border-left:3px solid #ff3b3b;border-radius:0 6px 6px 0;width:100%;text-align:left;margin-top:4px">
+  <span style="font:500 12px/1.5 'Inter';color:#e5e5e5">Every $10/bbl = $14–16B additional annual cost. At $146, the annual run rate is $266B — $166B more than baseline. This isn't a quarter of pain. It's a structural shift.</span>
+</div>
+
+<p class="src" style="color:#aaa;margin-top:8px">Sources: UBS, MUFG, Business Standard, BusinessToday</p>
+
+</div>
+</div>
+
+<!-- ===== CARD 24: c24 (map_card) ===== -->
+<div class="card" id="c24" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label red" style="margin-bottom:12px">Tail Risk Register</p>
+  <h3 class="card-title" style="color:#1a1a1a">Three Risks That Could Make It Worse.</h3>
+  <p class="card-sub" style="margin-bottom:16px;color:#888">Most boards aren't planning for these.</p>
+
+  <div id="map-c24" class="map-c" style="height:260px;border:1px solid #eee;box-shadow:0 2px 12px rgba(0,0,0,.08)"></div>
+
+  <!-- Legend -->
+  <div style="display:flex;gap:10px;justify-content:center;margin:12px 0;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px">
+      <div style="width:22px;height:22px;border-radius:50%;background:#dc2626;color:#fff;font:700 11px/22px 'JetBrains Mono';text-align:center;flex-shrink:0">1</div>
+      <div style="text-align:left">
+        <div style="font:600 11px/1 'Inter';color:#1a1a1a">Hormuz Closed</div>
+        <div style="font:400 9px/1 'Inter';color:#888;margin-top:2px">Since Day 1</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <div style="width:22px;height:22px;border-radius:50%;background:#dc2626;color:#fff;font:700 11px/22px 'JetBrains Mono';text-align:center;flex-shrink:0">2</div>
+      <div style="text-align:left">
+        <div style="font:600 11px/1 'Inter';color:#1a1a1a">5 Gulf Targets</div>
+        <div style="font:400 9px/1 'Inter';color:#888;margin-top:2px">IRGC named</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <div style="width:22px;height:22px;border-radius:50%;background:#d97706;color:#fff;font:700 11px/22px 'JetBrains Mono';text-align:center;flex-shrink:0">3</div>
+      <div style="text-align:left">
+        <div style="font:600 11px/1 'Inter';color:#1a1a1a">Bab al-Mandab</div>
+        <div style="font:400 9px/1 'Inter';color:#888;margin-top:2px">Houthi threat</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk escalation panels -->
+  <div class="grid-3" style="margin-bottom:10px">
+    <div style="background:#fff;border-radius:8px;padding:10px 8px;border-top:3px solid #dc2626;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center">
+      <div style="font:700 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#dc2626;margin-bottom:4px">Risk 1</div>
+      <div style="font:700 12px/1.2 'Inter';color:#1a1a1a;margin-bottom:3px">Waiver Expiry</div>
+      <div style="font:400 9px/1.3 'Inter';color:#888">Policy shock — no physical trigger needed</div>
+    </div>
+    <div style="background:#fff;border-radius:8px;padding:10px 8px;border-top:3px solid #dc2626;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center">
+      <div style="font:700 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#dc2626;margin-bottom:4px">Risk 2</div>
+      <div style="font:700 12px/1.2 'Inter';color:#1a1a1a;margin-bottom:3px">Gulf Strikes</div>
+      <div style="font:400 9px/1.3 'Inter';color:#888">Physical infrastructure loss, 5 named targets</div>
+    </div>
+    <div style="background:#fff;border-radius:8px;padding:10px 8px;border-top:3px solid #d97706;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center">
+      <div style="font:700 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#d97706;margin-bottom:4px">Risk 3</div>
+      <div style="font:700 12px/1.2 'Inter';color:#1a1a1a;margin-bottom:3px">Dual Chokepoint</div>
+      <div style="font:400 9px/1.3 'Inter';color:#888">Hormuz + Bab al-Mandab — existential for flows</div>
+    </div>
+  </div>
+
+  <div class="insight" style="background:#1a1a1a;border-left:3px solid #dc2626;border-radius:6px;padding:12px 14px;color:#e5e5e5;font:500 12px/1.5 'Inter';text-align:left;margin-top:4px">
+    Each risk escalates from the previous. Non-renewal is a policy shock — reversible. Gulf facility strikes are physical damage — months to repair. Dual chokepoint closure removes every viable alternative route simultaneously.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:8px">Al Jazeera, Middle East Eye, CNBC — March 2026</p>
+</div>
+
+<script>
+(function(){
+  var m = L.map('map-c24', {
+    zoomControl: false,
+    attributionControl: false,
+    dragging: false,
+    scrollWheelZoom: false
+  }).setView([20, 50], 3);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(m);
+
+  // Zone 1 — Hormuz
+  L.circle([26.4, 56.4], {
+    radius: 200000,
+    color: '#dc2626',
+    fillColor: '#dc2626',
+    fillOpacity: 0.15,
+    weight: 2
+  }).addTo(m);
+  L.marker([26.4, 56.4], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="width:24px;height:24px;border-radius:50%;background:#dc2626;color:#fff;font:700 12px/24px JetBrains Mono,monospace;text-align:center;box-shadow:0 0 8px rgba(220,38,38,.6)">1</div>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    })
+  }).addTo(m);
+
+  // Zone 2 — Gulf targets
+  L.circle([25, 52], {
+    radius: 400000,
+    color: '#dc2626',
+    fillColor: '#dc2626',
+    fillOpacity: 0.10,
+    weight: 2,
+    dashArray: '6,4'
+  }).addTo(m);
+  L.marker([25, 52], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="width:24px;height:24px;border-radius:50%;background:#dc2626;color:#fff;font:700 12px/24px JetBrains Mono,monospace;text-align:center;box-shadow:0 0 8px rgba(220,38,38,.6)">2</div>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    })
+  }).addTo(m);
+
+  // Zone 3 — Bab al-Mandab
+  L.circle([12.6, 43.3], {
+    radius: 200000,
+    color: '#d97706',
+    fillColor: '#d97706',
+    fillOpacity: 0.15,
+    weight: 2
+  }).addTo(m);
+  L.marker([12.6, 43.3], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="width:24px;height:24px;border-radius:50%;background:#d97706;color:#fff;font:700 12px/24px JetBrains Mono,monospace;text-align:center;box-shadow:0 0 8px rgba(217,119,6,.6)">3</div>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    })
+  }).addTo(m);
+
+  // Escalation arrow line — Bab → Gulf → Hormuz
+  L.polyline([
+    [12.6, 43.3],
+    [25, 52],
+    [26.4, 56.4]
+  ], {
+    color: '#dc2626',
+    weight: 1.5,
+    dashArray: '4,4',
+    opacity: 0.5
+  }).addTo(m);
+
+})();
+</script>
+</div>
+
+<!-- ===== CARD 25: c25 (checklist) ===== -->
+<div class="card" id="c25" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label" style="color:var(--red);margin-bottom:12px">Board Action Required</p>
+  <h2 class="card-title" style="color:#1a1a1a">What the Board Should Approve.</h2>
+  <p class="card-sub" style="margin-bottom:20px;color:#666">Five decisions that require board-level authorization — sequenced by urgency.</p>
+
+  <div class="checklist">
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards;animation-delay:.1s">
+      <div class="cl-num" style="color:var(--red)">01</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Emergency procurement — pre-position 90 days non-Gulf crude.</div>
+        <div class="cl-deadline" style="color:var(--red)">AUTHORIZE: Immediate</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards;animation-delay:.2s">
+      <div class="cl-num" style="color:var(--red)">02</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Hedging program — puts at $100–105, deferred at $69–75, no calls.</div>
+        <div class="cl-deadline" style="color:var(--amber)">AUTHORIZE: This week</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards;animation-delay:.3s">
+      <div class="cl-num" style="color:var(--red)">03</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Accelerated complexity capex — NCI upgrades have accelerated payback.</div>
+        <div class="cl-deadline" style="color:#888">AUTHORIZE: Next board meeting</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:1px solid #eee;opacity:0;animation:fadeSlide .5s ease forwards;animation-delay:.4s">
+      <div class="cl-num" style="color:var(--red)">04</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Stress-test: $200 Brent, ₹95, 6-month Hormuz closure.</div>
+        <div class="cl-deadline" style="color:var(--red)">AUTHORIZE: Immediate</div>
+      </div>
+    </div>
+
+    <div class="cl-item" style="border-bottom:none;opacity:0;animation:fadeSlide .5s ease forwards;animation-delay:.5s">
+      <div class="cl-num" style="color:var(--red)">05</div>
+      <div>
+        <div class="cl-action" style="color:#1a1a1a">Govt relations — support waiver renewal, prepare for ESMA directives.</div>
+        <div class="cl-deadline" style="color:var(--blue)">AUTHORIZE: Ongoing</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="insight" style="background:rgba(26,26,26,.04);border-left:3px solid #1a1a1a;color:#1a1a1a;margin-top:18px">
+    Items 1 and 4 require same-day authorization. Each week of delay on emergency procurement increases replacement cost exposure by an estimated $14–16B per $10/bbl per quarter.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:10px">Sources: Refinery procurement benchmarks · PPAC hedging guidelines · MoPNG ESMA framework · IOC/HPCL/BPCL capex disclosures</p>
+</div>
+</div>
+
+<!-- ===== CARD 26: c26_break (act_break) ===== -->
+<div class="card" id="c26_break" style="background:#fafafa;color:#1a1a1a;position:relative;overflow:hidden">
+  <div style="position:absolute;right:-20px;bottom:-10px;font:900 180px/1 'JetBrains Mono';color:#e8e8e8;pointer-events:none;user-select:none;letter-spacing:-8px">III</div>
+  <div class="card-inner" style="position:relative;z-index:1">
+    <p class="act-title" style="color:#ff3b3b;margin-bottom:20px">Act Three</p>
+    <h2 style="font:900 36px/1.1 'Inter';color:#1a1a1a;max-width:480px;margin:0 auto 20px;text-align:center;letter-spacing:-0.5px">What the Banks Are Getting Wrong.</h2>
+    <div style="width:48px;height:3px;background:linear-gradient(90deg,#ff3b3b,#ffb020);border-radius:2px;margin:0 auto 20px"></div>
+    <p style="font:400 13px/1.6 'Inter';color:#888;max-width:380px;margin:0 auto;text-align:center">Consensus models share a common architecture — and a common failure mode. The assumptions embedded in base-case forecasts diverge materially from operational reality.</p>
+  </div>
+</div>
+
+<!-- ===== CARD 27: c26 (verdict_panel) ===== -->
+<div class="card" id="c26" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+  <p class="label" style="color:#888;margin-bottom:12px">Sell-Side Analysis · Blind Spots</p>
+  <h3 class="card-title" style="color:#1a1a1a">Four Things the Sell-Side Is Missing.</h3>
+  <p class="card-sub" style="margin-bottom:20px">Consensus pricing anchored to pre-March 18 data. The escalation ladder is still climbing.</p>
+
+  <!-- Duration -->
+  <div class="source-panel" style="margin-bottom:10px;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="verdict" style="background:linear-gradient(90deg,#dc2626,#991b1b)">
+      <div class="v-source">Duration</div>
+      <div class="v-msg">WEEKS → MONTHS</div>
+    </div>
+    <div class="panel-body" style="padding:12px 20px">
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px;padding:10px 12px;background:#f5f5f5;border-radius:6px;border-left:3px solid #aaa">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:5px">Consensus</div>
+          <div style="font:600 12px/1.4 'Inter';color:#555">Banks say 3–6 weeks</div>
+        </div>
+        <div style="display:flex;align-items:center;color:#dc2626;font-size:18px;padding-top:14px">→</div>
+        <div style="flex:1;min-width:140px;padding:10px 12px;background:rgba(220,38,38,.05);border-radius:6px;border-left:3px solid #dc2626">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#dc2626;margin-bottom:5px">Reality</div>
+          <div style="font:600 12px/1.4 'Inter';color:#1a1a1a">3–6 months. Mine clearance = <span style="font-family:'JetBrains Mono',monospace;color:#dc2626;font-weight:700">51+</span> days.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LPG -->
+  <div class="source-panel" style="margin-bottom:10px;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="verdict" style="background:linear-gradient(90deg,#7c3aed,#5b21b6)">
+      <div class="v-source">LPG</div>
+      <div class="v-msg">NOBODY MODELS THIS</div>
+    </div>
+    <div class="panel-body" style="padding:12px 20px">
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px;padding:10px 12px;background:#f5f5f5;border-radius:6px;border-left:3px solid #aaa">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:5px">Consensus</div>
+          <div style="font:600 12px/1.4 'Inter';color:#555">Banks model crude prices</div>
+        </div>
+        <div style="display:flex;align-items:center;color:#7c3aed;font-size:18px;padding-top:14px">→</div>
+        <div style="flex:1;min-width:140px;padding:10px 12px;background:rgba(124,58,237,.05);border-radius:6px;border-left:3px solid #7c3aed">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#7c3aed;margin-bottom:5px">Reality</div>
+          <div style="font:600 12px/1.4 'Inter';color:#1a1a1a"><span style="font-family:'JetBrains Mono',monospace;color:#7c3aed;font-weight:700">330M</span> households, ESMA invoked, <span style="font-family:'JetBrains Mono',monospace;color:#7c3aed;font-weight:700">₹4,000</span> black market.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Infrastructure -->
+  <div class="source-panel" style="margin-bottom:10px;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="verdict" style="background:linear-gradient(90deg,#92400e,#78350f)">
+      <div class="v-source">Infrastructure</div>
+      <div class="v-msg">CUMULATIVE DAMAGE</div>
+    </div>
+    <div class="panel-body" style="padding:12px 20px">
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px;padding:10px 12px;background:#f5f5f5;border-radius:6px;border-left:3px solid #aaa">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:5px">Consensus</div>
+          <div style="font:600 12px/1.4 'Inter';color:#555">Banks model open/closed switch</div>
+        </div>
+        <div style="display:flex;align-items:center;color:#92400e;font-size:18px;padding-top:14px">→</div>
+        <div style="flex:1;min-width:140px;padding:10px 12px;background:rgba(146,64,14,.05);border-radius:6px;border-left:3px solid #92400e">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#92400e;margin-bottom:5px">Reality</div>
+          <div style="font:600 12px/1.4 'Inter';color:#1a1a1a">Ras Tanura shut, Ras Laffan damaged, Fujairah suspended. Months of repair.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sour Premium -->
+  <div class="source-panel" style="margin-bottom:14px;border:1px solid #eee;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+    <div class="verdict" style="background:linear-gradient(90deg,#0e7490,#164e63)">
+      <div class="v-source">Sour Premium</div>
+      <div class="v-msg">$36 IS STRUCTURAL</div>
+    </div>
+    <div class="panel-body" style="padding:12px 20px">
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px;padding:10px 12px;background:#f5f5f5;border-radius:6px;border-left:3px solid #aaa">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:5px">Consensus</div>
+          <div style="font:600 12px/1.4 'Inter';color:#555">Banks say panic premium</div>
+        </div>
+        <div style="display:flex;align-items:center;color:#0e7490;font-size:18px;padding-top:14px">→</div>
+        <div style="flex:1;min-width:140px;padding:10px 12px;background:rgba(14,116,144,.05);border-radius:6px;border-left:3px solid #0e7490">
+          <div style="font:600 9px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#0e7490;margin-bottom:5px">Reality</div>
+          <div style="font:600 12px/1.4 'Inter';color:#1a1a1a">Physical scarcity. Persists while Gulf terminals remain damaged.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight" style="background:#1a1a1a;border-left:3px solid #dc2626;border-radius:6px;padding:12px 16px;color:#e5e5e5">
+    <span style="font:700 10px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:#dc2626;display:block;margin-bottom:6px">Strategic Implication</span>
+    Banks priced before March 18. South Pars + Ras Laffan = escalation ladder still climbing. Consensus underprices both duration and structural supply damage.
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:10px">Sources: Goldman Sachs, JP Morgan, Morgan Stanley, CSIS, Wood Mackenzie</p>
+</div>
+</div>
+
+<!-- ===== CARD 28: c27 (closing) ===== -->
+<div class="card" id="c27" style="background:#fafafa;color:#1a1a1a">
+<div class="card-inner">
+
+  <p class="label" style="color:var(--red);margin-bottom:14px;text-align:center">CLOSING INTELLIGENCE · ACT III</p>
+
+  <h2 class="card-title" style="color:#1a1a1a;font-size:22px;line-height:1.25;max-width:500px;margin:0 auto 20px">
+    The next 15 days determine whether India navigates this crisis — or is consumed by it.
+  </h2>
+
+  <!-- Deadline Timeline -->
+  <div class="timeline" style="margin:0 auto 20px;max-width:520px">
+
+    <div class="tl-item" style="opacity:0;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #eee">
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="min-width:52px;text-align:right">
+          <span style="font:700 12px/1 'JetBrains Mono';color:var(--red)">Apr 3</span>
+        </div>
+        <div style="flex:1">
+          <div style="font:600 13px/1.4 'Inter';color:#1a1a1a">Russia waiver expires.</div>
+          <div style="font:400 11px/1.4 'Inter';color:#666;margin-top:2px">25–36% of crude supply at risk.</div>
+        </div>
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0;box-shadow:0 0 6px var(--red)"></div>
+      </div>
+    </div>
+
+    <div class="tl-item amber" style="opacity:0;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #eee">
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="min-width:52px;text-align:right">
+          <span style="font:700 12px/1 'JetBrains Mono';color:var(--amber)">Apr 5</span>
+        </div>
+        <div style="flex:1">
+          <div style="font:600 13px/1.4 'Inter';color:#1a1a1a">OPEC+ meets.</div>
+          <div style="font:400 11px/1.4 'Inter';color:#666;margin-top:2px">Spare capacity trapped behind Hormuz.</div>
+        </div>
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0;box-shadow:0 0 6px var(--amber)"></div>
+      </div>
+    </div>
+
+    <div class="tl-item amber" style="opacity:0;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #eee">
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="min-width:52px;text-align:right">
+          <span style="font:700 12px/1 'JetBrains Mono';color:var(--amber)">Apr 26</span>
+        </div>
+        <div style="flex:1">
+          <div style="font:600 13px/1.4 'Inter';color:#1a1a1a">Chabahar waiver expires.</div>
+          <div style="font:400 11px/1.4 'Inter';color:#666;margin-top:2px">India's only direct Iran route closes.</div>
+        </div>
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0;box-shadow:0 0 6px var(--amber)"></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="opacity:0;margin-bottom:0;padding-bottom:0">
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="min-width:52px;text-align:right">
+          <span style="font:700 12px/1 'JetBrains Mono';color:var(--red)">June</span>
+        </div>
+        <div style="flex:1">
+          <div style="font:600 13px/1.4 'Inter';color:#1a1a1a">Kharif planting begins.</div>
+          <div style="font:400 11px/1.4 'Inter';color:#666;margin-top:2px">50% of world's urea supply disrupted.</div>
+        </div>
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0;box-shadow:0 0 6px var(--red)"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Closing line — dark insight box -->
+  <div style="background:#1a1a1a;border-radius:10px;padding:18px 20px;width:100%;margin:0 auto 14px;text-align:left">
+    <p style="font:600 13px/1.6 'Inter';color:#e5e5e5;margin:0">
+      "The leaders who act on this briefing this week will outperform those who wait for clarity that isn't coming."
+    </p>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr;max-width:520px;gap:6px;margin:0 auto 12px">
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--red);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Supply at risk</div>
+      <div class="kv" style="color:var(--red);font-size:20px">25–36%</div>
+      <div class="kd" style="color:#888;font-size:9px">Apr 3 trigger</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--amber);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Urea disrupted</div>
+      <div class="kv" style="color:var(--amber);font-size:20px">50%</div>
+      <div class="kd" style="color:#888;font-size:9px">Kharif at risk</div>
+    </div>
+    <div class="kpi" style="background:#fff;border-left:3px solid var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div class="kl" style="color:#888">Days to act</div>
+      <div class="kv" style="color:var(--blue);font-size:20px;font-family:'JetBrains Mono'" class="countdown">15</div>
+      <div class="kd" style="color:#888;font-size:9px">Decision window</div>
+    </div>
+  </div>
+
+  <p class="src" style="color:#aaa;margin-top:8px">Strategic Intelligence Briefing · India Perspective · March 19, 2026</p>
+
+</div>
+
+<script>
+(function(){
+  var card = document.getElementById('c27');
+  var items = card.querySelectorAll('.tl-item');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        items.forEach(function(item, i){
+          setTimeout(function(){
+            item.style.animation = 'fadeSlide 0.5s ease forwards';
+          }, 150 * (i + 1));
+        });
+        obs.disconnect();
+      }
+    });
+  }, {threshold: 0.2});
+  obs.observe(card);
+
+  // Countdown pulse on the "15" KPI
+  var kv = card.querySelectorAll('.kv');
+  kv.forEach(function(el){
+    if(el.textContent.trim() === '15'){
+      el.style.animation = 'countPulse 1.5s ease-in-out infinite';
+    }
+  });
+})();
+</script>
+</div>
+<script>
+// Scroll: progress + counter + in-view animations
+(function(){
+var cards=document.querySelectorAll('.card'),
+    prog=document.getElementById('prog'),
+    ctr=document.getElementById('ctr'),
+    t=cards.length;
+function u(){
+  var s=window.scrollY||document.documentElement.scrollTop,
+      h=document.documentElement.scrollHeight-window.innerHeight,
+      p=h>0?(s/h)*100:0;
+  prog.style.width=p+'%';
+  var c=1;
+  cards.forEach(function(x,i){
+    var r=x.getBoundingClientRect();
+    if(r.top<window.innerHeight/2) c=i+1;
+    if(r.top<window.innerHeight*.8&&r.bottom>0) x.classList.add('in-view');
+    else x.classList.remove('in-view');
+  });
+  ctr.textContent=c+'/'+t;
+}
+window.addEventListener('scroll',u);
+u();
+})();
+
+// Global Chart.js defaults
+Chart.defaults.font.family='Inter';
+Chart.defaults.color='#888';
+</script>
+</body>
+</html>

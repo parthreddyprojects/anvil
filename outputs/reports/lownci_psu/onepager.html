@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India Crude Crisis Brief — April 2, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 794px;
+    min-height: 1123px;
+    background: #ffffff;
+    margin: 32px auto;
+    padding: 0;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* PLAIN ENGLISH INTRO */
+  .plain-intro {
+    background: #fffbe6;
+    border-bottom: 1.5px solid #f0e68c;
+    padding: 8px 36px;
+    font-size: 9.5px;
+    font-weight: 500;
+    color: #4a3a00;
+    line-height: 1.55;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* CONTEXT BANNER */
+  .context-banner {
+    background: #0a0a0a;
+    padding: 10px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .context-banner .crisis-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 9.5px;
+    font-weight: 500;
+    color: #a0a0a0;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .context-banner .crisis-line span.highlight {
+    color: #e8554a;
+    font-weight: 600;
+  }
+  .context-banner .brief-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 9.5px;
+    font-weight: 400;
+    color: #606060;
+    letter-spacing: 0.02em;
+  }
+  .context-banner .brief-line em {
+    color: #888;
+    font-style: normal;
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    padding: 28px 36px 24px 36px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* DOCUMENT LABEL */
+  .doc-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .doc-label {
+    font-size: 8.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #b0b0b0;
+  }
+  .doc-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    color: #b0b0b0;
+    font-weight: 500;
+  }
+
+  /* HEADLINE BLOCK */
+  .headline-block {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid #f0f0f0;
+  }
+  .rec-label {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #e8554a;
+    margin-bottom: 7px;
+  }
+  .headline {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: #0a0a0a;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    max-width: 680px;
+    margin-bottom: 8px;
+  }
+  .headline-subline {
+    font-size: 9px;
+    font-weight: 600;
+    color: #e8554a;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+  }
+  .headline-subline::before {
+    content: '→ ';
+    font-weight: 700;
+  }
+
+  /* SITUATION + PROBLEM STATEMENT ROW */
+  .context-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid #f0f0f0;
+  }
+  .context-block {}
+  .section-label {
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #b0b0b0;
+    margin-bottom: 6px;
+  }
+  .context-block p {
+    font-size: 9.8px;
+    line-height: 1.65;
+    color: #2a2a2a;
+    font-weight: 400;
+  }
+  .context-block p strong {
+    font-weight: 600;
+    color: #0a0a0a;
+  }
+
+  /* KPI ROW */
+  .kpi-section {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid #f0f0f0;
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .kpi-card {
+    padding: 12px 16px 12px 0;
+    position: relative;
+  }
+  .kpi-card:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: #ebebeb;
+  }
+  .kpi-card:not(:first-child) {
+    padding-left: 20px;
+  }
+  .kpi-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a0a0a;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 3px;
+  }
+  .kpi-value.down { color: #e8554a; }
+  .kpi-name {
+    font-size: 9px;
+    font-weight: 600;
+    color: #0a0a0a;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .kpi-variance {
+    font-size: 8.5px;
+    color: #888;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  /* ANALYSIS SECTION */
+  .analysis-section {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1.5px solid #f0f0f0;
+  }
+  .analysis-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .analysis-card {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    background: #fafafa;
+    border-left: 2.5px solid #e8e8e8;
+    padding: 10px 12px;
+    position: relative;
+  }
+  .analysis-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    color: #c8c8c8;
+    line-height: 1.6;
+    letter-spacing: 0;
+    text-align: right;
+  }
+  .analysis-body {}
+  .analysis-finding {
+    font-size: 9.5px;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+  .analysis-impact {
+    font-size: 9px;
+    color: #606060;
+    line-height: 1.5;
+    margin-bottom: 3px;
+  }
+  .analysis-sowhat {
+    font-size: 9px;
+    font-weight: 600;
+    color: #e8554a;
+    line-height: 1.45;
+  }
+  .analysis-sowhat::before {
+    content: '→ ';
+    font-weight: 700;
+  }
+
+  /* DECISIONS SECTION */
+  .decisions-section {
+    margin-bottom: 0;
+  }
+  .decisions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .decision-block {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 10px;
+    align-items: start;
+    padding: 10px 14px;
+    border: 1.5px solid #f0f0f0;
+    background: #fff;
+  }
+  .decision-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: #e8554a;
+    line-height: 1.2;
+  }
+  .decision-ask {
+    font-size: 9.5px;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+  .decision-ask strong {
+    font-weight: 700;
+    color: #0a0a0a;
+  }
+  .decision-owner {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    background: #f5f5f5;
+    padding: 3px 8px;
+    white-space: nowrap;
+    align-self: center;
+    border: 1px solid #e8e8e8;
+  }
+
+  /* FOOTER */
+  .page-footer {
+    border-top: 1px solid #ebebeb;
+    padding: 8px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+  }
+  .footer-note {
+    font-size: 7.5px;
+    color: #c0c0c0;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .footer-note span {
+    color: #aaa;
+    font-weight: 500;
+  }
+  .footer-classification {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5px;
+    color: #c8c8c8;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- PLAIN ENGLISH INTRO -->
+  <div class="plain-intro">
+    India's oil supply route was cut off 33 days ago. Refineries are running out of crude. Without three government decisions tonight, fuel stops reaching 200 million people by April 5.
+  </div>
+
+  <!-- CONTEXT BANNER -->
+  <div class="context-banner">
+    <div class="crisis-line">
+      Crisis: <span class="highlight">Strait of Hormuz closed Feb 28, 2026.</span> Indian crude basket: <span class="highlight">$156/bbl</span> (was $69). India imports 88% of crude; 42% via Hormuz. US sanctions waiver expires <span class="highlight">April 3, 23:59 IST</span> — removing the last affordable supply route.
+    </div>
+    <div class="brief-line">
+      This brief: What <em>PMO, the Petroleum Secretary, and MEA</em> must decide in the next <em>72 hours</em> — three simultaneous decisions that prevent six refinery shutdowns, a ₹3 lakh crore (~$360B USD) GDP shock, and a humanitarian emergency across five landlocked states.
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- DOC META -->
+    <div class="doc-meta">
+      <div class="doc-label">India Energy Crisis — Executive Brief</div>
+      <div class="doc-date">April 2, 2026 &nbsp;·&nbsp; FOR DECISION TONIGHT</div>
+    </div>
+
+    <!-- HEADLINE -->
+    <div class="headline-block">
+      <div class="rec-label">Recommendation</div>
+      <div class="headline">Issue both legal instruments as one package by 23:59 April 2 — any sequencing shuts HPCL (Hindustan Petroleum) Mumbai in 4 days.</div>
+      <div class="headline-subline">Issuing them separately is not sequencing, it is failure.</div>
+    </div>
+
+    <!-- SITUATION + PROBLEM STATEMENT -->
+    <div class="context-row">
+      <div class="context-block">
+        <div class="section-label">Situation</div>
+        <p>Six refineries shut within 4 days. Refiners lose <strong>₹500 crore daily</strong> with no legal cover to operate — Maharashtra and Karnataka lose fuel first, then 200 million people in landlocked central India.</p>
+      </div>
+      <div class="context-block">
+        <div class="section-label">Why It Can't Wait</div>
+        <p><strong>Inaction costs ₹3 lakh crore (~$360B USD).</strong> The ₹45,000 crore guarantee that prevents it is less than 2% of that loss. Three decisions issued simultaneously tonight are the only intervention that works.</p>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-section">
+      <div class="section-label">Key Metrics</div>
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-name">Refining Margin</div>
+          <div class="kpi-value down">−$12/bbl</div>
+          <div class="kpi-variance">Down from +$5/bbl last quarter. Every barrel processed deepens losses.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-name">Days to Shutdown — Mumbai Refinery</div>
+          <div class="kpi-value down">11 days</div>
+          <div class="kpi-variance">Government minimum threshold is 15 days. Action required tonight.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-name">Emergency Guarantee Required</div>
+          <div class="kpi-value down">₹45,000 Cr</div>
+          <div class="kpi-variance">Less than 2% of the GDP loss triggered by inaction.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYSIS -->
+    <div class="analysis-section">
+      <div class="section-label">Analysis</div>
+      <div class="analysis-grid">
+
+        <div class="analysis-card">
+          <div class="analysis-num">01</div>
+          <div class="analysis-body">
+            <div class="analysis-finding">Two legal instruments must be issued at the same moment: a Presidential Directive protecting refinery heads from personal liability for operating at a loss, and an emergency Reserve Bank directive allowing banks to issue government-backed payment guarantees to crude suppliers.</div>
+            <div class="analysis-impact">A 24-hour gap between the two blocks the first emergency payment and triggers HPCL (Hindustan Petroleum) Mumbai's shutdown.</div>
+            <div class="analysis-sowhat">PMO must treat both as one package — the decision sequence is the risk.</div>
+          </div>
+        </div>
+
+        <div class="analysis-card">
+          <div class="analysis-num">02</div>
+          <div class="analysis-body">
+            <div class="analysis-finding">The only crude that can physically reach Mumbai's refineries within 4 days is domestic output from state-owned ONGC — but existing contracts may legally cap how much can be redirected.</div>
+            <div class="analysis-impact">If redirectable volume is below 10,000 barrels per day (about 8% of Mumbai's daily refinery need), Mumbai refineries gain only 2 extra days — not enough to bridge to any incoming cargo.</div>
+            <div class="analysis-sowhat">Petroleum Secretary confirms available ONGC volume by 18:00 IST April 2; if below threshold, activates four-state fuel rationing by 20:00 IST same night.</div>
+          </div>
+        </div>
+
+        <div class="analysis-card">
+          <div class="analysis-num">03</div>
+          <div class="analysis-body">
+            <div class="analysis-finding">IOCL (Indian Oil Corporation) Bina — the sole fuel supplier for landlocked Madhya Pradesh, Uttar Pradesh, and Rajasthan — loses access to its Russian crude shipment on April 3 with no alternative source in place. The US sanctions waiver expiry on April 3, 23:59 IST removes the last legal cover for this supply route.</div>
+            <div class="analysis-impact">A Bina shutdown cuts fuel to approximately 200 million people; within 30 days, agricultural and food supply chains fail across five states.</div>
+            <div class="analysis-sowhat">This is the one scenario that turns an energy crisis into a humanitarian emergency — it requires a direct diplomatic call within 24 hours, not a written note.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DECISIONS -->
+    <div class="decisions-section">
+      <div class="section-label">Decisions Required — Tonight</div>
+      <div class="decisions-grid">
+
+        <div class="decision-block">
+          <div class="decision-number">1</div>
+          <div class="decision-ask">
+            Designate one crisis coordinator with cross-ministry authority, and issue the <strong>Presidential Directive</strong> and <strong>emergency Reserve Bank banking directive</strong> as a single simultaneous package by <strong>April 2, 23:59 IST.</strong>
+          </div>
+          <div class="decision-owner">PMO</div>
+        </div>
+
+        <div class="decision-block">
+          <div class="decision-number">2</div>
+          <div class="decision-ask">
+            Confirm by <strong>April 2, 18:00 IST</strong> how much domestic ONGC crude can legally be redirected to Mumbai refineries. If below 10,000 barrels per day (about 8% of Mumbai's daily refinery need), <strong>activate 15% fuel rationing</strong> across Maharashtra, Karnataka, Tamil Nadu, and Kerala the same night.
+          </div>
+          <div class="decision-owner">Petroleum Secy.</div>
+        </div>
+
+        <div class="decision-block">
+          <div class="decision-number">3</div>
+          <div class="decision-ask">
+            Authorise the Foreign Secretary to <strong>call the US Deputy Secretary of State within 24 hours</strong> requesting a 60-day humanitarian extension on Russian crude sanctions — directly linked to the April 3, 23:59 IST waiver expiry — and simultaneously secure a <strong>UAE emergency crude cargo.</strong> Binary yes/no required on both by April 4, 23:59 IST.
+          </div>
+          <div class="decision-owner">MEA Secretary</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div class="footer-note">
+      Sources: <span>MoPNG/PPAC crisis cell estimates · MRPL shutdown confirmed · GRM extrapolated from Q3 FY2025 PSU earnings · Bina supply-chain modelling · EIA Hormuz flow data</span>
+      &nbsp;&nbsp;·&nbsp;&nbsp;
+      GRM figures carry medium confidence. All shutdown timelines assume no intervening action.
+    </div>
+    <div class="footer-classification">Restricted — Senior Decision-Makers Only</div>
+  </div>
+
+</div>
+</body>
+</html>

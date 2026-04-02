@@ -1,0 +1,123 @@
+[23:48:38] === V20: Short headlines (8-12 words) + 60% chart minimum ===
+[23:48:38] STEP 2: Card Decomposition (Story Arc → Proof → Story Check)
+[23:48:38]   STEP 2A: Generating story arc (one-sentence messages only)...
+[23:48:49]   Story arc: 23 messages
+
+============================================================
+  STORY ARC — 23 CARDS
+============================================================
+
+   1. India faces the largest oil supply shock in history.
+   2. It peaked at $156 per barrel. The rupee hit an all-time low.
+   3. 22 ships are stranded. Mines make the strait impassable for months.
+   4. Crude is manageable. Cooking gas is rationed for 330 million households.
+   5. Even a ceasefire signed March 28 cannot reopen the strait until summer.
+   6. —— Your refinery ——
+   7. MRPL already shut its crude unit. Your supply window is closing.
+   8. Jamnagar runs at full complexity. Single-source refineries are bleeding cash.
+   9. The government has overridden your product slate. LPG comes first.
+  10. —— Your balance sheet ——
+  11. You are losing over fifty rupees on every litre of diesel you sell.
+  12. The Russia waiver expires April 3. Your cheapest fallback vanishes in ten days.
+  13. Brent is at $100 today. It may not be this low again.
+  14. —— Your government ——
+  15. Delhi is rationing, escorting, and freezing prices. It expects months, not weeks.
+  16. Non-alignment got four ships through. That diplomatic capital is finite.
+  17. Fertilizer gas is already cut to seventy percent. Kharif is at risk.
+  18. —— Your board ——
+  19. The annual import bill has surged by over a hundred billion dollars.
+  20. Three deadlines converge before April 6. Your board is planning for none of them.
+  21. —— What everyone else is missing ——
+  22. Markets priced in a ceasefire. Mine clearance alone takes eight to twelve weeks.
+  23. You have ten days before your fallback disappears. Decide now.
+[23:48:49]   STEP 2B: Assigning proof (2-3 numbers + visual per message)...
+[23:49:44]   Proof assigned: 23 cards
+[23:49:44]   STEP 2C: Story check — verifying deck matches approved arc...
+[23:49:46]   Story check PASSED: All 23 cards match the approved story arc exactly, with no drift, gaps, additions, or density violations.
+[23:49:46]   Card spec finalized: 23 cards
+[23:49:46] STEP 3: Design Agent — generating HTML per card
+[23:49:46]   [1/23] c01 (hero)
+[23:50:10]            OK (4,546 chars)
+[23:50:10]   [2/23] c02 (kpi_card)
+[23:50:28]            OK (2,660 chars)
+[23:50:28]   [3/23] c03 (chart_card)
+[23:50:58]            OK (6,226 chars)
+[23:50:58]   [4/23] c04 (chart_card)
+[23:51:28]            OK (6,299 chars)
+[23:51:28]   [5/23] c05 (chart_card)
+[23:52:01]            OK (7,065 chars)
+[23:52:01]   [6/23] c06 (act_break)
+[23:52:14]            OK (2,287 chars)
+[23:52:14]   [7/23] c07 (kpi_card)
+[23:52:40]            OK (4,299 chars)
+[23:52:40]   [8/23] c08 (chart_card)
+[23:53:10]            OK (5,051 chars)
+[23:53:10]   [9/23] c09 (chart_card)
+[23:53:48]            OK (7,821 chars)
+[23:53:48]   [10/23] c10 (act_break)
+[23:54:05]            OK (2,645 chars)
+[23:54:05]   [11/23] c11 (chart_card)
+[23:54:37]            OK (6,749 chars)
+[23:54:37]   [12/23] c12 (chart_card)
+[23:55:07]            OK (5,082 chars)
+[23:55:07]   [13/23] c13 (chart_card)
+[23:55:42]            OK (7,207 chars)
+[23:55:42]   [14/23] c14 (act_break)
+[23:55:51]            OK (1,041 chars)
+[23:55:51]   [15/23] c15 (chart_card)
+[23:56:15]            OK (4,763 chars)
+[23:56:15]   [16/23] c16 (chart_card)
+[23:56:44]            OK (6,427 chars)
+[23:56:44]   [17/23] c17 (chart_card)
+[23:57:18]            OK (6,740 chars)
+[23:57:18]   [18/23] c18 (act_break)
+[23:57:28]            OK (1,333 chars)
+[23:57:28]   [19/23] c19 (chart_card)
+[23:57:58]            OK (5,679 chars)
+[23:57:58]   [20/23] c20 (chart_card)
+[23:58:30]            OK (6,278 chars)
+[23:58:30]   [21/23] c21 (act_break)
+[23:58:39]            OK (1,323 chars)
+[23:58:39]   [22/23] c22 (chart_card)
+[23:59:07]            OK (5,416 chars)
+[23:59:07]   [23/23] c23 (closing)
+[23:59:30]            OK (4,449 chars)
+[23:59:30]   Design Agent complete: 23 cards, 111,386 chars total
+[23:59:30] STEP 4: Build briefing HTML
+  Built 23 cards -> C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (126,728 chars)
+[23:59:30]   Built: C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (129,459 bytes)
+[23:59:30] STEP 5: Critique Loop
+[23:59:30]   Gate 1: Content critique (Claude Opus)...
+[00:00:19]   Gate 1: avg 8.0/10, 1 cards below 7
+[00:00:19]   Gate 2: Visual QA (screenshots + multimodal)...
+[00:00:29]   Screenshotting 23 cards...
+[00:00:43]     card_03: Map zoom is quite close with vessel cluster markers overlapping near the Strait of Hormuz area, Map labels (Bandar Abbas, Dubai, etc.) are partially obscured by vessel markers
+[00:00:43]     card_04: Empty/blank chart container - the LPG supply availability chart area appears to have no visible data or chart rendered, Large white empty space in the chart container where data visualization should appear
+[00:00:58]     card_05: Timeline label text overlapping: '8-12 weeks clearance op' and 'best case open' text overlaps around the Jun 6 marker, Timeline annotation 'Earliest possible strait reopening - week-by-week from March 28 agreement' partially overlaps with milestone labels
+[00:00:58]     card_07: Capacity utilization bar chart label '100K bbl/d' and '200K bbl/d' text appears cramped within the bar segments
+[00:00:58]     card_08: Chart label 'FULL COMPLEXITY +6.2%' text is small and cramped next to the RIL (Jamnagar) bar, X-axis labels '+10%+12%' appear merged/overlapping at the right end of the chart
+[00:01:13]     card_09: Chart bar labels 'prioritized above all' and 'cut from 100%' text appears cramped within the bars, The '70% guaranteed' label inside the green bar is slightly hard to read against the background
+[00:01:13]     card_11: The 'RETAIL CAP ₹87.57' label on the chart overlaps with the dashed green line and is partially difficult to read, The 'EFFECTIVE COST ₹140+' label at the top right of the chart appears cut off/cramped with the red dashed line
+[00:01:13]     card_12: The progress bar at the bottom showing MAR 5 to APR 3-5 has small text labels that may be hard to read
+[00:01:25]     card_13: Excessive whitespace above and below the main content, content appears vertically compressed into the middle third of the card, Chart labels are small and potentially hard to read at normal viewing distance
+[00:01:25]     card_14: Large amount of empty space above and below the centered content, card appears mostly empty, Roman numeral 'III' watermark text at bottom right is cut off/partially visible
+[00:01:25]     card_15: Excessive whitespace above and below the main content area
+[00:01:25]     card_16: Excessive whitespace above and below the main content area
+[00:01:40]     card_17: Gauge chart labels overlap - '30% SHORTFALL' text overlaps with '70%' percentage display, Multiple text elements in the gauge center area are overlapping and hard to read ('Gas Allocated' text overlaps with percentage)
+[00:01:40]     card_18: Large 'IV' watermark text in bottom-right corner partially cut off by card edge, Card is mostly empty white space with minimal content centered vertically
+[00:01:40]     card_19: Waterfall chart '+$120B SHOCK' label text overlaps with the red bar area, 'CURRENT BILL ~$225B' label at top right of chart is slightly cramped near the edge
+[00:01:56]     card_21: Excessive whitespace above and below the content, content appears vertically centered but sparse, Large empty areas taking up most of the card with minimal content
+[00:01:56]     card_22: Chart label '8-12 WK CLEARANCE WINDOW' appears partially cut off/overlapping with data point at T+5, Large empty whitespace in top and bottom portions of card
+[00:01:56]     card_23: Badge/tag labels ('Mar 24', 'Apr 3', '0', '$100', '$126', '-$26', 'WH', '$100', 'Apr 3') have low contrast with olive/brown backgrounds making them difficult to read, Tags text 'Extensions expected', 'Brent today', 'Conflict peak', 'Current discount', 'Cover horizon', 'Lock-in level', 'Act before' are barely legible due to small size and poor contrast
+[00:01:56]   Gate 2: 18 issues found, 2 high severity
+[00:01:56]   Auto-fixing high severity visual issues...
+[00:01:56]     Regenerating c17: ["Gauge chart labels overlap - '30% SHORTFALL' text overlaps with '70%' percentage display", "Multiple text elements in the gauge center area are overlapping and hard to read ('Gas Allocated' text overlaps with percentage)"]
+[00:02:27]     Fixed c17 (5,376 chars)
+[00:02:27]     Regenerating c04: ['Empty/blank chart container - the LPG supply availability chart area appears to have no visible data or chart rendered', 'Large white empty space in the chart container where data visualization should appear']
+[00:02:54]     Fixed c04 (5,444 chars)
+[00:02:54]   Rebuilding with fixes...
+[00:02:54] STEP 4: Build briefing HTML
+  Built 23 cards -> C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (124,509 chars)
+[00:02:54]   Built: C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (127,182 bytes)
+[00:02:54]   Rebuilt with visual fixes applied.
+[00:02:54] PIPELINE COMPLETE — v20

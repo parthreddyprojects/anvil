@@ -1,0 +1,112 @@
+[21:06:09] === V19: Day 25 update + vault + SCQA + full pipeline ===
+[21:06:09] STEP 2: Card Decomposition (Story Arc → Proof → Story Check)
+[21:06:09]   STEP 2A: Generating story arc (one-sentence messages only)...
+[21:06:27]   Story arc: 23 messages
+
+============================================================
+  STORY ARC — 23 CARDS
+============================================================
+
+   1. The Hormuz closure is the largest oil shock in history — three times the 1973 embargo, hitting India hardest.
+   2. In 25 days, India lost 50% of its crude supply, 90% of its LPG, and the rupee crossed 93 for the first time.
+   3. A ceasefire is being negotiated — but Iran denies it, mines block the strait, and the March 28 deadline is four days away.
+   4. Cooking gas has already failed: queues, rationing, and 330 million households exposed — crude is the next domino.
+   5. Even if Trump and Iran shake hands Saturday, the strait stays dangerous for weeks and the Indian basket stays above $140.
+   6. —— Your refinery ——
+   7. MRPL already shut its crude unit — your supply chain is next if Hormuz-dependent feedstock isn't replaced in 10 days.
+   8. Your effective input cost is ₹140 per litre; the government fixed your output price at ₹87.57 — you are selling at a structural loss.
+   9. Delhi has overridden your product slate: LPG output is mandatory, gas allocation is capped at 65%, and refinery exports are suspended.
+  10. —— Your balance sheet ——
+  11. You are bleeding roughly ₹52 per litre on every retail diesel sale, and the industrial hike buys weeks, not quarters.
+  12. The Russia waiver expires April 3 — your largest discounted feedstock becomes a secondary-sanctions liability in ten days.
+  13. Brent is at $100, down $26 from its peak — this is the only buying window before March 28 breaks the wrong way.
+  14. —— Your government ——
+  15. Delhi's 74-day total reserve sounds safe; the strategic reserve is 9.5 days, and it is falling every morning.
+  16. India's non-alignment got four ships through Hormuz — that diplomatic capital with Iran is finite and nearly spent.
+  17. The fertilizer supply chain breaks in June if LNG for urea plants is not secured now, threatening the entire kharif season.
+  18. —— Your board ——
+  19. The annual import bill has surged by $120 billion — a shock the current account and the rupee cannot absorb beyond one quarter.
+  20. Three compounding risks — failed March 28 talks, Russian waiver expiry, and mine-blocked shipping — are not in your board's scenario plan.
+  21. —— What everyone else is missing ——
+  22. Markets are pricing a ceasefire; mine clearance alone takes 60-plus days, so the Indian basket stays elevated regardless of diplomacy.
+  23. You have 10 days before the Russia waiver, the OPEC+ meeting, and the ceasefire deadline detonate simultaneously — decide before they do.
+[21:06:27]   STEP 2B: Assigning proof (2-3 numbers + visual per message)...
+[21:07:29]   Proof assigned: 23 cards
+[21:07:29]   STEP 2C: Story check — verifying deck matches approved arc...
+[21:07:32]   Story check PASSED: All 23 cards match the approved story arc exactly, with no drift, gaps, additions, or density violations.
+[21:07:32]   Card spec finalized: 23 cards
+[21:07:32] STEP 3: Design Agent — generating HTML per card
+[21:07:32]   [1/23] c01 (hero)
+[21:07:53]            OK (3,728 chars)
+[21:07:53]   [2/23] c02 (kpi_card)
+[21:08:14]            OK (3,549 chars)
+[21:08:14]   [3/23] c03 (timeline)
+[21:08:31]            OK (3,011 chars)
+[21:08:31]   [4/23] c04 (chart_card)
+[21:09:06]            OK (9,798 chars)
+[21:09:06]   [5/23] c05 (scenario_card)
+[21:09:36]            OK (4,929 chars)
+[21:09:36]   [6/23] c06 (act_break)
+[21:09:48]            OK (2,281 chars)
+[21:09:48]   [7/23] c07 (verdict_panel)
+[21:10:13]            OK (4,804 chars)
+[21:10:13]   [8/23] c08 (kpi_card)
+[21:10:39]            OK (5,492 chars)
+[21:10:39]   [9/23] c09 (checklist)
+[21:10:57]            OK (3,715 chars)
+[21:10:57]   [10/23] c10 (act_break)
+[21:11:10]            OK (2,442 chars)
+[21:11:10]   [11/23] c11 (chart_card)
+[21:11:43]            OK (6,703 chars)
+[21:11:43]   [12/23] c12 (verdict_panel)
+[21:12:22]            OK (7,129 chars)
+[21:12:22]   [13/23] c13 (chart_card)
+[21:12:53]            OK (5,837 chars)
+[21:12:53]   [14/23] c14 (act_break)
+[21:13:07]            OK (2,134 chars)
+[21:13:07]   [15/23] c15 (kpi_card)
+[21:13:36]            OK (5,456 chars)
+[21:13:36]   [16/23] c16 (quote_pair)
+[21:14:04]            OK (6,125 chars)
+[21:14:04]   [17/23] c17 (verdict_panel)
+[21:14:31]            OK (5,298 chars)
+[21:14:31]   [18/23] c18 (act_break)
+[21:14:43]            OK (2,003 chars)
+[21:14:43]   [19/23] c19 (kpi_card)
+[21:15:06]            OK (3,709 chars)
+[21:15:06]   [20/23] c20 (checklist)
+[21:15:31]            OK (4,501 chars)
+[21:15:31]   [21/23] c21 (act_break)
+[21:15:39]            OK (904 chars)
+[21:15:39]   [22/23] c22 (verdict_panel)
+[21:16:13]            OK (6,604 chars)
+[21:16:13]   [23/23] c23 (closing)
+[21:16:48]            OK (6,962 chars)
+[21:16:48]   Design Agent complete: 23 cards, 107,114 chars total
+[21:16:48] STEP 4: Build briefing HTML
+  Built 23 cards -> C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (122,463 chars)
+[21:16:48]   Built: C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (124,995 bytes)
+[21:16:48] STEP 5: Critique Loop
+[21:16:48]   Gate 1: Content critique (Claude Opus)...
+[21:17:32]   Gate 1: avg 7.3/10, 4 cards below 7
+[21:17:32]   Gate 2: Visual QA (screenshots + multimodal)...
+[21:17:42]   Screenshotting 23 cards...
+[21:18:14]     card_10: Large watermark 'TT' text visible in bottom-right corner, partially cut off, Excessive white space above and below content, content not vertically centered well
+[21:18:14]     card_11: Chart x-axis labels are small and potentially hard to read, The '₹52 L' label on the rightmost bar appears slightly cut off or cramped at the edge of the chart area
+[21:18:14]     card_12: Gauge chart labels 'S' and 'R' on left and right sides appear partially cut off/clipped by the chart container
+[21:18:31]     card_13: Chart area appears to have content but some labels like 'PEAK ~$126' and 'BUYING WINDOW' are cramped and potentially overlapping with the chart line, The 'TODAY $100.09' label at the bottom left of the chart overlaps with the y-axis price labels
+[21:18:31]     card_15: Chart/visualization area inside the 'India's SPR is 9.5 days — 10× lower than Japan, 11× lower than China's total reserve' container appears to be empty/missing content - large blank white space where a comparison chart should be
+[21:18:31]     card_16: Mediator channel status bar labels 'ACTIVE · DIRECT' and 'SAFE PASSAGE' on the right side are cramped and small, potentially difficult to read, The Turkey and Pakistan horizontal bars appear shorter which may cause alignment inconsistency with their status labels on the right
+[21:18:52]     card_21: Large empty whitespace areas above and below the main content, suggesting missing content or layout issues, Large 'TV' text partially visible and cut off in bottom-right corner
+[21:18:52]     card_22: Large empty whitespace area at the top of the card before content begins, Large empty whitespace area at the bottom of the card after content ends
+[21:18:52]     card_23: Large empty whitespace area at the top of the card before content begins, Large empty whitespace area at the bottom of the card after content ends
+[21:18:52]   Gate 2: 9 issues found, 1 high severity
+[21:18:52]   Auto-fixing high severity visual issues...
+[21:18:52]     Regenerating c15: ["Chart/visualization area inside the 'India's SPR is 9.5 days — 10× lower than Japan, 11× lower than China's total reserve' container appears to be empty/missing content - large blank white space where a comparison chart should be"]
+[21:19:22]     Fixed c15 (6,106 chars)
+[21:19:22]   Rebuilding with fixes...
+[21:19:22] STEP 4: Build briefing HTML
+  Built 23 cards -> C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (123,113 chars)
+[21:19:22]   Built: C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (125,612 bytes)
+[21:19:22]   Rebuilt with visual fixes applied.
+[21:19:22] PIPELINE COMPLETE — v19

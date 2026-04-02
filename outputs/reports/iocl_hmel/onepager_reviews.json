@@ -1,0 +1,29 @@
+{
+  "design_pass": true,
+  "story_score": 6,
+  "story_issues": [
+    "Headline buries three separate asks in one sentence — violates atomic decision principle; a CEO cannot action 'approve emergency payment authority, a ₹30,000 crore fiscal backstop, AND one UAE crude cargo' as a single instruction",
+    "Situation block is 68 words — exceeds the 30-word urgency target by more than double; the voter-visibility sentence is editorial, not a decision driver",
+    "Analysis item 03 uses a range ('5–10 days') — violates crisp numbers rule; pick 7 or 10, not a range",
+    "Analysis item 02 mixes two different facts in the finding: the UAE cargo detail AND the Bathinda shutdown consequence — WHAT/WHY/WHAT TO DO structure collapses into one run-on",
+    "Decision 2 bundles three separate actions under one owner-deadline pair (confirm cargo, cut capacity to 70%, issue cooking-gas order) — not atomic; each needs its own owner and deadline",
+    "Decision 3 is truncated mid-sentence ('Approve fiscal transfer by April') — content is missing entirely, breaking the decision pyramid",
+    "Context banner line 1 is a compound sentence with three unrelated facts — a non-specialist cannot parse the causal chain; Hormuz closure → $156/bbl → Russia waiver expiry needs a single crisp connective statement",
+    "KPI card 2 says 'Southern cooking-gas buffer (Karnataka / Goa)' — Goa is irrelevant noise and dilutes the southern India narrative established in the situation block; pick one geography",
+    "Pyramid structure partially correct at document level (conclusion headline first) but each analysis item inverts: items 01 and 03 put the 'so what' action last rather than leading with it, then proving it",
+    "The ₹30,000 crore figure in the headline does not appear in any KPI card or analysis item — number is unanchored and unverifiable within the document"
+  ],
+  "comprehension_score": 6,
+  "would_share": false,
+  "confused_by": [
+    "₹32 more per barrel than frozen retail prices allow — I don't know what 'frozen retail prices' means in this context or why they're frozen",
+    "IOCL balance sheet: ₹2,16,700 crore — I cannot parse Indian lakh/crore notation in 3 seconds; is this $26 billion? $260 billion?",
+    "₹30,000 crore fiscal backstop in headline vs ₹60,000 crore bank guarantee backstop in decisions — these numbers don't match and I don't know which is the real ask",
+    "Russia sanctions waiver expires in 7 days — I don't understand why this matters or what it changes about the crisis",
+    "'West African cargo window' appears in Analysis 03 but no West African cargo appears anywhere else — where did this come from?",
+    "The one-pager is cut off mid-sentence: 'Approve fiscal transfer by April' — Decision 3 is missing entirely",
+    "600,000 barrels described as '11 days of Bathinda's requirement' — I cannot verify or sanity-check this without knowing refinery scale",
+    "'State-enterprise debt stack' — jargon I'd need to Google",
+    "Bathinda cuts supply to 12 million households — I don't know if Bathinda is a city, a region, or just a refinery name"
+  ]
+}

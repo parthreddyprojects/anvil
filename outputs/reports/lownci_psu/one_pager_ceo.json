@@ -1,0 +1,62 @@
+{
+  "condensed_ps": "Six state-owned refineries will shut down within 8–25 days unless the government issues financial guarantees and secures alternative crude supply within 72 hours. The cost of inaction — ₹2.5–3.5 lakh crore in GDP loss and fuel shortages across 200 million people — dwarfs the ₹40,000–50,000 crore backstop required to prevent it.",
+  "header": "Approve emergency financial guarantees and alternative crude supply now, or six refineries begin shutting down within days.",
+  "situation": "Crude prices have crossed the breakeven threshold where every barrel refined loses money, and refinery heads have no legal cover to keep operating. One refinery has already shut. The remaining six will follow the same path — the first two within 3–5 days — cutting fuel supply to Maharashtra, Karnataka, and eventually landlocked central India. Inaction risks a ₹2.5–3.5 lakh crore GDP shock and humanitarian fuel failure across five states.",
+  "performance_data": [
+    {
+      "kpi": "Refining Margin",
+      "value": "Negative $8–15 per barrel",
+      "variance": "Down from positive $4–6/bbl last quarter — a ₹400–600 crore daily system-wide loss",
+      "direction": "down"
+    },
+    {
+      "kpi": "Crude Inventory — Highest-Risk Sites",
+      "value": "10–12 days remaining (HPCL, BPCL Mumbai)",
+      "variance": "5–10 days below the government's own 15–20 day minimum guideline",
+      "direction": "down"
+    },
+    {
+      "kpi": "April Crude Supply at Risk",
+      "value": "70–80% of committed volumes undeliverable",
+      "variance": "Down from 100% deliverable under normal conditions",
+      "direction": "down"
+    },
+    {
+      "kpi": "Government Guarantee Required",
+      "value": "₹40,000–50,000 crore ($4.8–5.9B)",
+      "variance": "25–35% of PSU refiners' combined net worth — less than 2% of the GDP at stake",
+      "direction": "down"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "Two instruments must be issued simultaneously: a Presidential Directive protecting refinery heads from personal liability, and an RBI emergency circular authorizing banks to issue government-backed payment guarantees to crude suppliers.",
+      "impact": "A 24-hour lag between the two instruments blocks the first emergency cargo payment and triggers HPCL Mumbai's shutdown.",
+      "so_what": "PMO must treat both instruments as one package — separate issuance is not a sequencing choice, it is a failure."
+    },
+    {
+      "finding": "The only crude that can physically reach Mumbai's refineries within their 3–5 day window is domestic ONGC output — but legal contracts may limit how much can actually be redirected.",
+      "impact": "If redirectable volume is below 10,000 barrels per day, Mumbai refineries gain only 1–2 days of runway — not enough to bridge to any incoming cargo.",
+      "so_what": "MoPNG must confirm the available ONGC volume within 6 hours; if insufficient, activate immediate fuel depot rationing across four states to buy 3–5 additional days."
+    },
+    {
+      "finding": "The IOCL Bina refinery — the sole fuel supplier for landlocked MP, UP, and Rajasthan — has no viable alternative crude source if Russian supply access lapses on April 3.",
+      "impact": "A Bina shutdown cuts fuel to approximately 200 million people; within 30–40 days, agricultural operations and food supply chains fail across five states.",
+      "so_what": "This is the one scenario that escalates from an energy crisis to a humanitarian emergency — it requires a Washington call within 24 hours, not a diplomatic note."
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "ask": "Designate a single crisis coordinator with inter-ministerial authority by April 2, 12:00 IST. Issue the Presidential Directive and RBI Section 35A circular as one simultaneous package by April 2, 23:59 IST. Owner: PMO."
+    },
+    {
+      "number": 2,
+      "ask": "Obtain a legal opinion on ONGC reallocation constraints by April 2, 18:00 IST. If redirectable volume exceeds 10,000 bpd, deliver it to HPCL and BPCL Mumbai immediately. If not, activate 15–20% depot rationing across Maharashtra, Karnataka, Tamil Nadu, and Kerala by April 2, 23:59 IST. Owner: MoPNG Petroleum Secretary."
+    },
+    {
+      "number": 3,
+      "ask": "Open two parallel calls within 24 hours: ADNOC for a confirmed Fujairah cargo loading slot by April 4, and Washington for a 60-day ESPO grace period framed as a humanitarian food and fuel request. Report a binary yes or no on both by April 4, 23:59 IST so MoPNG can place or cancel the Kozmino loading order before Bina's runway expires. Owner: MEA."
+    }
+  ]
+}

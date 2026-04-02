@@ -1,0 +1,68 @@
+[00:42:27] ============================================================
+[00:42:42] ============================================================
+[00:42:42] HYPOTHESIS -> ONE-PAGER -> REPORT PIPELINE
+[00:42:42] ============================================================
+[00:42:42] ============================================================
+[00:42:42] PS1: Reliance Industries (Jamnagar)
+[00:42:42] ============================================================
+[00:42:42]   PS1 [RIL] Step 4: Hypothesis Tree
+[00:45:56]   Hypotheses: 8 generated
+[00:45:56]   PS1 [RIL] Step 4B: Review & Prove/Disprove
+[00:48:32]   Review: 1 confirmed, 2 killed, assessment: The hypothesis tree is directionally coherent but systematically overconfident: 
+[00:48:32]   PS1 [RIL] Step 6: One-Pager
+[00:49:33]   One-pager: Reliance must secure Hormuz-independent crude replacement an
+[00:49:33]   PS1 [RIL] Step 6B: CEO Review
+[07:28:14]   CEO verdict: REVISE (clarity 7, actionability 8, credibility 6)
+[07:28:14]   PS1 [RIL] Step 5: Condensed Report (HTML)
+[07:28:14]   Report: 31,037 chars -> C:\Users\Lenovo\briefing-engine\outputs\reports\ril\report.html
+[07:28:14]   PS1 [RIL] COMPLETE
+[07:28:14] ============================================================
+[07:28:14] PS2: Nayara Energy (Vadinar)
+[07:28:14] ============================================================
+[07:28:14]   PS2 [Nayara] Step 4: Hypothesis Tree
+[07:30:43]   Hypotheses: 7 generated
+[07:30:43]   PS2 [Nayara] Step 4B: Review & Prove/Disprove
+[07:33:01]   Review: 0 confirmed, 1 killed, assessment: The hypothesis tree correctly diagnoses Nayara's existential problem — Rosneft S
+[07:33:01]   PS2 [Nayara] Step 6: One-Pager
+[07:34:05]   One-pager: Nayara must secure OFAC legal clearance and GoI LC guarantee
+[07:34:05]   PS2 [Nayara] Step 6B: CEO Review
+[07:34:52]   CEO verdict: REVISE (clarity 8, actionability 7, credibility 6)
+[07:34:52]   PS2 [Nayara] Step 5: Condensed Report (HTML)
+[07:34:52]   Report: 31,748 chars -> C:\Users\Lenovo\briefing-engine\outputs\reports\nayara\report.html
+[07:34:52]   PS2 [Nayara] COMPLETE
+[07:34:52] ============================================================
+[07:34:52] PS3: IOCL & HMEL (Mid-Tier PSU)
+[07:34:52] ============================================================
+[07:34:52]   PS3 [IOCL_HMEL] Step 4: Hypothesis Tree
+[07:38:08]   Hypotheses: 8 generated
+[07:38:08]   PS3 [IOCL_HMEL] Step 4B: Review & Prove/Disprove
+[07:40:48]   Review: 0 confirmed, 2 killed, assessment: The hypothesis tree is structurally coherent but systematically overconfident: e
+[07:40:48]   PS3 [IOCL_HMEL] Step 6: One-Pager
+[07:41:46]   One-pager: IOCL and HMEL must secure PMO-level procurement authority, a
+[07:41:46]   PS3 [IOCL_HMEL] Step 6B: CEO Review
+[07:42:38]   CEO verdict: REVISE (clarity 7, actionability 6, credibility 5)
+[07:42:38]   PS3 [IOCL_HMEL] Step 5: Condensed Report (HTML)
+[07:42:38]   Report: 32,552 chars -> C:\Users\Lenovo\briefing-engine\outputs\reports\iocl_hmel\report.html
+[07:42:38]   PS3 [IOCL_HMEL] COMPLETE
+[07:42:38] ============================================================
+[07:42:38] PS4: Low-Complexity PSU Refiners
+[07:42:38] ============================================================
+[07:42:38]   PS4 [LowNCI_PSU] Step 4: Hypothesis Tree
+[07:46:02]   Hypotheses: 8 generated
+[07:46:02]   PS4 [LowNCI_PSU] Step 4B: Review & Prove/Disprove
+[09:18:18]   Review: 2 confirmed, 2 killed, assessment: The hypothesis tree is analytically ambitious and structurally coherent in its o
+[09:18:18]   PS4 [LowNCI_PSU] Step 6: One-Pager
+[09:19:36]   One-pager: MoPNG must issue a Presidential Directive plus RBI bank circ
+[09:19:36]   PS4 [LowNCI_PSU] Step 6B: CEO Review
+[09:20:31]   CEO verdict: REVISE (clarity 8, actionability 7, credibility 6)
+[09:20:31]   PS4 [LowNCI_PSU] Step 5: Condensed Report (HTML)
+[09:20:31]   Report: 35,234 chars -> C:\Users\Lenovo\briefing-engine\outputs\reports\lownci_psu\report.html
+[09:20:31]   PS4 [LowNCI_PSU] COMPLETE
+[09:20:31] 
+[09:20:31] ============================================================
+[09:20:31] PIPELINE COMPLETE
+[09:20:31] ============================================================
+[09:20:31]   PS1 [RIL]: C:\Users\Lenovo\briefing-engine\outputs\reports\ril\report.html
+[09:20:31]   PS2 [Nayara]: C:\Users\Lenovo\briefing-engine\outputs\reports\nayara\report.html
+[09:20:31]   PS3 [IOCL_HMEL]: C:\Users\Lenovo\briefing-engine\outputs\reports\iocl_hmel\report.html
+[09:20:31]   PS4 [LowNCI_PSU]: C:\Users\Lenovo\briefing-engine\outputs\reports\lownci_psu\report.html

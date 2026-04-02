@@ -1,0 +1,62 @@
+{
+  "condensed_ps": "Reliance Industries Jamnagar (1.4 mbpd) faces a simultaneous triple-threat by April 3: expiry of US sanctions forbearance on Russian crude (~35–40% of crude diet, ~490–560 kbd), Hormuz mining suspending normal Middle East liftings, and working capital doubling to ~$312M per VLCC at $156/bbl Indian basket. Without secured replacement crude and confirmed credit headroom within 72 hours, Jamnagar faces a forced throughput cut to ~1.1 mbpd within 15–18 days and forfeits the $4–6/bbl GRM uplift window created by widening crack spreads and the MRPL supply vacuum. The entire capitalize-and-capture posture is sequentially dependent on one prior condition: crude supply continuity must be confirmed before run-rate maximization or balance-sheet deployment is authorized.",
+  "header": "Reliance must secure Hormuz-independent crude replacement and credit headroom within 24 hours before authorizing nameplate run-rate and balance-sheet deployment — or cut throughput to 1.1 mbpd and shift to defensive posture.",
+  "situation": "The April 3 US sanctions enforcement shift threatens ~490–560 kbd of Russian crude supply to Jamnagar with no pre-positioned replacement; simultaneously, Hormuz mining has suspended ~700–900 kbd of Middle East term liftings with force majeure notices expected within days. At $156/bbl Indian basket — $14/bbl above the $142/bbl capitalize-versus-protect inflection point — crack spreads on diesel, ATF, and naphtha are wide enough to generate $3–6M/day of incremental GRM if Jamnagar runs at nameplate, but only if replacement crude is secured first. If nothing is done by April 3, Jamnagar exhausts current crude inventory in 18–25 days, is forced to cut throughput 15–20%, and surrenders the MRPL supply vacuum arbitrage window to IOC, HPCL, and BPCL coastal dispatches.",
+  "performance_data": [
+    {
+      "kpi": "Crude inventory autonomous cover",
+      "value": "18–25 days estimated",
+      "variance": "vs. 30-day procurement-replacement lead time for West African/USGC alternatives — 5–12 day shortfall if Russian supply severed April 3 without pre-positioned cargoes",
+      "direction": "down"
+    },
+    {
+      "kpi": "Working capital per VLCC cargo",
+      "value": "$312M at $156/bbl",
+      "variance": "vs. ~$160M at $80/bbl 2024 average — 95% increase; revolving credit headroom compressed from ~$5B buffer to ~$2–3B residual, covering only 6–10 spot cargoes vs. 10–14 required for Q2",
+      "direction": "down"
+    },
+    {
+      "kpi": "Incremental GRM opportunity",
+      "value": "$3–6M/day at nameplate throughput",
+      "variance": "vs. $0/day at current run-rate — realizable only above $142/bbl basket (current: $156/bbl, $14/bbl buffer); collapses to zero if throughput cut forced by inventory depletion",
+      "direction": "up"
+    },
+    {
+      "kpi": "Domestic product arbitrage window",
+      "value": "20–35 kbd addressable via DTA coastal tanker (SEZ legally excluded)",
+      "variance": "vs. 115 kbd MRPL diesel gap — Jamnagar captures ~17–30% of gap; $80–245K/day incremental margin vs. Singapore export parity, contingent on MoPNG engagement within 48 hours before mandatory ECA direction eliminates premium",
+      "direction": "up"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "Russian crude loss is a sanctions-mechanism risk, not a Hormuz risk — but both threats hit Jamnagar's crude diet simultaneously, and the hypothesis tree has no confirmed fallback if both Oman spot and Aramco Yanbu allocation fail concurrently",
+      "impact": "Combined Russian (35–40% of diet) plus Hormuz-exposed Middle East term volume (~25–30% of diet) puts 60–70% of Jamnagar's crude supply at risk within the same 72-hour window; above the 60% Russian-loss threshold, crude cost disadvantage structurally exceeds crack-spread opportunity at any basket price, reversing every aggressive recommendation",
+      "so_what": "Crude supply confirmation — specifically, at least one of Oman spot (4–6 cargoes, ~8–12 mb) or Aramco Yanbu Arab Light (2–4 cargoes, ~4–8 mb) fixture-confirmed — must precede and condition the run-rate maximization and credit drawdown decisions, not run concurrently with them"
+    },
+    {
+      "finding": "The Q2 $270–540M incremental contribution projection is mathematically inconsistent with the $2–3B residual revolving credit headroom unless CFO confirms full credit draw within 24 hours and MAC clause review clears the draw as legally safe",
+      "impact": "At nameplate throughput (1.4 mbpd) and $156/bbl crude, Jamnagar consumes ~$218M/day in crude costs; $2–3B residual headroom funds only 9–14 days of incremental working capital above current utilization — insufficient for 90-day Q2 realization without the revolving credit draw; OFAC enforcement posture shift on April 3 may trigger MAC clauses in Western bank facilities (JPMorgan, MUFG, Citi, StanChart), making the draw legally dangerous without prior written counsel opinion",
+      "so_what": "CFO must obtain written US sanctions counsel opinion on MAC clause exposure and confirm non-sanctioned banking counterparty LC availability (UAE banks, SBI, HDFC) within 12 hours — this is the financial foundation gate that either enables or forecloses H1, H2, H3, and H6 simultaneously"
+    },
+    {
+      "finding": "The MRPL domestic arbitrage opportunity is real but 3–9x smaller than the hypothesis tree claims, and voluntary MoPNG engagement within 48 hours is the only path to converting a modest logistics play into a strategically valuable regulatory asset",
+      "impact": "SEZ Act legally bars domestic sale from the ~208 kbd SEZ unit without DTA clearance that cannot clear in 72 hours; addressable DTA coastal tanker volume is 20–35 kbd generating $80–245K/day incremental margin — not the $320–700K/day asserted; however, proactive supply commitment to MoPNG before ECA mandatory direction is invoked converts the obligation into negotiating currency for customs duty waivers on non-Russian spot crude and potential GoI-backed LC guarantees, the diplomatic value of which materially exceeds the direct margin",
+      "so_what": "Head of Supply must confirm DTA unit coastal tanker availability and legal clearance within 12 hours; CEO/MD must initiate MoPNG Secretary-level engagement within 24 hours with a written supply commitment — before IOC/HPCL/BPCL fill the vacuum and RIL loses both the margin and the regulatory leverage"
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "ask": "Head of Supply to fix a minimum of 4 Oman DME spot cargoes (~8 mb) within 12 hours as first-priority Hormuz-independent crude replacement; simultaneously, CEO/MD to execute direct call to Saudi Aramco CEO within 12 hours requesting 2–3 Arab Light cargoes (~4–6 mb) via Yanbu Red Sea loading — authorizing a landed premium of up to $5/bbl over prior Urals cost as the threshold below which replacement economics remain positive at $156/bbl basket; if both routes yield less than 6 confirmed cargoes (~12 mb) within 24 hours, Head of Refining to immediately cut throughput to 1.15 mbpd (82% utilization) to extend inventory cover by 5–7 days and preserve the procurement window"
+    },
+    {
+      "number": 2,
+      "ask": "CFO to obtain written opinion from US-qualified sanctions counsel (Sullivan & Cromwell or Cleary Gottlieb) on MAC clause exposure in Western bank revolving credit facilities within 12 hours; upon counsel clearance, draw $2.5–3.5B of revolving credit within 24 hours to fund simultaneous LC issuance for 6–10 spot crude cargoes — prioritizing non-Western counterparty banks (SBI, HDFC, UAE FAB/Emirates NBD) for LC issuance to insulate from OFAC correspondent bank pullback; defer nameplate run-rate authorization (H1) and petrochemical feedstock lock (H6) until credit draw is confirmed and crude replacement fixtures are in place"
+    },
+    {
+      "number": 3,
+      "ask": "CEO/MD to initiate MoPNG Secretary-level engagement within 24 hours with a written commitment to supply 25–30 kbd of diesel and ATF to Karnataka/Goa via DTA coastal tanker dispatch, contingent on GoI providing: (a) customs duty waiver on non-Russian replacement spot crude for Q2 FY2026, (b) written MEA/MoPNG clarification on post-April 3 US sanctions enforcement posture through Quad/2+2 diplomatic channel, and (c) GoI-backed LC guarantee facility for up to $1B of spot crude procurement — framed as voluntary national emergency contribution before MoPNG invokes ECA mandatory direction, which would eliminate all three quid pro quos and reduce the domestic supply to a regulated-margin obligation"
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Low-Complexity PSU Refiners -- Appendix</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;overflow-x:hidden}
+
+/* Full-screen slide system */
+.slide{min-height:100vh;min-height:100dvh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 40px;position:relative;border-bottom:1px solid #e5e7eb}
+.slide-inner{width:100%;max-width:800px}
+
+/* Top bar */
+.slide-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.slide-num{font:800 16px/1 'JetBrains Mono';color:#2563eb}
+.slide-slot{font:500 11px/1 'JetBrains Mono';color:#888;letter-spacing:1px;text-transform:uppercase}
+
+/* Title = action title = conclusion, not topic */
+.slide-title{font:800 26px/1.2 'Inter';color:#1a1a1a;margin-bottom:8px}
+.slide-subtitle{font:400 13px/1.4 'Inter';color:#888;margin-bottom:24px}
+
+/* Proof body */
+.slide-body{margin:0 0 24px}
+.slide-body table{width:100%;border-collapse:collapse}
+.slide-body .pt-label{font:600 13px/1.4 'Inter';color:#1a1a1a;padding:10px 14px;border-bottom:1px solid #eee;width:35%;vertical-align:top}
+.slide-body .pt-value{font:500 13px/1.4 'JetBrains Mono';color:#333;padding:10px 14px;border-bottom:1px solid #eee;vertical-align:top}
+.slide-body .pt-note{font:400 11px/1.4 'Inter';color:#888;padding:10px 14px;border-bottom:1px solid #eee;vertical-align:top}
+.slide-conclusion{font:600 14px/1.5 'Inter';color:#1a1a1a;margin-top:16px;padding:14px 16px;background:#f0f4ff;border-left:4px solid #2563eb;border-radius:0 6px 6px 0}
+.chart-wrap{width:100%;height:280px;position:relative;margin:16px 0}
+.chart-wrap canvas{width:100%!important;height:100%!important}
+
+/* Bottom */
+.slide-bottom{margin-top:auto;padding-top:16px;border-top:1px solid #eee}
+.slide-claim{font:400 11px/1.4 'Inter';color:#aaa;margin-bottom:4px}
+.slide-source{font:400 10px/1.3 'Inter';color:#bbb}
+
+/* Proof list */
+.proof-list{padding-left:20px;margin:8px 0}
+.proof-list li{font:400 13px/1.6 'Inter';margin-bottom:6px}
+
+/* Fixed nav */
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:1000;background:rgba(255,255,255,.9);padding:8px 16px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.1);backdrop-filter:blur(8px)}
+.nav-btn{font:600 12px/1 'Inter';padding:8px 16px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#333;cursor:pointer}
+.nav-btn:hover{background:#f0f4ff;border-color:#2563eb}
+.nav-counter{font:500 12px/1 'JetBrains Mono';color:#888;padding:8px 12px;display:flex;align-items:center}
+
+/* Progress */
+.progress{position:fixed;top:0;left:0;height:3px;background:#2563eb;z-index:1000;transition:width .3s}
+
+.foot{font:400 11px/1.5 'Inter';color:#aaa;text-align:center;padding:20px}
+
+@media(max-width:600px){
+  .slide{padding:40px 20px}
+  .slide-title{font-size:20px}
+  .slide-body .pt-note{display:none}
+}
+@media print{
+  .slide{min-height:auto;page-break-after:always;border:none;padding:30px}
+  .nav,.progress{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+<div class="slide" id="s1">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 1</span>
+  <span class="slide-slot">Slot A | Prove a Number</span>
+</div>
+<h2 class="slide-title">Negative $8–15/bbl GRM confirms every operating day destroys value</h2>
+<p class="slide-subtitle">$/bbl GRM; Q3 FY2025 baseline vs. $156/bbl scenario; PPAC, company earnings, EXTRAPOLATED</p>
+<div class="slide-body">
+  <div class="chart-wrap"><canvas id="ch-a1"></canvas></div>
+  
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: the Indian basket is at $156/bbl against a $142/bbl viability threshold</div>
+  <div class="slide-source">Q3 FY2025 GRM: IOCL/BPCL/HPCL Feb 2025 earnings → under-recovery overlay: PPAC Weekly Price Monitor Mar 2025 + Prabhudas Lilladher Jan 2025 → net GRM extrapolation: working document Q1.9, confidence LOW, MoPNG validation required</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s2">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 2</span>
+  <span class="slide-slot">Slot A | Prove a Number</span>
+</div>
+<h2 class="slide-title">Mumbai refineries breach 7-day shutdown trigger in 3–5 days without cargo</h2>
+<p class="slide-subtitle">Days of crude inventory cover; crisis scenario ~April 2026; PPAC aggregate + EXTRAPOLATED per-refinery; confidence LOW</p>
+<div class="slide-body">
+  
+  <table><tbody><tr><td class="pt-label"></td><td class="pt-value"></td></tr><tr><td class="pt-label"></td><td class="pt-value"></td></tr><tr><td class="pt-label"></td><td class="pt-value"></td></tr><tr><td class="pt-label"></td><td class="pt-value"></td></tr><tr><td class="pt-label"></td><td class="pt-value"></td></tr><tr><td class="pt-label"></td><td class="pt-value"></td></tr><tr><td class="pt-label"></td><td class="pt-value"></td><td class="pt-note">ALL SIX refineries already below minimum in crisis scenario</td></tr><tr><td class="pt-label"></td><td class="pt-value"></td><td class="pt-note">Below 7 days: CDU feed interruption risk; below 5 days: controlled shutdown must begin</td></tr></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: HPCL Mumbai and BPCL Mumbai carry only 10–12 days of crude inventory cover, breaching the 7-day operational shutdown trigger within 3–5 days absent new cargo arrivals</div>
+  <div class="slide-source">Storage capacity: BPCL AR 2023–24, HPCL AR 2023–24, IOCL AR 2023–24 → aggregate utilization: PPAC Monthly Report Mar 2025 Table 3.1 → GoI guideline: Parliamentary Committee Report No. 43 2022 → 7-day trigger: CRISIL Oct 2023 → per-refinery extrapolation: working document Q1.1, confidence LOW</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s3">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 3</span>
+  <span class="slide-slot">Slot A | Prove a Number</span>
+</div>
+<h2 class="slide-title">₹40,000–50,000 crore backstop costs 7x less than cascade shutdown GDP loss</h2>
+<p class="slide-subtitle">₹ crore and $B; 30-day window April 2026; company ARs + EXTRAPOLATED GDP impact</p>
+<div class="slide-body">
+  
+  <table><tbody><tr><td class="pt-label">Sovereign LC guarantee requirement — derivation</td><td class="pt-value"></td><td class="pt-note">MEDIUM — EXTRAPOLATED; each VLCC cargo LC ~$80–120M notional per working document analysis</td></tr><tr><td class="pt-label">Combined net worth: HPCL + BPCL + IOCL (Q3 FY2025)</td><td class="pt-value"></td><td class="pt-note">MEDIUM — derived from AR FY2024 balance sheets</td></tr><tr><td class="pt-label">LC exposure as % of aggregate PSU refiner net worth</td><td class="pt-value"></td><td class="pt-note">MEDIUM — ratio math is straightforward given inputs</td></tr><tr><td class="pt-label">Estimated GDP impact — six-refinery cascade shutdown (30–40 day horizon)</td><td class="pt-value"></td><td class="pt-note">LOW — EXTRAPOLATED; no published India-specific 6-refinery cascade model found; Rystad Energy Hor...</td></tr><tr><td class="pt-label">Cost-benefit ratio: backstop vs. cascade</td><td class="pt-value"></td><td class="pt-note">LOW on absolute GDP number; directional conclusion robust across wide confidence interval</td></tr></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: System-Wide 30-Day Fiscal Exposure (Sovereign LC Guarantee Requirement): ₹40,000–50,000 crore ($4.8–5.9B) — exposure represents 25–35% of aggregate PSU refiner net worth in a single month, exceeding a</div>
+  <div class="slide-source">PSU net worth: HPCL/BPCL/IOCL AR FY2024 balance sheets → LC exposure: working document H1 evidence + VLCC cargo sizing → GDP impact: EXTRAPOLATED, Rystad Energy Hormuz scenario 2023 as proxy, working document H1 cascade_if_killed → confidence LOW on GDP figure, MoPNG/Finance Ministry should commission independent validation</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s4">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 4</span>
+  <span class="slide-slot">Slot B | Prove a Claim</span>
+</div>
+<h2 class="slide-title">RBI Section 35A circular is a co-equal blocking condition, not a follow-on step</h2>
+<p class="slide-subtitle">Legal-operational causal chain; April 2026 crisis scenario; RBI Banking Regulation Act, OFAC/RBI prudential norms</p>
+<div class="slide-body">
+  
+  <table><tbody></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: The fiscal authorization failure is a two-key problem, not one: a Presidential Directive indemnifying PSU refinery CMDs from personal liability for operating at negative GRM is necessary but insuffici</div>
+  <div class="slide-source">RBI exposure norms: RBI Master Circular DBR.No.Dir.BC.21/13.03.00/2015 → Section 35A authority: Banking Regulation Act 1949 + IL&amp;FS/Yes Bank precedents → cargo LC sizing: working document H1 evidence_against ($80–120M per VLCC) → causal chain: working document H1 review_notes &#x27;two-key problem&#x27; + analysis finding 1 → confidence: legal architecture HIGH; 12-24 hour lag consequence MEDIUM</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s5">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 5</span>
+  <span class="slide-slot">Slot B | Prove a Claim</span>
+</div>
+<h2 class="slide-title">ESPO lapse plus 22-day West Africa voyage makes Bina shutdown mathematically inevitable</h2>
+<p class="slide-subtitle">Days; voyage + pipeline transit times vs. 14-day runway; Kpler/S&amp;P Global voyage data + EXTRAPOLATED pipeline transit</p>
+<div class="slide-body">
+  
+  <table><tbody></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: IOCL Bina&#x27;s central India supply role is structurally insolvent if ESPO access lapses post-April 3, because no non-Hormuz, non-Russian crude alternative can arrive via Paradip-Kandla pipeline within B</div>
+  <div class="slide-source">Voyage times: Kpler/Vortexa Q4 2024 + S&amp;P Global Platts routing database → Kozmino-Paradip: working document Q1.2 12–15 days confidence MEDIUM → pipeline transit: working document Q1.13 IOCL Bina section EXTRAPOLATED confidence MEDIUM → runway: working document Q1.1 14 days confidence LOW → humanitarian cascade: working document H8 cascade_if_killed → Kandla conflict: working document H8 evidence_against</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s6">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 6</span>
+  <span class="slide-slot">Slot D | Prove Executable</span>
+</div>
+<h2 class="slide-title">Two-key fiscal backstop is executable within 48 hours via confirmed legal instruments</h2>
+<p class="slide-subtitle">Decision 1 executability; April 1–2 2026 IST; Banking Regulation Act, Essential Commodities Act, RBI precedents</p>
+<div class="slide-body">
+  
+  <table><tbody><tr><td style="font:500 12px/1.4 'Inter';color:#555;padding:8px 12px;width:40%;border-bottom:1px solid #eee">critical_path_summary</td><td style="font:400 12px/1.4 'Inter';padding:8px 12px;border-bottom:1px solid #eee">PMO designation (T+12h) → parallel RBI + CCEA drafting (T+12 to T+24h) → simultaneous issuance with max 6h gap (T+24 to T+48h) → LC applications activated (T+48h). Total elapsed time to first cargo LC issuance: 48–54 hours. HPCL Mumbai 7-day trigger breach: T+72 to T+96h. Margin: 18–42 hours — tight but executable if PMO acts at T+0.</td></tr></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: PMO must within 12 hours designate a single crisis cell coordinator with inter-ministerial authority and direct Finance Ministry and RBI Governor to issue the Presidential Directive (indemnifying all </div>
+  <div class="slide-source">Section 35A authority + precedents: Banking Regulation Act 1949 + RBI Yes Bank Direction 2020 + IL&amp;FS Board supersession 2018 → CCEA direction precedent: ONGC/Coal India ministerial directions working document context → Essential Commodities Act: Section 3 emergency order history → synchronization requirement: working document H1 review_notes + analysis finding 1 so_what → fallback rationing: working document graveyard H7_retail resurrection_condition → timeline math: Appendix 2 HPCL Mumbai 3–5 day trigger buffer</div>
+</div>
+</div>
+</div>
+
+
+<div class="slide" style="min-height:30vh">
+<div class="foot">Developed by Parth Reddy</div>
+</div>
+
+<div class="nav">
+<button class="nav-btn" onclick="go(-1)">&larr; Prev</button>
+<span class="nav-counter" id="ctr">1 / 6</span>
+<button class="nav-btn" onclick="go(1)">Next &rarr;</button>
+</div>
+
+<script>
+// Charts
+
+(function(){
+  var ctx = document.getElementById('ch-a1');
+  if(!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["Q3 FY2025 reported blended GRM (IOCL/...", "Indian basket crude price uplift: ~$8...", "Diesel under-recovery at $156/bbl (65...", "LPG under-recovery at $156/bbl", "Partial offset: product crack spread ...", "Estimated net GRM at $156/bbl \u2014 low-c...", "GRM viability threshold (positive GRM...", "Current overshoot above viability thr..."],
+      datasets: [{
+        data: [5.07, 12.0, 15.0, 18.0, 4.0, 8.0, 142.0, 14.0],
+        backgroundColor: ["#16a34a", "#16a34a", "#2563eb", "#2563eb", "#dc2626", "#dc2626", "#dc2626", "#2563eb"],
+        borderRadius: 4,
+        barThickness: 20
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      
+        indexAxis: 'y',
+        
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        x: { ticks: { color: '#888', font: { family: 'Inter', size: 10 } }, grid: { color: 'rgba(0,0,0,.05)' } },
+        y: { ticks: { color: '#555', font: { family: 'Inter', size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+})();
+
+</script>
+<script>
+const slides=document.querySelectorAll('.slide');
+const total=6;
+const prog=document.getElementById('prog');
+const ctr=document.getElementById('ctr');
+let cur=0;
+
+function go(d){
+  cur=Math.max(0,Math.min(total,cur+d));
+  slides[cur].scrollIntoView({behavior:'smooth'});
+}
+
+function update(){
+  let best=0;
+  slides.forEach((s,i)=>{
+    const r=s.getBoundingClientRect();
+    if(r.top<window.innerHeight*.5) best=i;
+  });
+  cur=best;
+  prog.style.width=((best+1)/(total+1)*100)+'%';
+  ctr.textContent=(best+1)+' / '+total;
+}
+
+window.addEventListener('scroll',update);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowRight') go(1);
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft') go(-1);
+});
+update();
+</script>
+</body>
+</html>

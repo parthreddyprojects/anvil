@@ -1,0 +1,80 @@
+[
+  {
+    "id": "c01",
+    "score": 9,
+    "issue": "Information overload \u2014 hero number, comparison bars, stat row, and IEA banner all compete for attention; the 20% stat appears three separate times (bars, stat row, hero context).",
+    "fix": "Remove the stat-row entirely (it repeats the bars). Let the bars carry the historical comparison and the hero number carry the shock magnitude. One repetition, not three."
+  },
+  {
+    "id": "c02",
+    "score": 8,
+    "issue": "Title says 'peaked at $156' and 'rupee hit all-time low' but the visual hierarchy buries the rupee (93.29 is a small KPI card). Two claims, one visual anchor.",
+    "fix": "Either split into two hero numbers side-by-side (dual focal point) or sharpen the title to the single most consequential metric. Add a directional arrow or % change on the rupee KPI to make the FX move visually proportionate to the crude move."
+  },
+  {
+    "id": "c03",
+    "score": 9,
+    "issue": "Strong map-message alignment. Minor: the numbered markers (\u2460\u2013\u2463) are arbitrary cluster locations that could mislead a reader into thinking these are verified AIS positions; legend is slightly dense for mobile.",
+    "fix": "Add a small 'illustrative positioning' disclaimer on the map. Collapse legend into a single row with tighter spacing."
+  },
+  {
+    "id": "c04",
+    "score": 7,
+    "issue": "Title buries the lead \u2014 'Crude is manageable' is an unsupported assertion that undercuts urgency. The bar chart only has two bars, making it visually thin for a full-viewport card. The 90% \u2192 20% drop is the real story but isn't the hero visual.",
+    "fix": "Rewrite title to: 'LPG imports collapsed 80% overnight \u2014 330M households now rationed.' Make a single hero number (\u201380% or 90\u219220%) the focal point. Use the bar chart as supporting evidence, not the centrepiece."
+  },
+  {
+    "id": "c05",
+    "score": 9,
+    "issue": "Excellent so-what ('diplomacy \u2260 reopening'). Minor: the CSS timeline markers crowd on small screens \u2014 labels overlap around weeks 0\u20132.",
+    "fix": "Increase left-margin on the week-2 marker or stack the date/label vertically with a slight rightward offset. Test at 375px width."
+  },
+  {
+    "id": "c06",
+    "score": 6,
+    "issue": "Act break is structurally useful but the so-what is weak \u2014 'Capacity, slate, and supply are no longer yours to control' is atmospheric, not actionable. The three preview chips all say 'Next section covers' which is redundant.",
+    "fix": "Replace the tagline with a quantified stake: 'Your refinery is running at 65% gas, losing \u20b952/litre on diesel, and facing a crude slate you didn't choose.' Drop the 'Next section covers' labels \u2014 let the chip titles speak for themselves."
+  },
+  {
+    "id": "c07",
+    "score": 8,
+    "issue": "Hero number '100K' is ambiguous \u2014 it could be read as total capacity rather than the offline portion. The 'SUSPENDED' export KPI lacks quantification (how much export revenue lost?).",
+    "fix": "Reframe hero as '\u2013100K bbl/d' with a clear 'of 300K total' subtitle directly adjacent. Add an estimated export revenue loss figure to the SUSPENDED KPI to make the financial consequence concrete."
+  },
+  {
+    "id": "c08",
+    "score": 8,
+    "issue": "Chart and title align well (complexity = survival). The RIL annotation label may collide with the bar on narrow screens. The NCI explanation is buried in the insight box \u2014 a reader unfamiliar with it won't grasp the mechanism from the chart alone.",
+    "fix": "Add NCI values as secondary labels on the y-axis (e.g., 'IOCL \u00b7 NCI 7'). Ensure the annotation label uses xAdjust dynamically or falls back to a tooltip."
+  },
+  {
+    "id": "c09",
+    "score": 7,
+    "issue": "The CSS Sankey is creative but the flow logic is confusing \u2014 'Total Gas Supply = 100%' flows to Fertilizer (70%), LPG (MAX), and Refinery (65%), which sums to >100% and conflates allocation priority with volume share. The visual implies additive splits.",
+    "fix": "Clarify that these are priority tiers, not volume shares \u2014 relabel the diagram as a priority cascade (waterfall) rather than a Sankey. Show: Total \u2192 LPG (first call) \u2192 Fertilizer (70% guaranteed of remainder) \u2192 Refinery (residual = 65% of baseline). Make the math traceable."
+  },
+  {
+    "id": "c10",
+    "score": 7,
+    "issue": "Stronger than c06 \u2014 the three numbered clocks give structure. But 'three separate clocks running down simultaneously' is still abstract. No quantified stakes on this card itself.",
+    "fix": "Add a single aggregate number: e.g., 'Combined exposure: \u20b9X lakh crore over 90 days' or a countdown timer to the first binding deadline. Make the reader feel time pressure, not just read about it."
+  },
+  {
+    "id": "c11",
+    "score": 9,
+    "issue": "Waterfall chart is the right choice; \u20b952/litre gap is visceral and memorable. Minor: the waterfall uses floating bars which Chart.js may render inconsistently; the 'Retail Price' bar starting from 0 breaks waterfall convention (it should be a marker, not a bar).",
+    "fix": "Replace the retail-price bar with a horizontal annotation line only (you already have one). This keeps the waterfall logic clean: build-up bars \u2192 total cost \u2192 gap. Removes visual redundancy."
+  },
+  {
+    "id": "c12",
+    "score": 9,
+    "issue": "Excellent urgency framing \u2014 countdown, timeline, and zero-renewal-signals triplet all reinforce. The title conflates 2025 and 2026 dates (waiver says 2025 but crisis context is 2026), which may confuse careful readers.",
+    "fix": "Verify and harmonize the year across all date references. If the waiver is indeed 2025 and the crisis is 2026, add a one-line contextual note explaining the temporal relationship."
+  },
+  {
+    "id": "c13",
+    "score": 8,
+    "issue": "Good binary framing (talks succeed vs. fail). The chart script is truncated (annotation config cut off), so rendering may break. 'GS OUTLOOK: 3-DIGIT' KPI is vague \u2014 it doesn't specify a price or timeframe.",
+    "fix": "Complete the annotation config. Replace '3-DIGIT' with the actual GS target (e.g., '$110\u2013130 through 2027') to make the KPI falsifiable and credible. Vague KPIs erode trust."
+  }
+]

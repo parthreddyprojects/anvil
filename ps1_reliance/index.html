@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>RIL + Nayara — 72-Hour Crisis Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--card-bg:#111;--red:#ff3b3b;--amber:#ffb020;--green:#34d399;--blue:#3b82f6;--purple:#a78bfa;--text:#e5e5e5;--muted:#888;--dim:#333}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+
+.card{min-height:100vh;min-height:100dvh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 24px 56px;position:relative;overflow:hidden}
+.card-inner{width:100%;max-width:600px;text-align:center}
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:1000;transition:width .3s}
+.card-counter{position:fixed;top:8px;right:12px;font:500 11px/1 'JetBrains Mono';color:var(--muted);z-index:1000;background:rgba(10,10,10,.7);padding:4px 8px;border-radius:4px;backdrop-filter:blur(4px)}
+
+.label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600}
+.label.red{color:var(--red)}.label.green{color:var(--green)}.label.blue{color:var(--blue)}.label.amber{color:var(--amber)}
+.card-title{font:800 28px/1.1 'Inter';margin-bottom:16px;max-width:600px;text-align:center}
+.card-sub{font:400 14px/1.5 'Inter';color:var(--muted);max-width:440px;margin-left:auto;margin-right:auto;text-align:center}
+.hero-num{font:800 72px/1 'JetBrains Mono';letter-spacing:-2px}
+
+.stat-row{display:flex;gap:32px;margin:24px 0;flex-wrap:wrap;justify-content:center}
+.stat{text-align:center}
+.stat .val{font:700 42px/1 'JetBrains Mono';letter-spacing:-1px}
+.stat .lbl{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-top:4px}
+
+.panel-dark{background:#1a1a1a;border-radius:8px;padding:16px;border-left:3px solid var(--dim);text-align:left}
+.panel-dark .kl{font:500 10px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+.panel-dark .kv{font:700 28px/1 'JetBrains Mono'}
+.panel-dark .kd{font:600 11px/1 'JetBrains Mono';margin-top:4px}
+.panel-light{background:#fafafa;border-radius:12px;padding:20px;color:#1a1a1a;text-align:left}
+.panel-light .p-label{font:700 14px/1 'Inter';color:#1a1a1a;margin-bottom:2px}
+.panel-light .p-sub{font:400 10px/1.2 'Inter';color:#888;margin-bottom:10px}
+
+.source-panel{background:#fafafa;border-radius:12px;overflow:hidden;color:#1a1a1a;text-align:left;margin-bottom:10px}
+.verdict{padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.verdict .v-source{font:800 14px/1 'Inter';color:#fff}
+.verdict .v-msg{font:700 11px/1 'JetBrains Mono';color:#fff;letter-spacing:.5px}
+.panel-body{padding:16px 20px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;max-width:520px;margin:16px auto}
+.kpi{padding:14px;background:#1a1a1a;border-radius:6px;border-left:3px solid var(--dim)}
+.kpi .kl{font:500 10px/1 'Inter';text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+.kpi .kv{font:700 28px/1 'JetBrains Mono'}
+.kpi .kd{font:600 11px/1 'JetBrains Mono';margin-top:4px}
+
+.chart-c{width:100%;height:220px;position:relative}
+.chart-c canvas{width:100%!important;height:100%!important}
+
+.insight{margin:16px 0 0;padding:10px 14px;background:rgba(255,59,59,.06);border-left:3px solid var(--red);border-radius:0 6px 6px 0;width:100%;font:500 12px/1.4 'Inter';color:var(--text);text-align:left}
+.insight.g{background:rgba(52,211,153,.06);border-color:var(--green)}
+.insight.a{background:rgba(255,176,32,.06);border-color:var(--amber)}
+.insight.b{background:rgba(59,130,246,.06);border-color:var(--blue)}
+
+.checklist{text-align:left;width:100%;max-width:520px;margin:0 auto}
+.cl-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #1a1a1a}
+.cl-item .cl-num{font:800 28px/1 'JetBrains Mono';color:var(--red);min-width:36px}
+.cl-item .cl-action{font:600 13px/1.3 'Inter';margin-bottom:4px}
+.cl-item .cl-deadline{font:600 10px/1 'JetBrains Mono';color:var(--amber)}
+
+.act-card{background:var(--bg)}
+.act-card .act-num{font:800 120px/1 'JetBrains Mono';color:#1a1a1a;position:absolute;right:20px;bottom:20px}
+.act-title{font:900 14px/1 'Inter';text-transform:uppercase;letter-spacing:4px;color:var(--red);margin-bottom:12px}
+
+.swipe-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);animation:sh 2s ease-in-out infinite;opacity:.4;font:500 11px/1 'Inter';color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.swipe-hint::after{content:'';display:block;width:16px;height:16px;margin:6px auto 0;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg)}
+@keyframes sh{0%,100%{opacity:.3;transform:translateX(-50%) translateY(0)}50%{opacity:.6;transform:translateX(-50%) translateY(-6px)}}
+@keyframes countPulse{0%,100%{opacity:1}50%{opacity:.7}}
+.countdown{animation:countPulse 1.5s ease-in-out infinite}
+
+.hyp-card{background:#111;border:1px solid var(--dim);border-radius:8px;padding:16px 18px;text-align:left;margin-bottom:8px}
+.hyp-card .hyp-tag{font:700 9px/1 'JetBrains Mono';letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;display:inline-block;margin-bottom:8px}
+.hyp-card .hyp-text{font:600 14px/1.3 'Inter'}
+.hyp-card .hyp-sens{font:400 11px/1.3 'Inter';color:var(--muted);margin-top:6px}
+
+.compare-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--dim)}
+.compare-row .cr-label{font:500 12px/1 'Inter';color:var(--muted);width:100px}
+.compare-row .cr-before{font:600 18px/1 'JetBrains Mono';color:var(--muted)}
+.compare-row .cr-arrow{color:var(--red);font-size:20px;margin:0 8px}
+.compare-row .cr-after{font:700 22px/1 'JetBrains Mono';color:var(--red)}
+
+.scenario-card{border-radius:12px;padding:24px;width:100%;max-width:520px;margin:10px auto;text-align:left}
+.scenario-card .sc-prob{font:800 52px/1 'JetBrains Mono';margin-bottom:6px}
+.scenario-card .sc-title{font:700 18px/1.1 'Inter';margin-bottom:10px}
+.scenario-card .sc-stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.scenario-card .sc-stat{padding:6px 10px;background:rgba(0,0,0,.3);border-radius:6px}
+.scenario-card .sc-stat .ss-v{font:700 14px/1 'JetBrains Mono'}
+.scenario-card .sc-stat .ss-l{font:400 9px/1 'Inter';color:rgba(255,255,255,.5);margin-top:2px}
+.scenario-card .sc-insight{font:400 12px/1.4 'Inter';color:rgba(255,255,255,.7);margin-top:8px}
+
+.timeline{position:relative;padding-left:28px;width:100%;max-width:500px;text-align:left}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--dim)}
+.tl-item{position:relative;margin-bottom:16px;opacity:0}
+.tl-item::before{content:'';position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:mapPulse 2s infinite}
+.tl-item.amber::before{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.tl-item.green::before{background:var(--green);box-shadow:0 0 8px var(--green)}
+.tl-item .tl-time{font:600 12px/1 'JetBrains Mono';color:var(--red);margin-bottom:2px}
+.tl-item.amber .tl-time{color:var(--amber)}
+.tl-item.green .tl-time{color:var(--green)}
+.tl-item .tl-text{font:400 13px/1.4 'Inter';color:var(--text)}
+.card.in-view .tl-item{animation:fadeSlide .5s ease forwards}
+.card.in-view .tl-item:nth-child(1){animation-delay:.1s}
+.card.in-view .tl-item:nth-child(2){animation-delay:.2s}
+.card.in-view .tl-item:nth-child(3){animation-delay:.3s}
+.card.in-view .tl-item:nth-child(4){animation-delay:.4s}
+.card.in-view .tl-item:nth-child(5){animation-delay:.5s}
+.card.in-view .tl-item:nth-child(6){animation-delay:.6s}
+@keyframes fadeSlide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes mapPulse{0%{box-shadow:0 0 0 0 rgba(255,59,59,.7)}70%{box-shadow:0 0 0 15px rgba(255,59,59,0)}100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}}
+
+@media(max-width:480px){
+  .card{padding:44px 14px 36px}
+  .card-title{font-size:22px}
+  .hero-num{font-size:48px}
+  .stat .val{font-size:28px}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .scenario-card .sc-prob{font-size:40px}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<div class="card-counter" id="ctr">1/20</div>
+
+<!-- ===== CARD 1: HERO ===== -->
+<div class="card" id="c01" style="background:radial-gradient(ellipse at 50% 60%,#1a0000,#0a0a0a)">
+<div class="card-inner">
+  <p class="label" style="color:var(--red);margin-bottom:16px">
+    <span class="countdown">72-HOUR CRISIS BRIEF &middot; RELIANCE &amp; NAYARA</span>
+  </p>
+  <h1 style="font:900 36px/1.1 'Inter';background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px">
+    $843M/year earnings cliff.<br>The waiver expires in 8 days.
+  </h1>
+  <div class="stat-row" style="margin:20px 0">
+    <div class="stat"><div class="val" style="color:var(--red)">$156</div><div class="lbl">Indian basket $/bbl</div></div>
+    <div class="stat"><div class="val" style="color:var(--amber)">Apr 3</div><div class="lbl">Russia waiver expires</div></div>
+    <div class="stat"><div class="val" style="color:var(--green)">1.8M</div><div class="lbl">Combined bpd capacity</div></div>
+  </div>
+  <div class="insight">Reliance and Nayara face a combined ~$843M/year earnings impairment cliff. Nayara's 80-85% Russian crude dependency and Rosneft-SDN ownership create existential legal exposure that procurement alone cannot resolve.</div>
+  <div class="swipe-hint">Scroll</div>
+</div>
+</div>
+
+<!-- ===== CARD 2: HYPOTHESES ===== -->
+<div class="card" id="c02">
+<div class="card-inner">
+  <p class="label red" style="margin-bottom:16px">Core hypotheses</p>
+  <h2 class="card-title">Five Bets This Brief Makes.</h2>
+  <p class="card-sub" style="margin-bottom:20px">If any of these flip, the recommendation reverses.</p>
+
+  <div class="hyp-card">
+    <span class="hyp-tag" style="background:var(--red);color:#fff">H1 &middot; CAPITALIZE</span>
+    <div class="hyp-text">Above $142/bbl basket, aggressive run maximization is the correct strategy.</div>
+    <div class="hyp-sens">Sensitivity: Below $142, switch to defensive — reduce throughput, shorten tenors, increase hedging.</div>
+  </div>
+
+  <div class="hyp-card">
+    <span class="hyp-tag" style="background:var(--amber);color:#000">H2 &middot; RUSSIAN SUPPLY</span>
+    <div class="hyp-text">If >60% of Russian volume is lost post-April 3, no crack spread justifies run-max.</div>
+    <div class="hyp-sens">Sensitivity: Crude cost disadvantage exceeds crack-spread opportunity at any basket price.</div>
+  </div>
+
+  <div class="hyp-card">
+    <span class="hyp-tag" style="background:var(--blue);color:#fff">H3 &middot; NAYARA EXISTENTIAL</span>
+    <div class="hyp-text">Nayara cannot survive as independent entity without a government backstop within 90 days.</div>
+    <div class="hyp-sens">Rosneft's 49.13% SDN-adjacent ownership + 80% Russian crude dependency = systemic fragility.</div>
+  </div>
+
+  <div class="hyp-card">
+    <span class="hyp-tag" style="background:var(--green);color:#000">H4 &middot; EXECUTION SPEED</span>
+    <div class="hyp-text">Organizational latency — not market conditions — is the binding constraint.</div>
+    <div class="hyp-sens">Every 24 hours of delay costs $3-6M in lost yield optimization alone.</div>
+  </div>
+
+  <div class="hyp-card">
+    <span class="hyp-tag" style="background:var(--purple);color:#fff">H5 &middot; DEMAND RISK</span>
+    <div class="hyp-text">If Asian diesel demand destructs by 1.5M+ bpd, throughput-max becomes margin-dilutive.</div>
+    <div class="hyp-sens">Singapore gasoil crack below $8/bbl = emergency rate cut territory. The most dangerous unmodeled case.</div>
+  </div>
+</div>
+</div>
+
+<!-- ===== CARD 3: THE DECISION ===== -->
+<div class="card" id="c03">
+<div class="card-inner">
+  <p class="label amber" style="margin-bottom:16px">The question</p>
+  <h2 class="card-title">Capitalize or Protect?</h2>
+  <p class="card-sub" style="margin-bottom:24px">The decision sensitivity breaks at $142/bbl Indian basket.</p>
+
+  <div class="panel-light" style="margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="p-label" style="color:#16a34a">Above $142 &rarr; Capitalize</div>
+      <span style="font:800 14px/1 'JetBrains Mono';color:#16a34a">CURRENT: $156</span>
+    </div>
+    <div style="font:400 12px/1.5 'Inter';color:#555">
+      Maximize throughput. Lock spot crude at premium. Export into wide cracks. Lock petrochemical feedstock. Draw revolving credit lines today.
+    </div>
+  </div>
+
+  <div class="panel-light">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="p-label" style="color:#dc2626">Below $142 &rarr; Protect</div>
+      <span style="font:800 14px/1 'JetBrains Mono';color:#dc2626">TRIGGER</span>
+    </div>
+    <div style="font:400 12px/1.5 'Inter';color:#555">
+      Reduce throughput. Shorten crude procurement tenors. Increase product hedging. Working capital cost of holding $156 crude + ceasefire crash risk becomes dominant.
+    </div>
+  </div>
+
+  <div class="insight a">Secondary sensitivity: if >60% of Russian volume lost post-Apr 3, the crude cost disadvantage exceeds the crack-spread opportunity at any basket price — run-max reverses regardless.</div>
+</div>
+</div>
+
+<!-- ===== CARD 4: INVENTORY CLOCK ===== -->
+<div class="card" id="c04">
+<div class="card-inner">
+  <p class="label red" style="margin-bottom:16px">Current state</p>
+  <h2 class="card-title">Vadinar Runs Out First.</h2>
+  <p class="card-sub" style="margin-bottom:24px">Autonomous operation days before forced rate cut — no new nominations.</p>
+
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="panel-dark" style="border-left-color:var(--green)">
+      <div class="kl">Jamnagar DTA+SEZ</div>
+      <div class="kv" style="color:var(--green)">18-25d</div>
+      <div class="kd" style="color:var(--muted)">1.25M bpd &middot; NCI 14-21</div>
+    </div>
+    <div class="panel-dark" style="border-left-color:var(--red)">
+      <div class="kl">Vadinar (Nayara)</div>
+      <div class="kv" style="color:var(--red)">12-18d</div>
+      <div class="kd" style="color:var(--muted)">400K bpd &middot; 80% Russian</div>
+    </div>
+  </div>
+
+  <div class="panel-light">
+    <div class="p-label">Why Vadinar is the critical constraint</div>
+    <div style="font:400 12px/1.5 'Inter';color:#555;margin-top:8px">
+      80-85% of Vadinar's crude intake is Russian. The April 3 waiver expiry attacks ~320K bpd of intake directly. West Africa/US replacement cargoes take 18-25 days to arrive. <strong>Nayara must fix spot cargoes within 24-48 hours or face a rate cut.</strong>
+    </div>
+  </div>
+
+  <div class="insight">Russian crude routing doesn't transit Hormuz — it's physically insulated. The April 3 sanctions mechanism, not Hormuz, is Vadinar's existential supply threat.</div>
+</div>
+</div>
+
+<!-- ===== CARD 5: RUSSIAN CRUDE ANATOMY ===== -->
+<div class="card" id="c05">
+<div class="card-inner">
+  <p class="label" style="margin-bottom:16px">Supply architecture</p>
+  <h2 class="card-title">Russia Doesn't Transit Hormuz. The Risk Is Sanctions, Not Shipping.</h2>
+
+  <div style="width:100%;max-width:520px;margin:16px auto;text-align:left">
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">Urals (Baltic/Black Sea &rarr; Cape)</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--text)">900-1,000 kbd</span>
+      </div>
+      <div style="height:22px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:56%;height:100%;background:linear-gradient(90deg,var(--blue),#2563eb);border-radius:3px;display:flex;align-items:center;padding-left:8px">
+          <span style="font:700 9px/1 'JetBrains Mono';color:#fff">8-12 VLCCs in transit</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">ESPO (Pacific &rarr; Indian Ocean)</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--text)">450-500 kbd</span>
+      </div>
+      <div style="height:22px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:30%;height:100%;background:linear-gradient(90deg,var(--green),#059669);border-radius:3px;display:flex;align-items:center;padding-left:8px">
+          <span style="font:700 9px/1 'JetBrains Mono';color:#fff">4-6 VLCCs</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">Sokol (Pacific)</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--text)">80-100 kbd</span>
+      </div>
+      <div style="height:22px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:6%;height:100%;background:linear-gradient(90deg,var(--purple),#7c3aed);border-radius:3px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="border-left-color:var(--red)"><div class="kl">Nayara dependency</div><div class="kv" style="color:var(--red)">80-85%</div><div class="kd" style="color:var(--muted)">Russian crude share</div></div>
+    <div class="kpi" style="border-left-color:var(--green)"><div class="kl">RIL dependency</div><div class="kv" style="color:var(--green)">8-12%</div><div class="kd" style="color:var(--muted)">Russian crude share</div></div>
+  </div>
+
+  <div class="insight">None of these routes touch Hormuz. Payment mechanisms — not shipping lanes — collapse on April 3. UAE banks withdraw first, then Chinese correspondents. Rupee-ruble may survive longest but is volume-constrained.</div>
+</div>
+</div>
+
+<!-- ===== CARD 6: ACT BREAK ===== -->
+<div class="card act-card" id="c06">
+<div class="card-inner">
+  <p class="act-title">Act I</p>
+  <h2 style="font:800 36px/1.1 'Inter';margin-bottom:12px">The Margin Opportunity</h2>
+  <p class="card-sub">Cracks are wide. Competitors are offline. The window is measured in weeks.</p>
+  <div class="act-num">I</div>
+</div>
+</div>
+
+<!-- ===== CARD 7: GRM ECONOMICS ===== -->
+<div class="card" id="c07">
+<div class="card-inner">
+  <p class="label green" style="margin-bottom:16px">Margin analysis</p>
+  <h2 class="card-title">RIL Prints Money. PSUs Hemorrhage Cash.</h2>
+
+  <div class="panel-light" style="margin-bottom:12px">
+    <div class="p-label">GRM at $156/bbl Indian Basket</div>
+    <div class="p-sub">Nelson Complexity is now a P&L determinant, not an academic metric</div>
+    <div style="width:100%;height:200px;position:relative" id="grm-chart-wrap">
+      <canvas id="ch-grm"></canvas>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="border-left-color:var(--green)"><div class="kl">RIL zero-GRM</div><div class="kv" style="color:var(--green)">$140-145</div><div class="kd" style="color:var(--muted)">Profitable at $156</div></div>
+    <div class="kpi" style="border-left-color:var(--red)"><div class="kl">HPCL Mumbai zero-GRM</div><div class="kv" style="color:var(--red)">$105-110</div><div class="kd" style="color:var(--muted)">Deep in negative</div></div>
+  </div>
+
+  <div class="insight g">At $156, RIL GRM estimated +$5-7/bbl. PSU refiners in negative territory without government compensation. The NCI gap between Jamnagar (21.1) and HPCL Mumbai (5.6) is now existential.</div>
+</div>
+</div>
+
+<!-- ===== CARD 8: CRACK SPREADS ===== -->
+<div class="card" id="c08">
+<div class="card-inner">
+  <p class="label green" style="margin-bottom:16px">Export opportunity</p>
+  <h2 class="card-title">1.5M bpd of Competitor Product Just Disappeared.</h2>
+  <p class="card-sub" style="margin-bottom:20px">Kuwait + Bahrain fully Hormuz-exposed. South Korea facing 20-40% run cuts. MRPL offline.</p>
+
+  <div style="width:100%;max-width:520px;margin:0 auto 16px;text-align:left">
+    <div style="font:700 10px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px">Singapore crack spreads vs. Brent (crisis estimate)</div>
+
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">Gasoil / Diesel</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--green)">$28-35/bbl</span>
+      </div>
+      <div style="height:22px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:88%;height:100%;background:linear-gradient(90deg,#059669,#047857);border-radius:3px;display:flex;align-items:center;padding-left:8px">
+          <span style="font:700 9px/1 'JetBrains Mono';color:#fff">$28-35 (normal: $18-22)</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">Jet Fuel / ATF</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--green)">$24-30/bbl</span>
+      </div>
+      <div style="height:22px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:75%;height:100%;background:linear-gradient(90deg,#059669,#047857);border-radius:3px;display:flex;align-items:center;padding-left:8px">
+          <span style="font:700 9px/1 'JetBrains Mono';color:#fff">$24-30 (normal: $16-20)</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">Naphtha</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--muted)">-$2 to +$3/bbl</span>
+      </div>
+      <div style="height:22px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:12%;height:100%;background:#555;border-radius:3px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight g">SAED (windfall tax) currently at zero. Historically reimposed within 4-6 weeks when crude exceeds $90-95/bbl. The export window has a regulatory clock.</div>
+</div>
+</div>
+
+<!-- ===== CARD 9: YIELD OPTIMIZATION ===== -->
+<div class="card" id="c09">
+<div class="card-inner">
+  <p class="label green" style="margin-bottom:16px">Zero-cost action</p>
+  <h2 class="card-title">$3-6M/day. No Capital. Authorize in 24 Hours.</h2>
+  <p class="card-sub" style="margin-bottom:20px">Jamnagar yield optimization — the single highest-return immediate action.</p>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="border-left-color:var(--green)"><div class="kl">Incremental daily</div><div class="kv" style="color:var(--green)">$3-6M</div><div class="kd" style="color:var(--muted)">Yield optimization</div></div>
+    <div class="kpi" style="border-left-color:var(--amber)"><div class="kl">Capital required</div><div class="kv">$0</div><div class="kd" style="color:var(--muted)">Within existing config</div></div>
+    <div class="kpi" style="border-left-color:var(--blue)"><div class="kl">Jamnagar NCI</div><div class="kv" style="color:var(--blue)">21.1</div><div class="kd" style="color:var(--muted)">World's most complex</div></div>
+    <div class="kpi" style="border-left-color:var(--purple)"><div class="kl">Crude grades processed</div><div class="kv" style="color:var(--purple)">216+</div><div class="kd" style="color:var(--muted)">Unmatched flexibility</div></div>
+  </div>
+
+  <div class="panel-dark" style="margin-top:16px;border-left-color:var(--green)">
+    <div class="kl">How</div>
+    <div style="font:400 12px/1.5 'Inter';color:var(--text);margin-top:6px">
+      Maximize diesel/jet cut points. Shift naphtha to petrochemical feed. Optimize hydrocracker severity. Jamnagar's 400K bpd combined hydrocracker capacity is the weapon — no other Indian refinery has this flexibility.
+    </div>
+  </div>
+
+  <div class="insight g">This is the decision that should take 24 hours, not 72. Head of Refining signs off, no board approval needed. Every day of delay = $3-6M left on the table.</div>
+</div>
+</div>
+
+<!-- ===== CARD 10: ACT BREAK II ===== -->
+<div class="card act-card" id="c10">
+<div class="card-inner">
+  <p class="act-title">Act II</p>
+  <h2 style="font:800 36px/1.1 'Inter';margin-bottom:12px">The Procurement Sprint</h2>
+  <p class="card-sub">Alternative crude. 18-25 day transit. Fix cargoes now or face a rate cut.</p>
+  <div class="act-num">II</div>
+</div>
+</div>
+
+<!-- ===== CARD 11: ALTERNATIVE CRUDE ===== -->
+<div class="card" id="c11">
+<div class="card-inner">
+  <p class="label blue" style="margin-bottom:16px">Crude sourcing</p>
+  <h2 class="card-title">Your Crude Diet Just Changed. Here's What's Available.</h2>
+
+  <div style="width:100%;max-width:520px;margin:16px auto;text-align:left">
+    <div style="font:700 10px/1 'Inter';text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px">All-in cost premium vs. Russian baseline ($/bbl)</div>
+
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">Saudi Yanbu (East-West Pipeline)</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--green)">+$8-12</span>
+      </div>
+      <div style="height:18px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:40%;height:100%;background:var(--green);border-radius:3px"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">Brazil (Tupi, Buzios)</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--amber)">+$10-16</span>
+      </div>
+      <div style="height:18px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:53%;height:100%;background:var(--amber);border-radius:3px"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">West Africa (Bonny, Girassol)</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--amber)">+$12-18</span>
+      </div>
+      <div style="height:18px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:60%;height:100%;background:var(--amber);border-radius:3px"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <span style="font:500 11px/1 'Inter';color:#aaa">US Gulf (WTI, Mars)</span>
+        <span style="font:700 11px/1 'JetBrains Mono';color:var(--red)">+$14-20</span>
+      </div>
+      <div style="height:18px;background:#1a1a1a;border-radius:3px;overflow:hidden">
+        <div style="width:67%;height:100%;background:var(--red);border-radius:3px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kl">Aramco via Yanbu</div><div class="kv" style="color:var(--green)">10-15d</div><div class="kd" style="color:var(--muted)">Fastest non-Hormuz</div></div>
+    <div class="kpi"><div class="kl">W. Africa / US Gulf</div><div class="kv" style="color:var(--amber)">25-35d</div><div class="kd" style="color:var(--muted)">Fix today, arrives late Apr</div></div>
+  </div>
+
+  <div class="insight">CEO-level call to Aramco for Arab Light via Yanbu within 12 hours. Only proven non-Hormuz substitution route with confirmed volume. East-West Pipeline has 3M+ bpd spare capacity.</div>
+</div>
+</div>
+
+<!-- ===== CARD 12: WAR-RISK INSURANCE ===== -->
+<div class="card" id="c12">
+<div class="card-inner">
+  <p class="label red" style="margin-bottom:16px">Hidden cost</p>
+  <h2 class="card-title">War-Risk Insurance: $1.7-3.5B Annual P&L Hit.</h2>
+  <p class="card-sub" style="margin-bottom:20px">The cost nobody has modeled yet.</p>
+
+  <div class="compare-row">
+    <div class="cr-label">Per-barrel cost</div>
+    <div class="cr-before">$0.10-0.30</div>
+    <div class="cr-arrow">&rarr;</div>
+    <div class="cr-after" style="color:var(--red)">$2.50-5.47</div>
+  </div>
+  <div class="compare-row">
+    <div class="cr-label">Annual impact</div>
+    <div class="cr-before">~$60M</div>
+    <div class="cr-arrow">&rarr;</div>
+    <div class="cr-after" style="color:var(--red)">$1.7-3.5B</div>
+  </div>
+  <div class="compare-row" style="border-bottom:none">
+    <div class="cr-label">Working capital</div>
+    <div class="cr-before">Normal</div>
+    <div class="cr-arrow">&rarr;</div>
+    <div class="cr-after" style="color:var(--amber)">+$1.4-1.9B</div>
+  </div>
+
+  <div class="insight">UK pulled its last Gulf minesweeper home pre-war. Lloyd's syndicates follow UK sanctions — if OFAC designates Nayara, Lloyd's market access shuts. Confirm P&I Club coverage on every at-sea cargo today.</div>
+</div>
+</div>
+
+<!-- ===== CARD 13: ACT BREAK III ===== -->
+<div class="card act-card" id="c13">
+<div class="card-inner">
+  <p class="act-title">Act III</p>
+  <h2 style="font:800 36px/1.1 'Inter';margin-bottom:12px">The Nayara Question</h2>
+  <p class="card-sub">Rosneft. SDN. 49.13%. The governance crisis inside the supply crisis.</p>
+  <div class="act-num">III</div>
+</div>
+</div>
+
+<!-- ===== CARD 14: NAYARA SDN RISK ===== -->
+<div class="card" id="c14">
+<div class="card-inner">
+  <p class="label red" style="margin-bottom:16px">Existential risk</p>
+  <h2 class="card-title">Nayara Is 0.87% Away from Being an SDN Entity.</h2>
+  <p class="card-sub" style="margin-bottom:20px">OFAC's 50% rule deems any entity 50%+ owned by an SDN as blocked. Rosneft holds 49.13%.</p>
+
+  <div class="panel-light" style="margin-bottom:12px">
+    <div style="height:36px;background:#eee;border-radius:4px;overflow:hidden;position:relative">
+      <div style="width:49.13%;height:100%;background:linear-gradient(90deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:flex-end;padding-right:8px">
+        <span style="font:800 12px/1 'JetBrains Mono';color:#fff">49.13%</span>
+      </div>
+      <div style="position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:#000"></div>
+      <div style="position:absolute;left:50%;top:-16px;font:700 9px/1 'JetBrains Mono';color:#000;transform:translateX(-50%)">50% SDN THRESHOLD</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px">
+      <span style="font:500 10px/1 'Inter';color:#888">Rosneft (SDN-listed)</span>
+      <span style="font:500 10px/1 'Inter';color:#888">0.87% margin</span>
+    </div>
+  </div>
+
+  <div class="panel-dark" style="border-left-color:var(--red);margin-bottom:8px">
+    <div class="kl">If OFAC deems control</div>
+    <div style="font:400 12px/1.4 'Inter';color:var(--text);margin-top:4px">
+      USD banking seizes. Lloyd's withdraws. Trade finance collapses. Standalone liquidity runway: <strong style="color:var(--red)">30-45 days</strong>.
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="border-left-color:var(--amber)"><div class="kl">30-day probability</div><div class="kv" style="color:var(--amber)">10-15%</div></div>
+    <div class="kpi" style="border-left-color:var(--red)"><div class="kl">90-day probability</div><div class="kv" style="color:var(--red)">20-30%</div></div>
+  </div>
+
+  <div class="insight">The Nayara board must retain OFAC-specialized external counsel this week. Verbal assurances are insufficient for decisions that may need to execute at 2am.</div>
+</div>
+</div>
+
+<!-- ===== CARD 15: THREE STRATEGIC OPTIONS ===== -->
+<div class="card" id="c15">
+<div class="card-inner">
+  <p class="label blue" style="margin-bottom:16px">Strategic alternatives</p>
+  <h2 class="card-title">Three Paths for Nayara. None Are Quick.</h2>
+
+  <div class="panel-dark" style="border-left-color:var(--amber);margin-bottom:10px">
+    <div class="kl">Option A &middot; Ownership restructure</div>
+    <div style="font:600 14px/1.3 'Inter';margin:6px 0">Rosneft divests to non-SDN entity</div>
+    <div style="font:400 11px/1.3 'Inter';color:var(--muted)">UAE sovereign fund, Indian institution, or Trafigura increase. Timeline: 6-12 months. Not an emergency measure.</div>
+  </div>
+
+  <div class="panel-dark" style="border-left-color:var(--green);margin-bottom:10px">
+    <div class="kl">Option B &middot; Government backstop</div>
+    <div style="font:600 14px/1.3 'Inter';margin:6px 0">GoI declares Nayara critical national infrastructure</div>
+    <div style="font:400 11px/1.3 'Inter';color:var(--muted)">Sovereign guarantee on trade finance + GIC Re insurance backstop + MEA diplomatic cover. Probability GoI acts: 65-75%. Timeline: 7-21 days.</div>
+  </div>
+
+  <div class="panel-dark" style="border-left-color:var(--red);margin-bottom:10px">
+    <div class="kl">Option C &middot; Emergency nationalization</div>
+    <div style="font:600 14px/1.3 'Inter';margin:6px 0">Board requests GoI acquisition of Rosneft's 49.13%</div>
+    <div style="font:400 11px/1.3 'Inter';color:var(--muted)">CCEA approval + ONGC/IOC as acquirer + OFAC comfort letter. Timeline: 30-60 days minimum. No precedent.</div>
+  </div>
+
+  <div class="insight a">Option B is the only viable path within the crisis timeline. The board must begin government engagement this week — before OFAC acts, not after.</div>
+</div>
+</div>
+
+<!-- ===== CARD 16: ACT IV ===== -->
+<div class="card act-card" id="c16">
+<div class="card-inner">
+  <p class="act-title">Act IV</p>
+  <h2 style="font:800 36px/1.1 'Inter';margin-bottom:12px">The 72-Hour Playbook</h2>
+  <p class="card-sub">Five gates. One sequence. Get the order wrong and you trigger the risk you're hedging against.</p>
+  <div class="act-num">IV</div>
+</div>
+</div>
+
+<!-- ===== CARD 17: EXECUTION SEQUENCE ===== -->
+<div class="card" id="c17">
+<div class="card-inner">
+  <p class="label amber" style="margin-bottom:16px">Execution</p>
+  <h2 class="card-title">The Sequence Matters More Than the Speed.</h2>
+  <p class="card-sub" style="margin-bottom:20px">Committing to spot crude before OFAC counsel opinion is in hand could trigger secondary sanctions.</p>
+
+  <div class="timeline">
+    <div class="tl-item green">
+      <div class="tl-time" style="color:var(--green)">0-12 HOURS</div>
+      <div class="tl-text"><strong>GATE 1:</strong> Written OFAC counsel opinion on entity-specific exposure. Legal clarity before any procurement.</div>
+    </div>
+    <div class="tl-item green">
+      <div class="tl-time" style="color:var(--green)">0-12 HOURS</div>
+      <div class="tl-text"><strong>PARALLEL:</strong> CEO call to Aramco — Arab Light via Yanbu. Authorize Jamnagar yield optimization.</div>
+    </div>
+    <div class="tl-item amber">
+      <div class="tl-time">12-24 HOURS</div>
+      <div class="tl-text"><strong>GATE 2:</strong> War-risk insurance confirmation. P&I Club endorsement active on every at-sea cargo.</div>
+    </div>
+    <div class="tl-item amber">
+      <div class="tl-time">24-48 HOURS</div>
+      <div class="tl-text"><strong>GATE 3:</strong> Alternative crude confirmed. Fix 3-5 spot cargoes (W. Africa, Brazil, Yanbu).</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">48-72 HOURS</div>
+      <div class="tl-text"><strong>GATE 4:</strong> Throughput commitment. Run-rate optimization authorized with pre-delegated halt triggers.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">48-72 HOURS</div>
+      <div class="tl-text"><strong>GATE 5:</strong> Product export pricing. Penalty-adjusted P&L for export vs. domestic diversion.</div>
+    </div>
+  </div>
+
+  <div class="insight a" style="margin-top:20px">The critical risk is execution sequence failure: committing to spot purchases before OFAC counsel opinion is an error that could collapse USD banking and Lloyd's insurance simultaneously.</div>
+</div>
+</div>
+
+<!-- ===== CARD 18: DEMAND DESTRUCTION WARNING ===== -->
+<div class="card" id="c18">
+<div class="card-inner">
+  <p class="label red" style="margin-bottom:16px">Unmodeled risk</p>
+  <h2 class="card-title">The Most Dangerous Scenario Is the One Nobody Has Stress-Tested.</h2>
+  <p class="card-sub" style="margin-bottom:20px">Supply shock + demand destruction simultaneously. Crude stays high. Product prices collapse.</p>
+
+  <div class="panel-light" style="margin-bottom:12px">
+    <div class="p-label">Demand destruction vs. GRM</div>
+    <div class="p-sub">Singapore gasoil crack determines whether run-max is margin-positive</div>
+    <div style="width:100%;height:200px;position:relative">
+      <canvas id="ch-demand"></canvas>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="border-left-color:var(--green)"><div class="kl">Jamnagar threshold</div><div class="kv" style="color:var(--green)">$8/bbl</div><div class="kd" style="color:var(--muted)">Gasoil crack floor</div></div>
+    <div class="kpi" style="border-left-color:var(--red)"><div class="kl">Vadinar threshold</div><div class="kv" style="color:var(--red)">$10-11</div><div class="kd" style="color:var(--muted)">Higher due to tighter GRM</div></div>
+  </div>
+
+  <div class="insight">2008 precedent: Asian diesel crack fell from $25 to $8-10/bbl in 6 months. CFOs must commission simultaneous supply-shock + demand-destruction stress test within 48 hours — before any throughput increase is authorized.</div>
+</div>
+</div>
+
+<!-- ===== CARD 19: THE THREE BOARD DECISIONS ===== -->
+<div class="card" id="c19">
+<div class="card-inner">
+  <p class="label red" style="margin-bottom:16px">Board agenda</p>
+  <h2 class="card-title">Three Questions for the Board. Before April 3.</h2>
+
+  <div class="checklist">
+    <div class="cl-item">
+      <div class="cl-num">1</div>
+      <div>
+        <div class="cl-action">Can Nayara continue operating as an independent entity without a pre-arranged government ownership backstop?</div>
+        <div class="cl-deadline">DEADLINE: Before Apr 3 &middot; NAYARA BOARD + MoPNG</div>
+      </div>
+    </div>
+    <div class="cl-item">
+      <div class="cl-num">2</div>
+      <div>
+        <div class="cl-action">Will RIL execute an immediate Arab Light volume uplift via Yanbu to partially absorb Vadinar's supply gap?</div>
+        <div class="cl-deadline">DEADLINE: 12 hours &middot; CEO + HEAD OF SUPPLY</div>
+      </div>
+    </div>
+    <div class="cl-item" style="border-bottom:none">
+      <div class="cl-num">3</div>
+      <div>
+        <div class="cl-action">Will both CFOs draw maximum revolving credit today, pending resolution of the OFAC legal exposure that governs every other decision?</div>
+        <div class="cl-deadline">DEADLINE: Today &middot; BOTH CFOs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">These are not independent decisions. Question 3 (credit draw) funds Question 2 (procurement). Question 1 (Nayara viability) determines whether Question 2 includes Vadinar or not.</div>
+</div>
+</div>
+
+<!-- ===== CARD 20: CLOSING ===== -->
+<div class="card" id="c20" style="background:radial-gradient(ellipse at 50% 60%,#1a0000,#0a0a0a)">
+<div class="card-inner">
+  <p class="label" style="color:var(--red);margin-bottom:20px">
+    <span class="countdown">THE BOTTOM LINE</span>
+  </p>
+
+  <div class="hero-num countdown" style="color:var(--red);font-size:60px;text-shadow:0 0 40px rgba(255,59,59,.3);margin-bottom:8px">8 days.</div>
+  <p style="font:600 13px/1 'JetBrains Mono';color:var(--amber);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px">until the waiver expires</p>
+
+  <h2 style="font:800 28px/1.15 'Inter';max-width:500px;margin:0 auto 20px">
+    Jamnagar yield optimization generates $3-6M/day starting tomorrow. Every other decision depends on the OFAC opinion you don't have yet.
+  </h2>
+
+  <div class="stat-row" style="margin:20px 0">
+    <div class="stat"><div class="val" style="color:var(--green);font-size:32px">$3-6M/d</div><div class="lbl">Yield optimization</div></div>
+    <div class="stat"><div class="val" style="color:var(--red);font-size:32px">$843M/y</div><div class="lbl">Earnings cliff</div></div>
+    <div class="stat"><div class="val" style="color:var(--amber);font-size:32px">30-45d</div><div class="lbl">Nayara liquidity runway</div></div>
+  </div>
+
+  <div class="insight" style="text-align:center;font:600 14px/1.5 'Inter'">
+    The board that acts this week captures the margin.<br>The board that waits for clarity loses the window.
+  </div>
+
+  <p style="font:400 10px/1.4 'Inter';color:var(--dim);margin-top:24px">
+    Strategic Intelligence Briefing &middot; PS1: Reliance Industries &amp; Nayara Energy<br>
+    Classification: Internal &mdash; C-Suite Distribution Only &middot; March 2026<br>
+    9 buckets &middot; 107 MECE questions answered &middot; 19 research briefs
+  </p>
+</div>
+</div>
+
+<script>
+// Progress bar + counter
+const cards=document.querySelectorAll('.card');
+const prog=document.getElementById('prog');
+const ctr=document.getElementById('ctr');
+const total=cards.length;
+
+function updateProgress(){
+  let best=0;
+  cards.forEach((c,i)=>{
+    const r=c.getBoundingClientRect();
+    if(r.top<window.innerHeight*.6) best=i;
+  });
+  prog.style.width=((best+1)/total*100)+'%';
+  ctr.textContent=(best+1)+'/'+total;
+}
+
+// In-view animation
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('in-view');
+  });
+},{threshold:0.3});
+cards.forEach(c=>obs.observe(c));
+
+window.addEventListener('scroll',updateProgress);
+updateProgress();
+
+// GRM Chart
+const grmCtx=document.getElementById('ch-grm');
+if(grmCtx){
+  new Chart(grmCtx,{
+    type:'bar',
+    data:{
+      labels:['RIL Jamnagar\nNCI 21.1','Nayara\nNCI 11.8','IOCL\nNCI 11.5','BPCL\nNCI 9.8','HPCL Mumbai\nNCI 6.5'],
+      datasets:[{
+        data:[6,3.5,-2,-5,-8],
+        backgroundColor:['#059669','#34d399','#dc2626','#dc2626','#dc2626'],
+        borderRadius:4,
+        barThickness:28
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      indexAxis:'y',
+      plugins:{
+        legend:{display:false},
+        annotation:{
+          annotations:{
+            zero:{type:'line',xMin:0,xMax:0,borderColor:'#888',borderWidth:1,borderDash:[4,4]}
+          }
+        }
+      },
+      scales:{
+        x:{
+          title:{display:true,text:'GRM at $156/bbl ($/bbl)',color:'#888',font:{size:10}},
+          ticks:{color:'#888',font:{size:10}},
+          grid:{color:'rgba(0,0,0,.05)'}
+        },
+        y:{
+          ticks:{color:'#333',font:{size:10,weight:'bold'}},
+          grid:{display:false}
+        }
+      }
+    }
+  });
+}
+
+// Demand destruction chart
+const demCtx=document.getElementById('ch-demand');
+if(demCtx){
+  new Chart(demCtx,{
+    type:'bar',
+    data:{
+      labels:['0.5M bpd\nloss','1.0M bpd\nloss','1.5M bpd\nloss','2.0M bpd\nloss'],
+      datasets:[
+        {label:'Jamnagar GRM',data:[12,8.5,5.5,2.5],backgroundColor:'#059669',borderRadius:4,barThickness:20},
+        {label:'Vadinar GRM',data:[8.5,5.5,3,1],backgroundColor:'#3b82f6',borderRadius:4,barThickness:20}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom',labels:{color:'#888',font:{size:9},boxWidth:12}},
+        annotation:{
+          annotations:{
+            threshold:{type:'line',yMin:8,yMax:8,borderColor:'#ff3b3b',borderWidth:2,borderDash:[6,3],
+              label:{display:true,content:'$8 THRESHOLD',color:'#ff3b3b',font:{size:9,weight:'bold'},position:'start',backgroundColor:'rgba(255,255,255,.9)',padding:3}}
+          }
+        }
+      },
+      scales:{
+        y:{
+          title:{display:true,text:'Est. GRM ($/bbl)',color:'#888',font:{size:10}},
+          ticks:{color:'#888',font:{size:10}},
+          grid:{color:'rgba(0,0,0,.05)'}
+        },
+        x:{ticks:{color:'#888',font:{size:9}},grid:{display:false}}
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

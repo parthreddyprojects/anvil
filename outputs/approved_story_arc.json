@@ -1,0 +1,28 @@
+{
+  "story_arc": [
+    "India faces the largest oil disruption in history.",
+    "It happened in 20 days. Both sides are still escalating.",
+    "22 Indian ships are stranded. Only 3 made it through.",
+    "Crude is manageable. Cooking gas is not. 330 million households are rationing.",
+    "Even after a ceasefire, mines keep the strait closed until August.",
+    "—— Your refinery ——",
+    "Russia flipped from $13 discount to $5 premium. Gulf terminals are offline. Alternatives take 30-45 days.",
+    "Jamnagar thrives at $146. HPCL Mumbai is insolvent. The difference is complexity.",
+    "The government overrode your product slate. LPG first. No choice.",
+    "—— Your balance sheet ——",
+    "You are losing ₹19.8 on every litre you sell.",
+    "The Russia waiver expires in 15 days. Your largest alternative supply is at risk.",
+    "December crude is $69. Today's is $146. Lock it this week.",
+    "—— Your government ——",
+    "Delhi is hoarding every barrel. They expect this to last months.",
+    "Non-alignment got India 3 ships through. That diplomatic capital is finite — use it now.",
+    "Fertilizer is 40% Gulf-dependent. Secure kharif supply before June or face a food crisis.",
+    "—— Your board ——",
+    "The import bill just tripled to $266 billion.",
+    "Three risks could make it worse. Your board isn't planning for any of them.",
+    "—— What everyone else is missing ——",
+    "Banks say weeks. Mine clearance alone is 51 days.",
+    "You have 15 days before your fallback disappears. Decide now."
+  ],
+  "note": "This arc was written by the user and Claude together on March 20, 2026. It is the reference quality bar for all future story arcs. Each headline raises the stakes. Each section addresses the reader directly (your refinery, your balance sheet, your government, your board). The SCQA structure is implicit: Situation (1-5), Complication per audience (6-17), Resolution (18-23)."
+}

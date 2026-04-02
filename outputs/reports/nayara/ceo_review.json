@@ -1,0 +1,37 @@
+{
+  "verdict": "REVISE",
+  "clarity_score": 8,
+  "actionability_score": 7,
+  "credibility_score": 6,
+  "problems": [
+    "The OFAC counsel opinion is framed as a gating precondition, but Decision 3 authorizes cargo-fixing within 24 hours — before the opinion can possibly be delivered by April 2. This is a direct internal contradiction that will paralyze the supply team and expose the company legally.",
+    "The $312M per VLCC figure is used to calculate the financing gap, but Decision 3 switches to Suezmax cargoes at $290-310M. Suezmax ≠ VLCC. A Suezmax carries roughly 1M barrels vs. 2M for a VLCC. The math is broken and the credibility of the entire financing shortfall analysis collapses with it.",
+    "The LC pre-draw instruction in Decision 2 is buried inside a multi-part ask that also includes a CEO call, a GoI negotiation, and an ownership restructuring commitment. These are four separate decisions. Buried instructions get missed in a crisis.",
+    "The MRPL finding introduces MRPL as a shutdown fact with no sourcing. Is MRPL actually shut down? When did this happen? This is load-bearing for the entire GoI engagement strategy — if it's wrong or overstated, the political leverage argument collapses.",
+    "The 'written OFAC opinion' deliverable is being treated as binary — you either have it or you don't. But OFAC counsel cannot guarantee a clean opinion on a 49.13% Rosneft-owned entity facing an imminent enforcement deadline. The brief assumes the opinion will be favorable. It doesn't say what happens if it isn't.",
+    "The GoI LC guarantee of $1.5-2.0B from SBI or Bank of Baroda assumes these banks are not themselves subject to secondary sanctions exposure on Nayara transactions post-April 3. That assumption is not addressed.",
+    "The 10-15 day cold-restart figure is stated as fact with zero sourcing. If regulators or lenders challenge it, we have nothing. This number is doing heavy lifting in the national security framing.",
+    "The brief says 'no procurement action to be authorized until the OFAC opinion is in hand' and simultaneously instructs the supply team to fix cargoes within 24 hours. Someone will follow one instruction and violate the other. Who has authority to resolve that conflict is not stated."
+  ],
+  "missing": [
+    "What does OFAC counsel actually say when we call them today — even informally? Is a favorable written opinion even achievable before April 3? If not, this entire plan is built on a deliverable that cannot be produced in time.",
+    "Current covenant language on the term loans — specifically whether a voluntary throughput reduction to 40-50% triggers DSCR breach immediately or on a trailing basis. This determines whether Decision 3's fallback option is viable or actually accelerates the lender cascade.",
+    "Confirmation that MRPL is in fact shut down, when, and what MoPNG's current posture is. Is GoI already aware of the Nayara exposure? Have any preliminary conversations happened?",
+    "Who specifically at SBI or Bank of Baroda has been contacted? Is there any indication they would accept a GoI-backed guarantee structure for a Rosneft-affiliated entity, or are we assuming the government can compel them?",
+    "What is the current status of the three UAE correspondent banks — have they formally withdrawn lines or is this informal signaling? This determines whether the $800M-1.2B revolving draw in Decision 2 is actually executable today.",
+    "Board authorization status — does the CEO have authority to commit to a $1.5-2.0B GoI LC facility request and a Rosneft stake acquisition evaluation without a board resolution? This is not mentioned.",
+    "What is Rosneft's posture? Have they been engaged? Will they cooperate with or resist a GoI acquisition of their stake? This is not a passive variable.",
+    "A clear ownership decision tree: if the OFAC opinion is unfavorable, or if GoI declines the LC guarantee, what is the actual decision at that point — controlled wind-down vs. forced shutdown? The brief implies GoI will say yes. There is no Plan B."
+  ],
+  "suggested_changes": [
+    "Split Decision 2 into three separate numbered decisions: (2a) CFO draws revolving credit lines today, (2b) CEO initiates MoPNG call within 12 hours, (2c) GoI ownership backstop request. Each needs a separate owner and a separate approval.",
+    "Reconcile the VLCC/Suezmax inconsistency immediately. Pick one vessel class, recalculate all per-cargo and monthly figures consistently, and footnote the assumption. The financing gap is the central quantitative argument — it cannot have an arithmetic error.",
+    "Add a contingency branch: 'If OFAC counsel advises that a favorable written opinion cannot be issued before April 3, the following actions are triggered: [list].' Right now the plan has no stated response to an unfavorable or delayed opinion.",
+    "State explicitly that Decision 3 cargo-fixing is authorized only up to the volume supportable by existing, confirmed LC capacity — and name the amount. Do not leave 'whatever LC capacity remains' as the authorization language. That is not approvable.",
+    "Source the MRPL shutdown claim with a date and a citation. If it is an internal estimate or a media report, say so. If it is wrong, the GoI framing strategy needs to be rebuilt.",
+    "Add a one-paragraph section on Rosneft's likely response to a GoI acquisition approach. This is not optional — it determines the feasibility of the ownership solution entirely.",
+    "The brief needs a binary decision gate at the top: 'If OFAC opinion is not deliverable by April 2 IST, the company is in a different decision tree.' That gate is missing and it is the most important single variable in the document."
+  ],
+  "would_sign_off": false,
+  "ceo_note": "This brief is analytically sophisticated and directionally correct — the team clearly understands the legal contamination problem and why this is not a procurement problem with a commercial solution. I am not questioning the diagnosis. I am not signing this. The VLCC-to-Suezmax math error alone tells me this was drafted fast and not stress-tested, and in a $312M-per-cargo decision environment that is disqualifying. More critically, the brief gives Decision 3 a 24-hour cargo-fixing instruction that directly contradicts the stated gating condition in Decision 1 — I will have the supply head fixing cargoes while the GC is telling him to stand down, and I will own both decisions when it blows up. The entire GoI leverage play rests on MRPL being shut down, which is stated as fact with no sourcing. And there is no Plan B anywhere in this document — no scenario in which GoI says no, OFAC counsel says the opinion cannot be issued, or the UAE banks have already formally frozen lines. I need those answers, I need the Suezmax math fixed, and I need Decision 2 broken into three separable approvals before I will put my name on any of this."
+}

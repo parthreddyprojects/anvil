@@ -1,0 +1,192 @@
+
+
+# MECE STRUCTURES FOR HORMUZ CRISIS EXECUTIVE BRIEF
+
+---
+
+## STRUCTURE 1: "TIME-HORIZON FRAMEWORK"
+
+**Logic for MECE:** Every decision an executive must make falls into exactly one of three non-overlapping time windows, defined by hard external deadlines. The windows are mutually exclusive because they are sequential and bounded by specific dates. They are collectively exhaustive because they span from today through the medium-term recovery, covering every relevant decision horizon.
+
+- **Window 1: 0–5 days (before Trump pause expires March 28)**
+- **Window 2: 5–10 days (March 28 – April 3 Russia waiver expiry)**
+- **Window 3: Post-crisis positioning (decisions made now that execute after Day 10)**
+
+Within each window, questions address: supply, financial exposure, and stakeholder/regulatory action — three dimensions that partition all corporate activity without overlap.
+
+### Questions
+
+**1. IMMEDIATE (Days 0–5: Before March 28 strike-pause expiry)**
+
+1.1 What is the current days-of-supply inventory at each major Indian refinery, and which facilities fall below 10-day operational minimum before March 28?
+
+1.2 What spot cargoes (non-Hormuz routed) can be contracted and delivered within 5 days, at what price, and what volume gap remains?
+
+1.3 What hedging instruments (puts, swaps, collars) are available today to cap crude procurement cost at or below $156/bbl through April?
+
+1.4 Has the Indian government signaled willingness to release Strategic Petroleum Reserve (SPR) barrels, and under what allocation mechanism?
+
+1.5 What emergency operational decisions (throughput cuts, crude diet switches, unit shutdowns) must be triggered today to avoid unplanned shutdowns like MRPL's?
+
+**2. NEAR-TERM (Days 5–10: March 28 – April 3 Russia waiver expiry)**
+
+2.1 What is the probability-weighted scenario set for the strike pause — extension, military escalation, or diplomatic resolution — and what does each imply for Hormuz reopening timeline?
+
+2.2 If the Russia sanctions waiver expires April 3 without renewal, what volume of Russian crude (ESPO, Urals) currently contracted by Indian refiners becomes undeliverable?
+
+2.3 What alternative non-sanctioned, non-Hormuz supply sources (West Africa, Guyana, US Gulf, Brazil) have available liftings in the April loading window, and at what delivered cost to Indian ports?
+
+2.4 What refinery run-rate reductions must be ordered by Day 7 to avoid product shortfalls in diesel, jet fuel, and LPG that trigger domestic rationing?
+
+2.5 What is the mark-to-market P&L exposure on existing term contracts (priced on Indian basket) if crude sustains above $150 through April?
+
+**3. POST-CRISIS POSITIONING (Decisions made in 10 days, executing over 30–90 days)**
+
+3.1 What minimum SPR and commercial inventory policy (in days of cover) should be adopted to survive a recurrence of 30+ day Hormuz closure?
+
+3.2 Which long-term supply diversification contracts (Atlantic Basin, East Africa, domestic) should be initiated now to reduce Hormuz-transit dependency below 50%?
+
+3.3 What capital expenditure on pipeline interconnections, storage expansion, or alternative energy feedstock should be fast-tracked?
+
+3.4 What political and diplomatic engagement (with UAE for Fujairah bypass, with Oman for alternative routing, with US for waiver extensions) should be escalated?
+
+3.5 What updated force majeure, insurance, and contract renegotiation frameworks are needed for downstream product offtake agreements?
+
+**Total: 15 questions**
+
+**Ratings:**
+- **Completeness: 8/10** — Strong on operational and financial; lighter on competitive dynamics and demand-side
+- **Actionability: 9/10** — Directly maps to a decision calendar with clear trigger dates
+- **Researchability: 9/10** — Each question answerable via refinery ops data, broker quotes, government filings, and scenario modeling
+
+---
+
+## STRUCTURE 2: "VALUE-CHAIN EXPOSURE FRAMEWORK"
+
+**Logic for MECE:** An energy company's exposure to the Hormuz crisis manifests at exactly one stage of the value chain. Every barrel flows through: procurement → transportation/logistics → refining/processing → product sales/marketing → financial/treasury. These stages are sequential, non-overlapping, and collectively cover every activity from wellhead to customer. A risk or decision that sits at the procurement stage cannot simultaneously sit at the refining stage. This is the classic McKinsey value-chain decomposition.
+
+### Questions
+
+**1. CRUDE PROCUREMENT & SUPPLY SECURITY**
+
+1.1 What percentage of each Indian refiner's contracted crude (by volume and value) transits the Strait of Hormuz, and what is the replacement cost for those barrels from non-Hormuz sources?
+
+1.2 Post-April 3, what is the combined volume shortfall if both Hormuz-transit AND Russia-origin barrels become unavailable simultaneously?
+
+1.3 Which national oil companies (Saudi Aramco via Red Sea pipeline, ADNOC via Fujairah) can reroute barrels outside the Strait, and what is their available uncommitted capacity?
+
+1.4 Can Indian Oil Ministry invoke bilateral government-to-government purchase agreements (e.g., with Mexico, Brazil, US) to secure emergency volumes within 10 days?
+
+**2. TRANSPORTATION & LOGISTICS**
+
+2.1 What is the current war-risk insurance premium for tankers in the Persian Gulf, and at what price point does it become uneconomic to attempt Hormuz transit even if de-mining occurs?
+
+2.2 Are sufficient non-Hormuz-routed tankers (Suezmax/VLCC) available for Indian port delivery in the April loading window, and what is the freight rate premium?
+
+2.3 What is the transit time and cost differential for rerouting Middle Eastern crude via the Yanbu (Red Sea) or Fujairah (outside Strait) terminals versus direct Hormuz passage?
+
+**3. REFINING & OPERATIONS**
+
+3.1 Beyond MRPL, which Indian refineries are within 7 days of crude starvation based on current inventory drawdown rates and incoming cargo schedules?
+
+3.2 What is the maximum throughput reduction each refinery can sustain before fixed-cost economics force a full shutdown versus a partial run-rate cut?
+
+3.3 Can refineries switch crude diet (e.g., from Arab Heavy to lighter West African grades) without derating capacity, and what yield penalty results?
+
+**4. PRODUCT MARKETS & DOWNSTREAM REVENUE**
+
+4.1 At $156 crude and current OMC retail prices, what is the daily under-recovery per liter of diesel and petrol, and can the government absorb this via excise cuts?
+
+4.2 Which product exports (diesel, jet fuel, naphtha) should be curtailed to preserve domestic supply, and what is the foregone margin?
+
+4.3 What is the demand destruction elasticity — at what retail fuel price do Indian consumers and industrial users materially reduce consumption?
+
+**5. FINANCIAL & TREASURY**
+
+5.1 What is the aggregate forex exposure (USD outflow) of Indian refiners at $156/bbl versus budget assumptions, and what is the rupee depreciation risk?
+
+5.2 Do any Indian energy companies face covenant breaches, credit rating downgrades, or liquidity shortfalls if crude remains above $150 for 30 days?
+
+5.3 What government fiscal support mechanisms (oil bonds, direct subsidies, SPR release at below-market rates) are available and how quickly can they deploy?
+
+**Total: 16 questions**
+
+**Ratings:**
+- **Completeness: 9/10** — Covers full value chain comprehensively; slightly less explicit on geopolitical scenario branching
+- **Actionability: 8/10** — Each question maps to a functional executive (Head of Supply, Head of Ops, CFO), but less clear on sequencing and urgency
+- **Researchability: 9/10** — Every question answerable through industry data (Platts, Argus, Kpler), company filings, Ministry of Petroleum data, and shipping broker quotes
+
+---
+
+## STRUCTURE 3: "DECISION-TYPE FRAMEWORK"
+
+**Logic for MECE:** Every executive decision falls into exactly one of four categories based on its nature: (A) what we know and must respond to (confirmed facts), (B) what we must bet on (uncertainties requiring scenario planning), (C) what we must ask others to do (stakeholder engagement), and (D) what we must build or change (capability/structural moves). These are MECE because: A deals with the known present, B deals with the unknown future, C deals with external actors, and D deals with internal transformation. Together they exhaust the full decision space — you either respond to facts, plan for uncertainty, engage others, or change yourself.
+
+### Questions
+
+**1. REACT: What confirmed facts require immediate operational response?**
+
+1.1 Exactly how many days of crude inventory does each PSU and private refiner hold today, measured against minimum safe operating levels?
+
+1.2 What confirmed cargo cancellations or delays have occurred due to the mining, and what is the volume impact through April 15?
+
+1.3 What is the current Indian crude basket price trajectory — is $156 the peak, or do forward curves indicate further escalation?
+
+1.4 Which downstream product supply chains (LPG for cooking, diesel for agriculture/transport, ATF for aviation) face shortages within 10 days at current refinery run-rates?
+
+1.5 What has the MRPL shutdown revealed about cascading supply-chain risks for other refineries in similar positions?
+
+**2. BET: What scenarios must we plan for, and what is the optimal no-regret strategy?**
+
+2.1 What are the three most likely geopolitical scenarios post-March 28 (escalation/stalemate/de-escalation), what probability should we assign each, and what does each mean for Hormuz reopening?
+
+2.2 Will the US renew the Russia sanctions waiver after April 3 — what signals exist, and what should Indian companies assume for planning?
+
+2.3 If both Hormuz and Russian supply are simultaneously disrupted, does India face a national energy emergency requiring government-mandated rationing?
+
+2.4 What is the "no-regret" hedging and procurement strategy that protects downside across all three geopolitical scenarios without excessive cost if crisis resolves quickly?
+
+2.5 At what crude price does demand destruction and/or fuel substitution (coal, renewables, gas) materially change the Indian energy demand picture?
+
+**3. ENGAGE: What must we secure from external stakeholders?**
+
+3.1 What specific relief should Indian energy companies collectively demand from the Government of India (SPR release, excise cuts, forex support, Russia waiver lobbying)?
+
+3.2 What should Indian refiners request from Middle Eastern NOC partners regarding force majeure, alternative loading ports, and price adjustment mechanisms?
+
+3.3 What coordinated action with IEA member-aligned countries on strategic stock releases is India pursuing, and what additional volumes could this unlock?
+
+3.4 What communication is required to banks and bondholders to maintain credit lines and avoid covenant-triggered acceleration?
+
+3.5 What messaging to downstream customers (airlines, OMCs, industrial users) is needed regarding potential allocation, pricing pass-through, and contract adjustments?
+
+**4. BUILD: What structural changes should be initiated now?**
+
+4.1 What fast-track investments in crude storage capacity (caverns, tank farms) are justified by this crisis and can break ground within 90 days?
+
+4.2 What long-term supply diversification targets (% of crude from non-Hormuz, non-Russia sources) should be set, and what contracts should be signed now to lock in Atlantic Basin or domestic supply?
+
+4.3 Should Indian energy companies accelerate fuel-switching capital projects (gas import terminals, renewable integration, coal-to-chemicals) as a structural Hormuz hedge?
+
+4.4 What organizational capabilities (crisis war room, real-time supply tracking, scenario planning function) must be permanently established based on this crisis?
+
+4.5 What industry consortium or mutual-aid framework should Indian refiners create to pool logistics, storage, and procurement in future Hormuz-type disruptions?
+
+**Total: 20 questions**
+
+**Ratings:**
+- **Completeness: 9/10** — Comprehensive across operational, strategic, financial, and political dimensions
+- **Actionability: 10/10** — Directly structured around decision types; each question has a clear "so what" — an executive can act on the answer
+- **Researchability: 8/10** — Most questions are data-answerable, but scenario probability (2.1, 2.2) and stakeholder intent (3.1, 3.3) require judgment calls and intelligence gathering rather than hard data
+
+---
+
+## RECOMMENDATION
+
+**Structure 3 (Decision-Type) is the strongest for this crisis brief** because:
+
+1. It mirrors how a C-suite war room actually operates — triaging what's known, placing bets, making asks, and building resilience
+2. It naturally feeds the one-pager format: Situation (React), Performance Data (React + Bet), Analysis (Bet + Engage), Decision Required (all four categories)
+3. It avoids the risk of Structure 1's time-horizon approach becoming stale as deadlines shift, and Structure 2's value-chain approach being too functional/siloed for crisis decision-making
+
+**However, Structure 1's time-horizon logic should be used as a secondary overlay** to sequence the decisions from Structure 3 against the March 28 and April 3 hard deadlines. The combination produces a decision calendar with the right questions at each stage.

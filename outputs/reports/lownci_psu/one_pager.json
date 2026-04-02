@@ -1,0 +1,62 @@
+{
+  "condensed_ps": "India's six low-complexity PSU refineries face an 8–25 day cascade shutdown window: Hormuz mining has blocked 35–40% of seaborne crude, the Indian basket is at $156/bbl against a $142/bbl viability threshold, MRPL has already shut as a confirmed behavioral precedent, and the April 3 Russia waiver lapse threatens the remaining low-cost supply leg. Without a binding fiscal backstop and simultaneous physical supply activation within 72 hours, each refinery CMD faces the individually rational but collectively catastrophic decision to initiate controlled shutdown. The crisis is not a crude sourcing problem alone — it is a sequenced failure of financial authorization, supply logistics, and inter-ministerial coordination that must be solved as a single indivisible package or not at all.",
+  "header": "MoPNG must issue a Presidential Directive plus RBI bank circular as a co-equal two-key instrument within 48 hours, simultaneously activating ONGC Mumbai High reallocation and MEA-ADNOC G2G engagement, or all six refineries enter controlled shutdown within 8–25 days regardless of crude availability.",
+  "situation": "At $156/bbl Indian basket — $14/bbl above the $142/bbl GRM breakeven — every day of operation deepens PSU balance sheet losses by an estimated ₹400–600 crore system-wide with no board-level legal protection, and MRPL's LC refusal sequence confirms this is the template each remaining CMD will follow. HPCL Mumbai and BPCL Mumbai carry only 10–12 days of crude inventory cover, breaching the 7-day operational shutdown trigger within 3–5 days absent new cargo arrivals; BPCL Kochi has 13 days, CPCL Manali 12–13 days, IOCL Bina 14 days, and NRL 14–16 days. If nothing is done by April 3, the cascade proceeds: HPCL and BPCL Mumbai shut within days 3–5, eliminating 390 kbd of West Coast capacity and triggering LPG and HSD supply-outs across Maharashtra; BPCL Kochi follows within days 7–13, collapsing ATF supply to Goa and Mangalore airports and the Karnataka HSD grid already exposed by MRPL's shutdown; IOCL Bina and NRL follow within days 14–25, creating unsubstitutable inland supply failure across MP, UP, Rajasthan, and the strategically sensitive northeast border territories.",
+  "performance_data": [
+    {
+      "kpi": "Blended Gross Refining Margin",
+      "value": "Estimated negative $8–15/bbl at $156/bbl basket",
+      "variance": "vs. Q3 FY2025 reported GRM of $4.11–5.87/bbl at ~$80/bbl basket — a swing of negative $12–21/bbl driven by frozen retail prices since May 2022",
+      "direction": "down"
+    },
+    {
+      "kpi": "Crude Inventory Cover — Highest-Risk Refineries (HPCL/BPCL Mumbai)",
+      "value": "10–12 days estimated cover",
+      "variance": "vs. GoI Parliamentary Committee guideline minimum of 15–20 days — 3–10 days below minimum; vs. 7-day operational shutdown trigger floor — only 3–5 days of buffer remaining",
+      "direction": "down"
+    },
+    {
+      "kpi": "Hormuz-Exposed Share of April Term Crude Commitments",
+      "value": "~70–80% of April committed volumes physically undeliverable or financially constrained",
+      "variance": "vs. normal operations baseline of ~80% Hormuz transit dependency — effective deliverable supply has collapsed from 100% of contracted stems to an estimated 20–30%, with Russian volumes adding a further 30–45% per-refinery diet at legal risk post-April 3",
+      "direction": "down"
+    },
+    {
+      "kpi": "System-Wide 30-Day Fiscal Exposure (Sovereign LC Guarantee Requirement)",
+      "value": "₹40,000–50,000 crore ($4.8–5.9B)",
+      "variance": "vs. combined Q3 FY2025 net worth of HPCL, BPCL, IOCL (approximately ₹1,40,000–1,60,000 crore) — exposure represents 25–35% of aggregate PSU refiner net worth in a single month, exceeding any single prior emergency fiscal intervention; categorically smaller than the estimated ₹2,50,000–3,50,000 crore GDP impact of a six-refinery cascade shutdown",
+      "direction": "down"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "The fiscal authorization failure is a two-key problem, not one: a Presidential Directive indemnifying PSU refinery CMDs from personal liability for operating at negative GRM is necessary but insufficient without a simultaneous RBI emergency circular under Section 35A instructing PSU banks to issue sovereign-guaranteed LCs despite exposure concentration norm breaches — without the RBI instrument, crude suppliers receive no payment guarantee and will not load cargoes regardless of CMD indemnification",
+      "impact": "PSU banks (SBI, PNB, Bank of Baroda) are legally entitled to refuse LC issuance on RBI prudential grounds even after a Presidential Directive is issued to refinery CMDs; at $156/bbl, each VLCC cargo LC (~$80–120M notional) issued against an operationally insolvent PSU buyer constitutes an unsecured contingent liability that RBI's statutory exposure norms prohibit without a formal Section 35A override — a 24-hour delay in the RBI instrument relative to the Presidential Directive is sufficient to block the first emergency cargo LC and trigger HPCL Mumbai's shutdown sequence",
+      "so_what": "The crisis cell must treat the Presidential Directive and RBI Section 35A circular as a single simultaneous instrument requiring PMO-level coordination with Finance Ministry and RBI Governor within the same 48-hour window — any sequential issuance where the RBI circular lags the Directive by even 12–24 hours structurally fails the intervention"
+    },
+    {
+      "finding": "The ONGC Mumbai High reallocation is the only physically deliverable supply intervention within HPCL and BPCL Mumbai's 3–5 day remaining buffer window, but the claimed 15–30 kbd of incremental volume above existing commitments is in direct tension with PSC allocation obligations to Reliance Industries and Nayara Energy that a ministerial direction cannot unilaterally override without triggering immediate commercial arbitration",
+      "impact": "Mumbai High produces 180–185 kbd total against combined Mumbai refinery minimum run-rate requirement of ~165–195 kbd — if Reliance and Nayara PSC allocations are legally protected, the available incremental volume above existing commitments may be 5–15 kbd rather than 15–30 kbd, extending HPCL Mumbai's runway by only 1–2 days rather than the 3–4 days required to bridge to any seaborne cargo arrival; the gap between a successful and failed ONGC reallocation is the difference between Mumbai refineries surviving to receive a Fujairah or West African cargo versus entering shutdown before it arrives",
+      "so_what": "MoPNG Petroleum Secretary must within 6 hours obtain a legal opinion on PSC allocation ring-fencing, simultaneously directing ONGC to identify genuinely uncommitted Mumbai High volumes and, if incremental volume is confirmed below 10 kbd, immediately activating supply-side rationing through PSU oil company depot allocation orders (not retail pump caps) to extend effective product runway by 3–4 days as the substitute bridge mechanism"
+    },
+    {
+      "finding": "IOCL Bina's central India supply role is structurally insolvent if ESPO access lapses post-April 3, because no non-Hormuz, non-Russian crude alternative can arrive via Paradip-Kandla pipeline within Bina's 14-day runway — West African voyage to Paradip is 18–22 days plus 3–4 days pipeline transit, and Kandla port prioritization of crude tankers over fertilizer vessels during the Rabi-Kharif agricultural transition requires Cabinet-level inter-ministerial resolution that cannot be achieved within 48 hours",
+      "impact": "A Bina shutdown eliminates the sole refinery supplying landlocked MP, UP, and Rajasthan — approximately 150–200 million people with no coastal product import alternative — and triggers HSD and LPG distribution failure within 20–25 days, cascading into agricultural operations failure (April–May irrigation pump fuel) and food supply chain disruption across five states within 30–40 days; the combined H4 failure (ESPO lapse) plus H8 failure (no viable alternative supply within runway) is the only crisis scenario that escalates from an energy emergency to a humanitarian emergency",
+      "so_what": "MEA must engage Washington within 24 hours specifically to secure a 60-day ESPO grace period covering cargoes loaded before May 31 — not as a diplomatic courtesy but as the sole supply pathway that keeps Bina operational within its runway; simultaneously, MoPNG must place a spot ESPO loading order at Kozmino within 72 hours contingent on forbearance confirmation, accepting that if Washington refuses, Bina must be reduced to 40% nameplate on available non-Hormuz spot cargo and emergency road-rail product dispatch from CPCL Manali and BPCL Kochi must be pre-positioned as the central India fallback"
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "ask": "PMO must within 12 hours designate a single crisis cell coordinator with inter-ministerial authority and direct Finance Ministry and RBI Governor to issue the Presidential Directive (indemnifying all six PSU refinery CMDs from personal liability for operating at negative GRM) and the co-equal RBI Section 35A emergency circular (authorizing PSU banks to issue sovereign-guaranteed LCs up to ₹40,000–50,000 crore aggregate) as simultaneous instruments by April 2, 23:59 IST — sequential issuance where the RBI circular lags the Directive by more than 6 hours constitutes operational failure of the fiscal backstop"
+    },
+    {
+      "number": 2,
+      "ask": "MoPNG Petroleum Secretary must within 6 hours obtain a binding legal opinion on ONGC Mumbai High PSC allocation ring-fencing obligations to Reliance and Nayara, and within 24 hours either (a) direct ONGC to deliver confirmed incremental 10–15 kbd of Mumbai High crude to HPCL Mumbai and BPCL Mumbai via existing shore terminal pipeline — the only intervention physically deliverable before Mumbai refineries breach their 7-day shutdown trigger — or (b) if PSC constraints limit incremental volume below 10 kbd, immediately implement supply-side rationing through PSU oil company (IOCL/BPCL/HPCL) depot allocation order reductions of 15–20% across Maharashtra, Karnataka, Tamil Nadu, and Kerala, executed through oil company distribution authority without requiring state government enforcement machinery, to extend effective product runway by 3–5 days as the substitute bridge"
+    },
+    {
+      "number": 3,
+      "ask": "MEA must within 24 hours open parallel diplomatic channels on two tracks: (a) G2G engagement with ADNOC for a Fujairah-loading cargo of 1–2 MMbbl at pre-agreed price ceiling not to exceed Murban dated plus $8/bbl crisis premium — with written ADCOP loading slot confirmation required within 48 hours or the channel is treated as failed and West African spot cargo at 18–22 days voyage time becomes the seaborne fallback for BPCL Kochi — and (b) engagement with Washington to secure a 60-day rolling forbearance extension covering ESPO liftings with bill of lading dated before May 31, framed as a humanitarian food and fuel security request for landlocked central India rather than a sanctions negotiation, with MEA instructed to report a binary yes/no enforcement signal within 48 hours so MoPNG can either place the Kozmino ESPO spot order or activate the IOCL Bina run-rate reduction and central India product logistics contingency before Bina's 14-day runway expires"
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+
+
+# MBB Partner Review: Iran-Hormuz Strategic Intelligence Briefing
+
+## Brutal, Honest Assessment
+
+---
+
+## 1. OVERALL IMPRESSION
+
+**I would not send this to a client CEO in its current form.** But it's closer than 90% of what I see.
+
+Here's what's right: The storyline is genuinely compelling. The scenario framework is solid. The data density is appropriate for the gravity of the situation. The design system is professional — dark theme, monospace numbers, consistent color coding. This is clearly built by someone who understands both the subject matter and visual communication.
+
+Here's what's wrong: **You built a Bloomberg terminal, not a McKinsey deck.** Every card is trying to be a comprehensive dashboard rather than making one irrefutable point. The audience — Indian energy C-suite — has 3-4 seconds per card before deciding whether to keep scrolling. You're giving them 45-second cards. That's a fatal mismatch.
+
+The deeper structural problem: **I can only review 5 of 26 cards because you've only shown me Cards 1-5.** But those 5 cards alone contain more information than most 30-slide decks. If the remaining 21 cards maintain this density, you have a 200-slide deck compressed into 26 scroll-snap cards. That's not economy — that's compression injury.
+
+**Verdict: 7/10 on substance, 4/10 on discipline, 5/10 on executability as a briefing format.**
+
+---
+
+## 2. TEXT DENSITY — Card-by-Card Audit
+
+| Card | Text Volume | Verdict |
+|------|------------|---------|
+| Card 1 (Opener) | ~380 words + 8 timeline items + chart + map + legend + insight box + KPI strip | **Catastrophic.** This is 4 McKinsey slides crammed into one scroll. A partner would stop reading at the second timeline item. |
+| Card 2 (Escalation) | ~280 words + map + 6 legend items + 4 threat targets + 5 scenario bars + insight box | **Severe.** Two distinct arguments (infrastructure strikes AND scenario probabilities) fighting for attention. |
+| Card 3 (Macro) | ~200 words + 2 charts + 3 KPIs + 4 gauge visualizations + insight box | **Heavy but more defensible.** The charts do the talking. Still too many concurrent messages. |
+| Card 4 (Vulnerability) | ~350 words + Sankey flow + LPG tank viz + reserve bars + 3 callout boxes + insight | **The worst offender.** Three completely distinct topics (fleet status, LPG shortage, strategic reserves) jammed into one card. |
+| Card 5 (Alternatives) | ~250 words visible + crude origin bars + spread visualization (HTML cuts off mid-card) | **Moderate.** The crude bar chart is clean. The Urals spread section is a good standalone insight. |
+
+**The McKinsey rule you're violating:** One card = one message = one proof point. You're running at 3-4 messages per card.
+
+---
+
+## 3. INFORMATION OVERLOAD — Split/Merge/Kill Recommendations
+
+### Cards that must be SPLIT:
+
+**Card 1 should become 3 cards:**
+- **Card 1A:** The headline + KPI strip + map. Full stop. *"42% of India's crude transits a 21-mile strait that has been closed for 20 days."* That's your opener. Let it breathe.
+- **Card 1B:** The timeline. Eight escalation events in 20 days. This is powerful standalone content — you're burying it below the fold.
+- **Card 1C:** The crisis comparison bar chart. "Largest oil supply disruption in recorded history" is a standalone killer stat. It deserves its own card with a hero number (8M bbl/d) dominating the viewport.
+
+**Card 2 should become 2 cards:**
+- **Card 2A:** The strike map + targets. Pure military/physical infrastructure story.
+- **Card 2B:** The scenario probability framework. This is decision-grade content that deserves full-screen treatment with larger bars and clearer probability math.
+
+**Card 4 should become 3 cards:**
+- **Card 4A:** Fleet status (the Sankey flow — actually quite good in isolation).
+- **Card 4B:** LPG crisis (the tank visualization + household impact).
+- **Card 4C:** Strategic reserve comparison vs. IEA peers with the "Day 74 = Early June" punchline.
+
+### Net effect: Your 5 cards should be ~11 cards, each with one message. For the full 26-card deck, I suspect the real number is 35-40 cards, each dramatically simpler.
+
+---
+
+## 4. THE 5-SECOND TEST
+
+| Card | Can you get the message in 5 seconds? | Why/Why Not |
+|------|---------------------------------------|-------------|
+| Card 1 | **FAIL** | The eye doesn't know where to land. KPI strip competes with map competes with timeline competes with chart. I get "this is serious" but not the specific claim. |
+| Card 2 | **FAIL** | The title says "Energy Infrastructure War" but the card immediately splits into a map, threat targets, AND scenario probabilities. Which one am I supposed to absorb? |
+| Card 3 | **PASS (barely)** | "$146.09/bbl" and "+112% in 20 days" — I get it. The price chart reinforces. But the waterfall and gauges below dilute the punch. |
+| Card 4 | **FAIL** | "The Crisis Is Already Onshore" is a great title. But then I see fleet data, LPG data, reserve data, and a long insight box. I don't know what "onshore" means specifically. |
+| Card 5 | **MARGINAL FAIL** | "70% Diversification Claim Is Half-True" is excellent framing. The bars are clean. But the Urals spread section is a completely separate insight crammed in below. |
+
+**Pattern:** Your titles are excellent. Your subtitles are excellent. Then each card undermines its own headline by trying to prove six things instead of one.
+
+---
+
+## 5. VISUAL-TO-TEXT RATIO
+
+| Card | Estimated Visual % | Estimated Text % | Target Met? |
+|------|-------------------|-------------------|-------------|
+| Card 1 | 40% (map + chart + KPI boxes) | 60% (timeline text, insight, sub-text, legends) | **NO** — inverted from target |
+| Card 2 | 45% (map + scenario bars + target grid) | 55% (legends, labels, insight, sources) | **NO** — close but text-heavy |
+| Card 3 | 55% (two charts + gauges + KPI strip) | 45% (labels, insight box, source notes) | **NO** — best ratio so far but still off |
+| Card 4 | 35% (Sankey bars, tank viz, reserve bars) | 65% (extensive inline text, insight paragraph, labels) | **NO** — worst ratio. The visualizations are actually good but drowning in explanatory text. |
+| Card 5 | 50% (crude origin bars, spread mini-chart) | 50% (pills, explanatory paragraphs, labels) | **NO** — close |
+
+**Core problem:** You don't trust your visuals to speak for themselves. Every chart has a title, a subtitle, axis labels, inline annotations, a legend, AND an insight box. Pick two. The chart + one insight sentence should be sufficient for a C-suite audience.
+
+---
+
+## 6. TOP 5 CARDS (of the 5 visible)
+
+Since I can only see 5 cards, I'll rank all 5:
+
+**#1 — Card 3 (Macro Damage Quantification)**
+Why: "$146.09/bbl, +112%" is immediately graspable. The price line chart is the right visualization. The Indian Basket vs. Brent divergence tells a story that a CFO can act on. The gauge row, while busy, gives a quick macro dashboard feel. **This is closest to what the deck should be.**
+
+**#2 — Card 5 (Alternatives Reality Check)**
+Why: "The 70% Diversification Claim Is Half-True" is the kind of contrarian, specific insight a CEO pays McKinsey for. The crude origin bars with Hormuz/Non-Hormuz tagging is immediately actionable. It challenges a comfortable narrative. **Best strategic framing of any card.**
+
+**#3 — Card 1 (Opener — but only the KPI strip + map)**
+Why: The top 30% of this card is excellent. The KPIs are punchy, the map contextualizes India's geographic exposure. If you stopped there, it would be a 9/10 opener. Everything below the map dilutes it.
+
+**#4 — Card 2 (Escalation — but only the scenario probabilities)**
+Why: The Goldman Sachs scenario framework with probability bars is exactly what a CEO needs for decision-making. 35-40% prolonged standoff as base case, 30-35% conflagration rising — this is actionable intelligence. Bury it in a multi-topic card and you've wasted your best analytical asset.
+
+**#5 — Card 4 (Vulnerability — but only the reserve comparison)**
+Why: India at 74 days vs. Japan/Korea/China at 90+ days, with the "Day 74 = Early June" callout, is a powerful strategic insight. The fleet and LPG sections are also good — they just don't belong on the same card.
+
+---
+
+## 7. BOTTOM 5 CARDS (of the 5 visible)
+
+These aren't "bad" — they're **self-sabotaged by overcrowding:**
+
+**#5 (worst) — Card 4 as constructed**
+Problem: Three separate stories (fleet, LPG, reserves) create cognitive chaos. The Sankey flow for fleet status requires 15 seconds to parse — that's an eternity. The LPG tank visualization is creative but the surrounding text (50K hotels, 741 cylinders seized, Chhattisgarh) reads like a wire service dispatch, not a strategic briefing. **A CEO doesn't need to know about cylinder seizures in Chhattisgarh.**
+
+**#4 — Card 1 as constructed**
+Problem: You have a genuine "Day 20" crisis opener that gets buried under an 8-item timeline, a bar chart, and a 60-word insight box. The "swipe down" gesture means everything below the first viewport is invisible to most users. Your best content (the timeline, the crisis comparison) is below the fold and will be skipped.
+
+**#3 — Card 2 as constructed**
+Problem: Military escalation analysis and probabilistic scenario modeling are two completely different analytical frameworks appealing to two different cognitive modes. One is "what happened" (backward-looking), the other is "what might happen" (forward-looking). Combining them forces context-switching that a time-pressed executive won't do.
+
+**#2 — Card 5 (partially visible)**
+Problem: The HTML cuts off mid-render, which means the Urals spread visualization is incomplete. But even structurally, pairing "India's crude origin diversification" with "Russia's price reversal" is two arguments. The first is portfolio composition; the second is pricing dynamics. Different slides.
+
+**#1 (least problematic) — Card 3**
+Problem: The waterfall chart's math doesn't add up visually (137 + 43 + 86 + 17 + 20 = 303, but the label says $266B). The comment in the JavaScript acknowledges this discrepancy. **A CEO will catch this in 2 seconds and question every other number in the deck.** Fix this or kill the waterfall.
+
+---
+
+## 8. KILL LIST
+
+From what I can see, nothing should be killed entirely — the content is all relevant. But specific **elements within cards** should be killed:
+
+| Kill This | Why |
+|-----------|-----|
+| Card 1: Crisis comparison bar chart | Move to its own card. In the opener, it competes with the map and timeline. |
+| Card 1: The insight box at bottom | 60 words restating what the data already shows. The chart speaks for itself. |
+| Card 2: Threat target grid (4 boxes) | This is intelligence-level detail. A CEO needs to know "5 facilities threatened, all within missile range." Not the names of each facility. Reduce to one sentence. |
+| Card 4: "741 cylinders seized, Chhattisgarh" | Anecdotal. Doesn't belong in a strategic briefing. |
+| Card 4: "611 seafarers confirmed safe" | Humanitarian, not strategic. Unless the audience is the shipping ministry, cut it. |
+| Card 4: The entire LPG tank SVG visualization | Creative but takes too long to parse. Replace with one number: "52-55% supply gap." |
+| All cards: Source attribution lines | Move to an appendix or endnotes card. "Sources: PPAC; Bloomberg; BusinessToday; Working Documents B6/B10/F30" is noise on every card. |
+| All cards: Acronym definitions inline | "CAD = Current Account Deficit; CPI = Consumer Price Index" — your audience is Indian energy C-suite. They know what CAD means. Put a glossary on the last card if you must. |
+
+---
+
+## 9. SPECIFIC FIXES
+
+| Card | Specific Fix |
+|------|-------------|
+| **Card 1** | **Split into 3 cards. Card 1A: Keep only the title, subtitle, KPI strip, and map. Delete everything below the map.** The timeline becomes Card 1B. The crisis comparison becomes Card 1C with a hero number "8M bbl/d" in 72px font. |
+| **Card 2** | **Move scenario probability bars to their own card (make it Card 6 or wherever Act II begins).** On the strike card, replace the 4-box threat target grid with a single sentence: "Iran has declared 5 additional Gulf facilities as targets — all within Fattah-1 hypersonic range (1,500 km)." |
+| **Card 3** | **Fix the waterfall math. 137 + 43 + 86 + 17 + 20 = 303, not 266.** Either adjust the component values to sum to 266, or label the endpoint correctly as 303 and explain the difference. A single arithmetic error destroys credibility with a CFO. Also: kill the gauge SVGs and replace with a simple 4-column table showing Target vs. Projected for CAD, Fiscal Deficit, CPI, GDP. Gauges are eye candy that slow comprehension. |
+| **Card 4** | **Pick ONE story: the reserve cover comparison.** "India: 74 days. Japan: 90+. China: 90+ with Hormuz access. Day 74 = Early June = Monsoon." That's a card. Fleet status and LPG become separate cards. On the LPG card, lead with the hero number: "52-55% supply gap" in 72px. Kill the tank SVG, the Chhattisgarh seizure stat, and the seafarer count. |
+| **Card 5** | **Kill the Urals spread section.** The crude origin bars are strong enough to carry the card alone. The "70% diversified but LPG is 90% Gulf-origin" insight is the punchline — make it visually dominant. Add a simple 2-column comparison: "What looks diversified" (crude, 70% non-Hormuz) vs. "What isn't" (LPG 90%, medium-heavy sour 100%). |
+
+---
+
+## 10. THE DECK AS A WHOLE
+
+### What I can assess from 5 of 26 cards:
+
+**Story arc (partial view):** Act I is situation/diagnosis. The progression from "strait closed" → "escalating" → "macro damage" → "onshore impact" → "alternatives limited" is logical. It follows the classic McKinsey situation-complication-resolution structure, and you're still in complication at Card 5. Good.
+
+**What concerns me about the remaining 21 cards:**
+
+If Cards 6-26 maintain this density, the reader will experience cognitive fatigue by Card 8-10. **The human brain can process ~4 novel data points per minute in a scroll format.** Each of your cards contains 8-12 data points. At 26 cards, that's 200+ data points. No executive retains that.
+
+**What the arc needs:**
+
+1. **A clear "so what" pivot around Card 8-10.** Stop telling me the situation and start telling me what to do about it. If that exists, great. If it doesn't, the deck is a situation report, not a strategic briefing — and the title promises the latter.
+
+2. **A decision-forcing mechanism.** The scenario framework (Card 2's probability bars) is the right tool, but it needs to connect explicitly to actions: "If prolonged standoff (35-40%), do X within 48 hours. If conflagration (30-35%), do Y immediately."
+
+3. **A 3-item action list on the final card.** Not 10 items. Not a "checklist." Three things the CEO should authorize on Monday morning. Each with a dollar value, a deadline, and a named owner.
+
+4. **The climax should be the cost of inaction.** "If you do nothing for 30 more days, here is the specific financial impact to your company." Not India's macro. Not the global oil market. *Your company, your P&L, your board.*
+
+### Final structural recommendation:
+
+**Cut the deck to 18-20 cards max.** Use the following structure:
+
+| Section | Cards | Purpose |
+|---------|-------|---------|
+| Opener | 1-2 | "Here's what happened, here's why it matters to you" |
+| Situation | 3-6 | Four proof points (macro, supply, alternatives, escalation) |
+| Scenario Framework | 7-8 | Probabilities + price ranges + duration |
+| Impact Quantification | 9-12 | Your company's specific exposure under each scenario |
+| Response Options | 13-16 | What peers are doing, what's available, trade-offs |
+| Action Plan | 17-18 | 3 decisions, 3 deadlines, 3 price tags |
+| Appendix | 19-20 | Methodology, sources, glossary |
+
+---
+
+## BOTTOM LINE
+
+**This briefing has A-grade intelligence packed into C-grade information architecture.** The data is real, the analysis is sharp, the scenario framework is genuinely useful, and the design system is polished. But you're treating every card like it might be the last one the reader sees, so you cram everything in. The paradox: by trying to ensure nothing is missed, you ensure almost everything is missed.
+
+**The single most important edit:** Go through every card and ask — *"What is the ONE sentence a CEO would repeat to their board?"* Everything else on that card exists only to prove that sentence. If it doesn't prove it, it goes to the appendix or it dies.
+
+This has the bones of an exceptional product. It needs an editor with a machete, not a scalpel.

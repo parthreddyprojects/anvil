@@ -3052,6 +3052,149 @@ hr{{border:none;border-top:1px solid #e5e7eb;margin:24px 0}}
     return str(html_path)
 
 
+def _build_hypothesis_tree_html(run_dir):
+    """Build an interactive hypothesis tree HTML page."""
+    run_dir = Path(run_dir)
+    hyp_path = run_dir / "hypotheses" / "hypotheses.json"
+    if not hyp_path.exists():
+        return None
+
+    with open(hyp_path, encoding="utf-8") as f:
+        hyp = json.load(f)
+
+    e = html_mod.escape
+    gov = e(hyp.get("governing_hypothesis", ""))
+    hypotheses = hyp.get("hypotheses", [])
+    graveyard = hyp.get("graveyard", [])
+    diagnosticity = hyp.get("diagnosticity", {})
+    high_diag = diagnosticity.get("high_diagnosticity_findings", [])
+
+    # Build cards
+    cards_html = ""
+    for h in hypotheses:
+        hid = h.get("id", "?")
+        status = h.get("status", "uncertain").upper()
+        conf = h.get("confidence", "?").upper()
+        stmt = e(h.get("statement", ""))
+        bp = e(h.get("break_point", ""))
+        ev_for = e(str(h.get("evidence_for", "")))
+        ev_against = e(str(h.get("evidence_against", "")))
+        checks = h.get("stress_checks", {})
+        review = e(h.get("review_notes", ""))
+        diag_note = e(h.get("diagnosticity_note", ""))
+
+        status_color = "#16a34a" if status == "CONFIRMED" else "#ef4444" if status == "KILLED" else "#f59e0b"
+        status_bg = "rgba(22,163,74,0.08)" if status == "CONFIRMED" else "rgba(239,68,68,0.08)" if status == "KILLED" else "rgba(245,158,11,0.08)"
+        conf_color = "#16a34a" if conf == "HIGH" else "#f59e0b" if conf == "MEDIUM" else "#ef4444"
+
+        # Stress test dots
+        check_html = ""
+        check_names = [("evidence_match", "Evidence"), ("break_point", "Break Pt"), ("consistency", "Consistency"), ("confidence_calibration", "Calibration"), ("steel_man", "Steel Man"), ("diagnosticity", "Diagnosticity")]
+        for key, label in check_names:
+            val = checks.get(key, "?")
+            if val in ("pass", "high"):
+                dot = f'<span style="color:#16a34a;">●</span>'
+            elif val in ("fail", "low"):
+                dot = f'<span style="color:#ef4444;">●</span>'
+            else:
+                dot = f'<span style="color:#999;">○</span>'
+            check_html += f'<span style="font-size:11px;margin-right:12px;">{dot} {label}</span>'
+
+        cards_html += f'''
+<div style="background:{status_bg};border:1px solid #e5e7eb;border-left:4px solid {status_color};border-radius:0 8px 8px 0;padding:20px 24px;margin-bottom:12px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+    <span style="font:800 14px 'Inter';color:{status_color};">{hid} — {status}</span>
+    <span style="font:600 11px 'Inter';color:{conf_color};background:{status_bg};padding:3px 10px;border-radius:12px;border:1px solid {conf_color};">{conf}</span>
+  </div>
+  <p style="font:400 15px/1.6 'Inter';color:#1a1a1a;margin-bottom:12px;">{stmt}</p>
+  <div style="margin-bottom:10px;">{check_html}</div>
+  {"<p style='font:400 13px/1.5 Inter;color:#555;margin-bottom:6px;'><strong>Break point:</strong> " + bp + "</p>" if bp else ""}
+  {"<p style='font:400 13px/1.5 Inter;color:#555;margin-bottom:6px;'><strong>Evidence for:</strong> " + ev_for[:300] + "</p>" if ev_for else ""}
+  {"<p style='font:400 13px/1.5 Inter;color:#555;margin-bottom:6px;'><strong>Evidence against:</strong> " + ev_against[:300] + "</p>" if ev_against else ""}
+  {"<p style='font:400 12px/1.5 Inter;color:#999;font-style:italic;'>" + review + "</p>" if review else ""}
+</div>'''
+
+    # Graveyard
+    graveyard_html = ""
+    if graveyard:
+        graveyard_html = '<h2 style="color:#ef4444;margin:32px 0 16px;">Hypothesis Graveyard</h2>'
+        for k in graveyard:
+            stmt = e(k.get("statement", ""))
+            killed = e(k.get("killed_by", ""))
+            graveyard_html += f'''
+<div style="background:rgba(239,68,68,0.05);border:1px solid #fecaca;border-left:4px solid #ef4444;border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:10px;">
+  <p style="font:600 13px 'Inter';color:#ef4444;margin-bottom:6px;">REJECTED</p>
+  <p style="font:400 14px/1.6 'Inter';color:#1a1a1a;margin-bottom:6px;">{stmt}</p>
+  <p style="font:400 12px/1.5 'Inter';color:#999;"><strong>Kill reason:</strong> {killed}</p>
+</div>'''
+
+    # High diagnosticity
+    diag_html = ""
+    if high_diag:
+        diag_html = '<h2 style="margin:32px 0 16px;">Key Discriminating Evidence</h2><p style="font:400 13px/1.5 Inter;color:#555;margin-bottom:12px;">These findings distinguish between competing hypotheses:</p>'
+        for hd in high_diag[:5]:
+            diag_html += f'<p style="font:400 13px/1.5 Inter;color:#1a1a1a;padding:8px 12px;background:#f8fafc;border-left:3px solid #2563eb;margin-bottom:8px;">{e(str(hd)[:200])}</p>'
+
+    # Summary stats
+    confirmed = len([h for h in hypotheses if h.get("status") == "confirmed"])
+    uncertain = len([h for h in hypotheses if h.get("status") == "uncertain"])
+    killed_count = len(graveyard)
+
+    page = f'''<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hypothesis Tree</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{{font-family:'Inter',sans-serif;max-width:900px;margin:0 auto;padding:48px 32px 80px;color:#1a1a1a;background:#fff;line-height:1.6}}
+h1{{font:800 24px/1.3 'Inter';margin:0 0 8px}}
+h2{{font:700 18px/1.3 'Inter';margin:40px 0 16px;color:#1a1a1a;border-bottom:1px solid #e5e7eb;padding-bottom:8px}}
+</style></head><body>
+
+<div style="display:flex;gap:16px;margin-bottom:24px;">
+  <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 20px;text-align:center;flex:1;">
+    <div style="font:800 24px 'Inter';color:#16a34a;">{confirmed}</div>
+    <div style="font:500 11px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Confirmed</div>
+  </div>
+  <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 20px;text-align:center;flex:1;">
+    <div style="font:800 24px 'Inter';color:#f59e0b;">{uncertain}</div>
+    <div style="font:500 11px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Uncertain</div>
+  </div>
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 20px;text-align:center;flex:1;">
+    <div style="font:800 24px 'Inter';color:#ef4444;">{killed_count}</div>
+    <div style="font:500 11px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Killed</div>
+  </div>
+</div>
+
+<h1>Governing Hypothesis</h1>
+<div style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 20px;margin-bottom:32px;border-radius:0 8px 8px 0;">
+  <p style="font:400 15px/1.7 'Inter';color:#1a1a1a;">{gov}</p>
+</div>
+
+<h2>Hypotheses ({len(hypotheses)} tested)</h2>
+<p style="font:400 13px 'Inter';color:#555;margin-bottom:16px;">
+  <span style="color:#16a34a;">● pass</span> &nbsp;
+  <span style="color:#ef4444;">● fail</span> &nbsp;
+  <span style="color:#999;">○ not tested</span> &nbsp;
+  — 6-point stress test: Evidence match, Break point, Consistency, Calibration, Steel man, Diagnosticity
+</p>
+
+{cards_html}
+
+{graveyard_html}
+
+{diag_html}
+
+<div style="font:400 11px 'Inter';color:#999;margin-top:40px;padding-top:16px;border-top:1px solid #e5e7eb;">
+  Generated by Anvil · Hypothesis stress test with 6 failure modes · Governing hypothesis from survivors only
+</div>
+
+</body></html>'''
+
+    out_path = run_dir / "hypotheses" / "hypotheses.html"
+    out_path.write_text(page, encoding="utf-8")
+    return str(out_path)
+
+
 def _build_combined_output(run_dir):
     """Combine all outputs into one tabbed HTML file using iframes."""
     run_dir = Path(run_dir)
@@ -3059,12 +3202,14 @@ def _build_combined_output(run_dir):
     # Convert markdown files to HTML
     synthesis_html = _md_to_html_page(run_dir / "synthesis" / "synthesis.md", "Synthesis")
     debrief_html = _md_to_html_page(run_dir / "research" / "debrief.md", "Research Debrief")
+    hypothesis_html = _build_hypothesis_tree_html(run_dir)
 
-    # Build tab config: Report | Appendix | Issue Tree | Synthesis | Research Debrief
+    # Build tab config: Report | Appendix | Issue Tree | Hypotheses | Synthesis | Research Debrief
     tabs = [
         ("Report", "final_document.html"),
         ("Appendix", "appendix.html"),
         ("Issue Tree", "tree.html"),
+        ("Hypotheses", "hypotheses/hypotheses.html" if hypothesis_html else ""),
         ("Synthesis", "synthesis/synthesis.html" if synthesis_html else ""),
         ("Research Debrief", "research/debrief.html" if debrief_html else ""),
     ]

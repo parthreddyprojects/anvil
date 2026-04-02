@@ -1,0 +1,62 @@
+{
+  "condensed_ps": "Nayara Energy's Vadinar refinery (400 kbpd) faces an existential liquidity and operational crisis within 72 hours: the April 3 Russia sanctions waiver expiry threatens the 80–85% Russian crude supply that keeps the refinery running, while Rosneft's 49.13% ownership contaminates every counterparty relationship — trading houses, correspondent banks, and P&I insurers — needed to procure any replacement crude. No purely commercial procurement decision is executable without first resolving the legal designation question, because counterparty withdrawal collapses the financing, insurance, and supply infrastructure simultaneously. Without a written OFAC counsel opinion, a GoI-backed LC facility, and a pre-arranged government ownership backstop, Nayara cannot survive as an independent operating entity beyond 30–45 days.",
+  "header": "Nayara must secure OFAC legal clearance and GoI LC guarantee within 48 hours or face irreversible refinery shutdown — procurement decisions are legally inert without these two preconditions.",
+  "situation": "Nayara's Vadinar refinery draws 80–85% of its 400 kbpd crude intake from Rosneft-supplied Russian grades; the April 3 sanctions enforcement deadline simultaneously cuts that supply and — because Rosneft holds 49.13% of Nayara — triggers secondary sanctions exposure that contaminates every bank, trader, and insurer Nayara needs to procure replacement crude from any source. At $156/bbl Indian basket, each replacement VLCC cargo costs $312M, doubling working capital requirements against credit lines that UAE correspondent banks are already informally withdrawing. If nothing is done before April 3, Nayara exhausts its 12–18 day autonomous crude inventory by approximately April 21, triggering a forced refinery shutdown that removes 400 kbpd from Indian refining capacity, collapses Karnataka and Goa diesel and ATF supply, and constitutes a national energy security failure with no rapid recovery path given a 10–15 day cold-restart minimum.",
+  "performance_data": [
+    {
+      "kpi": "Russian Crude Dependency",
+      "value": "80–85% of 400 kbpd intake",
+      "variance": "vs. Indian refining sector average of ~35–40% Russian share — Nayara is 2.1–2.4x more exposed than peer Indian private refiners",
+      "direction": "flat"
+    },
+    {
+      "kpi": "Autonomous Inventory Cover (Crude)",
+      "value": "12–18 days post-April 3",
+      "variance": "vs. Indian refinery operational norm of 15–30 days and vs. Jamnagar estimated 18–25 days — Vadinar is at the critical lower bound with zero buffer for procurement delays",
+      "direction": "down"
+    },
+    {
+      "kpi": "Effective LC Financing Capacity (Spot Crude)",
+      "value": "Est. 1–2 replacement VLCCs ($312–624M)",
+      "variance": "vs. monthly replacement requirement of 6–7 VLCCs (~$1.9B/month) to sustain full throughput — financing covers 15–30% of monthly need, a structural shortfall of $1.3–1.6B/month",
+      "direction": "down"
+    },
+    {
+      "kpi": "Rosneft Ownership vs. OFAC 50% Designation Threshold",
+      "value": "49.13% — 0.87 percentage points below automatic blocking",
+      "variance": "vs. OFAC 50% Rule threshold — within OFAC's operational control discretion zone, creating active designation risk not present at peer Indian refiners with zero Russian ownership",
+      "direction": "flat"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "Rosneft's 49.13% ownership places Nayara inside OFAC's 'operational control' discretion zone, where supply agreements covering 80–85% of crude intake independently satisfy the control test without reaching the 50% ownership threshold",
+      "impact": "Every material counterparty — the three UAE correspondent banks providing LC facilities, the trading houses supplying spot crude, and the P&I clubs insuring Vadinar-bound vessels — faces independent secondary sanctions exposure on any transaction with Nayara, collapsing the procurement, financing, and insurance infrastructure simultaneously rather than sequentially; this is not a crude sourcing problem with a logistics solution, it is an entity-level legal contamination event",
+      "so_what": "No procurement or financing decision is executable until Nayara holds a written OFAC counsel opinion confirming non-blocked status delivered to all material counterparties — this opinion is the gating action that either unlocks or permanently forecloses every downstream commercial decision on this list"
+    },
+    {
+      "finding": "The 12–18 day autonomous inventory window and the 8–10 day transit time for Omani spot crude (the only Hormuz-independent, chemically compatible Urals substitute) create a procurement commitment deadline of April 5–6 at the absolute latest — but Omani spot cargo fixings require functional bank LC lines that are simultaneously being withdrawn by UAE banks anticipating April 3 enforcement",
+      "impact": "Nayara's financing capacity for spot crude replacement covers 1–2 VLCCs against a monthly requirement of 6–7, meaning even if Omani spot availability is confirmed, Nayara can finance only 15–30% of replacement volume without a GoI-backed LC facility — forcing a throughput cut to 40–50% (160–200 kbpd) that triggers DSCR covenant breach on term loans calibrated to full-throughput economics, accelerating lender action and cross-default cascade",
+      "so_what": "The CFO must simultaneously pursue the GoI LC guarantee (H7) as the precondition for any spot procurement, and fix whatever Omani cargoes are financeable on existing credit today — waiting for GoI confirmation before fixing any cargo risks missing the Omani spot window entirely, meaning Nayara must act on both tracks in parallel and accept the sequencing risk"
+    },
+    {
+      "finding": "MRPL's shutdown has removed 115 kbpd diesel and 18 kbpd ATF from Karnataka and Goa — creating a politically visible national energy security failure within 48–72 hours that gives GoI a direct strategic rationale to intervene in Nayara's crisis, but only if Nayara's CEO frames the engagement as a national infrastructure obligation before GoI frames it as a sanctions-contaminated Russian asset problem",
+      "impact": "Karnataka depends on MRPL for 40–45% of state HSD; Goa depends on it for 70–75% of all petroleum products — these are 48-to-72-hour media-visible supply failures that will compel MoPNG and PMO attention regardless of Nayara's legal complexity, and Vadinar's coastal tanker access gives it a 3–4 day transit advantage over Jamnagar for Mangalore and Kochi supply, making Nayara the most operationally proximate solution to a problem GoI cannot ignore",
+      "so_what": "The CEO must initiate a Secretary-level MoPNG engagement within 12 hours — before any commercial procurement commitment — framing Vadinar's continued operation as the only viable southern India supply solution and converting that national obligation into three specific government commitments: GoI-guaranteed LC facilities from SBI or Bank of Baroda, MEA-to-State Department OFAC diplomatic engagement, and a formal commitment to evaluate emergency acquisition of Rosneft's 49.13% stake"
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "ask": "Authorize General Counsel to retain US-qualified sanctions counsel (Sullivan & Cromwell or Cleary Gottlieb) within the next 6 hours and obtain a written OFAC opinion on Nayara's non-blocked status — at an estimated legal cost of $500K–1M — with the written opinion delivered to all material counterparties (UAE banks, top-3 trading house contacts, P&I club underwriters) no later than April 2, 12:00 IST; no procurement, financing, or cargo-fixing action to be authorized by any executive until this opinion is in hand"
+    },
+    {
+      "number": 2,
+      "ask": "CEO to initiate a direct call to MoPNG Secretary (Petroleum) within 12 hours presenting a written Vadinar supply commitment covering 115 kbpd diesel and 18 kbpd ATF to Karnataka and Goa in exchange for three written government commitments by April 2: (a) GoI-backed LC guarantee facility of $1.5–2.0B from SBI or Bank of Baroda for non-Russian spot crude procurement, (b) MEA engagement of the US State Department on OFAC policy forbearance for Nayara post-April 3, and (c) GoI commitment to evaluate ONGC or SPE acquisition of Rosneft's 49.13% stake on an accelerated timeline; CFO to simultaneously draw the maximum available amount on all existing revolving credit facilities today — estimated $800M–1.2B if covenant-clean — before any bank preemptively freezes lines citing Rosneft SDN exposure"
+    },
+    {
+      "number": 3,
+      "ask": "Head of Supply to fix 3–4 Suezmax cargoes of Omani Blend crude (DME spot, approximately 6–8 million barrels at an estimated $290–310M per cargo) within 24 hours using whatever LC capacity remains after the pre-draw in Decision 2, targeting May 1–10 delivery to bridge the inventory gap while GoI LC guarantee is confirmed; if Omani spot availability falls below 4 cargoes or pricing exceeds Brent plus $4/bbl, immediately authorize managed throughput reduction to 160–200 kbpd (40–50% utilization) on remaining Russian inventory to extend the autonomous window and preserve refinery mechanical integrity while the structural ownership and legal solutions in Decisions 1 and 2 are executed — with the explicit board acknowledgment that 40–50% utilization for more than 30 days will trigger DSCR covenant breach and that GoI backstop confirmation is the only mechanism that prevents that outcome from becoming a lender-driven shutdown"
+    }
+  ]
+}

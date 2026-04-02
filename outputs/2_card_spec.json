@@ -1,0 +1,302 @@
+{
+  "title": "India's Energy War",
+  "subtitle": "Strategic Intelligence Briefing",
+  "date": "March 24, 2026",
+  "audience": "Indian energy C-suite executives",
+  "cards": [
+    {
+      "card_id": "c01",
+      "card_type": "hero",
+      "key_message": "India faces the largest oil supply shock in history.",
+      "data": [
+        "20M bbl/d knocked offline (20% of global seaborne supply)",
+        "1973 embargo removed 5-7% of supply; this removes 20%",
+        "IEA head: worse than the two 1970s oil shocks combined"
+      ],
+      "visual_type": "before_after_bars",
+      "source": "IEA / Working Document Section A4",
+      "background": "dark"
+    },
+    {
+      "card_id": "c02",
+      "card_type": "kpi_card",
+      "key_message": "It peaked at $156 per barrel. The rupee hit an all-time low.",
+      "data": [
+        "Indian crude basket: $156.29/bbl peak on March 19",
+        "Brent pre-crisis: ~$75/bbl",
+        "USD/INR: 93.29 — all-time low"
+      ],
+      "visual_type": "big_number",
+      "source": "Working Document Section A8, B10",
+      "background": "light"
+    },
+    {
+      "card_id": "c03",
+      "card_type": "chart_card",
+      "key_message": "22 ships are stranded. Mines make the strait impassable for months.",
+      "data": [
+        "22 Indian-flagged vessels stranded (1.67M tonnes crude, 611 crew)",
+        "Iran began mining March 10; ~dozens of mines confirmed laid",
+        "Mine clearance timeline: 'significant numbers of weeks' even once assets in position"
+      ],
+      "visual_type": "map",
+      "source": "Working Document Section B7, D18",
+      "background": "light"
+    },
+    {
+      "card_id": "c04",
+      "card_type": "chart_card",
+      "key_message": "Crude is manageable. Cooking gas is rationed for 330 million households.",
+      "data": [
+        "90% of India's LPG imports transited Hormuz pre-crisis",
+        "20% cap imposed on commercial LPG supply",
+        "330 million households depend on LPG cooking fuel"
+      ],
+      "visual_type": "gauge",
+      "source": "Working Document Section B8, B6",
+      "background": "light"
+    },
+    {
+      "card_id": "c05",
+      "card_type": "chart_card",
+      "key_message": "Even a ceasefire signed March 28 cannot reopen the strait until summer.",
+      "data": [
+        "Ceasefire pause expires March 28",
+        "Mine clearance alone: 8-12 weeks after assets in position",
+        "US dedicated minesweepers spotted thousands of miles away in Asia"
+      ],
+      "visual_type": "timeline",
+      "source": "Working Document Section D18, D20",
+      "background": "light"
+    },
+    {
+      "card_id": "c06",
+      "card_type": "act_break",
+      "key_message": "—— Your refinery ——",
+      "data": {
+        "title": "Your Refinery",
+        "subtitle": "Capacity, slate, and supply are no longer yours to control."
+      },
+      "visual_type": "big_number",
+      "source": null,
+      "background": "light"
+    },
+    {
+      "card_id": "c07",
+      "card_type": "kpi_card",
+      "key_message": "MRPL already shut its crude unit. Your supply window is closing.",
+      "data": [
+        "MRPL (300,000 bbl/d) shut its 100,000 bbl/d crude unit due to supply shortage",
+        "MRPL also suspended refined fuel exports",
+        "MRPL depends almost entirely on Middle Eastern crude"
+      ],
+      "visual_type": "big_number",
+      "source": "Working Document Section E22, C13",
+      "background": "light"
+    },
+    {
+      "card_id": "c08",
+      "card_type": "chart_card",
+      "key_message": "Jamnagar runs at full complexity. Single-source refineries are bleeding cash.",
+      "data": [
+        "IOCL stock: -22.8% since Feb 27",
+        "BPCL stock: -25% since Feb 27",
+        "HPCL stock: -24% since Feb 27"
+      ],
+      "visual_type": "horizontal_bar",
+      "source": "Working Document Section E21",
+      "background": "light"
+    },
+    {
+      "card_id": "c09",
+      "card_type": "chart_card",
+      "key_message": "The government has overridden your product slate. LPG comes first.",
+      "data": [
+        "ESMA invoked March 10: refineries ordered to maximize LPG output",
+        "Gas allocation to refineries cut to 65% of 6-month average",
+        "Fertilizer plants guaranteed 70%; domestic LPG prioritized above all"
+      ],
+      "visual_type": "sankey",
+      "source": "Working Document Section E23, B8",
+      "background": "light"
+    },
+    {
+      "card_id": "c10",
+      "card_type": "act_break",
+      "key_message": "—— Your balance sheet ——",
+      "data": {
+        "title": "Your Balance Sheet",
+        "subtitle": "Three separate clocks are running down simultaneously."
+      },
+      "visual_type": "big_number",
+      "source": null,
+      "background": "light"
+    },
+    {
+      "card_id": "c11",
+      "card_type": "chart_card",
+      "key_message": "You are losing over fifty rupees on every litre of diesel you sell.",
+      "data": [
+        "Effective diesel cost: Rs 140+/litre",
+        "Retail diesel price frozen at Rs 87.57/litre",
+        "Under-recovery: ~Rs 52/litre on every retail litre sold"
+      ],
+      "visual_type": "waterfall",
+      "source": "Working Document Section E25, B12",
+      "background": "light"
+    },
+    {
+      "card_id": "c12",
+      "card_type": "chart_card",
+      "key_message": "The Russia waiver expires April 3. Your cheapest fallback vanishes in ten days.",
+      "data": [
+        "Waiver issued March 5, expires April 3-5",
+        "Covers ONLY oil loaded on vessels as of March 5 — no new shipments",
+        "No renewal signal as of March 24"
+      ],
+      "visual_type": "timeline",
+      "source": "Working Document Section C11, F27",
+      "background": "light"
+    },
+    {
+      "card_id": "c13",
+      "card_type": "chart_card",
+      "key_message": "Brent is at $100 today. It may not be this low again.",
+      "data": [
+        "Brent: $100.09 on March 24 (down from $126 peak)",
+        "If talks fail March 28, prices spike above $126 again",
+        "Goldman Sachs: triple-digit oil may persist for years"
+      ],
+      "visual_type": "line_chart",
+      "source": "Working Document Section A8, G32",
+      "background": "light"
+    },
+    {
+      "card_id": "c14",
+      "card_type": "act_break",
+      "key_message": "—— Your government ——",
+      "data": {
+        "title": "Your Government",
+        "subtitle": "Delhi is managing weeks of tools against months of disruption."
+      },
+      "visual_type": "big_number",
+      "source": null,
+      "background": "light"
+    },
+    {
+      "card_id": "c15",
+      "card_type": "chart_card",
+      "key_message": "Delhi is rationing, escorting, and freezing prices. It expects months, not weeks.",
+      "data": [
+        "ESMA invoked, 20% commercial LPG cap, retail prices frozen",
+        "6-7 warships deployed for naval escort operations",
+        "Planning guidance: Prolonged Standoff base case — 60% probability, 90+ days"
+      ],
+      "visual_type": "checklist",
+      "source": "Working Document Section E23, C14, G33",
+      "background": "light"
+    },
+    {
+      "card_id": "c16",
+      "card_type": "chart_card",
+      "key_message": "Non-alignment got four ships through. That diplomatic capital is finite.",
+      "data": [
+        "4-6 vessels transited safely using non-alignment posture",
+        "Iran allows selective passage for non-aligned nations only",
+        "18 of 22 ships remain stranded"
+      ],
+      "visual_type": "dot_grid",
+      "source": "Working Document Section B7, A2",
+      "background": "light"
+    },
+    {
+      "card_id": "c17",
+      "card_type": "chart_card",
+      "key_message": "Fertilizer gas is already cut to seventy percent. Kharif is at risk.",
+      "data": [
+        "Fertilizer plants guaranteed only 70% of past 6-month average gas",
+        "86% of LNG for fertilizer plants comes from West Asia",
+        "FAI warns gas curbs and packaging shortages threaten Kharif season"
+      ],
+      "visual_type": "gauge",
+      "source": "Working Document Section F30, E23",
+      "background": "light"
+    },
+    {
+      "card_id": "c18",
+      "card_type": "act_break",
+      "key_message": "—— Your board ——",
+      "data": {
+        "title": "Your Board",
+        "subtitle": "The numbers are in. The decisions are not."
+      },
+      "visual_type": "big_number",
+      "source": null,
+      "background": "light"
+    },
+    {
+      "card_id": "c19",
+      "card_type": "chart_card",
+      "key_message": "The annual import bill has surged by over a hundred billion dollars.",
+      "data": [
+        "Every $10/bbl rise adds $14-16B annually to India's import bill",
+        "Prices up ~$80/bbl from pre-crisis levels (~$75 to $155+)",
+        "Additional burden: ~$120B annualized"
+      ],
+      "visual_type": "waterfall",
+      "source": "Working Document Section B6",
+      "background": "light"
+    },
+    {
+      "card_id": "c20",
+      "card_type": "chart_card",
+      "key_message": "Three deadlines converge before April 6. Your board is planning for none of them.",
+      "data": [
+        "April 3: Russia crude waiver expires",
+        "April 5: OPEC+ meeting (206K bbl/d increase — symbolic, not solution)",
+        "April 6: All three deadlines passed with no board contingency plan"
+      ],
+      "visual_type": "timeline",
+      "source": "Working Document Section F27, F28",
+      "background": "light"
+    },
+    {
+      "card_id": "c21",
+      "card_type": "act_break",
+      "key_message": "—— What everyone else is missing ——",
+      "data": {
+        "title": "What Everyone Else Is Missing",
+        "subtitle": "The market priced in a deal. The strait cannot open that fast."
+      },
+      "visual_type": "big_number",
+      "source": null,
+      "background": "light"
+    },
+    {
+      "card_id": "c22",
+      "card_type": "chart_card",
+      "key_message": "Markets priced in a ceasefire. Mine clearance alone takes eight to twelve weeks.",
+      "data": [
+        "Brent crashed 11% in one session on Trump's ceasefire announcement",
+        "Mine clearance timeline: 8-12 weeks minimum after assets arrive",
+        "US dedicated minesweepers are thousands of miles away — not in the Gulf"
+      ],
+      "visual_type": "line_chart",
+      "source": "Working Document Section D18, A8",
+      "background": "light"
+    },
+    {
+      "card_id": "c23",
+      "card_type": "closing",
+      "key_message": "You have ten days before your fallback disappears. Decide now.",
+      "data": [
+        "Russia waiver expires April 3 — 10 days from March 24",
+        "Brent at $100 — $26 below the $126 peak; window is open now",
+        "Lock 60-70% of 90-day requirements at current levels or lose the option"
+      ],
+      "visual_type": "scenario_cards",
+      "source": "Working Document Section G31, G32",
+      "background": "light"
+    }
+  ]
+}

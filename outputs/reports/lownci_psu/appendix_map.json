@@ -1,0 +1,367 @@
+{
+  "slides": [
+    {
+      "appendix_num": 1,
+      "slot_type": "A",
+      "claim": "the Indian basket is at $156/bbl against a $142/bbl viability threshold",
+      "claim_section": "performance_data",
+      "action_title": "Negative $8–15/bbl GRM confirms every operating day destroys value",
+      "subtitle": "$/bbl GRM; Q3 FY2025 baseline vs. $156/bbl scenario; PPAC, company earnings, EXTRAPOLATED",
+      "proof_type": "waterfall",
+      "proof_content": {
+        "rows": [
+          {
+            "label": "Q3 FY2025 reported blended GRM (IOCL/BPCL/HPCL average)",
+            "value": "+$5.07/bbl",
+            "note": "IOCL $5.87, BPCL $5.23, HPCL $4.11 — source: Feb 2025 investor presentations; confidence HIGH"
+          },
+          {
+            "label": "Indian basket crude price uplift: ~$80/bbl → $156/bbl",
+            "value": "−$12.00/bbl",
+            "note": "Direct feedstock cost increase on fixed retail prices; confidence HIGH"
+          },
+          {
+            "label": "Diesel under-recovery at $156/bbl (65% of output)",
+            "value": "−$15 to −$19/bbl",
+            "note": "₹20–26/litre; PPAC methodology + Prabhudas Lilladher Jan 2025; confidence MEDIUM"
+          },
+          {
+            "label": "LPG under-recovery at $156/bbl",
+            "value": "−$18 to −$22/bbl equiv.",
+            "note": "₹547–647/cylinder; retail price frozen May 2022; confidence MEDIUM"
+          },
+          {
+            "label": "Partial offset: product crack spread uplift (crisis premium)",
+            "value": "+$4 to +$8/bbl",
+            "note": "Abqaiq 2019 precedent; Platts crack spread series; confidence LOW"
+          },
+          {
+            "label": "Estimated net GRM at $156/bbl — low-complexity PSU refiners",
+            "value": "−$8 to −$15/bbl",
+            "note": "EXTRAPOLATED; confidence LOW — this is the load-bearing number requiring MoPNG validation"
+          },
+          {
+            "label": "GRM viability threshold (positive GRM at 40–50% nameplate, non-Hormuz crudes)",
+            "value": "$142/bbl basket",
+            "note": "Decision sensitivity pivot point; EXTRAPOLATED from GRM trend + crack spread model; confidence LOW"
+          },
+          {
+            "label": "Current overshoot above viability threshold",
+            "value": "+$14/bbl",
+            "note": "Each day of operation at this overshoot = ₹400–600 crore system-wide balance sheet loss"
+          }
+        ]
+      },
+      "source_line": "Q3 FY2025 GRM: IOCL/BPCL/HPCL Feb 2025 earnings → under-recovery overlay: PPAC Weekly Price Monitor Mar 2025 + Prabhudas Lilladher Jan 2025 → net GRM extrapolation: working document Q1.9, confidence LOW, MoPNG validation required"
+    },
+    {
+      "appendix_num": 2,
+      "slot_type": "A",
+      "claim": "HPCL Mumbai and BPCL Mumbai carry only 10–12 days of crude inventory cover, breaching the 7-day operational shutdown trigger within 3–5 days absent new cargo arrivals",
+      "claim_section": "performance_data",
+      "proof_type": "benchmark_table",
+      "action_title": "Mumbai refineries breach 7-day shutdown trigger in 3–5 days without cargo",
+      "subtitle": "Days of crude inventory cover; crisis scenario ~April 2026; PPAC aggregate + EXTRAPOLATED per-refinery; confidence LOW",
+      "proof_content": {
+        "rows": [
+          {
+            "refinery": "HPCL Mumbai",
+            "nameplate_kbd": 150,
+            "est_stock_mmt": 0.29,
+            "days_cover": "10–11",
+            "vs_goi_minimum_15_20d": "−4 to −9 days",
+            "buffer_to_7d_trigger": "3–4 days",
+            "risk_rank": "#1 — CRITICAL"
+          },
+          {
+            "refinery": "BPCL Mumbai",
+            "nameplate_kbd": 240,
+            "est_stock_mmt": 0.29,
+            "days_cover": "10–12",
+            "vs_goi_minimum_15_20d": "−3 to −10 days",
+            "buffer_to_7d_trigger": "3–5 days",
+            "risk_rank": "#2 — CRITICAL"
+          },
+          {
+            "refinery": "BPCL Kochi",
+            "nameplate_kbd": 310,
+            "est_stock_mmt": 0.84,
+            "days_cover": "13",
+            "vs_goi_minimum_15_20d": "−2 to −7 days",
+            "buffer_to_7d_trigger": "6 days",
+            "risk_rank": "#3"
+          },
+          {
+            "refinery": "CPCL Manali",
+            "nameplate_kbd": 210,
+            "est_stock_mmt": 0.39,
+            "days_cover": "12–13",
+            "vs_goi_minimum_15_20d": "−2 to −8 days",
+            "buffer_to_7d_trigger": "5–6 days",
+            "risk_rank": "#3–4"
+          },
+          {
+            "refinery": "IOCL Bina",
+            "nameplate_kbd": 156,
+            "est_stock_mmt": 0.36,
+            "days_cover": "14",
+            "vs_goi_minimum_15_20d": "−1 to −6 days",
+            "buffer_to_7d_trigger": "7 days",
+            "risk_rank": "#5"
+          },
+          {
+            "refinery": "NRL Numaligarh",
+            "nameplate_kbd": 60,
+            "est_stock_mmt": 0.18,
+            "days_cover": "14–16",
+            "vs_goi_minimum_15_20d": "−1 to −6 days",
+            "buffer_to_7d_trigger": "7–9 days",
+            "risk_rank": "#6 — most insulated"
+          },
+          {
+            "benchmark": "GoI Parliamentary Committee guideline minimum",
+            "days_cover": "15–20 days",
+            "source": "Parliamentary Committee Report No. 43, 2022",
+            "note": "ALL SIX refineries already below minimum in crisis scenario"
+          },
+          {
+            "benchmark": "Operational shutdown trigger floor",
+            "days_cover": "7 days",
+            "source": "CRISIL Ratings Indian Refining Sector Oct 2023",
+            "note": "Below 7 days: CDU feed interruption risk; below 5 days: controlled shutdown must begin"
+          }
+        ],
+        "methodology_note": "Per-refinery stock EXTRAPOLATED from annual report storage capacity data at ~65–70% utilization assumption against PPAC aggregate 11.2 MMT India-wide (Mar 2025 Table 3.1). Real-time per-refinery stock is NOT publicly disclosed. MoPNG must validate against live refinery reporting within 6 hours before operational decisions."
+      },
+      "source_line": "Storage capacity: BPCL AR 2023–24, HPCL AR 2023–24, IOCL AR 2023–24 → aggregate utilization: PPAC Monthly Report Mar 2025 Table 3.1 → GoI guideline: Parliamentary Committee Report No. 43 2022 → 7-day trigger: CRISIL Oct 2023 → per-refinery extrapolation: working document Q1.1, confidence LOW"
+    },
+    {
+      "appendix_num": 3,
+      "slot_type": "A",
+      "claim": "System-Wide 30-Day Fiscal Exposure (Sovereign LC Guarantee Requirement): ₹40,000–50,000 crore ($4.8–5.9B) — exposure represents 25–35% of aggregate PSU refiner net worth in a single month, exceeding any single prior emergency fiscal intervention; categorically smaller than the estimated ₹2,50,000–3,50,000 crore GDP impact of a six-refinery cascade shutdown",
+      "claim_section": "performance_data",
+      "proof_type": "variance_table",
+      "action_title": "₹40,000–50,000 crore backstop costs 7x less than cascade shutdown GDP loss",
+      "subtitle": "₹ crore and $B; 30-day window April 2026; company ARs + EXTRAPOLATED GDP impact",
+      "proof_content": {
+        "rows": [
+          {
+            "item": "Sovereign LC guarantee requirement — derivation",
+            "detail": "Six refineries × combined ~1,000–1,050 kbd throughput × 30 days × $156/bbl × ~6.75 Rs/$ blended × LC coverage ratio ~85%",
+            "value_rs_crore": "₹40,000–50,000 crore",
+            "value_usd": "$4.8–5.9B",
+            "confidence": "MEDIUM — EXTRAPOLATED; each VLCC cargo LC ~$80–120M notional per working document analysis"
+          },
+          {
+            "item": "Combined net worth: HPCL + BPCL + IOCL (Q3 FY2025)",
+            "detail": "HPCL ~₹40,000–45,000 cr; BPCL ~₹55,000–60,000 cr; IOCL ~₹1,45,000 cr approx — sum ~₹1,40,000–1,60,000 crore",
+            "value_rs_crore": "~₹1,40,000–1,60,000 crore",
+            "value_usd": "~$17–19B",
+            "confidence": "MEDIUM — derived from AR FY2024 balance sheets"
+          },
+          {
+            "item": "LC exposure as % of aggregate PSU refiner net worth",
+            "detail": "₹40,000–50,000 cr ÷ ₹1,40,000–1,60,000 cr",
+            "value_rs_crore": "25–35% in a single month",
+            "value_usd": "—",
+            "confidence": "MEDIUM — ratio math is straightforward given inputs"
+          },
+          {
+            "item": "Estimated GDP impact — six-refinery cascade shutdown (30–40 day horizon)",
+            "detail": "India GDP ~$3.7T; refinery/downstream fuel dependency ~7–9% of GDP activity; 30–40 day full supply disruption shock estimated 2–3% GDP = $74–111B. Converted at ₹83/$",
+            "value_rs_crore": "₹2,50,000–3,50,000 crore",
+            "value_usd": "$30–42B",
+            "confidence": "LOW — EXTRAPOLATED; no published India-specific 6-refinery cascade model found; Rystad Energy Hormuz scenario 2023 used as directional proxy"
+          },
+          {
+            "item": "Cost-benefit ratio: backstop vs. cascade",
+            "detail": "Minimum GDP loss estimate ÷ maximum backstop cost",
+            "value_rs_crore": "5x to 7x return on backstop deployment",
+            "value_usd": "—",
+            "confidence": "LOW on absolute GDP number; directional conclusion robust across wide confidence interval"
+          }
+        ]
+      },
+      "source_line": "PSU net worth: HPCL/BPCL/IOCL AR FY2024 balance sheets → LC exposure: working document H1 evidence + VLCC cargo sizing → GDP impact: EXTRAPOLATED, Rystad Energy Hormuz scenario 2023 as proxy, working document H1 cascade_if_killed → confidence LOW on GDP figure, MoPNG/Finance Ministry should commission independent validation"
+    },
+    {
+      "appendix_num": 4,
+      "slot_type": "B",
+      "claim": "The fiscal authorization failure is a two-key problem, not one: a Presidential Directive indemnifying PSU refinery CMDs from personal liability for operating at negative GRM is necessary but insufficient without a simultaneous RBI emergency circular under Section 35A instructing PSU banks to issue sovereign-guaranteed LCs despite exposure concentration norm breaches — without the RBI instrument, crude suppliers receive no payment guarantee and will not load cargoes regardless of CMD indemnification",
+      "claim_section": "analysis",
+      "proof_type": "causal_chain",
+      "action_title": "RBI Section 35A circular is a co-equal blocking condition, not a follow-on step",
+      "subtitle": "Legal-operational causal chain; April 2026 crisis scenario; RBI Banking Regulation Act, OFAC/RBI prudential norms",
+      "proof_content": {
+        "chain": [
+          {
+            "step": 1,
+            "node": "Indian basket at $156/bbl → blended GRM estimated −$8 to −$15/bbl",
+            "implication": "Every VLCC crude cargo LC (~$80–120M notional) issued by SBI/PNB/Bank of Baroda is an unsecured contingent liability against a buyer (PSU refinery) running at negative GRM",
+            "blocking_condition": "NO — this is the trigger condition"
+          },
+          {
+            "step": 2,
+            "node": "Presidential Directive issued to PSU refinery CMDs",
+            "implication": "CMDs are indemnified from personal liability for authorizing continued operation at negative GRM — they CAN instruct procurement teams to request LCs",
+            "blocking_condition": "PARTIAL — solves CMD personal liability only; does NOT instruct banks to issue LCs"
+          },
+          {
+            "step": 3,
+            "node": "PSU refinery CMD instructs HPCL/BPCL/IOCL treasury to apply for crude cargo LC at SBI/PNB/Bank of Baroda",
+            "implication": "Bank compliance officer reviews LC application against RBI Master Circular on Credit Risk — DBR.No.Dir.BC.21/13.03.00/2015 and successor circulars — exposure concentration norms prohibit LC issuance to a single operationally insolvent counterparty above 15–25% of bank capital",
+            "blocking_condition": "YES — RBI statutory exposure norm is a hard block; Presidential Directive has no legal authority over RBI's statutory mandate under Banking Regulation Act Section 35A"
+          },
+          {
+            "step": 4,
+            "node": "Bank refuses LC or issues at sub-VLCC scale insufficient for crude cargo",
+            "implication": "Crude supplier (Aramco, ADNOC, Rosneft trading arm) receives no payment guarantee → will not load cargo → HPCL Mumbai crude inventory continues drawing down toward 7-day trigger",
+            "blocking_condition": "YES — supply chain physically blocked regardless of CMD indemnification"
+          },
+          {
+            "step": 5,
+            "node": "RBI Section 35A emergency circular issued simultaneously with Presidential Directive",
+            "implication": "RBI formally instructs PSU banks that sovereign-guaranteed LCs up to ₹40,000–50,000 crore aggregate are exempt from standard exposure concentration norms for the duration of the declared emergency — this is within RBI's statutory power under Section 35A of the Banking Regulation Act",
+            "blocking_condition": "NO — two-key instrument is complete; bank compliance officers have legal cover to issue LCs"
+          },
+          {
+            "step": 6,
+            "node": "Sequential failure mode: RBI circular lags Presidential Directive by 12–24 hours",
+            "implication": "In the 12–24 hour gap, HPCL Mumbai's treasury team submits LC application; SBI compliance refuses on RBI norm grounds; first emergency cargo loading is delayed; HPCL Mumbai burns 12–24 hours of its 3–5 day remaining buffer; the margin between cargo arrival and shutdown trigger collapses to zero",
+            "blocking_condition": "YES — 24-hour lag in RBI instrument is sufficient to trigger HPCL Mumbai shutdown sequence per working document H1 evidence_against"
+          }
+        ],
+        "key_legal_anchors": [
+          "Banking Regulation Act 1949, Section 35A: RBI may issue binding directions to any banking company if necessary in public interest or to prevent affairs being conducted in manner detrimental to depositors",
+          "RBI Master Circular DBR.No.Dir.BC.21/13.03.00/2015: Exposure norms cap single-counterparty LC exposure — PSU refinery at negative GRM qualifies as stressed counterparty",
+          "Presidential Directive authority: Union government power under Article 73 / Essential Commodities Act — does NOT extend to overriding RBI's statutory mandate",
+          "Precedent: RBI issued emergency Section 35A directions during IL&FS crisis (2018) and Yes Bank restructuring (2020) — the instrument exists and has been used"
+        ]
+      },
+      "source_line": "RBI exposure norms: RBI Master Circular DBR.No.Dir.BC.21/13.03.00/2015 → Section 35A authority: Banking Regulation Act 1949 + IL&FS/Yes Bank precedents → cargo LC sizing: working document H1 evidence_against ($80–120M per VLCC) → causal chain: working document H1 review_notes 'two-key problem' + analysis finding 1 → confidence: legal architecture HIGH; 12-24 hour lag consequence MEDIUM"
+    },
+    {
+      "appendix_num": 5,
+      "slot_type": "B",
+      "claim": "IOCL Bina's central India supply role is structurally insolvent if ESPO access lapses post-April 3, because no non-Hormuz, non-Russian crude alternative can arrive via Paradip-Kandla pipeline within Bina's 14-day runway — West African voyage to Paradip is 18–22 days plus 3–4 days pipeline transit",
+      "claim_section": "analysis",
+      "proof_type": "scenario_model",
+      "action_title": "ESPO lapse plus 22-day West Africa voyage makes Bina shutdown mathematically inevitable",
+      "subtitle": "Days; voyage + pipeline transit times vs. 14-day runway; Kpler/S&P Global voyage data + EXTRAPOLATED pipeline transit",
+      "proof_content": {
+        "scenarios": [
+          {
+            "scenario": "BASE: ESPO forbearance secured (H4 succeeds)",
+            "crude_source": "ESPO via Kozmino → Paradip",
+            "voyage_days": "12–15",
+            "pipeline_transit_kandla_to_bina": "3–4",
+            "total_lead_time_days": "15–19",
+            "bina_runway_days": "14",
+            "verdict": "MARGINAL — loading order placed within 72 hours of April 3 puts cargo arrival at April 15–19; Bina runway expires April 14–16; 0–3 day margin. Viable ONLY if order placed within 72-hour window AND Kandla port pre-clearance is confirmed simultaneously",
+            "probability": "LOW-MEDIUM — contingent on H4 Washington engagement succeeding within 48 hours"
+          },
+          {
+            "scenario": "CRISIS: ESPO lapses, West African spot cargo activated",
+            "crude_source": "Bonny Light / Girassol (Nigeria/Angola) → Paradip",
+            "voyage_days": "18–22",
+            "pipeline_transit_kandla_to_bina": "3–4",
+            "total_lead_time_days": "21–26",
+            "bina_runway_days": "14",
+            "verdict": "FATAL — minimum lead time (21 days) exceeds maximum runway (14 days) by 7 days. Bina enters controlled shutdown before any West African cargo arrives regardless of when order is placed",
+            "probability": "BASE CASE if H4 fails — H4 rated LOW confidence in hypothesis tree"
+          },
+          {
+            "scenario": "FALLBACK: Bina reduced to 40% nameplate on available non-Hormuz spot",
+            "crude_source": "Azeri BTC or WTI via Mundra — limited volumes",
+            "voyage_days": "14–18 (BTC via Black Sea/Med) or 25–30 (WTI)",
+            "pipeline_transit_kandla_to_bina": "3–4",
+            "total_lead_time_days": "17–22 (BTC) or 28–34 (WTI)",
+            "bina_runway_days": "14 at current rate; extended to ~21 days at 40% nameplate (65 kbd vs. 150 kbd current)",
+            "verdict": "VIABLE FOR BTC ONLY if run-rate reduction activated immediately and BTC loading confirmed within 48 hours. WTI lead time exceeds even extended runway. MP/UP/Rajasthan HSD supply drops 60% — humanitarian threshold crossed within 20–25 days",
+            "probability": "MEDIUM viability on BTC option; requires immediate run-rate reduction order"
+          }
+        ],
+        "humanitarian_escalation_trigger": {
+          "bina_shutdown_day": "Day 14 (April 16–17)",
+          "hsd_lhg_distribution_failure_day": "Day 20–25 post-shutdown",
+          "affected_population": "~150–200 million people in MP, UP, Rajasthan — landlocked, no coastal product import alternative",
+          "agricultural_cascade": "April–May irrigation pump fuel (rabi harvest) failure within 30 days of Bina shutdown",
+          "note": "Only crisis scenario that escalates from energy emergency to humanitarian emergency — per working document H8 cascade_if_killed"
+        },
+        "kandla_port_bottleneck": {
+          "issue": "Kandla is India's largest cargo port by volume; crude tanker priority during Rabi-Kharif transition (April–May) displaces fertilizer import vessels",
+          "resolution_required": "Cabinet-level inter-ministerial directive (MoPNG + Ministry of Agriculture + Ministry of Commerce) — cannot be resolved by MoPNG alone within 48 hours",
+          "source": "Working document H8 evidence_against"
+        }
+      },
+      "source_line": "Voyage times: Kpler/Vortexa Q4 2024 + S&P Global Platts routing database → Kozmino-Paradip: working document Q1.2 12–15 days confidence MEDIUM → pipeline transit: working document Q1.13 IOCL Bina section EXTRAPOLATED confidence MEDIUM → runway: working document Q1.1 14 days confidence LOW → humanitarian cascade: working document H8 cascade_if_killed → Kandla conflict: working document H8 evidence_against"
+    },
+    {
+      "appendix_num": 6,
+      "slot_type": "D",
+      "claim": "PMO must within 12 hours designate a single crisis cell coordinator with inter-ministerial authority and direct Finance Ministry and RBI Governor to issue the Presidential Directive (indemnifying all six PSU refinery CMDs from personal liability for operating at negative GRM) and the co-equal RBI Section 35A emergency circular (authorizing PSU banks to issue sovereign-guaranteed LCs up to ₹40,000–50,000 crore aggregate) as simultaneous instruments by April 2, 23:59 IST — sequential issuance where the RBI circular lags the Directive by more than 6 hours constitutes operational failure of the fiscal backstop",
+      "claim_section": "decisions",
+      "proof_type": "containment_playbook",
+      "action_title": "Two-key fiscal backstop is executable within 48 hours via confirmed legal instruments",
+      "subtitle": "Decision 1 executability; April 1–2 2026 IST; Banking Regulation Act, Essential Commodities Act, RBI precedents",
+      "proof_content": {
+        "playbook_steps": [
+          {
+            "step": "T+0 to T+12 hours",
+            "action": "PMO designates single crisis cell coordinator (Petroleum Secretary or Cabinet Secretary-level) with explicit written authority to direct MoPNG, Finance Ministry, and RBI simultaneously",
+            "owner": "PMO Cabinet Secretary",
+            "executability": "HIGH — no new legislation required; PMO Crisis Management Group structure exists under Cabinet Secretariat (post-2001 Kargil Committee institutional architecture)",
+            "blocking_risk": "LOW — purely an executive designation; no parliamentary approval required"
+          },
+          {
+            "step": "T+6 to T+24 hours (parallel track A)",
+            "action": "Finance Ministry drafts Presidential Directive indemnifying all six PSU refinery CMDs from personal liability for continued operation at negative GRM — legal basis: Article 73 of Constitution + Essential Commodities Act Section 3 emergency powers",
+            "owner": "Finance Ministry (DEA) + MoPNG legal team",
+            "executability": "MEDIUM — Presidential Directive as a formal instrument requires Law Ministry concurrence and Presidential assent; however, in declared emergency, Ministry of Law can fast-track concurrence within 12–18 hours. Precedent: Government of India has issued emergency directions to PSU boards under Essential Commodities Act without full Presidential Directive format — an interim Ministerial Direction from Cabinet Committee on Economic Affairs (CCEA) achieves the same CMD indemnification effect within 6–8 hours",
+            "blocking_risk": "LOW-MEDIUM — CCEA route is faster and avoids Presidential Directive timeline risk; Law Ministry must confirm within 4 hours which instrument is faster"
+          },
+          {
+            "step": "T+6 to T+24 hours (parallel track B — co-equal, not sequential)",
+            "action": "RBI Governor issues Section 35A emergency circular to SBI, PNB, Bank of Baroda, and Canara Bank: sovereign-guaranteed LCs for crude cargo up to ₹40,000–50,000 crore aggregate are exempt from standard single-counterparty exposure concentration norms for 90-day emergency period",
+            "owner": "RBI Governor + RBI Department of Banking Regulation",
+            "executability": "HIGH — Section 35A directions are within RBI's sole statutory authority; do not require government approval, only government request/consultation. Precedent: RBI issued binding Section 35A directions to Yes Bank within 24 hours (March 5–6, 2020); IL&FS emergency directions issued within 48 hours (October 2018). The instrument is proven, the timeline is feasible",
+            "blocking_risk": "LOW — RBI Governor has unilateral authority; the only risk is coordination lag if PMO does not simultaneously brief RBI Governor at T+0. This is the reason the 12-hour PMO designation is the critical path: RBI cannot act without a formal government request framing the emergency"
+          },
+          {
+            "step": "T+24 to T+48 hours — confirmation gate",
+            "action": "Crisis cell coordinator confirms both instruments signed and transmitted to: (a) all six refinery CMDs with written acknowledgment, (b) SBI/PNB/Bank of Baroda compliance heads with written LC authorization parameters, (c) PPAC crude procurement cell with LC issuance instructions for first emergency cargo applications",
+            "owner": "Crisis cell coordinator",
+            "executability": "HIGH once both instruments issued",
+            "blocking_risk": "MEDIUM — the 6-hour synchronization requirement between Presidential Directive and RBI circular is the operationally critical constraint. If RBI circular lags by more than 6 hours, SBI compliance officers will receive CMD LC requests before they have legal cover to approve them — the first cargo LC application is refused, consuming 12–24 hours of HPCL Mumbai's 3–5 day remaining buffer (Appendix 2)"
+          },
+          {
+            "step": "Failure mode and circuit breaker",
+            "action": "If RBI circular cannot be confirmed within 6 hours of Presidential Directive issuance, crisis cell must immediately activate supply-side rationing through PSU oil company depot allocation order reductions of 15–20% (Decision 2 fallback) — this extends effective product runway by 3–5 days and preserves the margin for the RBI instrument to catch up without triggering HPCL Mumbai shutdown",
+            "owner": "MoPNG Petroleum Secretary",
+            "executability": "HIGH — PSU oil company depot allocation reductions are within MoPNG direct authority under Essential Commodities Act without state government enforcement machinery; supply-side rationing (reducing depot refills) avoids the panic-buying risk of retail pump caps per working document H7_retail graveyard entry",
+            "blocking_risk": "LOW — this is the fallback that makes the overall package executable even if the RBI instrument faces a 12–24 hour delay"
+          }
+        ],
+        "instrument_precedents": [
+          {
+            "instrument": "RBI Section 35A direction",
+            "precedent": "Yes Bank reconstruction March 2020 — issued within 24 hours; IL&FS October 2018 — issued within 48 hours",
+            "confidence": "HIGH"
+          },
+          {
+            "instrument": "CCEA emergency direction to PSU boards",
+            "precedent": "ONGC emergency production directions 2008; Coal India production directives 2012–13",
+            "confidence": "MEDIUM"
+          },
+          {
+            "instrument": "Essential Commodities Act Section 3 emergency order",
+            "precedent": "COVID-19 medical supplies orders March 2020; multiple fuel price control orders 2008–2012",
+            "confidence": "HIGH"
+          }
+        ],
+        "critical_path_summary": "PMO designation (T+12h) → parallel RBI + CCEA drafting (T+12 to T+24h) → simultaneous issuance with max 6h gap (T+24 to T+48h) → LC applications activated (T+48h). Total elapsed time to first cargo LC issuance: 48–54 hours. HPCL Mumbai 7-day trigger breach: T+72 to T+96h. Margin: 18–42 hours — tight but executable if PMO acts at T+0."
+      },
+      "source_line": "Section 35A authority + precedents: Banking Regulation Act 1949 + RBI Yes Bank Direction 2020 + IL&FS Board supersession 2018 → CCEA direction precedent: ONGC/Coal India ministerial directions working document context → Essential Commodities Act: Section 3 emergency order history → synchronization requirement: working document H1 review_notes + analysis finding 1 so_what → fallback rationing: working document graveyard H7_retail resurrection_condition → timeline math: Appendix 2 HPCL Mumbai 3–5 day trigger buffer"
+    }
+  ]
+}

@@ -1,0 +1,917 @@
+{
+  "bucket_audits": [
+    {
+      "section_id": 1,
+      "title": "Current State Assessment: Where are we right now in inventory, exposure, and operational position?",
+      "dimensions_found": [
+        {
+          "dimension": "Crude inventory on-site at each refinery in days of forward cover",
+          "status": "covered",
+          "existing_question_id": "1.1"
+        },
+        {
+          "dimension": "In-transit crude cargoes: origin, vessel position, ETA, insurance status",
+          "status": "covered",
+          "existing_question_id": "1.2"
+        },
+        {
+          "dimension": "Russian crude volumes: contracted, nomination status, waiver applicability, payment routing",
+          "status": "covered",
+          "existing_question_id": "1.3"
+        },
+        {
+          "dimension": "Middle East term crude nominations already placed for April-June",
+          "status": "covered",
+          "existing_question_id": "1.4"
+        },
+        {
+          "dimension": "West African and US crude open market cargoes",
+          "status": "covered",
+          "existing_question_id": "1.1"
+        },
+        {
+          "dimension": "Product inventory at each refinery by grade",
+          "status": "covered",
+          "existing_question_id": "1.5"
+        },
+        {
+          "dimension": "Open derivative positions: crude futures, crack spread hedges, currency forwards",
+          "status": "covered",
+          "existing_question_id": "1.6"
+        },
+        {
+          "dimension": "Port infrastructure status at Sikka and Vadinar",
+          "status": "covered",
+          "existing_question_id": "1.7"
+        },
+        {
+          "dimension": "War-risk and marine insurance: current coverage, exclusion zones, renewal dates",
+          "status": "covered",
+          "existing_question_id": "1.2"
+        },
+        {
+          "dimension": "Contractual commitments: term supply agreements with PSU OMCs, export contracts with traders",
+          "status": "covered",
+          "existing_question_id": "1.8"
+        },
+        {
+          "dimension": "MRPL shutdown volume and product gap quantification",
+          "status": "covered",
+          "existing_question_id": "1.9"
+        },
+        {
+          "dimension": "Balance-sheet headroom: LC capacity, credit lines, available cash",
+          "status": "covered",
+          "existing_question_id": "1.10"
+        },
+        {
+          "dimension": "Rosneft ownership stake in Nayara and implications for supply continuity and sanctions exposure \u2014 entity-level differentiation between RIL (no sanctioned-entity ownership) and Nayara (Rosneft-owned)",
+          "status": "missing",
+          "new_question": {
+            "id": "1.11",
+            "question": "Given that Rosneft holds approximately 49.13% of Nayara Energy, what is the current legal assessment from Nayara's sanctions counsel of whether the Rosneft ownership structure itself \u2014 independent of crude supply \u2014 creates a secondary sanctions exposure for Nayara's non-Russian crude procurement counterparties, banking relationships, and insurance providers post-April 3, and has this been communicated in writing to Nayara's board within the last 48 hours?"
+          }
+        },
+        {
+          "dimension": "Pipeline and inland logistics status: product evacuation capacity from both refineries to domestic consumption centres via pipeline, rail, and road",
+          "status": "missing",
+          "new_question": {
+            "id": "1.12",
+            "question": "What is the current throughput capacity and utilization rate of product evacuation infrastructure from Jamnagar (RIL cross-country pipeline, rail loading gantry, road loading) and Vadinar to domestic consumption centres \u2014 specifically, is any segment of this logistics chain already at capacity, and if maximum refinery throughput is achieved, what is the maximum incremental product volume per day that can physically be dispatched from each site within 30 days?"
+          }
+        },
+        {
+          "dimension": "Petrochemical complex feedstock inventory and integration status at Jamnagar",
+          "status": "missing",
+          "new_question": {
+            "id": "1.13",
+            "question": "What is the current feedstock inventory (naphtha, LPG, ethane, propane) at RIL's Jamnagar petrochemical complex, what is the current operating rate of downstream crackers and derivative units, and is the petrochemical complex currently feedstock-constrained or product-market-constrained \u2014 given that this determines whether diverting refinery naphtha internally actually creates incremental integrated margin or merely displaces existing operations?"
+          }
+        },
+        {
+          "dimension": "Counterparty credit and payment channel status for crude suppliers \u2014 specifically which payment corridors are currently operational for Russian crude",
+          "status": "covered",
+          "existing_question_id": "1.3"
+        },
+        {
+          "dimension": "Current crude slate API/sulfur profile being processed at each refinery and distance from design crude diet",
+          "status": "missing",
+          "new_question": {
+            "id": "1.14",
+            "question": "What is the precise crude diet (by origin, API gravity, sulfur content, and volume share) currently being processed at Jamnagar DTA, Jamnagar SEZ, and Vadinar as of today, how does this compare to each refinery's design crude diet, and are any processing units currently operating outside their design envelope in ways that constrain the speed or magnitude of a crude slate switch?"
+          }
+        },
+        {
+          "dimension": "Status of any ongoing force majeure declarations or notices received from existing crude suppliers related to Hormuz closure",
+          "status": "missing",
+          "new_question": {
+            "id": "1.15",
+            "question": "Have any Middle East NOC suppliers (Saudi Aramco, ADNOC, KPC, BAPCO, PDO) formally issued force majeure notices or indicated intent to invoke force majeure on April or May term crude nominations citing the Hormuz mining, and if so, what is the volume affected, the contractual notice period, and the dispute resolution mechanism \u2014 given that the answer determines whether replacement sourcing is a commercial choice or a contractual necessity with defined timelines?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 2,
+      "title": "Alternative Crude Procurement: What non-Hormuz, non-Russian crude can we secure, at what price, on what timeline?",
+      "dimensions_found": [
+        {
+          "dimension": "West African crudes: Nigeria, Angola \u2014 term and spot availability",
+          "status": "covered",
+          "existing_question_id": "2.1"
+        },
+        {
+          "dimension": "US crudes: WTI Midland, Eagle Ford \u2014 economics and refinery compatibility",
+          "status": "covered",
+          "existing_question_id": "2.2"
+        },
+        {
+          "dimension": "North Sea crudes: Brent, Johan Sverdrup",
+          "status": "covered",
+          "existing_question_id": "2.4"
+        },
+        {
+          "dimension": "Latin American crudes: Brazilian pre-salt, Colombian, Mexican heavy-sour",
+          "status": "covered",
+          "existing_question_id": "2.2"
+        },
+        {
+          "dimension": "CPC Blend via Novorossiysk \u2014 non-Hormuz Russian alternative",
+          "status": "covered",
+          "existing_question_id": "2.3"
+        },
+        {
+          "dimension": "North African crudes: Libyan, Algerian",
+          "status": "covered",
+          "existing_question_id": "2.4"
+        },
+        {
+          "dimension": "Domestic Indian crude: ONGC, Oil India",
+          "status": "covered",
+          "existing_question_id": "2.9"
+        },
+        {
+          "dimension": "At-sea diversion of existing cargoes en route to other destinations",
+          "status": "covered",
+          "existing_question_id": "2.5"
+        },
+        {
+          "dimension": "Condensate alternatives for naphtha-heavy configuration",
+          "status": "covered",
+          "existing_question_id": "2.2"
+        },
+        {
+          "dimension": "G2G strategic emergency crude access: IEA, US SPR, UAE Fujairah stocks",
+          "status": "covered",
+          "existing_question_id": "2.7"
+        },
+        {
+          "dimension": "Crude compatibility matrix across candidate alternative crudes",
+          "status": "covered",
+          "existing_question_id": "2.6"
+        },
+        {
+          "dimension": "Freight and insurance: VLCC availability on non-Gulf routes, war-risk premium",
+          "status": "covered",
+          "existing_question_id": "2.10"
+        },
+        {
+          "dimension": "All-in landed cost differential: alternative crude basket vs. pre-crisis Russian/Gulf cost basis",
+          "status": "covered",
+          "existing_question_id": "2.8"
+        },
+        {
+          "dimension": "Credit and payment: seller acceptance of Indian bank LCs under sanctions pressure",
+          "status": "covered",
+          "existing_question_id": "2.8"
+        },
+        {
+          "dimension": "Saudi Red Sea loading terminals (Yanbu) bypassing Hormuz entirely",
+          "status": "covered",
+          "existing_question_id": "2.7"
+        },
+        {
+          "dimension": "Kazakhstani crude via trans-Caspian or Baku-Tbilisi-Ceyhan route \u2014 entirely non-Russian, non-Hormuz origin",
+          "status": "missing",
+          "new_question": {
+            "id": "2.11",
+            "question": "Is Kazakhstani crude (KEBCO or similar grades loading from Ceyhan in Turkey via the BTC pipeline) a viable procurement option for Jamnagar or Vadinar \u2014 specifically, what volumes are available for prompt May-June loading at Ceyhan, at what Dated Brent differential, what is the crude quality profile versus design crude diet, and does this route entirely bypass both Hormuz and OFAC-sanctioned Russian infrastructure?"
+          }
+        },
+        {
+          "dimension": "Iraqi crude loading from Basra \u2014 Basra Light and Basra Heavy load from the Arabian Gulf and are currently Hormuz-dependent, but status of Ceyhan loading (Iraq-Turkey pipeline) as non-Hormuz Iraqi option",
+          "status": "missing",
+          "new_question": {
+            "id": "2.12",
+            "question": "What volume of Iraqi crude loads from the Ceyhan Mediterranean terminal via the Iraq-Turkey Kirkuk pipeline (as opposed to Basra Gulf terminals which are Hormuz-dependent), is this route currently operational and available for spot and term purchases, and at what differential to Dated Brent can Iraqi Kirkuk blend be procured for May-June loading \u2014 given Iraq is one of RIL's and Nayara's largest term crude suppliers and any non-Hormuz Iraqi volume would preserve supplier relationship continuity?"
+          }
+        },
+        {
+          "dimension": "Procurement tenor decision: spot versus 90-day term versus 6-month term for alternative crude \u2014 locking in supply versus preserving flexibility",
+          "status": "missing",
+          "new_question": {
+            "id": "2.13",
+            "question": "For each identified alternative crude source, what is the recommended procurement tenor \u2014 spot single-cargo, 3-month rolling term, or 6-month fixed term \u2014 given the uncertainty about crisis duration, the risk of being locked into expensive alternative crude if the crisis resolves within 30 days, and the risk of supply gaps if only spot procurement is pursued; and what is the quantified breakeven crisis duration at which term procurement outperforms spot for each candidate crude origin?"
+          }
+        },
+        {
+          "dimension": "Vessel availability and chartering: VLCC and Suezmax spot charter market on non-Gulf routes \u2014 current availability and freight rates",
+          "status": "covered",
+          "existing_question_id": "2.10"
+        },
+        {
+          "dimension": "Crude blending hub strategy: using Fujairah or Singapore as an interim blending/storage point to construct compatible crude cocktails before final delivery",
+          "status": "missing",
+          "new_question": {
+            "id": "2.14",
+            "question": "Can Fujairah (pre-Hormuz, outside the immediate conflict zone) or Singapore be used as a floating storage and blending hub to aggregate multiple smaller parcels of alternative crudes into a compatible blend before loading onto VLCCs for final delivery to Jamnagar or Vadinar \u2014 and if so, what is the incremental cost (storage, blending, additional freight leg) versus the benefit of accessing smaller-parcel crude sources that are otherwise sub-economic on a direct VLCC basis?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 3,
+      "title": "Run-Rate and Crude Diet Optimization: How do we maximize throughput economics given the altered crude slate and crack spread environment?",
+      "dimensions_found": [
+        {
+          "dimension": "Jamnagar DTA configuration and current utilization",
+          "status": "covered",
+          "existing_question_id": "3.1"
+        },
+        {
+          "dimension": "Jamnagar SEZ configuration and current utilization",
+          "status": "covered",
+          "existing_question_id": "3.1"
+        },
+        {
+          "dimension": "Vadinar configuration and current utilization",
+          "status": "covered",
+          "existing_question_id": "3.1"
+        },
+        {
+          "dimension": "CDU utilization rate: current vs. maximum sustainable",
+          "status": "covered",
+          "existing_question_id": "3.1"
+        },
+        {
+          "dimension": "Secondary unit bottlenecks: hydrocracker, FCC, coker throughput limits",
+          "status": "covered",
+          "existing_question_id": "3.3"
+        },
+        {
+          "dimension": "Hydrogen balance: lighter sweet crudes increase hydroprocessing hydrogen demand",
+          "status": "covered",
+          "existing_question_id": "3.4"
+        },
+        {
+          "dimension": "Utilities and energy: steam, power, cooling water at maximum throughput in summer",
+          "status": "covered",
+          "existing_question_id": "3.8"
+        },
+        {
+          "dimension": "Crude blending: optimal blend ratios to maximize middle distillate yield",
+          "status": "covered",
+          "existing_question_id": "3.6"
+        },
+        {
+          "dimension": "Product yield optimization: dial up diesel and jet at expense of naphtha",
+          "status": "covered",
+          "existing_question_id": "3.6"
+        },
+        {
+          "dimension": "Petrochemical integration: naphtha and LPG diversion to crackers",
+          "status": "covered",
+          "existing_question_id": "3.7"
+        },
+        {
+          "dimension": "Maintenance and turnaround schedule: deferral or acceleration economics",
+          "status": "covered",
+          "existing_question_id": "3.5"
+        },
+        {
+          "dimension": "Workforce and operational capacity at maximum rates",
+          "status": "covered",
+          "existing_question_id": "3.8"
+        },
+        {
+          "dimension": "Environmental and regulatory limits at maximum throughput",
+          "status": "covered",
+          "existing_question_id": "3.9"
+        },
+        {
+          "dimension": "Yield shift quantification from crude diet change",
+          "status": "covered",
+          "existing_question_id": "3.2"
+        },
+        {
+          "dimension": "Storage and export infrastructure as binding constraint at maximum throughput",
+          "status": "covered",
+          "existing_question_id": "3.10"
+        },
+        {
+          "dimension": "Sulfur recovery and tail gas treatment capacity at maximum throughput \u2014 particularly relevant when switching from high-sulfur Russian/Middle East crude to different sulfur profile crudes, or if fuel oil sulfur spec compliance becomes binding",
+          "status": "missing",
+          "new_question": {
+            "id": "3.11",
+            "question": "What is the sulfur recovery unit (SRU) and tail gas treatment unit (TGTU) capacity at Jamnagar DTA, SEZ, and Vadinar relative to the sulfur load generated at maximum throughput on both the current and proposed alternative crude slates, and does any shift in crude sulfur content \u2014 particularly toward higher-TAN or different sulfur distribution crudes \u2014 risk breaching SO2 emission consents or creating an SRU bottleneck that caps CDU throughput below nameplate capacity?"
+          }
+        },
+        {
+          "dimension": "Crude desalter capacity and performance with alternative crude types \u2014 particularly with crudes high in salt, BS&W, or metals that stress desalter design limits",
+          "status": "missing",
+          "new_question": {
+            "id": "3.12",
+            "question": "What are the desalter design limits at each CDU train at Jamnagar and Vadinar with respect to crude salt content, BS&W, and metals (vanadium, nickel) \u2014 and do any of the candidate alternative crudes (particularly West African, North African, or Brazilian pre-salt grades) present desalter or overhead corrosion challenges that would require chemical injection rate increases, reduced throughput, or metallurgical constraints that the Head of Refining must assess before committing to large-volume alternative crude purchases?"
+          }
+        },
+        {
+          "dimension": "Fuel oil yield management: at maximum throughput on alternative crude slate, is HSFO or LSFO yield increasing or decreasing, and how does this interact with IMO 2020 compliance economics and the current product slate value",
+          "status": "missing",
+          "new_question": {
+            "id": "3.13",
+            "question": "On the proposed alternative crude slate at maximum throughput, what is the projected change in HSFO and LSFO yield at each refinery, what are the current spot crack spreads for LSFO and HSFO at key Asian and European hubs, and given Jamnagar's residue upgrading complex and Vadinar's coker, is there incremental value in routing additional residue through upgrading units versus accepting elevated LSFO yield as an export product at current crack spreads?"
+          }
+        },
+        {
+          "dimension": "Catalyst inventory and replenishment lead times for FCC, hydrocracker, and hydrotreater units under extended maximum throughput operation",
+          "status": "missing",
+          "new_question": {
+            "id": "3.14",
+            "question": "What are the current catalyst inventory levels for FCC, hydrocracker, and hydrotreater units at Jamnagar and Vadinar, what is the consumption rate at maximum throughput versus current throughput, and what is the procurement lead time and supplier availability for emergency catalyst replenishment \u2014 given that an unexpected catalyst depletion or deactivation event at maximum throughput is one of the highest-probability causes of an unplanned rate reduction within the 60-90 day crisis window?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 4,
+      "title": "Product Export and Domestic Pricing Strategy: How do we capture maximum value from elevated crack spreads and MRPL's absence?",
+      "dimensions_found": [
+        {
+          "dimension": "Export crack spreads at Singapore, Rotterdam, and regional hubs net-back versus domestic",
+          "status": "covered",
+          "existing_question_id": "4.1"
+        },
+        {
+          "dimension": "Domestic PSU OMC demand for replacement MRPL volumes",
+          "status": "covered",
+          "existing_question_id": "4.2"
+        },
+        {
+          "dimension": "Direct industrial buyers: power sector, railways, aviation domestic demand",
+          "status": "covered",
+          "existing_question_id": "4.7"
+        },
+        {
+          "dimension": "Product grades: diesel, jet, gasoline, naphtha, LPG, LSFO, HSFO \u2014 export vs. domestic spread per grade",
+          "status": "covered",
+          "existing_question_id": "4.1"
+        },
+        {
+          "dimension": "Export infrastructure throughput capacity: jetties, SPMs, tankage",
+          "status": "covered",
+          "existing_question_id": "4.3"
+        },
+        {
+          "dimension": "Domestic distribution infrastructure capacity at maximum throughput",
+          "status": "covered",
+          "existing_question_id": "4.3"
+        },
+        {
+          "dimension": "SEZ mandatory export orientation and regulatory flexibility to divert domestically",
+          "status": "covered",
+          "existing_question_id": "4.4"
+        },
+        {
+          "dimension": "Pricing mechanisms: spot vs. term export, domestic import parity price",
+          "status": "covered",
+          "existing_question_id": "4.1"
+        },
+        {
+          "dimension": "Working capital: export payment terms (30-60 days) vs. domestic PSU OMC terms",
+          "status": "covered",
+          "existing_question_id": "4.9"
+        },
+        {
+          "dimension": "Currency and FX: export USD vs. domestic INR, RBI intervention risk",
+          "status": "covered",
+          "existing_question_id": "4.9"
+        },
+        {
+          "dimension": "Competitor behavior: IOC Panipat, BPCL Mumbai/Kochi capacity to fill MRPL gap independently",
+          "status": "covered",
+          "existing_question_id": "4.8"
+        },
+        {
+          "dimension": "Long-term PSU OMC relationship management: does aggressive pricing damage relationships",
+          "status": "covered",
+          "existing_question_id": "4.2"
+        },
+        {
+          "dimension": "Naphtha export vs. domestic petrochemical vs. internal cracker diversion \u2014 three-way optimization",
+          "status": "covered",
+          "existing_question_id": "4.6"
+        },
+        {
+          "dimension": "Product tanker availability and freight rates for clean product tankers from Jamnagar and Vadinar",
+          "status": "covered",
+          "existing_question_id": "4.5"
+        },
+        {
+          "dimension": "Existing export contract optionality, price reopeners, destination flexibility clauses",
+          "status": "covered",
+          "existing_question_id": "4.10"
+        },
+        {
+          "dimension": "Domestic product saturation risk from simultaneous RIL and Nayara volume increase",
+          "status": "covered",
+          "existing_question_id": "4.8"
+        },
+        {
+          "dimension": "LPG domestic versus export decision \u2014 LPG has both a large domestic (cooking fuel, PSU cylinder supply) and export market, and the GoI regulates LPG retail pricing; in a crisis the government may mandate domestic LPG priority supply",
+          "status": "missing",
+          "new_question": {
+            "id": "4.11",
+            "question": "What is the current LPG production volume at Jamnagar and Vadinar, what is the existing allocation between domestic cylinder supply (via IOC/BPCL/HPCL bottling plants) and export, and given government sensitivity around LPG domestic supply security during a crisis, is there regulatory pressure or a Ministry of Petroleum directive \u2014 actual or anticipated \u2014 requiring RIL and Nayara to prioritize domestic LPG supply over export at potentially lower net-back, and what is the financial impact of this constraint on overall Q2 GRM?"
+          }
+        },
+        {
+          "dimension": "East Africa, Sri Lanka, Bangladesh as export destinations \u2014 these represent high-margin smaller-volume outlets that may be overlooked relative to Singapore/Rotterdam focus",
+          "status": "covered",
+          "existing_question_id": "4.1"
+        },
+        {
+          "dimension": "Product quality spec compliance for each export destination \u2014 EURO VI for Europe, regional specs for Asia/Africa \u2014 and whether the altered crude diet and run-rate changes affect product quality spec compliance",
+          "status": "missing",
+          "new_question": {
+            "id": "4.12",
+            "question": "Does the proposed shift to a lighter, lower-sulfur alternative crude slate at maximum throughput affect the quality specifications of key export products \u2014 specifically, does diesel cetane, jet fuel freeze point, naphtha PONA composition, or LSFO sulfur content shift in ways that could breach export buyer specifications or require additional blending components at incremental cost, and has the Head of Refining confirmed product quality spec compliance across all intended export destinations for the proposed crude diet?"
+          }
+        },
+        {
+          "dimension": "Pakistan and Bangladesh pipeline or overland product export opportunities \u2014 given geographic proximity to Jamnagar and Vadinar and possible supply disruptions in those markets from the same crisis",
+          "status": "missing",
+          "new_question": {
+            "id": "4.13",
+            "question": "Are there any opportunistic product export volumes available to Bangladesh (via sea from Vadinar) or other South Asian markets currently experiencing supply disruptions from the same Hormuz crisis, and at what freight-adjusted net-back do these destinations compare to Singapore and Rotterdam for diesel and jet fuel \u2014 given that smaller regional markets may offer premium pricing that offsets higher freight and credit risk?"
+          }
+        },
+        {
+          "dimension": "RIL Jamnagar DTA domestic supply obligation quantum \u2014 the DTA license requires a specific minimum percentage of output to be sold domestically; has this obligation already been met given prior sales, or does it constrain export maximization",
+          "status": "missing",
+          "new_question": {
+            "id": "4.14",
+            "question": "What is the precise domestic supply obligation percentage under Jamnagar DTA's refinery license for Q2 2025, what volume has already been sold domestically in April against this obligation, and does maximizing exports during the crisis window risk breaching this statutory obligation \u2014 or conversely, has the DTA already exceeded its domestic obligation, freeing all incremental production for full export optimization without regulatory constraint?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 5,
+      "title": "Financial Exposure, Working Capital, and Hedging: How do we manage the balance-sheet impact of $156/bbl crude and capture financial upside?",
+      "dimensions_found": [
+        {
+          "dimension": "Working capital requirement at $156/bbl vs. pre-crisis baseline",
+          "status": "covered",
+          "existing_question_id": "5.1"
+        },
+        {
+          "dimension": "Credit facilities: revolving credit, LC lines, term loans \u2014 headroom and covenants",
+          "status": "covered",
+          "existing_question_id": "5.1"
+        },
+        {
+          "dimension": "Crude oil price hedging: existing WTI/Brent/Dubai futures and options \u2014 net long or short",
+          "status": "covered",
+          "existing_question_id": "5.2"
+        },
+        {
+          "dimension": "Crack spread hedging: existing diesel, jet, naphtha forward hedges \u2014 cap on upside",
+          "status": "covered",
+          "existing_question_id": "5.3"
+        },
+        {
+          "dimension": "Currency exposure: USD crude purchases vs. INR and USD revenues \u2014 net FX position",
+          "status": "covered",
+          "existing_question_id": "5.9"
+        },
+        {
+          "dimension": "Counterparty credit risk: trading counterparties under stress \u2014 margin call risk",
+          "status": "covered",
+          "existing_question_id": "5.8"
+        },
+        {
+          "dimension": "Opportunity: speculative long crude position via futures",
+          "status": "covered",
+          "existing_question_id": "5.4"
+        },
+        {
+          "dimension": "Opportunity: crack spread lock-in via forward product sales",
+          "status": "covered",
+          "existing_question_id": "5.3"
+        },
+        {
+          "dimension": "Insurance costs: war risk, cargo, business interruption \u2014 incremental cost",
+          "status": "covered",
+          "existing_question_id": "5.5"
+        },
+        {
+          "dimension": "Tax and transfer pricing: SEZ export vs. DTA domestic \u2014 different treatment",
+          "status": "covered",
+          "existing_question_id": "5.6"
+        },
+        {
+          "dimension": "Capex acceleration: floating storage via VLCC charters or tankage construction in Contango",
+          "status": "covered",
+          "existing_question_id": "5.7"
+        },
+        {
+          "dimension": "Dividend and cash flow ring-fencing for strategic procurement",
+          "status": "covered",
+          "existing_question_id": "5.10"
+        },
+        {
+          "dimension": "Crude trading income: deploying balance sheet above own processing capacity",
+          "status": "covered",
+          "existing_question_id": "5.10"
+        },
+        {
+          "dimension": "Nayara debt covenant specific risk from Rosneft supply interruption and leverage profile",
+          "status": "covered",
+          "existing_question_id": "5.8"
+        },
+        {
+          "dimension": "Scenario analysis: base case vs. stress case EBITDA and liquidity",
+          "status": "covered",
+          "existing_question_id": "5.9"
+        },
+        {
+          "dimension": "Intercompany and intragroup funding mechanisms: can RIL provide emergency liquidity support to Nayara (where RIL has no ownership) \u2014 or conversely, can Nayara access parent Rosneft liquidity lines if sanctioned \u2014 and what is the legal and regulatory structure governing intercompany support between these separate entities",
+          "status": "missing",
+          "new_question": {
+            "id": "5.11",
+            "question": "Given that Nayara Energy and RIL are entirely separate corporate entities with no ownership relationship, what formal or informal liquidity support mechanisms \u2014 if any \u2014 exist between them, and separately, can Nayara access emergency liquidity from its parent Rosneft given that Rosneft itself is under US and EU sanctions \u2014 specifically, are there any Rosneft-provided credit facilities or guarantees to Nayara that are currently functional but would be frozen by post-April 3 sanctions enforcement, and what is Nayara's standalone liquidity runway if both Rosneft supply and Rosneft financial support are simultaneously disrupted?"
+          }
+        },
+        {
+          "dimension": "Bonding and guarantee requirements: do any crude supply agreements or port authority arrangements require performance bonds or parent guarantees that are affected by sanctions or credit rating changes under the crisis",
+          "status": "missing",
+          "new_question": {
+            "id": "5.12",
+            "question": "Do any of Nayara's or RIL's crude supply contracts, port usage agreements, or product export contracts contain credit support requirements \u2014 parent guarantees, standby letters of credit, performance bonds \u2014 that could be triggered by a credit rating downgrade, sanction-related event of default, or counterparty withdrawal under the crisis scenario, and if so, what is the aggregate contingent liability and the timeline within which additional collateral would need to be posted?"
+          }
+        },
+        {
+          "dimension": "Accounts receivable concentration risk: if PSU OMC domestic product sales are dramatically increased to fill the MRPL gap, does receivables concentration in IOC/BPCL/HPCL create a working capital timing mismatch given their payment cycles of 30-45 days",
+          "status": "missing",
+          "new_question": {
+            "id": "5.13",
+            "question": "If RIL and Nayara dramatically increase domestic product sales to PSU OMCs (IOC, BPCL, HPCL) to fill the MRPL gap, what is the resulting accounts receivable concentration in these counterparties, what are their current payment cycle timelines (historically 30-45 days for PSU OMCs), and does this receivables buildup at $156/bbl crude cost create a working capital timing gap within April-June that must be pre-funded via additional revolving credit drawdowns \u2014 and has the CFO modeled this receivables cash conversion cycle under the maximum domestic sales scenario?"
+          }
+        },
+        {
+          "dimension": "INR depreciation second-order effect: at $156/bbl crude with a potential INR depreciation driven by the same crisis (current account widening), the INR cost of crude procurement increases further \u2014 this is a separate dimension from FX hedging strategy",
+          "status": "covered",
+          "existing_question_id": "5.9"
+        },
+        {
+          "dimension": "Windfall profit tax / Special Additional Excise Duty risk \u2014 analogous to 2022 \u2014 on export margins",
+          "status": "covered",
+          "existing_question_id": "6.4"
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 6,
+      "title": "Risk Assessment and Contingency Planning: What scenarios could reverse the capitalization strategy and how do we hedge against them?",
+      "dimensions_found": [
+        {
+          "dimension": "Crisis duration scenarios: 7 days vs. 30 days vs. 90 days",
+          "status": "covered",
+          "existing_question_id": "6.1"
+        },
+        {
+          "dimension": "Crude price trajectory: further escalation vs. sudden collapse on ceasefire",
+          "status": "covered",
+          "existing_question_id": "6.2"
+        },
+        {
+          "dimension": "Hormuz re-opening timeline uncertainty",
+          "status": "covered",
+          "existing_question_id": "6.1"
+        },
+        {
+          "dimension": "Russia sanctions waiver: extension vs. hard cutoff \u2014 probability and tracking",
+          "status": "covered",
+          "existing_question_id": "6.6"
+        },
+        {
+          "dimension": "Insurance market failure: Lloyd's and IG P&I Clubs withdrawing Arabian Sea cover",
+          "status": "covered",
+          "existing_question_id": "6.5"
+        },
+        {
+          "dimension": "Domestic government intervention: export bans, price caps, mandatory domestic quotas",
+          "status": "covered",
+          "existing_question_id": "6.4"
+        },
+        {
+          "dimension": "Force majeure from crude suppliers: NOC production disruption beyond Hormuz",
+          "status": "covered",
+          "existing_question_id": "6.1"
+        },
+        {
+          "dimension": "Refinery operational risk: unplanned outage under stress operating conditions",
+          "status": "covered",
+          "existing_question_id": "6.8"
+        },
+        {
+          "dimension": "Competitor response: PSU refiners directed by government to fill gap first",
+          "status": "covered",
+          "existing_question_id": "6.4"
+        },
+        {
+          "dimension": "Currency risk: INR depreciation increasing crude import cost",
+          "status": "covered",
+          "existing_question_id": "6.2"
+        },
+        {
+          "dimension": "US pressure on Indian refiners to reduce Russian/Iranian purchases",
+          "status": "covered",
+          "existing_question_id": "6.10"
+        },
+        {
+          "dimension": "Cyberattack risk: refinery DCS/SCADA under elevated threat",
+          "status": "covered",
+          "existing_question_id": "6.7"
+        },
+        {
+          "dimension": "Windfall profit tax analogous to 2022 SAED",
+          "status": "covered",
+          "existing_question_id": "6.4"
+        },
+        {
+          "dimension": "Escalation decision authority matrix",
+          "status": "covered",
+          "existing_question_id": "6.9"
+        },
+        {
+          "dimension": "Iranian crude involvement legal and reputational risk",
+          "status": "covered",
+          "existing_question_id": "6.10"
+        },
+        {
+          "dimension": "Physical tanker casualty risk: a VLCC damaged or sunk by mining or conflict in the Arabian Sea \u2014 insurance coverage gaps, crude loss, environmental liability, and the reputational and operational impact of a major maritime incident involving RIL or Nayara cargo",
+          "status": "missing",
+          "new_question": {
+            "id": "6.11",
+            "question": "What is the contingency plan if a VLCC carrying RIL or Nayara crude cargo is damaged or sunk by a mine or hostile action in the Arabian Sea or near the Strait of Hormuz \u2014 specifically, who holds the hull and cargo risk at each voyage stage under the relevant Incoterms, is there a clear P&I Club response protocol, what is the environmental liability exposure under Indian coastal law, and does either company have a crisis communications and government response protocol pre-prepared for a major maritime incident involving its crude supply chain?"
+          }
+        },
+        {
+          "dimension": "Second-order demand destruction risk: if the crisis triggers a global recession or sharp demand destruction (particularly in Asia), crack spreads could narrow faster than crude prices decline, compressing the GRM opportunity that underpins the entire capitalize strategy",
+          "status": "missing",
+          "new_question": {
+            "id": "6.12",
+            "question": "What is the downside scenario for Q2 2025 GRM if the Hormuz crisis triggers a global economic slowdown that destroys product demand in Asia \u2014 specifically, at what level of demand destruction (expressed as mb/d reduction in Asian diesel and jet demand) do Singapore crack spreads fall below the threshold at which aggressive throughput maximization at Jamnagar and Vadinar becomes margin-dilutive relative to a reduced-rate defensive posture, and has this demand-destruction scenario been modeled in the financial stress test alongside the supply-shock scenarios?"
+          }
+        },
+        {
+          "dimension": "Rosneft parent company geopolitical risk escalation: a scenario where US secondary sanctions are dramatically tightened against Rosneft specifically \u2014 beyond the current waiver framework \u2014 creating a broader sanctions contagion risk for Nayara beyond just crude supply",
+          "status": "missing",
+          "new_question": {
+            "id": "6.13",
+            "question": "What is the contingency plan for Nayara Energy if the US Treasury significantly expands secondary sanctions targeting Rosneft \u2014 beyond the current waiver framework \u2014 in a way that restricts Nayara's ability to use US-correspondent banking, obtain US-dollar trade finance, or access Lloyd's insurance market for any operations, and at what point does Nayara's board need to consider strategic alternatives including a change of ownership structure, government backstop, or emergency nationalization request to the Government of India as a systemic energy security asset?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    },
+    {
+      "section_id": 7,
+      "title": "Stakeholder and Regulatory Engagement: Which government bodies, NOCs, insurers, and institutional partners must be engaged within 72 hours?",
+      "dimensions_found": [
+        {
+          "dimension": "Ministry of Petroleum and Natural Gas: emergency briefing, domestic supply, export policy",
+          "status": "covered",
+          "existing_question_id": "7.1"
+        },
+        {
+          "dimension": "Ministry of Finance / CBIC: SEZ export-domestic diversion, export duty status",
+          "status": "covered",
+          "existing_question_id": "7.2"
+        },
+        {
+          "dimension": "MEA / PMO: Russia waiver extension advocacy, US diplomatic channel",
+          "status": "covered",
+          "existing_question_id": "7.5"
+        },
+        {
+          "dimension": "RBI: FX hedging limits, USD LC settlement, emergency banking",
+          "status": "covered",
+          "existing_question_id": "7.7"
+        },
+        {
+          "dimension": "SEZ Development Commissioner KASEZ: emergency domestic diversion permission",
+          "status": "covered",
+          "existing_question_id": "7.2"
+        },
+        {
+          "dimension": "Directorate General of Hydrocarbons: crude import regulatory filings",
+          "status": "covered",
+          "existing_question_id": "7.1"
+        },
+        {
+          "dimension": "IRDAI: domestic war-risk insurance backstop",
+          "status": "covered",
+          "existing_question_id": "7.6"
+        },
+        {
+          "dimension": "Indian PSU OMCs: emergency product offtake as replacement for MRPL",
+          "status": "covered",
+          "existing_question_id": "7.8"
+        },
+        {
+          "dimension": "Saudi Aramco, ADNOC: emergency term volume negotiations",
+          "status": "covered",
+          "existing_question_id": "7.5"
+        },
+        {
+          "dimension": "Rosneft: supplier continuity, waiver status, alternative payment routing",
+          "status": "covered",
+          "existing_question_id": "7.4"
+        },
+        {
+          "dimension": "US Treasury OFAC: sanctions waiver guidance and legal interpretation",
+          "status": "covered",
+          "existing_question_id": "7.3"
+        },
+        {
+          "dimension": "IEA / ISPRL: emergency stockpile access",
+          "status": "covered",
+          "existing_question_id": "7.9"
+        },
+        {
+          "dimension": "Indian Navy / Coast Guard: security of crude tankers, escort protocols",
+          "status": "covered",
+          "existing_question_id": "7.10"
+        },
+        {
+          "dimension": "State government of Gujarat: port infrastructure, workforce, emergency utilities",
+          "status": "covered",
+          "existing_question_id": "7.1"
+        },
+        {
+          "dimension": "Ministry of External Affairs engagement with Gulf states: Saudi Arabia, UAE at G2G level for emergency crude",
+          "status": "covered",
+          "existing_question_id": "7.5"
+        },
+        {
+          "dimension": "Indian banking system engagement: SBI, HDFC, PSU banks for LC expansion",
+          "status": "covered",
+          "existing_question_id": "7.7"
+        },
+        {
+          "dimension": "West African NOCs and trading houses: NNPC, Sonangol engagement for alternative crude",
+          "status": "covered",
+          "existing_question_id": "2.1"
+        },
+        {
+          "dimension": "Ministry of Shipping / Sagarmala / Directorate General of Shipping: emergency port operational permissions, coastal shipping regulations, potential waiver of cabotage or port procedures for crisis response",
+          "status": "missing",
+          "new_question": {
+            "id": "7.11",
+            "question": "Has RIL or Nayara engaged the Ministry of Ports, Shipping and Waterways or the Directorate General of Shipping to request any emergency facilitation \u2014 including expedited port clearances, waiver of standard berthing procedures for oversized crude tankers, or priority allocation of port services at Sikka and Vadinar \u2014 given that port turnaround time is a direct throughput bottleneck, and is there a precedent from the 2020 COVID supply chain emergency for such ministerial facilitation?"
+          }
+        },
+        {
+          "dimension": "Gujarat Maritime Board: port authority for Sikka and Vadinar \u2014 operational coordination, emergency dredging or access permissions",
+          "status": "missing",
+          "new_question": {
+            "id": "7.12",
+            "question": "Has either RIL or Nayara engaged the Gujarat Maritime Board \u2014 which has port regulatory authority over Sikka and Vadinar \u2014 to pre-clear any emergency operational requirements such as extended berthing windows, night navigation permissions, deviation from standard VTS procedures, or increased crude throughput at SPMs that may exceed standard permit conditions, and what is the GMB's response timeline for any such emergency operational requests?"
+          }
+        },
+        {
+          "dimension": "Credit Rating Agencies (CRISIL, Moody's, S&P): if working capital requirements spike and leverage ratios temporarily deteriorate at Nayara, proactive engagement with rating agencies to prevent a downgrade that would trigger covenant breaches or increase borrowing costs at the worst possible moment",
+          "status": "missing",
+          "new_question": {
+            "id": "7.13",
+            "question": "Have Nayara Energy's CFO and investor relations team proactively contacted their credit rating agency relationships (CRISIL, Moody's, S&P) within the last 48 hours to pre-brief on the temporary working capital spike from $156/bbl crude procurement and the Rosneft supply disruption risk \u2014 specifically, to prevent a surprise negative rating action that could trigger loan covenant breaches, increase LC costs, or spook product export counterparties at the precise moment when financial confidence is most critical to executing the capitalize strategy?"
+          }
+        },
+        {
+          "dimension": "ONGC and Oil India: emergency domestic crude allocation \u2014 these are government-owned NOCs that could be directed by MoPNG to provide priority crude allocation to private refiners during a national supply emergency",
+          "status": "covered",
+          "existing_question_id": "2.9"
+        },
+        {
+          "dimension": "International trading houses (Vitol, Trafigura, Glencore, Gunvor): beyond just crude sourcing, these firms can provide structured financing, inventory prepayment, or product offtake guarantees that de-risk the capitalize strategy financially \u2014 engagement as financial partners, not just crude suppliers",
+          "status": "missing",
+          "new_question": {
+            "id": "7.14",
+            "question": "Beyond their role as crude suppliers and product buyers, have RIL and Nayara explored whether major international trading houses \u2014 specifically Vitol, Trafigura, Glencore, and Gunvor \u2014 can provide structured balance-sheet support for the capitalize strategy, including crude inventory prepayment financing, product offtake prepayment, or tolling-like arrangements that transfer crude price risk to the trader while securing supply \u2014 and have the respective supply and treasury teams been authorized to open these conversations within 24 hours?"
+          }
+        }
+      ],
+      "completeness_verdict": "gaps_found"
+    }
+  ],
+  "missing_buckets": [
+    {
+      "title": "Decision Sequencing and 72-Hour Action Plan: In what order must decisions be made, by whom, and with what interdependencies, to capture the full margin opportunity before time windows close?",
+      "rationale": "The entire decomposition is analytically thorough but structurally silent on decision sequencing. The problem statement is explicitly time-bound to 72 hours. Several decisions are interdependent \u2014 crude procurement tenor cannot be finalized before insurance cover is confirmed; SEZ domestic diversion cannot be modeled before regulatory permission timeline is known; throughput maximization cannot be committed before alternative crude volumes and compatibility are confirmed. Without an explicit sequencing framework with named decision-owners, deadlines, and interdependencies, the analytical work in sections 1-7 does not translate into an executable 72-hour action plan. The C-suite audience needs to know not just WHAT to decide but WHEN, by WHOM, and in what sequence \u2014 including which decisions are reversible and which are irreversible commitments.",
+      "questions": [
+        {
+          "id": "8.1",
+          "question": "What is the complete decision dependency map for the next 72 hours \u2014 specifically, which decisions must be made first because they are preconditions for other decisions (e.g., confirming war-risk insurance cover before committing to spot crude purchases; confirming SEZ regulatory flexibility before modeling domestic vs. export product split; confirming alternative crude availability before committing to throughput rate increase) \u2014 and has the CEO of each entity approved a sequenced decision calendar with named owners and deadlines for each node?"
+        },
+        {
+          "id": "8.2",
+          "question": "Which of the decisions contemplated in this framework are irreversible commitments within 72 hours \u2014 specifically, which spot crude purchases, term contract signings, or product export commitments create obligations that cannot be unwound if new information arrives (ceasefire, insurance withdrawal, waiver extension) \u2014 and has a 'reversibility premium' been built into the decision criteria so that irreversible decisions require a higher confidence threshold than reversible ones?"
+        },
+        {
+          "id": "8.3",
+          "question": "What is the minimum viable subset of decisions that MUST be made within the next 24 hours versus decisions that can be deferred to 48 or 72 hours without losing the margin opportunity \u2014 and has each C-suite decision-maker been assigned a specific decision responsibility with a defined 'decide by' timestamp to prevent organizational delay from becoming the binding constraint on capitalizing on the crisis?"
+        },
+        {
+          "id": "8.4",
+          "question": "Given that RIL and Nayara are separate companies with no ownership relationship but potentially complementary capabilities (RIL's petrochemical integration, Nayara's simpler ownership structure), are there any joint commercial arrangements \u2014 co-procurement of alternative crude to aggregate volume for better pricing, product supply swaps, or shared storage \u2014 that could be executed within 72 hours and that would improve the economics for both entities versus acting entirely independently, and who has the authority to initiate such a bilateral conversation at the CEO level?"
+        },
+        {
+          "id": "8.5",
+          "question": "What is the communication plan for each C-suite decision-maker's internal organization \u2014 specifically, how will the CEO's and CFO's decisions made in the next 72 hours be cascaded to the operational teams (crude traders, refinery schedulers, product marketing, treasury dealers) with sufficient clarity and speed that operational execution begins within hours of strategic decision, not days \u2014 and is there a designated crisis command structure (war room, decision log, communication protocol) activated at each company?"
+        }
+      ]
+    },
+    {
+      "title": "Medium-Term Strategic Positioning (Q3 2025 and Beyond): How does the crisis create durable competitive advantage or structural risk beyond the immediate Q2 window?",
+      "rationale": "The problem statement is focused on Q2 2025 margin capture, but the decisions made in the next 72 hours will create structural positions \u2014 new supplier relationships, altered crude procurement contracts, precedent-setting government relationships, product market share gains from MRPL's absence, petrochemical feedstock commitments \u2014 that will have consequences well beyond June 30, 2025. The current decomposition has no section examining how 72-hour tactical decisions create or foreclose medium-term strategic options. A McKinsey-quality framework for a C-suite audience must address this horizon.",
+      "questions": [
+        {
+          "id": "9.1",
+          "question": "If MRPL's shutdown extends beyond 90 days, can RIL and Nayara convert their emergency spot product supply relationships with PSU OMCs (IOC, BPCL, HPCL) into durable term supply arrangements that create a structural competitive advantage in domestic product marketing \u2014 and what contract terms, pricing formulas, and relationship investments should be prioritized in the next 72 hours to maximize the probability of this outcome?"
+        },
+        {
+          "id": "9.2",
+          "question": "Does the Hormuz crisis and the forced diversification away from Middle East crude create a structural opportunity for RIL and Nayara to permanently reduce their dependence on Gulf crude by building lasting supply relationships with West African, US, and Latin American crude producers \u2014 and what term contract framework, volume commitments, or strategic partnerships should be initiated in the next 72 hours to capitalize on the current seller willingness to offer favorable terms to secure India as a long-term buyer?"
+        },
+        {
+          "id": "9.3",
+          "question": "If the Russia sanctions waiver is permanently terminated after April 3 and Russian crude as a source of structural cost advantage is eliminated for both RIL and Nayara, what is the long-run GRM impact on each refinery at normalized crack spreads \u2014 i.e., what is the permanent competitive disadvantage they will carry versus pre-crisis economics \u2014 and does this structural shift require medium-term capex investment (crude flexibility projects, additional upgrading capacity, alternative crude compatibility improvements) that should be initiated or at least conceptually approved within the next 30 days?"
+        },
+        {
+          "id": "9.4",
+          "question": "Does the current crisis create an opportunity for RIL to accelerate its strategic ambition in crude trading and commodity risk management by permanently building out a physical crude trading capability \u2014 similar to Aramco Trading or Petrobras' trading arm \u2014 that can generate income across market cycles rather than being purely a price-taker, and are there specific talent, infrastructure, or regulatory approvals that should be identified within 72 hours for a fast-track medium-term build-out?"
+        },
+        {
+          "id": "9.5",
+          "question": "What is the scenario under which the Hormuz crisis accelerates India's push for strategic crude reserve expansion (ISPRL Phase II) or a government-mandated minimum private refiner crude stockholding requirement \u2014 and how should RIL and Nayara engage MoPNG in the next 72 hours to shape this policy in a direction that plays to their balance-sheet and infrastructure strengths rather than becoming an unfunded regulatory burden?"
+        }
+      ]
+    }
+  ],
+  "duplicate_flags": [
+    {
+      "question_ids": [
+        "2.9",
+        "7.9"
+      ],
+      "reason": "Both questions address emergency access to domestic Indian crude from ONGC and Oil India (ISPRL/government allocation). Question 2.9 asks about maximum incremental volume and quality adjustments; question 7.9 asks about ISPRL release triggers and government policy. They are close enough in subject matter that answers would substantially overlap \u2014 the crude procurement section (2.9) handles the commercial and quality dimensions while the stakeholder section (7.9) handles the government engagement dimension; the questions should be cross-referenced and the ISPRL stockpile release aspect of 7.9 should be distinguished from the ONGC/OIL domestic crude allocation in 2.9 to prevent duplicate analytical effort."
+    },
+    {
+      "question_ids": [
+        "5.6",
+        "4.4"
+      ],
+      "reason": "Both questions address the SEZ fiscal and regulatory regime for domestic versus export sales. Question 4.4 asks about regulatory flexibility to divert SEZ output domestically and the SEZ Development Commissioner approval timeline; question 5.6 asks about the differential in effective tax rate and duty treatment between SEZ export and domestic emergency sales. These are closely related and answers would reference the same regulatory framework \u2014 recommended to merge into a single question or explicitly cross-reference to avoid redundant regulatory analysis."
+    },
+    {
+      "question_ids": [
+        "6.4",
+        "5.6"
+      ],
+      "reason": "Both questions partially address tax treatment of export sales \u2014 6.4 focuses on export duty/SAED imposition risk and 5.6 focuses on current SEZ fiscal regime. Both inform the same export-versus-domestic split decision and should be explicitly sequenced so the current fiscal regime (5.6) is answered before the incremental risk scenario (6.4) is modeled."
+    },
+    {
+      "question_ids": [
+        "1.10",
+        "5.1"
+      ],
+      "reason": "Both questions ask about available LC and credit line headroom for spot crude procurement at elevated prices. Question 1.10 asks about 'available LC and credit line headroom...how many additional VLCC cargoes can each entity finance without breaching working capital covenants'; question 5.1 asks about 'incremental working capital requirement...does current combined LC and revolving credit facility headroom fully cover this without triggering any financial covenant.' These are substantively the same question framed slightly differently \u2014 the current state assessment (1.10) and the financial section (5.1) should cross-reference rather than re-derive the same LC headroom analysis."
+    },
+    {
+      "question_ids": [
+        "2.10",
+        "7.6"
+      ],
+      "reason": "Both questions address war-risk insurance availability for Arabian Sea crude tanker voyages. Question 2.10 asks about which underwriters are still writing Arabian Sea war-risk and the incremental premium; question 7.6 asks about broker confirmation of continued Lloyd's/IG P&I Club cover and the possibility of a government-backed insurance backstop. These questions address the same information need from different angles (commercial market assessment vs. government backstop contingency) and should be explicitly cross-referenced to avoid duplicating the broker/underwriter inquiry."
+    }
+  ],
+  "overall_verdict": "gaps_found",
+  "total_questions_added": 30
+}

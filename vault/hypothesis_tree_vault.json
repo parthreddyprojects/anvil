@@ -1,0 +1,293 @@
+{
+  "description": "Hypothesis tree methodology vault. The LLM uses this to decompose hypotheses into testable sub-hypotheses, define decision thresholds, test at the leaf level, and propagate kills upward.",
+
+  "WHAT_IS_A_HYPOTHESIS_TREE": {
+    "definition": "A hypothesis tree starts with an ANSWER (not a question) and works backward to find what must be true for that answer to hold. Each sub-hypothesis is a necessary condition — if false, the parent weakens or collapses.",
+    "vs_issue_tree": "An issue tree asks 'What are the questions?' A hypothesis tree says 'Here is the answer — what must be true for it to work?' Issue trees are exploratory. Hypothesis trees are deductive.",
+    "why_preferred": "Hypothesis trees lead to more focused analysis because they test specific claims rather than exploring open questions. You know exactly what data you need and what a kill looks like before you start."
+  },
+
+  "STRUCTURE": {
+    "levels": [
+      {
+        "level": 0,
+        "name": "Governing Hypothesis",
+        "description": "The single-sentence answer to the problem statement. This is the 'Day 1 answer' — the team's best guess at the solution before deep analysis.",
+        "example": "Pioneer Bank can increase sales-force productivity by 30% within 12 months"
+      },
+      {
+        "level": 1,
+        "name": "Primary Hypotheses",
+        "description": "2-5 major claims that, if ALL true, would make the governing hypothesis correct. Each is a necessary condition. MECE at this level.",
+        "example": ["Pioneer can increase selling time as proportion of total time", "Pioneer can increase sales volumes from available selling time", "Pioneer can increase proportion of high-value products sold"]
+      },
+      {
+        "level": 2,
+        "name": "Sub-Hypotheses (Leaves)",
+        "description": "The testable claims at the deepest level. Each has a specific test, expected evidence, and decision threshold. This is where data meets hypothesis.",
+        "example": ["Pioneer can transfer/outsource non-value-added tasks (admin)", "Pioneer can reduce/eliminate non-value-added tasks (travel, error correction)", "Pioneer can improve generation of sales leads", "Pioneer can improve sales conversion skills of the sales force"]
+      }
+    ],
+    "rules": [
+      "Each level must be MECE — no overlaps, no gaps",
+      "Sub-hypotheses are NECESSARY CONDITIONS, not supporting arguments",
+      "The test for necessity: 'If this sub-hypothesis is false, does the parent still hold?' If yes, it's not necessary — remove it.",
+      "Decompose until each leaf is testable with a specific data point or analysis",
+      "Stop decomposing when the leaf can be answered with one analysis or one data source"
+    ]
+  },
+
+  "DECOMPOSITION_METHOD": {
+    "the_one_question": "For this hypothesis to hold, what must be true?",
+    "process": [
+      "1. State the hypothesis as a specific, testable claim with a number/threshold",
+      "2. Ask: 'What are the 2-5 things that MUST be true for this to work?'",
+      "3. For each proposed sub-hypothesis, apply the KILL TEST: 'If this is false, does the parent still hold?'",
+      "4. If the parent still holds without it → it's not a necessary condition → remove it",
+      "5. If the parent collapses without it → it's load-bearing → keep it",
+      "6. Check MECE: do the sub-hypotheses cover ALL necessary conditions? Run adversarial audit.",
+      "7. For each sub-hypothesis, define the DECISION THRESHOLD before testing"
+    ],
+    "types_of_necessary_conditions": [
+      {
+        "type": "Feasibility",
+        "question": "Can this physically/technically be done?",
+        "example": "The Pakistan back-channel is open and functioning"
+      },
+      {
+        "type": "Capacity",
+        "question": "Do the actors have the ability to execute?",
+        "example": "Iran's leadership structure can receive and process a framework in 10 days"
+      },
+      {
+        "type": "Economics",
+        "question": "Do the numbers work?",
+        "example": "Payback on the investment is less than 10 years"
+      },
+      {
+        "type": "Timing",
+        "question": "Can it happen in the required timeframe?",
+        "example": "West African spot cargoes can arrive before inventory runs out on April 18"
+      },
+      {
+        "type": "Willingness",
+        "question": "Will the actors actually do it?",
+        "example": "Allied coalition will maintain sanctions enforcement beyond 30 days"
+      },
+      {
+        "type": "Absence of blockers",
+        "question": "Is there nothing that prevents this?",
+        "example": "No regulatory constraint prevents the merger"
+      }
+    ]
+  },
+
+  "TESTING_PROTOCOL": {
+    "for_each_leaf": {
+      "define_before_testing": [
+        "TEST: What specific analysis or data proves/disproves this?",
+        "EVIDENCE_IF_TRUE: What would you expect to see in the data if the sub-hypothesis holds?",
+        "EVIDENCE_IF_FALSE: What would kill it?",
+        "DECISION_THRESHOLD: The specific number or condition that flips the answer. e.g., 'If freight cost > $8/bbl, this hypothesis is dead'",
+        "DATA_SOURCE: Where does the answer come from?",
+        "CONFIDENCE: How reliable is the data source?"
+      ],
+      "example": {
+        "sub_hypothesis": "Payback on solar PV investment is less than 10 years",
+        "test": "Calculate NPV of installation costs vs. energy savings over 10 years",
+        "evidence_if_true": "NPV positive within 10 years at current energy prices",
+        "evidence_if_false": "NPV negative or payback exceeds 10 years",
+        "decision_threshold": "Payback period < 10 years = proceed, > 10 years = kill",
+        "data_source": "Installation quotes + current energy rates + panel degradation curves"
+      }
+    },
+    "status_system": {
+      "GREEN": "Evidence supports the sub-hypothesis. Decision threshold met.",
+      "AMBER": "Evidence is mixed or incomplete. Need more data. Sub-hypothesis is uncertain.",
+      "RED": "Evidence contradicts the sub-hypothesis. Decision threshold failed. KILLED."
+    }
+  },
+
+  "KILL_PROPAGATION": {
+    "rules": [
+      "Test at the LEAVES first, not the trunk",
+      "A RED leaf does not automatically kill the parent — it depends on the tree logic",
+      "AND-logic parent: ALL sub-hypotheses must be true. One RED leaf = parent is RED (killed)",
+      "OR-logic parent: ANY sub-hypothesis being true is sufficient. Parent only dies if ALL leaves are RED",
+      "Most hypothesis trees use AND-logic — the sub-hypotheses are necessary conditions that must ALL hold",
+      "When a parent is killed, check: does this affect the governing hypothesis? If the governing hypothesis had 3 primary hypotheses and one is killed, the governing hypothesis must be revised from survivors"
+    ],
+    "and_vs_or": {
+      "AND_example": {
+        "parent": "US can table a framework through Pakistan in 10 days",
+        "sub_hypotheses": ["Channel is open", "Iran can process it", "Framework is ready", "10 days is enough"],
+        "logic": "AND — ALL must be true. If channel is closed, the entire hypothesis is dead regardless of the others."
+      },
+      "OR_example": {
+        "parent": "Company can grow revenue by $50M",
+        "sub_hypotheses": ["Upsell existing customers ($30M)", "Win new customers ($25M)", "Enter new market ($20M)"],
+        "logic": "OR — any combination that sums to $50M works. Killing one branch shifts the burden to others but doesn't kill the parent."
+      }
+    },
+    "iteration_after_kill": [
+      "1. Mark the killed branch RED with kill reason",
+      "2. Check parent: AND-logic → parent dies. OR-logic → recalculate if remaining branches still support parent.",
+      "3. If parent dies, check governing hypothesis: can it survive without this primary hypothesis?",
+      "4. If governing hypothesis is weakened, either REVISE it from remaining survivors or generate a NEW governing hypothesis",
+      "5. Document the kill in the Hypothesis Graveyard with full reasoning"
+    ]
+  },
+
+  "QUALITY_CHECKS": {
+    "five_tests_for_each_hypothesis": [
+      "TESTABLE — Can you prove or disprove it with data?",
+      "DEBATABLE — Could a smart person argue the opposite? If not, it's a fact, not a hypothesis.",
+      "REVERSIBLE — Does the opposite hypothesis also make sense? If 'we should enter this market' is a hypothesis, 'we should NOT enter this market' must also be plausible.",
+      "NON-OBVIOUS — Would it sound naive or obvious to the decision-maker? If yes, sharpen it.",
+      "ACTION-ORIENTED — Does it point to a specific action the organization can take?"
+    ],
+    "adversarial_audit": [
+      "After generating sub-hypotheses, a separate review asks:",
+      "- What necessary condition is MISSING that would break the parent?",
+      "- Are any two sub-hypotheses actually the same condition stated differently? (MECE violation)",
+      "- Is any sub-hypothesis unfalsifiable? (remove it — can't test = can't use)",
+      "- What is the STRONGEST counterargument to the parent hypothesis that none of the sub-hypotheses address?"
+    ]
+  },
+
+  "FULL_EXAMPLES": [
+    {
+      "problem": "How can Pioneer Bank increase sales-force productivity?",
+      "governing_hypothesis": "Pioneer Bank can increase sales-force productivity by 30% within 12 months",
+      "tree": {
+        "H1": {
+          "statement": "Pioneer can increase selling time as proportion of total available time",
+          "logic": "AND",
+          "necessary_because": "If reps spend 80% of time on admin, no amount of skill training fixes productivity",
+          "sub_hypotheses": [
+            {"id": "H1.1", "statement": "Pioneer can transfer or outsource non-value-added tasks (admin)", "test": "Audit time allocation, identify tasks transferable to ops team", "threshold": "Admin time reducible by >20%"},
+            {"id": "H1.2", "statement": "Pioneer can reduce or eliminate non-value-added tasks (travel, error correction)", "test": "Map travel time, error rate by rep", "threshold": "Travel + error time >15% of total"}
+          ]
+        },
+        "H2": {
+          "statement": "Pioneer can increase sales volumes from available selling time",
+          "logic": "OR",
+          "necessary_because": "Even with more selling time, if conversion and leads don't improve, productivity stays flat",
+          "sub_hypotheses": [
+            {"id": "H2.1", "statement": "Pioneer can improve generation of sales leads", "test": "Compare lead gen across branches, identify best practices", "threshold": "Top quartile branches generate >2x leads of bottom quartile"},
+            {"id": "H2.2", "statement": "Pioneer can improve the sales conversion skills of the sales force", "test": "Analyze conversion rates by rep tenure and training", "threshold": "Trained reps convert >1.5x untrained"}
+          ]
+        },
+        "H3": {
+          "statement": "Pioneer can increase the proportion of high-value products sold",
+          "logic": "AND",
+          "necessary_because": "Selling more of the same low-margin products doesn't move productivity",
+          "sub_hypotheses": [
+            {"id": "H3.1", "statement": "High-value products have unmet demand in Pioneer's customer base", "test": "Survey customers, analyze product penetration", "threshold": "Penetration of high-value products <30% in existing base"},
+            {"id": "H3.2", "statement": "Sales force can be trained to sell complex products", "test": "Pilot training program with 20 reps, measure uplift", "threshold": "Uplift ≥1.5x in pilot group vs control"}
+          ]
+        }
+      }
+    },
+    {
+      "problem": "Should we install solar PV now?",
+      "governing_hypothesis": "We should install solar PV now",
+      "tree": {
+        "H1": {
+          "statement": "The payback on the investment is attractive",
+          "logic": "AND",
+          "necessary_because": "If the economics don't work, nothing else matters",
+          "sub_hypotheses": [
+            {"id": "H1.1", "statement": "Payback period is less than 10 years", "test": "NPV calculation: installation cost vs energy savings", "threshold": "Payback < 10 years"},
+            {"id": "H1.2", "statement": "Panel costs are not about to drop significantly further", "test": "Analyze panel price curve and industry forecasts", "threshold": "Annual cost decline < 5% = costs stabilizing"}
+          ]
+        },
+        "H2": {
+          "statement": "The CO2 reduction is material",
+          "logic": "AND",
+          "necessary_because": "If environmental impact is negligible, one of the key motivations disappears",
+          "sub_hypotheses": [
+            {"id": "H2.1", "statement": "Solar PV would reduce household CO2 footprint by more than 10%", "test": "Calculate current grid carbon intensity vs solar generation", "threshold": "CO2 reduction ≥ 10%"}
+          ]
+        }
+      }
+    },
+    {
+      "problem": "What should a refiner do if Hormuz closes?",
+      "governing_hypothesis": "The refiner should immediately secure alternative crude supply and run at maximum throughput to capture margin upside",
+      "tree": {
+        "H1": {
+          "statement": "Alternative crude supply can reach the refinery before inventory runs out",
+          "logic": "AND",
+          "necessary_because": "If crude can't arrive in time, throughput reduction is forced regardless of strategy",
+          "sub_hypotheses": [
+            {"id": "H1.1", "statement": "Current on-site inventory covers at least 15-20 days at current run rates", "test": "Check tank levels, divide by daily consumption", "threshold": "Days of cover ≥ 15"},
+            {"id": "H1.2", "statement": "West African or Atlantic Basin cargoes can arrive within the inventory window", "test": "Map voyage times from key ports to refinery", "threshold": "Voyage time + loading ≤ inventory days remaining"},
+            {"id": "H1.3", "statement": "Spot cargoes are available at economically viable prices", "test": "Check current spot premiums for non-Gulf crude", "threshold": "Spot premium < crack spread improvement from Hormuz disruption"}
+          ]
+        },
+        "H2": {
+          "statement": "Crack spreads will widen enough to justify premium crude costs",
+          "logic": "AND",
+          "necessary_because": "If product margins don't expand, buying expensive alternative crude destroys value",
+          "sub_hypotheses": [
+            {"id": "H2.1", "statement": "Product prices rise faster than crude costs in a Hormuz disruption", "test": "Model product vs crude price response to historical supply shocks", "threshold": "Crack spread widens > $5/bbl from baseline"},
+            {"id": "H2.2", "statement": "The refinery's product slate matches the products with widening cracks", "test": "Compare refinery yield pattern to crack spread movements by product", "threshold": "Weighted GRM improves net of crude premium"}
+          ]
+        },
+        "H3": {
+          "statement": "Regulatory and sanctions constraints do not prevent the strategy",
+          "logic": "AND",
+          "necessary_because": "A single binding regulatory constraint can block the entire approach",
+          "sub_hypotheses": [
+            {"id": "H3.1", "statement": "No sanctions restriction prevents purchasing from alternative sources", "test": "Legal review of sanctions regime and crude origin requirements", "threshold": "No binding OFAC or equivalent restriction"},
+            {"id": "H3.2", "statement": "Government does not impose administered pricing or export restrictions that cap margins", "test": "Review regulatory history and current political signals", "threshold": "No pricing directive in place or credibly threatened within 30 days"}
+          ]
+        }
+      }
+    },
+    {
+      "problem": "What must the United States do given the Hormuz closure?",
+      "governing_hypothesis": "The US must table a complete settlement framework through the Pakistan back-channel within 10 days before China's competing proposal gains traction",
+      "tree": {
+        "H1": {
+          "statement": "The Pakistan back-channel is viable for delivering a US framework",
+          "logic": "AND",
+          "necessary_because": "If the channel is closed or compromised, the entire delivery mechanism fails",
+          "sub_hypotheses": [
+            {"id": "H1.1", "statement": "Pakistan is willing and able to serve as intermediary", "test": "Assess Pakistan's current diplomatic posture and bilateral relationships", "threshold": "Active diplomatic engagement confirmed in last 7 days"},
+            {"id": "H1.2", "statement": "Iran's provisional council will receive and consider a US-originated framework", "test": "Assess factional dynamics — who in Tehran has authority to engage", "threshold": "At least one council member with authority is receptive"}
+          ]
+        },
+        "H2": {
+          "statement": "10 days is the real deadline — not earlier, not later",
+          "logic": "AND",
+          "necessary_because": "If the deadline is wrong, the entire urgency calculus changes",
+          "sub_hypotheses": [
+            {"id": "H2.1", "statement": "China's competing framework will be tabled within 10-14 days", "test": "Intelligence on Chinese diplomatic activity and timeline", "threshold": "Credible signals of Chinese framework in next 2 weeks"},
+            {"id": "H2.2", "statement": "War Powers Resolution clock does not expire before the 10-day window", "test": "Legal analysis of WPR filing date and 60-day calculation", "threshold": "WPR expiry > 10 days from now"},
+            {"id": "H2.3", "statement": "Allied patience holds for at least 10 more days", "test": "Assess allied diplomatic signals and domestic energy cost impact", "threshold": "No allied defection signals in current week"}
+          ]
+        },
+        "H3": {
+          "statement": "A US-authored framework exists or can be drafted that both sides could accept",
+          "logic": "AND",
+          "necessary_because": "If no viable framework exists, the channel and timeline are irrelevant",
+          "sub_hypotheses": [
+            {"id": "H3.1", "statement": "US and Iran have overlapping negotiating ranges on key terms", "test": "Map each side's stated positions and likely bottom lines", "threshold": "Overlap exists on at least 3 of 5 key terms"},
+            {"id": "H3.2", "statement": "Khamenei (or successor authority) can visibly endorse a framework", "test": "Assess Khamenei's medical status and constitutional standing", "threshold": "Physical capacity to appear publicly confirmed"}
+          ]
+        }
+      }
+    }
+  ],
+
+  "COMMON_MISTAKES": [
+    "SUPPORTING ARGUMENTS, NOT CONDITIONS — 'Market research shows demand' is evidence, not a sub-hypothesis. The sub-hypothesis is 'Demand exceeds X units/year'",
+    "TOO VAGUE TO TEST — 'The competitive landscape is favorable' is not testable. 'No competitor can match our cost within 18 months' is testable.",
+    "CONFUSING OR-LOGIC WITH AND-LOGIC — If you can succeed even if one sub-hypothesis is false, it's OR-logic. Most strategic hypotheses are AND-logic.",
+    "SKIPPING THE DECISION THRESHOLD — Every leaf needs a number. 'Margins will improve' is useless. 'Margins will improve by >$3/bbl' is testable.",
+    "DECOMPOSING TOO DEEP — Stop when each leaf can be answered with one analysis. Two levels is usually enough. Three is rare.",
+    "NOT TESTING REVERSIBILITY — If the opposite of your hypothesis sounds absurd, your hypothesis is too obvious to be useful."
+  ]
+}

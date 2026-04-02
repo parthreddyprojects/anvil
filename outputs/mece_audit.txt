@@ -1,0 +1,403 @@
+
+
+# MECE GAP AUDIT — COMPLETE ANALYSIS
+
+---
+
+## PS1: RIL and Nayara
+
+### Bucket 1: "What is our supply position today?"
+
+**GAPS:**
+- **Missing: Committed term contract volumes and their routing.** We know what's en route and what inventory we hold, but not what term contracts are scheduled for delivery in the next 10-30 days and whether those cargoes originate from Hormuz-dependent sources. Without this, we can't size the *forward* gap.
+- **Missing: Storage capacity utilization.** How much *additional* crude can Jamnagar/Vadinar physically receive and store? If we're buying opportunistically, tank tops matter.
+- **Missing: Product inventory position.** Crude inventory is covered, but what finished product stocks do we hold? This affects urgency of crude procurement vs. ability to serve markets immediately from existing product.
+
+**Add:**
+- 1.3 What term-contract deliveries are scheduled in the next 30 days, and what share transits Hormuz?
+- 1.4 What is available crude and product storage capacity at Jamnagar and Vadinar?
+- 1.5 What finished product inventory do we hold by grade across both sites?
+
+### Bucket 2: "What alternative crude can we secure in 10 days?"
+
+**GAPS (beyond those already identified):**
+- Already noted: existing term contracts redirectable via non-Hormuz routes, crude at sea for diversion, incremental domestic production.
+- **Missing: Pipeline-delivered alternatives.** Can volumes from pipeline-connected sources (e.g., increased allocation via Vadinar's single-point mooring from West African or Atlantic Basin tankers already in Indian Ocean) be accelerated?
+- **Missing: Competitor supply displacement.** If other refiners shut down, their contracted cargoes become available — can we acquire those?
+- **Missing: Counterparty credit and payment terms.** At $156/bbl, spot purchases require massive cash outlay. Can we secure favorable payment terms, or does liquidity constrain procurement?
+- **Missing: Logistics and port constraints.** Even if crude is available, can our port infrastructure (berth availability, VLCC draft limits, lightering) handle non-standard supply chains?
+- **Missing: Time horizon beyond 10 days.** The question says "in 10 days" but planning should include a 30-60 day procurement pipeline. What medium-term supply contracts should we be negotiating now?
+
+**Add:**
+- 2.4 What existing term contracts can be redirected via non-Hormuz routes or sourced from alternative loading ports?
+- 2.5 What crude cargoes currently at sea (ours or others') can be diverted to Jamnagar/Vadinar?
+- 2.6 Can incremental domestic production (Assam, Rajasthan, KG Basin) be secured?
+- 2.7 What contracted volumes from shutting competitors can we acquire?
+- 2.8 What are the cash/credit requirements for spot procurement at $156, and do we have liquidity?
+- 2.9 What port, berth, and logistics constraints limit our ability to receive non-standard cargoes?
+- 2.10 What 30-60 day supply arrangements should we initiate now for sustained disruption?
+
+### Bucket 3: "How should we run the refineries to maximize margin?"
+
+**GAPS:**
+- **Missing: Refinery-specific differentiation.** Jamnagar DTA, Jamnagar SEZ, and Vadinar (Nayara) have different configurations, capabilities, and regulatory regimes (SEZ has export orientation). The optimal strategy differs for each. No sub-question separates them.
+- **Missing: Crude quality constraints.** Not all alternative grades are compatible with existing desalters, CDUs, cokers. What are the actual metallurgical/process limits on substitute crudes?
+- **Missing: Maintenance/turnaround status.** Are any units currently down for maintenance that could be accelerated or deferred to change capacity?
+- **Missing: Utilities and hydrogen balance.** Running different crude slates affects hydrogen demand, sulfur output, power balance. Are there utility bottlenecks?
+- **Missing: Co-processing opportunities.** Can we increase condensate, NGL, or fuel oil processing to supplement crude?
+
+**Add:**
+- 3.4 What is the optimal strategy differentiation across Jamnagar DTA, Jamnagar SEZ, and Vadinar given their different configurations and regulatory regimes?
+- 3.5 What are the hard metallurgical/process constraints on substitute crude grades at each refinery?
+- 3.6 What is current maintenance/turnaround status, and should any scheduled work be accelerated or deferred?
+- 3.7 Do hydrogen, sulfur handling, or utility constraints limit throughput on alternative crude slates?
+- 3.8 Can condensate, NGL, or fuel oil co-processing supplement reduced crude availability?
+
+### Bucket 4: "What product market opportunities can we capture?"
+
+**GAPS:**
+- **Missing: Customer/offtaker specific opportunities.** Which specific airlines, industrial buyers, or national oil companies are most desperate and willing to pay premium?
+- **Missing: Competitor analysis.** Which specific competitors (Middle East refiners, Singapore, South Korea) are shut or curtailed, and what market share is available?
+- **Missing: Logistics to market.** Do we have product tanker availability, pipeline capacity, and terminal access to actually deliver into the highest-margin markets?
+- **Missing: Domestic allocation obligation.** Before we optimize exports, what domestic supply obligations (OMC contracts, directed supply) are we legally required to fulfill? This constrains export optimization.
+- **Missing: Product specification arbitrage.** In crisis, can we sell off-spec or intermediate products (e.g., straight-run naphtha to petrochemicals, LSFO to power) at premium?
+- **Missing: Petrochemical integration.** RIL has massive downstream petrochemical capacity. Should we shift cracker feed to maximize petrochem margins vs. fuel margins?
+
+**Add:**
+- 4.3 Which specific competitors are shut or curtailed, and what supply gaps does this create by product and geography?
+- 4.4 Do we have product tanker, pipeline, and terminal capacity to deliver into highest-margin markets?
+- 4.5 What domestic supply obligations (OMC contracts, directed supply, ESMA) must we fulfill before optimizing exports?
+- 4.6 Can we capture value from off-spec or intermediate product sales to non-traditional buyers?
+- 4.7 Should RIL's integrated petrochemical complex shift feedstock allocation toward petrochem vs. fuel?
+
+### Bucket 5: "What risks must we hedge?"
+
+**GAPS:**
+- **Missing: Physical disruption risks.** What if the conflict escalates to attacks on tankers in the Arabian Sea, or Indian port/infrastructure is targeted? What is our physical security and contingency plan?
+- **Missing: Counterparty/credit risk.** If we've locked in spot purchases or export contracts, what happens if counterparties default due to force majeure?
+- **Missing: Insurance implications.** War risk insurance premiums have presumably spiked. What is the cost impact on inbound crude and outbound product cargoes? Are insurers even covering Hormuz-adjacent routes?
+- **Missing: Reputational/political risk.** Profiting massively while PSU refiners struggle and consumers face shortages could trigger windfall taxes, export bans, or directed supply orders. How do we manage this?
+- **Missing: FX risk.** At $156/bbl, the INR import bill is enormous. What is our FX exposure and hedging position?
+- **Missing: Personnel and operational safety.** Are any of our people or assets in harm's way?
+
+**Add:**
+- 5.4 What is our exposure to physical escalation (tanker attacks, infrastructure targeting) and what contingency plans exist?
+- 5.5 What counterparty and performance risks exist on new spot contracts?
+- 5.6 What are war risk insurance costs and availability for our cargo movements?
+- 5.7 What political risks (windfall tax, export ban, directed supply) could erode our upside, and how do we mitigate?
+- 5.8 What is our FX exposure at $156/bbl and how should we hedge?
+- 5.9 Are personnel and operational assets safe, and what security measures are needed?
+
+### PS1 STRUCTURAL GAP:
+
+**Missing entire bucket: "What strategic positioning moves should we make beyond the 10-day window?"**
+- All buckets are tactical. There's no question about:
+  - Should we acquire distressed assets (PSU refineries, storage, pipelines)?
+  - Should we lock in long-term non-Hormuz supply contracts while competitors are desperate?
+  - Should we accelerate any capital projects (crude storage expansion, pipeline connections)?
+  - What is our communication/positioning strategy with government to shape post-crisis policy?
+
+**Add Bucket 6: What medium-term strategic moves should we initiate now?**
+- 6.1 Are there distressed assets or long-term supply contracts we should pursue while the market is dislocated?
+- 6.2 Should we accelerate investment in crude storage, pipeline connectivity, or diversified import infrastructure?
+- 6.3 What government engagement strategy positions us favorably in the post-crisis policy environment?
+
+---
+
+## PS2: High-Complexity PSU Refiners
+
+### Bucket 1: "Can we physically keep crude flowing in?"
+
+**GAPS:**
+- **Missing: Port and logistics constraints.** Even if alternative grades exist, can our terminals physically handle them (draft, mooring, heating requirements for heavy crudes)?
+- **Missing: Quality bank/blending capability.** Can we blend incompatible spot crudes to create a viable feedstock? What blending infrastructure exists?
+- **Missing: Pipeline-delivered domestic crude.** Can Bombay High, Rajasthan, or other domestic fields increase allocation to high-complexity PSU refiners specifically?
+- **Missing: Crude already contractually committed but not yet loaded.** What term volumes from non-Hormuz sources (West Africa, Latin America) are in the pipeline?
+
+**Add:**
+- 1.4 Can our port infrastructure handle alternative crude grades (draft, heating, compatibility)?
+- 1.5 What blending options exist to make incompatible spot grades processable?
+- 1.6 Can domestic crude allocation be increased and redirected to our refineries?
+- 1.7 What non-Hormuz term contract volumes are scheduled but not yet loaded, and can they be accelerated?
+
+### Bucket 2: "How do we run the plants most effectively?"
+
+**GAPS:**
+- **Missing: Maintenance/turnaround considerations.** If throughput is being reduced anyway, should we pull forward planned turnarounds to be ready for recovery?
+- **Missing: Hydrogen and utility balance.** Reduced crude runs and changed slate affect hydrogen production/consumption, steam balance, and power generation. What are the cascading impacts?
+- **Missing: Environmental/safety minimum thresholds.** Below certain throughputs, flaring increases, emissions spike, and safety risks rise. What are these thresholds?
+- **Missing: Product quality implications.** Running off-spec crudes at reduced rates may produce off-spec products. What is the quality risk and its market/regulatory consequence?
+- **Missing: Coordination mechanism.** 2.3 mentions inter-refinery transfers but doesn't ask WHO coordinates and HOW. Is there a system-wide optimization authority, or is each refinery acting independently?
+
+**Add:**
+- 2.4 Should planned maintenance/turnarounds be pulled forward to exploit the forced throughput reduction?
+- 2.5 What are the hydrogen, utility, and power balance impacts of reduced/altered crude runs?
+- 2.6 What are the environmental and safety minimum throughput thresholds for each unit?
+- 2.7 What product quality risks arise from altered crude slates, and how do they affect marketability?
+- 2.8 Who has authority for system-wide refinery optimization across PSU fleet, and is that mechanism activated?
+
+### Bucket 3: "Can we survive financially at frozen prices?"
+
+**GAPS:**
+- **Missing: Working capital impact.** At $156/bbl, even if volumes drop, the cash tied up in crude procurement is enormous. What is the working capital squeeze, and can existing credit facilities handle it?
+- **Missing: Impact on existing financial commitments.** Debt covenants, dividend obligations, capex commitments — which are at risk, and what waivers are needed?
+- **Missing: Differential impact by refiner.** BPCL, HPCL, IOCL Panipat vs. Gujarat vs. Paradip — the financial position differs. Which entities are most vulnerable?
+- **Missing: Revenue side of the equation.** The questions focus on costs and subsidies, but what about revenue upside from export-parity products, petrochemical margins, or lubricant premiums?
+- **Missing: Employee and contractor cost management.** If throughput drops 40-50%, what labor cost actions are possible?
+
+**Add:**
+- 3.4 What is the working capital requirement at $156/bbl, and do existing credit facilities cover the gap?
+- 3.5 Which debt covenants, dividend obligations, or capex commitments are at risk, and what waivers are needed?
+- 3.6 What is the differential financial vulnerability across specific PSU refining entities?
+- 3.7 What variable cost reductions (labor, contractors, consumables) are achievable at reduced throughput?
+
+### Bucket 4: "How do we comply with government mandates and shape policy?"
+
+**GAPS:**
+- **Missing: Coordination with OMCs on distribution.** PSU refiners are also OMCs (or supply OMCs). How do we manage retail network supply obligations when production is curtailed?
+- **Missing: Public communication strategy.** Fuel shortages will cause public panic. What is the communication plan to manage expectations?
+- **Missing: Priority allocation framework.** When supply is short, who gets served first — defense, agriculture, public transport, industry? What framework exists and what should we advocate?
+- **Missing: Legal/contractual force majeure declarations.** Can we invoke force majeure on supply contracts, offtake agreements, or pipeline commitments?
+- **Missing: International coordination.** Are other IEA/non-IEA countries releasing strategic reserves? Can India coordinate with allies for preferential supply?
+
+**Add:**
+- 4.3 How do we manage retail network and OMC supply obligations when production is curtailed?
+- 4.4 What public communication strategy manages consumer expectations and prevents panic buying?
+- 4.5 What priority allocation framework should we implement or advocate for across defense, agriculture, transport, and industry?
+- 4.6 Can we invoke force majeure on supply contracts, offtake commitments, or pipeline obligations?
+- 4.7 What international coordination (IEA, bilateral agreements) can India leverage for preferential supply?
+
+### Bucket 5: "What if it gets worse after Day 10?"
+
+**GAPS:**
+- **Missing: Scenario planning for partial resolution.** What if Hormuz partially reopens (e.g., escorted convoys)? What if only some crudes resume? The bucket only considers "worse" scenarios, not partial recovery.
+- **Missing: Restart planning.** If we do shut down, what is the cost and timeline to restart? This affects the shutdown decision itself.
+- **Missing: Environmental and safety risks of shutdown.** Catalysts, reactors, and tanks don't handle shutdowns well. What are the technical risks and costs?
+- **Missing: Personnel implications.** Extended shutdown means workforce decisions. What labor law constraints exist?
+- **Missing: National energy security escalation.** At what point does this become a national security issue requiring military/strategic intervention (e.g., naval escorts for tankers)?
+
+**Add:**
+- 5.3 What is the cost and timeline to restart each unit from cold shutdown vs. hot idle?
+- 5.4 What are the technical risks (catalyst damage, corrosion, tank integrity) from extended shutdown?
+- 5.5 What workforce and labor law implications arise from extended shutdown?
+- 5.6 What partial-resolution scenarios (escorted convoys, selective route reopening) should we plan for?
+- 5.7 At what point should we advocate for military/strategic intervention (naval escorts, emergency diplomacy)?
+
+### PS2 STRUCTURAL GAP:
+
+**Missing entire bucket: "How do we manage our downstream (retail/distribution) obligations during curtailed production?"**
+- PSU refiners are integrated with OMCs. The entire retail/distribution chain is unaddressed:
+  - How do we ration fuel across retail outlets?
+  - What regional distribution priorities exist?
+  - How do we manage dealer relationships and contractual obligations?
+
+However, this could arguably be folded into Bucket 4. I'll add it there rather than create a new bucket.
+
+---
+
+## PS3: Low-Complexity PSU Refiners
+
+### Bucket 1: "How long before we run out of feedstock?"
+
+**GAPS:**
+- **Missing: Quality constraints on what can be received.** Low-complexity refineries (Bina, Numaligarh, Guwahati, CPCL Manali, MRPL) have CDU/VDU limitations. Not every alternative crude is processable even if it can arrive. The question 1.2 asks about volume and cost but not processability.
+- **Missing: Domestic pipeline crude allocation.** Assam refineries get domestic crude via pipeline from OIL/ONGC. Is that supply at risk, or is it a safe base? Can pipeline allocation be increased?
+- **Missing: Condensate or alternative feedstock options.** Can we process condensate, fuel oil, or other intermediate feedstocks as crude substitutes?
+
+**Add:**
+- 1.5 What quality and processing constraints limit which alternative crudes each low-complexity refinery can actually run?
+- 1.6 Is domestic pipeline crude supply (OIL/ONGC allocation to Assam refineries) secure, and can it be increased?
+- 1.7 Can condensate, fuel oil, or other non-crude feedstocks supplement supply?
+
+### Bucket 2: "How do we run on what we have?"
+
+**GAPS:**
+- **Missing: Product quality risks at reduced rates.** Low-complexity refineries may produce off-spec products when running non-design crudes or at reduced rates. What are the quality risks?
+- **Missing: Utility self-sufficiency.** Many refineries generate their own power/steam. At reduced throughput, do they need to import utilities or can they self-balance?
+- **Missing: Environmental compliance at reduced operations.** Flaring and emission limits may be breached. What regulatory flexibility exists?
+- **Missing: Site-specific differentiation.** The bucket treats all low-complexity refineries as similar, but MRPL (Mangalore) is quite different from Numaligarh or Bina. Each needs a specific answer.
+
+**Add:**
+- 2.5 What product quality risks arise at each refinery from non-design crudes or reduced throughput?
+- 2.6 Can each refinery maintain utility self-sufficiency (power, steam, hydrogen) at reduced rates?
+- 2.7 What environmental compliance risks exist at reduced operations, and what regulatory flexibility can we obtain?
+- 2.8 What is the site-specific optimal operating plan for each refinery (MRPL, Bina, Numaligarh, Guwahati, CPCL Manali)?
+
+### Bucket 3: "Can we afford to keep running?"
+
+**GAPS:**
+- **Missing: Opportunity cost of shutdown vs. continued operation.** This bucket asks if shutdown is "economically rational" but doesn't compare the full cost of shutdown (restart cost, catalyst damage, contract penalties, workforce costs during idle) against the cash burn of running at a loss.
+- **Missing: Cross-subsidy from higher-complexity siblings.** BPCL owns Bina and KR (Kochi). Can the parent company cross-subsidize? IOCL has Haldia vs. Gujarat. What intra-company financial transfers are possible?
+- **Missing: Insurance and force majeure claims.** Can any losses be recovered through insurance or force majeure provisions in supply/offtake contracts?
+- **Missing: Impact on local economy and strategic necessity.** Some refineries exist for strategic/regional supply reasons (Numaligarh for Northeast India). Shutdown may be politically/strategically unacceptable regardless of economics.
+
+**Add:**
+- 3.4 What is the full cost of shutdown (restart, catalyst, contracts, labor) vs. continued operation at a loss?
+- 3.5 Can parent companies (BPCL, IOCL, HPCL) cross-subsidize low-complexity refinery losses?
+- 3.6 What insurance or force majeure provisions can offset losses?
+- 3.7 Which refineries have strategic/regional supply importance that makes shutdown politically unacceptable regardless of economics?
+
+### Bucket 4: "What external help do we need?"
+
+**GAPS:**
+- **Missing: Timeline and decision authority.** Who needs to approve each type of help, and what is the realistic timeline? If approvals take 15 days but we have 5 days of crude, the ask is moot.
+- **Missing: Coordination with private refiners.** Can RIL/Nayara supply product to regions served by low-complexity PSU refiners? Can private refiners process crude on behalf of PSU refiners (tolling)?
+- **Missing: International aid/IEA emergency mechanisms.** Beyond domestic waivers, what international emergency supply mechanisms exist?
+- **Missing: Communication with workforce and local stakeholders.** Employees, unions, local government, and communities around these refineries need to be managed. What is the plan?
+- **Missing: Scenario for post-Day 10.** Unlike PS2, PS3 has no "what if it gets worse" bucket. Low-complexity refiners are MORE vulnerable, yet they lack a contingency/escalation bucket.
+
+**Add:**
+- 4.4 Who has decision authority for each type of help, and what is the realistic approval timeline?
+- 4.5 Can private refiners (RIL, Nayara) supply product to our service regions or process crude on our behalf (tolling)?
+- 4.6 What international emergency supply mechanisms (IEA, bilateral) can India access?
+- 4.7 What is our communication plan for workforce, unions, local government, and communities?
+
+### PS3 STRUCTURAL GAP:
+
+**Missing entire bucket: "What if feedstock doesn't arrive and we must shut down?"**
+- PS2 has a "what if it gets worse" bucket. PS3 — the MORE vulnerable group — does not. This is a critical omission.
+
+**Add Bucket 5: What is our shutdown and restart contingency?**
+- 5.1 What is the safe shutdown sequence for each refinery, and what is the timeline and cost?
+- 5.2 What are the technical risks of shutdown (catalyst deactivation, corrosion, tank degradation) and their cost?
+- 5.3 What is the restart timeline and cost from cold shutdown vs. hot idle for each site?
+- 5.4 What trigger points (inventory days, cash balance, crude price) should activate shutdown decisions?
+- 5.5 How do we maintain workforce readiness during an extended shutdown?
+- 5.6 How is regional product supply maintained if we shut down (alternative supply routing)?
+
+---
+
+# COMPLETE REVISED DECOMPOSITION
+
+## PS1: "What should RIL and Nayara decide to capitalize on the Hormuz closure?"
+
+**Bucket 1: What is our supply position today?**
+1.1 How many days of crude inventory do we hold at Jamnagar (DTA + SEZ) and Vadinar?
+1.2 What cargoes are en route and what share transits Hormuz?
+1.3 What term-contract deliveries are scheduled in the next 30 days, and what share transits Hormuz?
+1.4 What is available crude and product storage capacity at Jamnagar and Vadinar?
+1.5 What finished product inventory do we hold by grade across both sites?
+
+**Bucket 2: What alternative crude can we secure?**
+2.1 What non-Hormuz spot grades are available, at what cost and delivery window?
+2.2 How much Russian crude can we lock before the April 3 waiver expiry?
+2.3 Can we access SPR or government-to-government emergency barrels?
+2.4 What existing term contracts can be redirected via non-Hormuz routes or sourced from alternative loading ports?
+2.5 What crude cargoes currently at sea (ours or others') can be diverted to Jamnagar/Vadinar?
+2.6 Can incremental domestic production (Assam, Rajasthan, KG Basin, Bombay High) be secured?
+2.7 What contracted volumes from shutting competitors can we acquire?
+2.8 What are the cash/credit requirements for spot procurement at $156, and do we have liquidity?
+2.9 What port, berth, and logistics constraints limit our ability to receive non-standard cargoes?
+2.10 What 30-60 day supply arrangements should we initiate now for a sustained disruption?
+
+**Bucket 3: How should we run the refineries to maximize margin?**
+3.1 What is the optimal crude diet given available non-Hormuz grades?
+3.2 What unit adjustments maximize high-margin yields while meeting ESMA LPG mandate?
+3.3 Should we hold back throughput now to preserve crude for higher-margin windows later?
+3.4 What is the optimal strategy differentiation across Jamnagar DTA, Jamnagar SEZ, and Vadinar given their different configurations and regulatory regimes?
+3.5 What are the hard metallurgical/process constraints on substitute crude grades at each refinery?
+3.6 What is current maintenance/turnaround status, and should any scheduled work be accelerated or deferred?
+3.7 Do hydrogen, sulfur handling, or utility constraints limit throughput on alternative crude slates?
+3.8 Can condensate, NGL, or fuel oil co-processing supplement reduced crude availability?
+
+**Bucket 4: What product market opportunities can we capture?**
+4.1 Which markets (domestic vs. export, diesel vs. ATF vs. naphtha) offer highest margins given competitor shutdowns?
+4.2 What export slots and commitments can we lock at current elevated cracks?
+4.3 Which specific competitors are shut or curtailed, and what supply gaps does this create by product and geography?
+4.4 Do we have product tanker, pipeline, and terminal capacity to deliver into highest-margin markets?
+4.5 What domestic supply obligations (OMC contracts, directed supply, ESMA) must we fulfill before optimizing exports?
+4.6 Can we capture value from off-spec or intermediate product sales to non-traditional buyers?
+4.7 Should RIL's integrated petrochemical complex shift feedstock allocation toward petrochem vs. fuel?
+
+**Bucket 5: What risks must we hedge?**
+5.1 What regulatory and sanctions constraints limit our optionality?
+5.2 What hedging positions protect us against sudden Hormuz reopening or further escalation?
+5.3 What government coordination is required for waivers and SPR access?
+5.4 What is our exposure to physical escalation (tanker attacks, infrastructure targeting) and what contingency plans exist?
+5.5 What counterparty and performance risks exist on new spot contracts?
+5.6 What are war risk insurance costs and availability for our cargo movements?
+5.7 What political risks (windfall tax, export ban, directed supply) could erode our upside, and how do we mitigate?
+5.8 What is our FX exposure at $156/bbl and how should we hedge?
+5.9 Are personnel and operational assets safe, and what security measures are needed?
+
+**Bucket 6: What medium-term strategic moves should we initiate now?**
+6.1 Are there distressed assets or long-term supply contracts we should pursue while the market is dislocated?
+6.2 Should we accelerate investment in crude storage, pipeline connectivity, or diversified import infrastructure?
+6.3 What government engagement strategy positions us favorably in the post-crisis policy environment?
+
+---
+
+## PS2: "What should high-complexity PSU refiners decide to sustain operations despite frozen prices and government mandates?"
+
+**Bucket 1: Can we physically keep crude flowing in?**
+1.1 What alternative grades replace lost Iranian and at-risk Russian barrels within 10 days, at what cost and compatibility?
+1.2 What is our current inventory in days, and what minimum throughput avoids unit shutdowns?
+1.3 What bridging options exist (spot tankers, SPR drawdown, inter-PSU crude swaps) before April 3?
+1.4 Can our port infrastructure handle alternative crude grades (draft, heating, compatibility)?
+1.5 What blending options exist to make incompatible spot grades processable?
+1.6 Can domestic crude allocation be increased and redirected to our refineries?
+1.7 What non-Hormuz term contract volumes are scheduled but not yet loaded, and can they be accelerated?
+
+**Bucket 2: How do we run the plants most effectively?**
+2.1 What crude slate and throughput rate maximizes ESMA-mandated LPG while keeping secondary units viable?
+2.2 Which units should be idled or turned down to minimize cash losses?
+2.3 Where do inter-refinery product transfers reduce system-wide shortfall?
+2.4 Should planned maintenance/turnarounds be pulled forward to exploit the forced throughput reduction?
+2.5 What are the hydrogen, utility, and power balance impacts of reduced/altered crude runs?
+2.6 What are the environmental and safety minimum throughput thresholds for each unit?
+2.7 What product quality risks arise from altered crude slates, and how do they affect marketability?
+2.8 Who has authority for system-wide refinery optimization across the PSU fleet, and is that mechanism activated?
+
+**Bucket 3: Can we survive financially at frozen prices?**
+3.1 What is our per-barrel under-recovery and cumulative 10-day cash burn at various throughput levels?
+3.2 What emergency funding (MoPNG subsidy, oil bonds, banking lines) can be activated in 10 days?
+3.3 Can we cross-subsidize domestic losses by maximizing export-parity products?
+3.4 What is the working capital requirement at $156/bbl, and do existing credit facilities cover the gap?
+3.5 Which debt covenants, dividend obligations, or capex commitments are at risk, and what waivers are needed?
+3.6 What is the differential financial vulnerability across specific PSU refining entities?
+3.7 What variable cost reductions (labor, contractors, consumables) are achievable at reduced throughput?
+
+**Bucket 4: How do we comply with government mandates and shape policy?**
+4.1 What operational changes does ESMA require, and what is the yield and margin trade-off?
+4.2 What should we formally escalate to MoPNG/Cabinet (price revision, rationing, SPR release, force majeure)?
+4.3 How do we manage retail network and OMC supply obligations when production is curtailed?
+4.4 What public communication strategy manages consumer expectations and prevents panic buying?
+4.5 What priority allocation framework should we implement or advocate for across defense, agriculture, transport, and industry?
+4.6 Can we invoke force majeure on supply contracts, offtake commitments, or pipeline obligations?
+4.7 What international coordination (IEA, bilateral agreements) can India leverage for preferential supply?
+
+**Bucket 5: What if it gets worse — or partially resolves — after Day 10?**
+5.1 If the waiver expires with no renewal, what is our shutdown sequencing plan?
+5.2 What trigger points (inventory days, cash balance, crude price) should we pre-commit for escalation from reduced throughput to shutdown?
+5.3 What is the cost and timeline to restart each unit from cold shutdown vs. hot idle?
+5.4 What are the technical risks (catalyst damage, corrosion, tank integrity) from extended shutdown?
+5.5 What workforce and labor law implications arise from extended shutdown?
+5.6 What partial-resolution scenarios (escorted convoys, selective route reopening) should we plan for?
+5.7 At what point should we advocate for military/strategic intervention (naval escorts, emergency diplomacy)?
+
+---
+
+## PS3: "What should low-complexity PSU refiners decide to avoid shutdown?"
+
+**Bucket 1: How long before we run out of feedstock?**
+1.1 What is current crude inventory at each refinery and when does each hit minimum operational threshold?
+1.2 What non-Hormuz crude can physically arrive within 10 days, at what volume and cost?
+1.3 Will the Russia waiver be extended, and what volumes are at risk if not?
+1.4 Can inter-refinery transfers or SPR drawdowns bridge the gap?
+1.5 What quality and processing constraints limit which alternative crudes each low-complexity refinery can actually run?
+1.6 Is domestic pipeline crude supply (OIL/ONGC allocation to Assam refineries) secure, and can it be increased?
+1.7 Can condensate, fuel oil, or other non-crude feedstocks supplement supply?
+
+**Bucket 2: How do we run on what we have?**
+2.1 What is the minimum throughput to avoid cold shutdown versus controlled hot idle?
+2.2 What crude slate and unit configuration maximizes ESMA LPG yield while maintaining stability?
+2.3 What secondary units should be adjusted to match reduced crude runs?
+2.4 Should MRPL's shut unit be restarted or kept offline — cost/benefit?
+2.5 What product quality risks arise at each refinery from non-design crudes or reduced throughput?
+2.6 Can each refinery maintain utility self-sufficiency (power, steam, hydrogen) at reduced rates?
+2.7 What environmental compliance risks exist at reduced operations, and what regulatory flexibility can we obtain?
+2.8 What is the site-specific optimal operating plan for each refinery (MRPL, Bina, Numaligarh, Guwahati, CPCL Manali)?
+
+**Bucket 3: Can we afford to keep running?**
+3.1 At $156 basket, what are per-barrel GRMs at each refinery — do any make shutdown economically rational?
+3.

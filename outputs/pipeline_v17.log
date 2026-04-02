@@ -1,0 +1,116 @@
+[18:15:28] === V17: SCQA story arc + approved reference ===
+[18:15:28] STEP 2: Card Decomposition (Story Arc → Proof → Story Check)
+[18:15:28]   STEP 2A: Generating story arc (one-sentence messages only)...
+[18:15:46]   Story arc: 23 messages
+
+============================================================
+  STORY ARC — 23 CARDS
+============================================================
+
+   1. India is absorbing the largest oil supply shock in history — bigger than 1973, bigger than 1979, with no end in sight.
+   2. In 20 days, both sides crossed from shipping disruption to deliberate destruction of Gulf energy infrastructure.
+   3. 22 Indian ships are stranded and only 3 made it through — carrying enough LPG for three days of national consumption.
+   4. Cooking gas is the real crisis: 330 million households are rationing, queues begin at 3 AM, and the government has invoked emergency powers.
+   5. Even when the shooting stops, Iran's mines keep the strait closed until August — and the minesweepers are months away.
+   6. —— Your refinery ——
+   7. Russia flipped from a $13 discount to a $5 premium overnight, and every Gulf loading terminal your crude diet depends on is either damaged or explicitly named as Iran's next target.
+   8. Your refinery's complexity score is now your P&L: Jamnagar prints money at $146, HPCL Mumbai is underwater, and the gap is permanent.
+   9. The government has legally overridden your product slate — every C3 and C4 molecule goes to cooking gas first, and your petrochemical margins are not a factor.
+  10. —— Your balance sheet ——
+  11. You are losing ₹19.8 on every litre you sell, and frozen retail prices mean every dollar of crude increase flows directly into your loss account.
+  12. The OFAC waiver covering 25–36% of your crude supply expires in 15 days with no confirmed renewal.
+  13. December futures are at $69 while you pay $146 today — that basis trade closes this week or not at all.
+  14. —— Your government ——
+  15. Delhi refused the IEA release and is hoarding every barrel, signalling internally that this disruption will last far longer than any public statement admits.
+  16. India's non-alignment diplomacy secured 3 ship transits against China's 11 — that edge is real but it is being spent faster than it is being earned.
+  17. Forty percent of India's fertilizers come from the Gulf, kharif planting begins in June, and no one in the energy sector is planning for a food crisis on top of a fuel crisis.
+  18. —— Your board ——
+  19. At $146 crude and ₹92.64 to the dollar, your annualised import bill has tripled to $266 billion — roughly 40% of India's entire import spend.
+  20. Your board is stress-testing one scenario; the three risks that could make it catastrophically worse — mine escalation, Gulf terminal destruction, and simultaneous Hormuz-plus-Red-Sea closure — are not on the agenda.
+  21. —— What everyone else is missing ——
+  22. Every bank model was built before March 18: South Pars is burning, Ras Laffan is damaged, and the mine clearance clock alone makes a Q2 resolution mathematically impossible.
+  23. You have 15 days before your largest supply fallback disappears — lock the cargoes, hedge the curve, and brief the board before the waiver expires.
+[18:15:46]   STEP 2B: Assigning proof (2-3 numbers + visual per message)...
+[18:16:59]   Proof assigned: 23 cards
+[18:16:59]   STEP 2C: Story check — verifying deck matches approved arc...
+[18:17:02]   Story check PASSED: All 23 cards match the approved story arc exactly, with no drift, gaps, additions, or density violations.
+[18:17:02]   Card spec finalized: 23 cards
+[18:17:02] STEP 3: Design Agent — generating HTML per card
+[18:17:02]   [1/23] c01 (hero)
+[18:17:23]            OK (4,763 chars)
+[18:17:23]   [2/23] c02 (timeline)
+[18:17:46]            OK (4,437 chars)
+[18:17:46]   [3/23] c03 (kpi_card)
+[18:18:13]            OK (6,141 chars)
+[18:18:13]   [4/23] c04 (verdict_panel)
+[18:18:39]            OK (4,420 chars)
+[18:18:39]   [5/23] c05 (scenario_card)
+[18:19:07]            OK (5,795 chars)
+[18:19:07]   [6/23] c06 (act_break)
+[18:19:17]            OK (1,325 chars)
+[18:19:17]   [7/23] c07 (kpi_card)
+[18:19:44]            OK (5,832 chars)
+[18:19:44]   [8/23] c08 (chart_card)
+[18:20:26]            OK (6,618 chars)
+[18:20:26]   [9/23] c09 (verdict_panel)
+[18:20:52]            OK (5,133 chars)
+[18:20:52]   [10/23] c10 (act_break)
+[18:21:06]            OK (2,800 chars)
+[18:21:06]   [11/23] c11 (kpi_card)
+[18:21:31]            OK (5,117 chars)
+[18:21:31]   [12/23] c12 (kpi_card)
+[18:21:52]            OK (3,888 chars)
+[18:21:52]   [13/23] c13 (chart_card)
+[18:22:21]            OK (5,776 chars)
+[18:22:21]   [14/23] c14 (act_break)
+[18:22:31]            OK (1,548 chars)
+[18:22:31]   [15/23] c15 (verdict_panel)
+[18:22:58]            OK (5,356 chars)
+[18:22:58]   [16/23] c16 (chart_card)
+[18:23:22]            OK (4,828 chars)
+[18:23:22]   [17/23] c17 (verdict_panel)
+[18:23:47]            OK (4,607 chars)
+[18:23:47]   [18/23] c18 (act_break)
+[18:23:58]            OK (1,755 chars)
+[18:23:58]   [19/23] c19 (kpi_card)
+[18:24:28]            OK (5,873 chars)
+[18:24:28]   [20/23] c20 (scenario_card)
+[18:24:59]            OK (6,037 chars)
+[18:24:59]   [21/23] c21 (act_break)
+[18:25:18]            OK (3,054 chars)
+[18:25:18]   [22/23] c22 (verdict_panel)
+[18:25:46]            OK (5,832 chars)
+[18:25:46]   [23/23] c23 (closing)
+[18:26:12]            OK (5,148 chars)
+[18:26:12]   Design Agent complete: 23 cards, 106,083 chars total
+[18:26:12] STEP 4: Build briefing HTML
+  Built 23 cards -> C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (121,438 chars)
+[18:26:12]   Built: C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (123,846 bytes)
+[18:26:12] STEP 5: Critique Loop
+[18:26:12]   Gate 1: Content critique (Claude Opus)...
+[18:26:58]   Gate 1: avg 8.1/10, 3 cards below 7
+[18:26:58]   Gate 2: Visual QA (screenshots + multimodal)...
+[18:27:09]   Screenshotting 23 cards...
+[18:27:35]     card_05: Bottom stat boxes text is small and cramped, particularly '907 mines, Kuwait 1991 — with mine maps' text which appears truncated, The 'Months' text in the EU Asset Arrival box uses a different font style than the other stat values, creating visual inconsistency
+[18:27:35]     card_07: The horizontal bar chart for Russian discount/premium is simplistic but the 'DISCOUNT' and 'PREMIUM' labels inside colored bars may be hard to read at smaller sizes, The red number '5' overlaps slightly with the bullet point list of terminals
+[18:27:35]     card_08: Horizontal bar chart labels on left side (HPCL Mumbai, BPCL Mumbai) are cramped against chart area, The 'NCI 5.6 — UNDERWATER' label inside the red bar overlaps with the 'BREAKEVEN' label at the zero line
+[18:27:49]     card_09: Bar chart 'BEFORE' row labels 'Petrochem 55%' and 'LPG 45%' are cramped and partially overlapping within the stacked bar, AFTER bar label 'LPG/Cooking Gas 100% — ESMA Mandated' text is small and potentially cut off within the red bar
+[18:27:49]     card_11: Y-axis label 'rrent loss (Mar 2026)' appears truncated/cut off - should likely read 'Current loss (Mar 2026)'
+[18:28:02]     card_13: Chart y-axis label text appears cut off/cramped on left side, Chart annotation '$77 gap' label is small and partially overlaps with the price curve line
+[18:28:02]     card_15: The '0 bbl' display uses a stylized zero that could be misread, Reserve composition bar chart labels (SPR and Commercial Stocks) are small but readable
+[18:28:02]     card_16: 'pan (5 ships stranded)' label appears to be truncated - likely should read 'Japan (5 ships stranded)', Bar chart x-axis labels are slightly cramped
+[18:28:23]     card_21: Excessive empty space above and below the main content area, content is vertically centered in a very tall card, Large '15' watermark number partially obscured/faded, may affect readability
+[18:28:23]     card_22: Excessive empty space above and below the main content area, Infrastructure status boxes (South Pars, Ras Laffan, Ras Tanura) have very small text that may be hard to read
+[18:28:23]     card_23: Excessive empty space above and below the main content area, The three metric boxes at top (OFAC Expiry, Hedge Window, Actions Req'd) have slightly inconsistent text alignment
+[18:28:23]   Gate 2: 11 issues found, 2 high severity
+[18:28:23]   Auto-fixing high severity visual issues...
+[18:28:23]     Regenerating c16: ["'pan (5 ships stranded)' label appears to be truncated - likely should read 'Japan (5 ships stranded)'", 'Bar chart x-axis labels are slightly cramped']
+[18:28:49]     Fixed c16 (5,420 chars)
+[18:28:49]     Regenerating c11: ["Y-axis label 'rrent loss (Mar 2026)' appears truncated/cut off - should likely read 'Current loss (Mar 2026)'"]
+[18:29:16]     Fixed c11 (4,883 chars)
+[18:29:16]   Rebuilding with fixes...
+[18:29:16] STEP 4: Build briefing HTML
+  Built 23 cards -> C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (121,796 chars)
+[18:29:16]   Built: C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (124,216 bytes)
+[18:29:16]   Rebuilt with visual fixes applied.
+[18:29:17] PIPELINE COMPLETE — v17

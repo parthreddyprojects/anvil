@@ -1,0 +1,58 @@
+{
+  "condensed_ps": "Two state refiners are burning ₹850 crore a day with no ability to pay for crude after April 3. Without three government decisions by April 5, India faces a banking default, a refinery shutdown, and cooking-gas rationing in the south—all within two weeks.",
+  "header": "Approve emergency payment authority, a ₹30,000 crore fiscal backstop, and one UAE crude cargo by April 5—or face a refinery shutdown and debt default by April 13.",
+  "situation": "Crude costs ₹32 more per barrel than frozen retail prices allow state refiners India Oil (IOCL) and Bathinda refiner (HMEL) to recover, burning ₹850 crore every day with no internal fix available. A shutdown at Bathinda cuts supply to 12 million households; southern cooking-gas rationing will be visible to voters within 10 days.",
+  "performance_data": [
+    {
+      "kpi": "Bathinda refinery crude runway",
+      "value": "8 days",
+      "variance": "7 days below the 15-day safety minimum",
+      "direction": "down"
+    },
+    {
+      "kpi": "Southern cooking-gas buffer (Karnataka/Goa)",
+      "value": "5 days to shortage",
+      "variance": "5 days below the mandated 10-day minimum",
+      "direction": "down"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "The payment system breaks before the physical crude runs out.",
+      "impact": "Banks will refuse to guarantee crude purchases by April 13, triggering automatic default on the full state-enterprise debt stack (IOCL balance sheet, March 31: ₹2,16,700 crore).",
+      "so_what": "Authorize emergency credit headroom to State Bank of India and Bank of Baroda today—before the sourcing decisions below become irrelevant."
+    },
+    {
+      "finding": "One cargo can reach Bathinda before shutdown: a single available UAE cargo, loaded by April 5, delivering 600,000 barrels—11 days of Bathinda's requirement.",
+      "impact": "Missing that window extends any restart from two weeks to six weeks, costing ₹4,000 crore.",
+      "so_what": "Sign the UAE cargo authorization by April 4, 08:00—every other supply option arrives after the shutdown window closes."
+    },
+    {
+      "finding": "Standard government approval takes 5–10 days; the market window is 24 hours.",
+      "impact": "A standard approval cycle wastes ₹4,250 crore and loses the West African cargo window entirely.",
+      "so_what": "Without delegated authority in writing by April 3, the crisis task force cannot legally sign a single contract."
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "title": "Unblock payments before April 3 or crude purchases stop.",
+      "ask": "PMO by April 3, 20:00: Grant IOCL Chairman written authority to commit up to ₹15,000 crore per contract without case-by-case Finance Ministry sign-off. Finance Ministry by April 3, 20:00: Backstop IOCL bank guarantees up to ₹60,000 crore. Reserve Bank by April 3, 20:00: Issue emergency credit headroom to State Bank of India and Bank of Baroda."
+    },
+    {
+      "number": 2,
+      "title": "Secure the UAE cargo by April 4 or Bathinda shuts down by April 13.",
+      "ask": "Oil Ministry by April 4, 08:00: Authorize IOCL to confirm the single available UAE cargo—600,000 barrels, loaded and in transit by April 5. Direct Bathinda and two inland refineries to cut to 70% capacity to extend crude runway (IOCL operations to confirm exact savings in crore and days gained before the April 4 meeting). Issue a cooking-gas emergency order routing IOCL supply through the Mangalore terminal to prevent southern shortage."
+    },
+    {
+      "number": 3,
+      "title": "Approve fiscal transfer by April 5 or default is unavoidable.",
+      "ask": "Cabinet Committee on Economic Affairs by April 5: Approve ₹30,000 crore fiscal transfer to IOCL and a ₹17-per-litre diesel price increase effective April 10."
+    },
+    {
+      "number": 4,
+      "title": "Stand up a crisis decision room by April 4 to hold the line beyond this week.",
+      "ask": "Oil Ministry by April 4: Establish a four-person crisis room—IOCL Chairman, Bathinda refinery MD, Finance Ministry Joint Secretary, Reserve Bank Executive Director—with authority to approve non-dollar crude payments within two hours of any request."
+    }
+  ]
+}

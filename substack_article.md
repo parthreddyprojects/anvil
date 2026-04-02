@@ -174,7 +174,7 @@ Here are excerpts from two real runs. Unedited.
 
 **Opening thesis**: *The United States must deliver a complete settlement framework through Pakistan by April 8, 2026 or surrender its negotiating position to Beijing — and no framework is enforceable until Washington determines whether a wounded, constitutionally contested Supreme Leader can visibly endorse it.*
 
-**One of the beliefs**: *IEA strategic reserves cover only 25% of the actual supply gap — the buffer is designed for disruptions of 3 million bpd, not the 13 million bpd that transits Hormuz.*
+**One of the beliefs**: *U.S. allies are bleeding $200-300 million per day in extra energy costs. Allied strategic reserves buy 90-120 days of buffer — putting the breaking point squarely in June 2026.*
 
 **A killed hypothesis**: *Rejected: Allied coalition will hold beyond 30 days. Historical precedent from 2003 and 2011 shows allied patience erodes within 2-4 weeks when domestic energy costs spike.*
 
@@ -210,12 +210,14 @@ That last line is important. The document tells you what it doesn't know. It tel
 
 ## Where It Breaks
 
-Every tool has failure modes. Pretending otherwise is a credibility problem. In autopilot, these hit harder. In guided mode, you catch most of them — but you should know what to watch for.
+Autopilot has real limitations:
 
-- **When research is thin.** Some topics don't have good public sources. In autopilot, the output degrades silently. In guided mode, Claude flags it at the debrief checkpoint and you inject what the web can't provide — internal data, proprietary reports, expert knowledge.
-- **When the problem is genuinely novel.** If nobody has written about it, the pipeline falls back on LLM reasoning — marked `[LLM reasoning]`. In guided mode, you spot this at synthesis and add your own domain knowledge. In autopilot, it passes through unchallenged.
-- **When the MECE framing is wrong.** The challenge at step 0 catches most framing errors. In guided mode, you review the buckets and fix them before research begins. In autopilot, a bad PS amplifies through every step.
-- **Source quality.** A blog post and a government statistical release get equal weight in synthesis. No automated source credibility scoring yet. In guided mode, you can flag weak sources at the debrief checkpoint.
+- **Thin research.** Some topics don't have good public sources. The output degrades silently.
+- **Novel problems.** If nobody has written about it, the pipeline falls back on LLM reasoning — marked `[LLM reasoning]` but still guessing.
+- **Bad framing.** If the problem statement is wrong, every downstream step amplifies the error.
+- **Source quality.** A blog post and a government statistical release get equal weight. No automated credibility scoring.
+
+This is exactly why guided mode exists. When you're in the loop, none of these are fatal. You inject what the web can't find. You catch bad framing before research begins. You flag weak sources at the debrief. You add domain knowledge at synthesis. You and Claude develop the strategy together — the tool handles the structure, you handle the judgment.
 
 ---
 

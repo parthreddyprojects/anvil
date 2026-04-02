@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IOCL & HMEL Crisis Brief — March 27, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: #ffffff;
+    color: #111111;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 32px 40px 28px 40px;
+    background: #ffffff;
+  }
+
+  /* CONTEXT BANNER */
+  .context-banner {
+    border-top: 2px solid #111111;
+    border-bottom: 1px solid #cccccc;
+    padding: 9px 0 9px 0;
+    margin-bottom: 22px;
+  }
+
+  .context-banner .line1 {
+    font-size: 11px;
+    font-weight: 600;
+    color: #111111;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .context-banner .line2 {
+    font-size: 11px;
+    font-weight: 400;
+    color: #444444;
+    letter-spacing: 0.01em;
+  }
+
+  .context-banner .line2 strong {
+    font-weight: 600;
+    color: #111111;
+  }
+
+  /* DATE LINE */
+  .date-line {
+    font-size: 10.5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #888888;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* HEADLINE */
+  .headline {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #111111;
+    margin-bottom: 16px;
+    max-width: 720px;
+    letter-spacing: -0.3px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 18px 0;
+  }
+
+  .divider-heavy {
+    border: none;
+    border-top: 1px solid #bbbbbb;
+    margin: 18px 0;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 8px;
+  }
+
+  /* SITUATION */
+  .situation-text {
+    font-size: 13px;
+    font-weight: 400;
+    color: #222222;
+    line-height: 1.6;
+    max-width: 720px;
+  }
+
+  .situation-text strong {
+    font-weight: 600;
+    color: #111111;
+  }
+
+  /* KPI ROW */
+  .kpi-row {
+    display: flex;
+    gap: 0;
+    margin: 0;
+  }
+
+  .kpi-card {
+    flex: 1;
+    padding: 14px 18px 14px 0;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .kpi-card:last-child {
+    border-right: none;
+    padding-left: 18px;
+    padding-right: 0;
+  }
+
+  .kpi-card:first-child {
+    padding-left: 0;
+  }
+
+  .kpi-card:not(:first-child) {
+    padding-left: 18px;
+  }
+
+  .kpi-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: #111111;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .kpi-value.danger {
+    color: #c00000;
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 3px;
+  }
+
+  .kpi-variance {
+    font-size: 10px;
+    color: #c00000;
+    font-weight: 500;
+  }
+
+  /* ANALYSIS SECTION */
+  .analysis-item {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 0 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .analysis-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .analysis-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #888888;
+    padding-top: 2px;
+  }
+
+  .analysis-content .finding {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .analysis-content .impact {
+    font-size: 12px;
+    font-weight: 400;
+    color: #c00000;
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+
+  .analysis-content .so-what {
+    font-size: 11.5px;
+    font-weight: 400;
+    color: #555555;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* DECISIONS SECTION */
+  .decision-item {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 0 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .decision-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .decision-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #c00000;
+    padding-top: 1px;
+  }
+
+  .decision-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+
+  .decision-ask {
+    font-size: 11.5px;
+    font-weight: 400;
+    color: #333333;
+    line-height: 1.6;
+  }
+
+  .decision-ask .owner-deadline {
+    font-weight: 600;
+    color: #111111;
+  }
+
+  .decision-ask .deadline-red {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: #c00000;
+    font-size: 11px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 10px;
+    color: #999999;
+    font-style: italic;
+  }
+
+  .footer-right {
+    font-size: 10px;
+    color: #999999;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* LAYOUT HELPERS */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 32px;
+  }
+
+  .col-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- CONTEXT BANNER -->
+  <div class="context-banner">
+    <div class="line1">Crisis: Strait of Hormuz closed 27 days (Feb 28) — Indian crude basket at $156/bbl — Russia sanctions waiver expires in 7 days (April 3, 2026)</div>
+    <div class="line2"><strong>This brief:</strong> What <strong>IOCL</strong> (Paradip, Panipat, Gujarat/Koyali refineries) and <strong>HMEL</strong> (Bathinda refinery) must decide in the next 7 days to avoid refinery shutdown, banking default, and cooking-gas rationing in southern India.</div>
+  </div>
+
+  <!-- DATE -->
+  <div class="date-line">March 27, 2026 &nbsp;·&nbsp; Day 27 of Hormuz closure &nbsp;·&nbsp; Confidential — Senior Leadership</div>
+
+  <!-- HEADLINE -->
+  <div class="headline">Approve emergency payment authority, a ₹30,000 crore fiscal backstop, and one UAE crude cargo by April 5—or face a refinery shutdown and debt default by April 13.</div>
+
+  <hr class="divider-heavy">
+
+  <!-- SITUATION -->
+  <div class="section-label">Situation</div>
+  <div class="situation-text">
+    Crude costs <strong>₹32 more per barrel</strong> than frozen retail prices allow <strong>IOCL</strong> (Paradip, Panipat, and Gujarat/Koyali refineries) and <strong>HMEL</strong> (Bathinda refinery) to recover, burning <strong>₹850 crore every day</strong> with no internal fix available. A shutdown at Bathinda cuts supply to 12 million households; southern cooking-gas rationing will be visible to voters <strong>within 10 days</strong>.
+  </div>
+
+  <hr class="divider">
+
+  <!-- KPIs -->
+  <div class="section-label">Critical Indicators — As of March 27, 2026</div>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-value danger">8 days</div>
+      <div class="kpi-label">Bathinda (HMEL) crude runway</div>
+      <div class="kpi-variance">↓ 7 days below 15-day safety minimum</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value danger">5 days</div>
+      <div class="kpi-label">Southern cooking-gas buffer (Karnataka / Goa)</div>
+      <div class="kpi-variance">↓ 5 days below mandated 10-day minimum</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value danger">₹850 cr</div>
+      <div class="kpi-label">Daily cash burn across IOCL + HMEL</div>
+      <div class="kpi-variance">↑ Unrecoverable at current frozen retail prices</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TWO COLUMN: ANALYSIS + DECISIONS -->
+  <div class="two-col">
+
+    <!-- LEFT: ANALYSIS -->
+    <div>
+      <div class="col-label">Analysis — Why This Cannot Wait</div>
+
+      <div class="analysis-item">
+        <div class="analysis-number">01</div>
+        <div class="analysis-content">
+          <div class="finding">The payment system breaks before the physical crude runs out.</div>
+          <div class="impact">Banks will refuse to guarantee crude purchases by April 13, triggering automatic default on the full state-enterprise debt stack (IOCL balance sheet: ₹2,16,700 crore).</div>
+          <div class="so-what">Authorize emergency credit headroom to State Bank of India and Bank of Baroda today — before the sourcing decisions below become irrelevant.</div>
+        </div>
+      </div>
+
+      <div class="analysis-item">
+        <div class="analysis-number">02</div>
+        <div class="analysis-content">
+          <div class="finding">One cargo can reach Bathinda before shutdown: a single available UAE cargo, loaded by April 5, delivering 600,000 barrels — 11 days of Bathinda's requirement.</div>
+          <div class="impact">Missing that window extends any restart from two weeks to six weeks, costing ₹4,000 crore.</div>
+          <div class="so-what">Sign the UAE cargo authorization by April 4, 08:00 — every other supply option arrives after the shutdown window closes.</div>
+        </div>
+      </div>
+
+      <div class="analysis-item">
+        <div class="analysis-number">03</div>
+        <div class="analysis-content">
+          <div class="finding">Standard government approval takes 5–10 days; the market window is 24 hours.</div>
+          <div class="impact">A standard approval cycle wastes ₹4,250 crore and loses the West African cargo window entirely.</div>
+          <div class="so-what">Without delegated authority in writing by April 3 (in 7 days), the crisis task force cannot legally sign a single contract.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: DECISIONS -->
+    <div>
+      <div class="col-label">Decisions Required — Owner &amp; Deadline</div>
+
+      <div class="decision-item">
+        <div class="decision-number">1</div>
+        <div>
+          <div class="decision-title">Unblock payments before April 3 or crude purchases stop.</div>
+          <div class="decision-ask">
+            <span class="owner-deadline">PMO</span> <span class="deadline-red">→ April 3, 20:00 (in 7 days):</span> Grant IOCL Chairman written authority to commit up to ₹15,000 crore per contract without case-by-case Finance Ministry sign-off.<br><br>
+            <span class="owner-deadline">Finance Ministry</span> <span class="deadline-red">→ April 3, 20:00:</span> Backstop IOCL bank guarantees up to ₹60,000 crore.<br><br>
+            <span class="owner-deadline">Reserve Bank of India</span> <span class="deadline-red">→ April 3, 20:00:</span> Issue emergency credit headroom to State Bank of India and Bank of Baroda.
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-item">
+        <div class="decision-number">2</div>
+        <div>
+          <div class="decision-title">Secure the UAE cargo by April 4 or Bathinda shuts down by April 13.</div>
+          <div class="decision-ask">
+            <span class="owner-deadline">Oil Ministry</span> <span class="deadline-red">→ April 4, 08:00 (in 8 days):</span> Authorize IOCL to confirm the single available UAE cargo — 600,000 barrels, loaded and in transit by April 5. Direct Bathinda and two inland refineries to cut to 70% capacity. Issue a cooking-gas emergency order routing IOCL supply through the Mangalore terminal.
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-item">
+        <div class="decision-number">3</div>
+        <div>
+          <div class="decision-title">Approve fiscal transfer by April 5 or default is unavoidable.</div>
+          <div class="decision-ask">
+            <span class="owner-deadline">Cabinet Committee on Economic Affairs</span> <span class="deadline-red">→ April 5 (in 9 days):</span> Approve ₹30,000 crore fiscal transfer to IOCL and a ₹17-per-litre diesel price increase effective April 10.
+          </div>
+        </div>
+      </div>
+
+      <div class="decision-item">
+        <div class="decision-number">4</div>
+        <div>
+          <div class="decision-title">Stand up a crisis decision room by April 4 to hold the line beyond this week.</div>
+          <div class="decision-ask">
+            <span class="owner-deadline">Oil Ministry</span> <span class="deadline-red">→ April 4 (in 8 days):</span> Establish a four-person crisis room — IOCL Chairman, Bathinda refinery MD (HMEL), Finance Ministry Joint Secretary, RBI Executive Director — with authority to approve non-dollar crude payments within two hours of any request.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">Sources: IOCL FY26 balance sheet (March 31 est.); EIA Chokepoints Report 2024; PPAC crude basket data; analyst working document. Confidence on Bathinda days-cover: LOW — live HMEL operations data required to confirm. All figures indicative pending refinery operations confirmation.</div>
+    <div class="footer-right">Developed by Parth Reddy</div>
+  </div>
+
+</div>
+</body>
+</html>

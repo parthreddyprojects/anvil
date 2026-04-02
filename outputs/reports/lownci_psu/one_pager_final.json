@@ -1,0 +1,56 @@
+{
+  "condensed_ps": "Six refineries shut in 4 days without action. The ₹45,000 crore guarantee required is less than 2% of the ₹3 lakh crore GDP loss if they do. Three decisions — issued simultaneously, tonight — prevent it.",
+  "header": "Approve financial guarantees and crude reallocation by midnight April 2 — HPCL Mumbai shuts in 4 days, IOCL Bina cuts fuel to 200 million people by April 5.",
+  "situation": "One refinery has already shut; six more follow within 4 days because refiners are losing ₹500 crore daily and have no legal cover to keep operating. Maharashtra and Karnataka lose fuel first — then landlocked central India, triggering a humanitarian crisis the ₹45,000 crore backstop prevents.",
+  "performance_data": [
+    {
+      "kpi": "Refining Margin",
+      "value": "Negative $12 per barrel",
+      "variance": "Down from positive $5/barrel last quarter",
+      "direction": "down"
+    },
+    {
+      "kpi": "Crude Runway — Highest-Risk Sites",
+      "value": "11 days remaining",
+      "variance": "4 days below government's 15-day minimum",
+      "direction": "down"
+    },
+    {
+      "kpi": "Emergency Guarantee Required",
+      "value": "₹45,000 crore",
+      "variance": "Less than 2% of GDP loss if refineries shut",
+      "direction": "down"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "Two legal instruments must be issued at the same moment: a Presidential Directive protecting refinery heads from personal liability, and an emergency Reserve Bank directive allowing banks to issue government-backed payment guarantees to crude suppliers.",
+      "impact": "A 24-hour gap between the two blocks the first emergency payment and triggers HPCL Mumbai's shutdown.",
+      "so_what": "PMO must treat both as one package — issuing them separately is not sequencing, it is failure."
+    },
+    {
+      "finding": "The only crude that can physically reach Mumbai's refineries within 4 days is domestic output from state-owned ONGC — but existing contracts may legally cap how much can be redirected.",
+      "impact": "If redirectable volume is below 10,000 barrels per day, Mumbai refineries gain only 1–2 extra days — not enough to bridge to any incoming cargo.",
+      "so_what": "The Petroleum Secretary must confirm available volume by 18:00 IST April 2; if insufficient, activate fuel rationing across four states the same night."
+    },
+    {
+      "finding": "IOCL Bina — the sole fuel supplier for landlocked Madhya Pradesh, Uttar Pradesh, and Rajasthan — loses access to its Russian crude shipment on April 3 with no alternative source in place.",
+      "impact": "A Bina shutdown cuts fuel to approximately 200 million people; within 30 days, agricultural and food supply chains fail across five states.",
+      "so_what": "This is the one scenario that turns an energy crisis into a humanitarian emergency — it requires a direct diplomatic call within 24 hours, not a written note."
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "ask": "Designate one crisis coordinator with cross-ministry authority, and issue the Presidential Directive and emergency Reserve Bank banking directive as a single simultaneous package by April 2, 23:59 IST. Owner: PMO."
+    },
+    {
+      "number": 2,
+      "ask": "Confirm by April 2, 18:00 IST how much domestic ONGC crude can legally be redirected to Mumbai refineries. If below 10,000 barrels per day, activate 15% fuel rationing across Maharashtra, Karnataka, Tamil Nadu, and Kerala the same night. Owner: Petroleum Secretary."
+    },
+    {
+      "number": 3,
+      "ask": "Authorise the Foreign Secretary to call the US Deputy Secretary of State within 24 hours requesting a 60-day humanitarian extension on Russian crude sanctions enforcement, and simultaneously secure a UAE emergency crude cargo. Require binary yes or no on both by April 4, 23:59 IST. Owner: MEA Secretary."
+    }
+  ]
+}

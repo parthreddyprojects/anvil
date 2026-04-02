@@ -1,0 +1,27 @@
+{
+  "design_pass": true,
+  "story_score": 7,
+  "story_issues": [
+    "Headline is partially action-oriented but mixes two decisions into one sentence — not atomic; a CEO cannot approve a single action from it",
+    "Situation block (30-word check): 'One refinery has already shut; six more follow within 4 days because refiners are losing ₹500 crore daily and have no legal cover to keep operating' — 29 words but the second sentence dilutes urgency by pre-explaining the solution; urgency is buried",
+    "Analysis card 02 uses a range ('1–2 extra days') — violates crisp single-figure rule",
+    "Analysis card 02 'so what' action has two owners implied (Petroleum Secretary + fuel rationing activation) — not atomic",
+    "Analysis card 03 is truncated — HTML cut off mid-tag; a critical finding is missing entirely, breaking pyramid structure",
+    "Context banner crams too much into one run-on sentence (88%, 42%, $156, $69, April 3 deadline all in one line) — a non-specialist cannot parse urgency in under 30 words",
+    "KPI 'Crude Runway — Highest-Risk Sites' label is too long and the metric name does not tell the CEO what decision it informs",
+    "'Why It Can't Wait' block repeats information already in the headline and situation — pyramid proof layer is not adding new evidence",
+    "Decisions section is not visible in the submitted HTML — cannot verify atomicity, single owner, or deadlines for all three decisions"
+  ],
+  "comprehension_score": 6,
+  "would_share": false,
+  "confused_by": [
+    "₹3 lakh crore GDP shock — 'lakh crore' is not instantly parseable for non-Indian readers; requires mental conversion",
+    "₹45,000 crore backstop — same unit problem; the '2% of GDP loss' comparison helps but the absolute number means nothing to me cold",
+    "20M bbl/day offline — I don't know if that's a lot or a little without context",
+    "Indian crude basket at $156/bbl (up from $69) — I understand the direction but not what 'Indian crude basket' means vs just 'oil price'",
+    "HPCL Mumbai, IOCL Bina — unnamed companies with acronyms; I have no idea who these are",
+    "Presidential Directive protecting refinery heads from personal liability — this buried legal nuance is doing enormous work but easy to skim past",
+    "10,000 barrels per day — is this a big number or a rounding error in context? No anchor given",
+    "US Russia-sanctions waiver expires April 3, 23:59 IST — mentioned once in the banner then never explained in the decisions; why is it there?"
+  ]
+}

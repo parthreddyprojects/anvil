@@ -1,0 +1,62 @@
+{
+  "condensed_ps": "IOCL and HMEL face simultaneous physical supply and financing collapse: Indian basket crude at $156/bbl against frozen retail prices is generating ₹750–965 crore/day in combined cash burn, both primary supply legs (Hormuz, 40–43% of intake; Russian crude, 36–38%) are disrupted concurrently, and the Russia-India sanctions waiver expires April 3. Without government fiscal commitment and emergency procurement authority by April 5, an LC default becomes structurally probable by April 10–13 and Bathinda faces forced shutdown within 8–12 days—before any Cape-routed alternative cargo can arrive.",
+  "header": "IOCL and HMEL must secure PMO-level procurement authority, a ₹25,000–35,000 crore fiscal transfer commitment, and ADNOC Fujairah cargo confirmation by April 5—or face LC default by April 10 and Bathinda shutdown by April 11–15.",
+  "situation": "At $156/bbl Indian basket versus a ~$124/bbl break-even on frozen retail prices, IOCL and HMEL are burning ₹750–965 crore per day across four refineries with no self-financing path. Bathinda carries 80–85% Russian crude dependency through a single landlocked pipeline and is structurally the first refinery to breach operational minimum—estimated 8–12 days absent confirmed replacement supply—while LPG and ATF safety stocks in the Karnataka/Goa southern grid may exhaust within 5–7 days due to MRPL's shutdown and active panic-buying running 20–30% above normal offtake. If no action is taken by April 5, LC default triggers cross-default across an estimated ₹2,16,700 crore of consolidated PSU debt, Bathinda enters forced shutdown, and southern grid LPG rationing becomes unavoidable within one week.",
+  "performance_data": [
+    {
+      "kpi": "Combined daily cash burn (under-recovery)",
+      "value": "₹750–965 crore/day",
+      "variance": "vs. ₹0 burn at $124/bbl break-even retail price; +₹160–180 crore/month per dollar above pivot—currently ₹5,120–5,760 crore/month above zero-recovery baseline at $32/bbl premium",
+      "direction": "down"
+    },
+    {
+      "kpi": "Accessible crude supply (% of normal intake)",
+      "value": "~20–25% of requirement securable within 30 days from non-Hormuz, non-Russian sources",
+      "variance": "vs. 100% normal intake requirement of ~4.6–4.8 mbpd all-India; Hormuz disruption removes 40–43%, sanctions expiry threatens additional 36–38%—up to 75–80% of supply simultaneously at risk in dual-shock scenario",
+      "direction": "down"
+    },
+    {
+      "kpi": "Bathinda (HMEL) crude days-cover",
+      "value": "Estimated 8–12 days (extrapolated; live figure is data gap requiring HMEL operations room confirmation)",
+      "variance": "vs. PSU industry norm of 15–21 days under PPAC supply security guidelines; 6–13 days below minimum safe buffer",
+      "direction": "down"
+    },
+    {
+      "kpi": "LPG safety stock—southern grid (Karnataka/Goa)",
+      "value": "Estimated breach within 5–7 days at current elevated offtake",
+      "variance": "vs. 10-day mandated safety stock threshold; demand running 20–30% above seasonal norm due to MRPL shutdown and panic-buying, pulling forward breach by 3–5 days vs. base-case model",
+      "direction": "down"
+    }
+  ],
+  "analysis": [
+    {
+      "finding": "The financing mechanism will fail before physical crude runs out: at $156/bbl, IOCL's 30-day LC obligation (~₹54,000–58,000 crore) exceeds estimated SBI/BoB sanctioned headroom by 40–60%, and post-April 3 Russian crude payments are blocked from Western correspondent banks simultaneously—creating a dual-channel freeze.",
+      "impact": "LC default structurally probable by April 10–13, triggering cross-default across ₹2,16,700 crore consolidated debt; every 24-hour delay in RBI dispensation or MoF sovereign backstop costs ₹750–965 crore in incremental burn with no offsetting revenue path.",
+      "so_what": "RBI emergency sectoral exposure dispensation and MoF standing LC authorization for IOCL must be treated as the governing constraint—not sourcing—because physical crude cannot be purchased if the payment instrument is frozen; this track must be activated in parallel with, not after, procurement decisions."
+    },
+    {
+      "finding": "Bathinda's 80–85% single-supplier Russian crude dependency through one landlocked pipeline has zero viable re-routing within 8–12 days; the only physically deliverable non-Hormuz alternative—ADNOC Fujairah pipeline (1.5 mb/d confirmed capacity, 5–7 day Fujairah-to-West India transit)—must have cargo confirmed loaded and in-transit by April 5 or Bathinda's operational minimum is breached before any other sourcing track delivers.",
+      "impact": "Forced Bathinda shutdown below 65% nameplate triggers coker bed damage extending any restart from 10–15 days to 30–45 days—an asymmetric downside worth an estimated ₹3,000–5,000 crore in lost GRM and restart cost at crisis-period crack spreads of $25–35/bbl gasoil.",
+      "so_what": "ADNOC Fujairah cargo confirmation (minimum 600,000 barrels loaded by April 5) is the single most time-critical procurement decision in the tree; it is also the only sourcing action whose timeline is compatible with Bathinda's operational window—all other alternatives (West African 25–32 day transit, Brazilian 35–40 day transit) arrive after the shutdown threshold is crossed."
+    },
+    {
+      "finding": "Current PSU procurement authority limits—requiring MoF concurrence and CVC clearance over 5–10 days per contract—are structurally incompatible with the commercial decision speed required; competing non-PSU buyers (Chinese state refiners, Korean and Japanese independents) face no equivalent procedural constraint and will clear available spot cargoes before IOCL price waivers are granted.",
+      "impact": "Every 24-hour procurement delay at ₹750–965 crore/day burn costs ₹3,750–4,825 crore over a 5-day authorization cycle—equivalent to 11–19% of the entire ₹25,000–35,000 crore fiscal transfer requirement, making governance latency a direct financial variable; the West African cargo window (April 5–15 loading) will be closed to PSU buyers operating under standard approval timelines.",
+      "so_what": "PMO-level written authority delegating IOCL Chairman procurement approval above ₹5,000 crore without case-by-case MoF concurrence—with explicit Prevention of Corruption Act coverage to remove behavioral paralysis—is a prerequisite for every other sourcing decision to execute; without it, the War Room is a coordination structure with no decision velocity."
+    }
+  ],
+  "decisions": [
+    {
+      "number": 1,
+      "ask": "PMO to issue written authority delegation by April 3, 20:00 hrs granting IOCL Chairman approval for crude procurement contracts up to ₹15,000 crore per transaction without MoF case-by-case concurrence, with explicit PC Act coverage; simultaneously, MoF Secretary to issue standing LC authorization backstop to SBI and BoB for IOCL obligations up to ₹60,000 crore for 30 days, and RBI to grant emergency sectoral exposure dispensation for PSU bank crude LC issuance above current limits—all three instruments required in writing before any procurement or banking action can execute at the speed the crisis demands."
+    },
+    {
+      "number": 2,
+      "ask": "MoPNG Secretary to authorize, by April 4, 08:00 hrs: (a) IOCL Trading Division to confirm ADNOC Fujairah cargo of minimum 600,000 barrels loaded and in-transit to Vadinar SBM by April 5—the only sourcing action physically compatible with Bathinda's 8–12 day window; (b) immediate run-rate reduction at Paradip and Panipat to 65–70% nameplate to extend crude inventory runway 4–6 days without triggering coker damage, while holding Gujarat at 80–85% for southern grid LPG and ATF redistribution; and (c) issuance of an Emergency Supply Allocation Directive under the Essential Commodities Act activating HPCL Mangalore infrastructure for IOCL-supplied LPG throughput to the Karnataka/Goa grid within 24 hours."
+    },
+    {
+      "number": 3,
+      "ask": "CCEA to approve, by April 5, a fiscal transfer or oil bond commitment of ₹25,000–35,000 crore (sized for 90-day horizon at $156/bbl; rises to ₹40,000–50,000 crore if retail price adjustment is politically blocked) and a retail HSD price adjustment of ₹15–20/litre effective April 10—noting that if price adjustment is deferred, the fiscal transfer ceiling is insufficient and a second tranche pre-authorization is required; simultaneously, MoPNG to constitute a Tier 1 War Room with IOCL Chairman, HMEL MD, MoF Joint Secretary, and RBI ED as standing members with authority to approve non-standard payment channel switches (UAE dirham, CNY-denominated LCs) for post-April 3 Russian crude settlements within 2 hours of request."
+    }
+  ]
+}

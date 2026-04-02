@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India Refinery Crisis Brief — March 27, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: #ffffff;
+    color: #111111;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 36px 48px 40px 48px;
+    background: #ffffff;
+  }
+
+  /* CONTEXT BANNER */
+  .context-banner {
+    border-top: 2px solid #111111;
+    border-bottom: 1px solid #cccccc;
+    padding: 10px 0 10px 0;
+    margin-bottom: 26px;
+  }
+
+  .context-banner .line1 {
+    font-size: 11px;
+    font-weight: 600;
+    color: #111111;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .context-banner .line2 {
+    font-size: 11px;
+    font-weight: 400;
+    color: #444444;
+    letter-spacing: 0.01em;
+  }
+
+  .context-banner .label {
+    font-weight: 700;
+    color: #111111;
+  }
+
+  /* DATE STAMP */
+  .date-stamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #888888;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* PROBLEM STATEMENT */
+  .problem-statement {
+    background: #f7f7f7;
+    border-left: 3px solid #111111;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    font-size: 11.5px;
+    color: #333333;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* HEADLINE */
+  .headline {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #111111;
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+  }
+
+  /* SITUATION */
+  .situation-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 5px;
+  }
+
+  .situation-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #222222;
+    margin-bottom: 26px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 22px;
+  }
+
+  /* KPI ROW */
+  .kpi-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 24px;
+  }
+
+  .kpi-card {
+    flex: 1;
+    padding: 0 20px 0 0;
+    border-right: 1px solid #e0e0e0;
+    margin-right: 20px;
+  }
+
+  .kpi-card:last-child {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .kpi-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: #111111;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .kpi-value.down {
+    color: #c0392b;
+  }
+
+  .kpi-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #111111;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 3px;
+  }
+
+  .kpi-variance {
+    font-size: 10px;
+    color: #777777;
+    line-height: 1.4;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 12px;
+  }
+
+  /* ANALYSIS */
+  .analysis-block {
+    margin-bottom: 28px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 24px;
+  }
+
+  .analysis-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 0 10px;
+    margin-bottom: 18px;
+  }
+
+  .analysis-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .analysis-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #bbbbbb;
+    padding-top: 1px;
+  }
+
+  .analysis-content {}
+
+  .analysis-finding {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #111111;
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+
+  .analysis-impact {
+    font-size: 11.5px;
+    color: #c0392b;
+    line-height: 1.5;
+    margin-bottom: 3px;
+    font-weight: 400;
+  }
+
+  .analysis-impact::before {
+    content: "▸ ";
+    font-size: 10px;
+  }
+
+  .analysis-sowhat {
+    font-size: 11px;
+    color: #666666;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .analysis-sowhat::before {
+    content: "So what: ";
+    font-weight: 700;
+    font-style: normal;
+    color: #444444;
+  }
+
+  /* DECISIONS */
+  .decisions-block {
+    margin-bottom: 28px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 24px;
+  }
+
+  .decision-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 0 10px;
+    margin-bottom: 16px;
+    align-items: start;
+  }
+
+  .decision-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .decision-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111111;
+    background: #111111;
+    color: #ffffff;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .decision-text {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.6;
+  }
+
+  .decision-text strong {
+    font-weight: 700;
+  }
+
+  .decision-owner {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #888888;
+    letter-spacing: 0.04em;
+  }
+
+  .decision-owner .owner-label {
+    color: #c0392b;
+    font-weight: 700;
+  }
+
+  /* FOOTER */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid #cccccc;
+  }
+
+  .footer-left {
+    font-size: 10px;
+    color: #aaaaaa;
+    line-height: 1.5;
+  }
+
+  .footer-right {
+    font-size: 10px;
+    color: #aaaaaa;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .footer-right strong {
+    color: #666666;
+    font-weight: 600;
+  }
+
+  /* REFINERY LIST */
+  .refinery-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: #555555;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    margin: 2px 2px 2px 0;
+    letter-spacing: 0.02em;
+  }
+
+  .refinery-row {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed #e0e0e0;
+  }
+
+  .refinery-row-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #999999;
+    margin-bottom: 5px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- CONTEXT BANNER -->
+  <div class="context-banner">
+    <div class="line1">
+      <span class="label">Crisis:</span>&nbsp; Strait of Hormuz closed since Feb 28, 2026 (27 days) — Iran mines remove 20M bbl/day from global supply. Indian crude basket: $156/bbl (from $69). Russia sanctions waiver expires in 7 days (April 3, 2026).
+    </div>
+    <div class="line2">
+      <span class="label">This brief:</span>&nbsp; What the government must decide in the next 48 hours to prevent a cascade shutdown of HPCL Mumbai, BPCL Mumbai, BPCL Kochi, CPCL Manali, IOCL Bina, and NRL Numaligarh — six refineries whose failure cuts fuel supply to 400 million people.
+    </div>
+  </div>
+
+  <!-- DATE + DOCUMENT TYPE -->
+  <div class="date-stamp">Crisis Brief &nbsp;·&nbsp; March 27, 2026 &nbsp;·&nbsp; For Immediate Action</div>
+
+  <!-- PROBLEM STATEMENT -->
+  <div class="problem-statement">
+    Six refineries shut in 4 days without action. The ₹45,000 crore guarantee required is less than 2% of the ₹3 lakh crore GDP loss if they do. Three decisions — issued simultaneously, by April 2 — prevent it.
+  </div>
+
+  <!-- HEADLINE -->
+  <div class="headline">Approve financial guarantees and crude reallocation by midnight April 2 — HPCL Mumbai shuts in 4 days; IOCL Bina cuts fuel to 200 million people by April 5.</div>
+
+  <!-- SITUATION -->
+  <div class="situation-label">Situation</div>
+  <div class="situation-text">
+    One refinery has already shut (MRPL); six more — <strong>HPCL Mumbai, BPCL Mumbai, BPCL Kochi, CPCL Manali (Chennai), IOCL Bina, and NRL Numaligarh</strong> — follow within 4 days because refiners are losing ₹500 crore daily and have no legal cover to keep operating. Maharashtra and Karnataka lose fuel first — then landlocked central India, triggering a humanitarian crisis the ₹45,000 crore backstop prevents.
+  </div>
+
+  <!-- REFINERIES IN SCOPE -->
+  <div class="refinery-row">
+    <div class="refinery-row-label">Six refineries at risk — this brief</div>
+    <span class="refinery-tag">HPCL Mumbai</span>
+    <span class="refinery-tag">BPCL Mumbai</span>
+    <span class="refinery-tag">BPCL Kochi</span>
+    <span class="refinery-tag">CPCL Manali (Chennai)</span>
+    <span class="refinery-tag">IOCL Bina (MP)</span>
+    <span class="refinery-tag">NRL Numaligarh (Assam)</span>
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="section-label">Key Indicators — As of March 27, 2026</div>
+  <div class="kpi-row">
+
+    <div class="kpi-card">
+      <div class="kpi-value down">−$12/bbl</div>
+      <div class="kpi-label">Refining Margin</div>
+      <div class="kpi-variance">Down from +$5/bbl last quarter. Every barrel processed deepens losses with no legal protection for refinery heads.</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-value down">11 days</div>
+      <div class="kpi-label">Crude Runway — Highest-Risk Sites</div>
+      <div class="kpi-variance">4 days below government's 15-day minimum. HPCL Mumbai and BPCL Mumbai breach shutdown trigger in 3–5 days.</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-value">₹45,000 cr</div>
+      <div class="kpi-label">Emergency Guarantee Required</div>
+      <div class="kpi-variance">Less than 2% of the ₹3 lakh crore GDP loss if all six refineries shut. Smallest intervention, largest consequence.</div>
+    </div>
+
+  </div>
+
+  <!-- ANALYSIS -->
+  <div class="section-label">Analysis</div>
+  <div class="analysis-block">
+
+    <div class="analysis-item">
+      <div class="analysis-number">01</div>
+      <div class="analysis-content">
+        <div class="analysis-finding">Two legal instruments must be issued at the same moment: a Presidential Directive protecting refinery heads at HPCL Mumbai, BPCL Mumbai, BPCL Kochi, CPCL Manali, IOCL Bina, and NRL Numaligarh from personal liability for operating at negative margins — and an emergency Reserve Bank directive allowing banks to issue government-backed payment guarantees to crude suppliers.</div>
+        <div class="analysis-impact">A 24-hour gap between the two blocks the first emergency payment and triggers HPCL Mumbai's shutdown on schedule.</div>
+        <div class="analysis-sowhat">PMO must treat both as one indivisible package — issuing them separately is not sequencing, it is failure.</div>
+      </div>
+    </div>
+
+    <div class="analysis-item">
+      <div class="analysis-number">02</div>
+      <div class="analysis-content">
+        <div class="analysis-finding">The only crude physically reachable by HPCL Mumbai and BPCL Mumbai within 4 days is domestic Bombay High Light from ONGC — delivered via existing offshore platform → shore terminal → refinery pipeline with zero new infrastructure. But existing term contracts may legally cap how much volume can be redirected from current buyers.</div>
+        <div class="analysis-impact">If redirectable volume is below 10,000 barrels per day, both Mumbai refineries gain only 1–2 extra days — insufficient to bridge to any incoming seaborne cargo.</div>
+        <div class="analysis-sowhat">The Petroleum Secretary must confirm available ONGC volume by 18:00 IST April 2 (in 6 days); if insufficient, activate 15% fuel rationing across Maharashtra, Karnataka, Tamil Nadu, and Kerala the same night.</div>
+      </div>
+    </div>
+
+    <div class="analysis-item">
+      <div class="analysis-number">03</div>
+      <div class="analysis-content">
+        <div class="analysis-finding">IOCL Bina — the sole fuel supplier for landlocked Madhya Pradesh, Uttar Pradesh, and Rajasthan, with no coastal or pipeline alternative — loses access to its Russian crude shipment on April 3 (in 7 days) when the US sanctions waiver expires, with no replacement source currently contracted.</div>
+        <div class="analysis-impact">A Bina shutdown cuts fuel to approximately 200 million people; within 30 days, agricultural and food supply chains fail across five states — this is the scenario that converts an energy crisis into a humanitarian emergency.</div>
+        <div class="analysis-sowhat">This requires a direct Foreign Secretary phone call within 24 hours (by March 28), not a written diplomatic note — the response timeline is incompatible with paper process.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DECISIONS -->
+  <div class="section-label">Decisions Required — Simultaneously, by April 2, 2026</div>
+  <div class="decisions-block">
+
+    <div class="decision-item">
+      <div class="decision-number">1</div>
+      <div class="decision-text">
+        <strong>Designate one crisis coordinator with cross-ministry authority</strong>, and issue the Presidential Directive and emergency Reserve Bank banking directive as a single simultaneous package. Both instruments must clear by <strong>April 2, 23:59 IST (in 6 days)</strong> — not sequentially.
+        <br><span class="decision-owner"><span class="owner-label">OWNER:</span> PMO &nbsp;·&nbsp; DEADLINE: April 2, 23:59 IST</span>
+      </div>
+    </div>
+
+    <div class="decision-item">
+      <div class="decision-number">2</div>
+      <div class="decision-text">
+        <strong>Confirm how much domestic ONGC Bombay High Light crude can legally be redirected to HPCL Mumbai and BPCL Mumbai</strong> by April 2, 18:00 IST (in 6 days). If redirectable volume is confirmed below 10,000 barrels per day, activate 15% fuel rationing across Maharashtra, Karnataka, Tamil Nadu, and Kerala on the same night — protecting supply to CPCL Manali (Chennai) and BPCL Kochi simultaneously.
+        <br><span class="decision-owner"><span class="owner-label">OWNER:</span> Petroleum Secretary &nbsp;·&nbsp; DEADLINE: April 2, 18:00 IST</span>
+      </div>
+    </div>
+
+    <div class="decision-item">
+      <div class="decision-number">3</div>
+      <div class="decision-text">
+        <strong>Authorise the Foreign Secretary to call the US Deputy Secretary of State within 24 hours (by March 28)</strong> requesting a 60-day humanitarian extension on Russian crude sanctions enforcement for IOCL Bina — and simultaneously secure a UAE emergency crude cargo via the MEA–ADNOC G2G channel. Require a binary yes or no on both tracks by <strong>April 4, 23:59 IST (in 8 days)</strong>. A written note is not adequate; a confirmed call must be placed.
+        <br><span class="decision-owner"><span class="owner-label">OWNER:</span> MEA Secretary &nbsp;·&nbsp; CALL BY: March 28 &nbsp;·&nbsp; RESOLUTION DEADLINE: April 4, 23:59 IST</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      Sources: PPAC crude import data; MRPL Q3 FY2025 earnings; MoPNG inventory reports; EIA Hormuz transit estimates; RBI Banking Regulation Act; Essential Commodities Act.<br>
+      All estimates as of March 27, 2026. GRM figures extrapolated from Q3 FY2025 actuals at $156/bbl crude basket.
+    </div>
+    <div class="footer-right">
+      <strong>Developed by Parth Reddy</strong><br>
+      Crisis Brief · March 27, 2026
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

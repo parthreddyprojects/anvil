@@ -1,0 +1,15 @@
+{
+  "cards": [
+    {
+      "card_id": "c1",
+      "card_type": "hero",
+      "html": "<div class=\"card\" id=\"c1\" style=\"background:radial-gradient(ellipse at 50% 60%,#1a0000,#0a0a0a)\">\n<div class=\"card-inner\">\n  <p class=\"label\" style=\"color:var(--red);margin-bottom:16px\">\n    <span class=\"countdown\">STRATEGIC INTELLIGENCE BRIEFING · INDIA PERSPECTIVE</span>\n  </p>\n  <h1 style=\"font:900 44px/1 'Inter';background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px;overflow-wrap:break-word\">India's Energy War</h1>\n  <div class=\"hero-num countdown\" style=\"color:var(--red);text-shadow:0 0 40px rgba(255,59,59,.3)\">DAY 20</div>\n  <p class=\"card-sub\" style=\"margin-top:8px;margin-bottom:28px;color:#888\">No ceasefire. No playbook. No precedent.</p>\n  <div class=\"stat-row\">\n    <div class=\"stat\">\n      <div class=\"val\" style=\"color:var(--red);text-shadow:0 0 20px rgba(255,59,59,.25)\">8M</div>\n      <div class=\"lbl\">bbl/d offline</div>\n      <div style=\"font:400 9px/1 'Inter';color:#555;margin-top:4px\">Largest disruption in history</div>\n    </div>\n    <div class=\"stat\">\n      <div class=\"val\" style=\"color:var(--amber);text-shadow:0 0 20px rgba(255,176,32,.2)\">$146</div>\n      <div class=\"lbl\">Indian basket</div>\n      <div style=\"font:400 9px/1 'Inter';color:#555;margin-top:4px\">+112% in 3 weeks</div>\n    </div>\n    <div class=\"stat\">\n      <div class=\"val\" style=\"color:var(--red);text-shadow:0 0 20px rgba(255,59,59,.25)\">74d</div>\n      <div class=\"lbl\">reserve cover</div>\n      <div style=\"font:400 9px/1 'Inter';color:#555;margin-top:4px\">Refused IEA &amp; G7 release</div>\n    </div>\n  </div>\n  <div style=\"margin-top:20px;padding:6px 16px;background:var(--red);border-radius:4px;display:inline-block;box-shadow:0 0 24px rgba(255,59,59,.3)\">\n    <span class=\"mono\" style=\"font-size:11px;font-weight:700;color:#fff;letter-spacing:1px\">ZERO NEGOTIATIONS ACTIVE</span>\n  </div>\n  <p class=\"src\" style=\"margin-top:18px;color:#444\">EIA, S&amp;P Global, India Petroleum Ministry</p>\n  <div class=\"swipe-hint\">scroll</div>\n</div>\n</div>"
+    }
+  ],
+  "_design_agent": {
+    "model": "claude-sonnet-4-6",
+    "cards_processed": 1,
+    "errors": 0,
+    "timestamp": "2026-03-20T03:21:17Z"
+  }
+}

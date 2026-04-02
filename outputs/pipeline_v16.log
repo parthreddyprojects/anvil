@@ -1,0 +1,111 @@
+[15:08:34] === V16: Chart annotations + scale fixes + visual variety ===
+[15:08:34] STEP 2: Card Decomposition (Story Arc → Proof → Story Check)
+[15:08:34]   STEP 2A: Generating story arc (one-sentence messages only)...
+[15:09:03]   Story arc: 22 messages
+
+============================================================
+  STORY ARC — 22 CARDS
+============================================================
+
+   1. This is not a shipping disruption — the world's most critical energy chokepoint has been deliberately weaponized, and it will not reopen the moment the shooting stops.
+   2. India is more exposed than any other major economy because nearly half its crude and virtually all its cooking gas cross that single strait every day.
+   3. The crisis escalated past the point of quick resolution three days ago when both sides began destroying each other's energy infrastructure, not just trading missiles.
+   4. Every credible mediator has been sidelined, both sides are publicly refusing to negotiate, and mine clearance alone will take longer than the market's optimistic timeline assumes.
+   5. ACT BREAK: This is the operating environment — now, what does it mean for the people running Indian refineries.
+   6. Your refinery's complexity score is now the single most important number in your business — it determines whether you are printing money or bleeding cash at today's crude price.
+   7. The grade of crude your refinery was designed to run is exactly the grade that has disappeared from the market, and no amount of procurement creativity fully closes that gap.
+   8. The government has already overridden your product slate once under emergency law, and it will do so again — your optimization model is no longer entirely yours to run.
+   9. The three LPG tankers that made it through are heroes, but they also reveal the brutal arithmetic: individual ship negotiations cannot solve a structural supply crisis affecting three hundred million households.
+  10. ACT BREAK: The refinery margin story is inseparable from the financial story — here is what your CFO needs to understand right now.
+  11. At today's crude price, the marketing business of every public sector oil company in India is operationally insolvent, and the government cannot afford to let prices rise or to keep absorbing the loss indefinitely.
+  12. The rupee hitting a record low compounds every dollar of crude cost increase, and both pressures are moving in the same direction at the same time.
+  13. Your hedging window is closing — the market's steep backwardation is a gift that prices in a quick resolution the facts on the ground do not support, and the opportunity to lock in deferred barrels at a massive discount expires with the consensus view.
+  14. The Russia waiver expiring in fifteen days is the single most urgent financial forcing function on your calendar, and planning for even a two-week gap in that supply is not pessimism — it is fiduciary responsibility.
+  15. ACT BREAK: Procurement and hedging decisions cannot be made in isolation from the diplomatic and policy environment — here is what leadership needs to understand.
+  16. India's non-alignment posture has bought marginally better access than Japan or Korea but dramatically worse access than China, and that gap will widen if the conflict extends.
+  17. The waiver renewal India needs from Washington comes with an explicit expectation of increased US crude purchases, which means your procurement strategy is also your government's diplomatic currency.
+  18. The fertilizer supply shock building quietly in the background will hit Indian farmers at kharif planting season, and energy executives who are not modeling that second-order contagion are missing a systemic risk to the broader economy.
+  19. ACT BREAK: Everything before this card is context — here is what the board needs to decide.
+  20. The board must choose between two fundamentally different postures: managing this as a temporary shock requiring tactical response, or treating it as a structural realignment requiring permanent changes to crude sourcing, refinery configuration, and risk management.
+  21. Every complexity upgrade project that was in the capital plan with a five-year payback now has a one-year payback — the board meeting where you defer that investment is the meeting you will regret.
+  22. The consensus view that prices normalize by year-end is the most dangerous assumption in every financial model your board will see this quarter, because it is based on a conflict timeline that the facts on the ground have already invalidated — plan for the scenario the market is not pricing, act before everyone else reaches the same conclusion.
+[15:09:03]   STEP 2B: Assigning proof (2-3 numbers + visual per message)...
+[15:10:27]   Proof assigned: 22 cards
+[15:10:27]   STEP 2C: Story check — verifying deck matches approved arc...
+[15:10:29]   Story check PASSED: All 22 cards match the approved story arc exactly with no drift, gaps, additions, or density violations.
+[15:10:29]   Card spec finalized: 22 cards
+[15:10:29] STEP 3: Design Agent — generating HTML per card
+[15:10:29]   [1/22] c01 (hero)
+[15:10:46]            OK (2,993 chars)
+[15:10:46]   [2/22] c02 (kpi_card)
+[15:10:56]            ERROR attempt 1: Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}, 'request_id': 'req_011CZDv1J8ed5ppaHA4KEMzX'}
+[15:11:40]            OK (10,932 chars)
+[15:11:40]   [3/22] c03 (timeline)
+[15:12:04]            OK (5,099 chars)
+[15:12:04]   [4/22] c04 (verdict_panel)
+[15:12:30]            OK (5,110 chars)
+[15:12:30]   [5/22] c05 (act_break)
+[15:12:49]            OK (3,073 chars)
+[15:12:49]   [6/22] c06 (kpi_card)
+[15:13:20]            OK (6,230 chars)
+[15:13:20]   [7/22] c07 (verdict_panel)
+[15:13:57]            OK (7,904 chars)
+[15:13:57]   [8/22] c08 (verdict_panel)
+[15:14:22]            OK (4,742 chars)
+[15:14:22]   [9/22] c09 (verdict_panel)
+[15:14:46]            OK (4,605 chars)
+[15:14:46]   [10/22] c10 (act_break)
+[15:15:02]            OK (2,782 chars)
+[15:15:02]   [11/22] c11 (kpi_card)
+[15:15:32]            OK (6,210 chars)
+[15:15:32]   [12/22] c12 (kpi_card)
+[15:16:05]            OK (6,859 chars)
+[15:16:05]   [13/22] c13 (chart_card)
+[15:16:33]            OK (5,928 chars)
+[15:16:33]   [14/22] c14 (kpi_card)
+[15:17:01]            OK (5,249 chars)
+[15:17:01]   [15/22] c15 (act_break)
+[15:17:18]            OK (3,087 chars)
+[15:17:18]   [16/22] c16 (verdict_panel)
+[15:17:48]            OK (6,826 chars)
+[15:17:48]   [17/22] c17 (verdict_panel)
+[15:18:13]            OK (5,382 chars)
+[15:18:13]   [18/22] c18 (verdict_panel)
+[15:18:42]            OK (5,568 chars)
+[15:18:42]   [19/22] c19 (act_break)
+[15:18:54]            OK (1,736 chars)
+[15:18:54]   [20/22] c20 (scenario_card)
+[15:19:16]            OK (5,166 chars)
+[15:19:16]   [21/22] c21 (verdict_panel)
+[15:19:47]            OK (5,737 chars)
+[15:19:47]   [22/22] c22 (closing)
+[15:20:21]            OK (7,307 chars)
+[15:20:21]   Design Agent complete: 22 cards, 118,525 chars total
+[15:20:21] STEP 4: Build briefing HTML
+  Built 22 cards -> C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (133,838 chars)
+[15:20:21]   Built: C:\Users\Lenovo\briefing-engine\outputs\4_briefing.html (136,519 bytes)
+[15:20:21] STEP 5: Critique Loop
+[15:20:21]   Gate 1: Content critique (Claude Opus)...
+[15:21:03]   Gate 1: avg 8.1/10, 2 cards below 7
+[15:21:03]   Gate 2: Visual QA (screenshots + multimodal)...
+[15:21:13]   Screenshotting 22 cards...
+[15:21:42]     card_05: Excessive whitespace above and below content - content is vertically centered in a very tall card with large empty areas, Large empty space at bottom of card after 'Story arc' text
+[15:21:42]     card_06: Chart y-axis labels 'NCI Score' and 'GRM $/bbl' are small and potentially hard to read, HPCL Mumbai stat card shows 'B/E at $95-100' which appears slightly cramped
+[15:21:42]     card_07: The configured vs available chart has small text labels for crude grades that may be hard to read, The '← WANT BUT CAN'T GET | CAN GET BUT DON'T WANT →' label is quite small
+[15:21:42]     card_08: Large empty whitespace areas above and below the main content, The dark callout box text at bottom is dense and may be slightly hard to read against the dark background
+[15:22:00]     card_09: Large amount of empty whitespace in the top half and bottom half of the card, content is squeezed into the middle, The '330M+' text in HOUSEHOLDS AFFECTED section appears slightly cut off with the plus sign
+[15:22:00]     card_10: Excessive empty whitespace in top and bottom portions of the card, content concentrated in the middle, Large 'III' watermark/text at bottom-right corner may be distracting or unintended
+[15:22:00]     card_11: Excessive empty whitespace in top and bottom portions of the card, HPCL bar chart label '-62% at +$5/bbl' is cramped and overlaps with the small bar area
+[15:22:00]     card_12: INR stress downside value '₹97.50' appears to potentially be cut off or tight within its container, The MUFG Stress Case bar label '₹95.50-97.50 if disruption extends' text is small and potentially hard to read against the red background
+[15:22:14]     card_13: Chart labels 'LOCK $69-75' and 'before repricing' overlap with the data line and are hard to read, The 'TODAY' label on the chart is partially squeezed at the left edge
+[15:22:14]     card_14: Urals discount/premium bar chart labels are small and the '+$4-5/bbl' tag overlaps with the bar area slightly
+[15:22:14]     card_15: Large 'IV' text in bottom-right corner appears cut off/clipped by the card edge
+[15:22:14]     card_16: The horizontal bar chart for Japan shows '0 — FULLY BLOCKED' text that is slightly misaligned with the empty bar area
+[15:22:29]     card_17: Large empty space at top and bottom of card - content is vertically centered with excessive whitespace, Tags 'BUY MORE OIL', 'NOT THE LAST', 'NOT GUARANTEED' appear as small badges that may be hard to read at smaller sizes
+[15:22:29]     card_18: Large empty space at top and bottom of card - excessive whitespace padding, Source text at bottom is very small and may be unreadable
+[15:22:29]     card_19: Card is mostly empty with very minimal content - large empty spaces above and below the Act IV section, Story arc label at bottom appears to have missing/incomplete content after 'Story arc:'
+[15:22:29]     card_20: Small tag labels within scenario boxes (e.g., '$130-200', '2026+', '$266-400B+') have colored backgrounds that may reduce readability, Large empty space at top and bottom of card
+[15:22:37]     card_21: Large empty white space in upper portion of the card before content begins, Large empty white space in lower portion of the card after content ends
+[15:22:37]     card_22: Large empty white space in upper portion of the card before content begins, Large empty white space in lower portion of the card after content ends
+[15:22:38]   Gate 2: 18 issues found, 0 high severity
+[15:22:38] PIPELINE COMPLETE — v16

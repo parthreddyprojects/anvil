@@ -1,0 +1,42 @@
+[14:16:35] === V14 PIPELINE: Story Arc → Proof → Check → Design → Build → Critique ===
+[14:16:35] STEP 2: Card Decomposition (Story Arc → Proof → Story Check)
+[14:16:35]   STEP 2A: Generating story arc (one-sentence messages only)...
+[14:16:58]   Story arc: 24 messages
+
+============================================================
+  STORY ARC — 24 CARDS
+============================================================
+
+   1. ACT BREAK: What just changed in the world
+   2. This is not a shipping disruption — it is the largest oil supply shock in recorded history, and it is still escalating.
+   3. The moment Israel struck South Pars and Iran hit Ras Laffan on the same day, this became an energy infrastructure war with no precedent and no rulebook.
+   4. The strait does not reopen when the shooting stops — mines, insurance paralysis, and destroyed minesweeping capacity mean the chokepoint stays shut for months after any ceasefire.
+   5. Both sides are publicly rejecting negotiation, every mediator has been sidelined, and the escalation ladder still has rungs left to climb.
+   6. The consensus view that this resolves in weeks is a pre-March-18 model — the world changed two days ago and most forecasts have not caught up.
+   7. ACT BREAK: What this means for your refinery
+   8. Your refinery's Nelson Complexity Index is no longer a technical footnote — it is the single most important determinant of whether your plant is printing money or bleeding cash right now.
+   9. The grades your refinery was built to run are precisely the grades most stranded behind the closed strait, and no alternative source fills that barrel the same way.
+  10. The government has already overridden your product slate via emergency powers, and compliance is not optional — maximizing LPG output is now a legal obligation, not a commercial choice.
+  11. Every planned complexity upgrade you have been slow-walking just had its payback period cut in half — the crisis is the business case you always needed.
+  12. ACT BREAK: What this means for your balance sheet
+  13. At today's crude basket price, PSU OMCs are functionally insolvent on their marketing operations — the question is not whether you are losing money but how long you can absorb it.
+  14. The Russia waiver is the single most valuable piece of paper in Indian energy right now, it expires in fifteen days, and you do not yet know if it will be renewed.
+  15. The rupee at a record low compounds every dollar of crude cost, and the macro deterioration — current account, fiscal deficit, inflation — is not yet fully priced into your planning assumptions.
+  16. The hedging window is open and closing — steep backwardation lets you lock deferred barrels at a fraction of today's price, but that window narrows every day the conflict continues.
+  17. ACT BREAK: The levers India actually has
+  18. India's non-alignment is delivering marginal access compared to China's blanket passage — the diplomatic premium is real but the execution gap is dangerously wide.
+  19. The government's refusal to release from strategic reserves is a signal, not a policy — it tells you the administration expects a prolonged disruption and is hoarding every barrel it has.
+  20. The fertilizer exposure is the sleeper risk that consensus is almost entirely ignoring — a kharif season supply crunch arriving in June will make the LPG crisis look manageable by comparison.
+  21. ACT BREAK: What your board must decide
+  22. Your board needs to approve procurement and hedging decisions this week based on the Conflagration scenario, not the Standoff scenario — because the asymmetry of being wrong has never been greater.
+  23. The strategic question is no longer how to survive this crisis but which companies emerge structurally stronger on the other side — and that answer is determined by decisions made in the next thirty days.
+  24. The companies that treat this as a temporary disruption requiring tactical adjustments will be permanently disadvantaged against the ones that treat it as a structural reset requiring strategic repositioning — act accordingly.
+[14:16:58]   STEP 2B: Assigning proof (2-3 numbers + visual per message)...
+[14:18:26]   Proof assigned: 24 cards
+[14:18:26]   STEP 2C: Story check — verifying deck matches approved arc...
+Traceback (most recent call last):
+  File "<string>", line 23, in <module>
+  File "C:\Users/Lenovo/briefing-engine\run.py", line 318, in step2_card_decomposition
+    {json.dumps([{{"card_id": c.get("card_id"), "key_message": c.get("key_message"), "data_points": len(c.get("data", {{}}))}} for c in cards], indent=2)}
+                                                                                                                      ^^^^
+TypeError: unhashable type: 'dict'

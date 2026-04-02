@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IOCL &amp; HMEL -- Appendix</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;overflow-x:hidden}
+
+/* Full-screen slide system */
+.slide{min-height:100vh;min-height:100dvh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 40px;position:relative;border-bottom:1px solid #e5e7eb}
+.slide-inner{width:100%;max-width:800px}
+
+/* Top bar */
+.slide-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.slide-num{font:800 16px/1 'JetBrains Mono';color:#2563eb}
+.slide-slot{font:500 11px/1 'JetBrains Mono';color:#888;letter-spacing:1px;text-transform:uppercase}
+
+/* Title = action title = conclusion, not topic */
+.slide-title{font:800 26px/1.2 'Inter';color:#1a1a1a;margin-bottom:8px}
+.slide-subtitle{font:400 13px/1.4 'Inter';color:#888;margin-bottom:24px}
+
+/* Proof body */
+.slide-body{margin:0 0 24px}
+.slide-body table{width:100%;border-collapse:collapse}
+.slide-body .pt-label{font:600 13px/1.4 'Inter';color:#1a1a1a;padding:10px 14px;border-bottom:1px solid #eee;width:35%;vertical-align:top}
+.slide-body .pt-value{font:500 13px/1.4 'JetBrains Mono';color:#333;padding:10px 14px;border-bottom:1px solid #eee;vertical-align:top}
+.slide-body .pt-note{font:400 11px/1.4 'Inter';color:#888;padding:10px 14px;border-bottom:1px solid #eee;vertical-align:top}
+.slide-conclusion{font:600 14px/1.5 'Inter';color:#1a1a1a;margin-top:16px;padding:14px 16px;background:#f0f4ff;border-left:4px solid #2563eb;border-radius:0 6px 6px 0}
+.chart-wrap{width:100%;height:280px;position:relative;margin:16px 0}
+.chart-wrap canvas{width:100%!important;height:100%!important}
+
+/* Bottom */
+.slide-bottom{margin-top:auto;padding-top:16px;border-top:1px solid #eee}
+.slide-claim{font:400 11px/1.4 'Inter';color:#aaa;margin-bottom:4px}
+.slide-source{font:400 10px/1.3 'Inter';color:#bbb}
+
+/* Proof list */
+.proof-list{padding-left:20px;margin:8px 0}
+.proof-list li{font:400 13px/1.6 'Inter';margin-bottom:6px}
+
+/* Fixed nav */
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:1000;background:rgba(255,255,255,.9);padding:8px 16px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.1);backdrop-filter:blur(8px)}
+.nav-btn{font:600 12px/1 'Inter';padding:8px 16px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#333;cursor:pointer}
+.nav-btn:hover{background:#f0f4ff;border-color:#2563eb}
+.nav-counter{font:500 12px/1 'JetBrains Mono';color:#888;padding:8px 12px;display:flex;align-items:center}
+
+/* Progress */
+.progress{position:fixed;top:0;left:0;height:3px;background:#2563eb;z-index:1000;transition:width .3s}
+
+.foot{font:400 11px/1.5 'Inter';color:#aaa;text-align:center;padding:20px}
+
+@media(max-width:600px){
+  .slide{padding:40px 20px}
+  .slide-title{font-size:20px}
+  .slide-body .pt-note{display:none}
+}
+@media print{
+  .slide{min-height:auto;page-break-after:always;border:none;padding:30px}
+  .nav,.progress{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+<div class="slide" id="s1">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 1</span>
+  <span class="slide-slot">Slot A | Prove a Number</span>
+</div>
+<h2 class="slide-title">₹32/bbl premium above break-even costs ₹750–965 crore daily with zero offset</h2>
+<p class="slide-subtitle">₹ crore/day; April 2026 basket pricing; PPAC formula, IOCL FY2024 throughput data, analyst sensitivity model</p>
+<div class="slide-body">
+  <div class="chart-wrap"><canvas id="ch-a1"></canvas></div>
+  
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: At $156/bbl Indian basket versus a ~$124/bbl break-even on frozen retail prices, IOCL and HMEL are burning ₹750–965 crore per day across four refineries with no self-financing path.</div>
+  <div class="slide-source">PPAC FY2024 supply statistics → IOCL Annual Report FY2024 throughput disclosures → analyst sensitivity model (₹160–180 crore/month per $1/bbl increment) → daily implied burn ₹750–965 crore; LPG gap from PPAC LPG price formula vs. import parity at $156/bbl</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s2">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 2</span>
+  <span class="slide-slot">Slot A | Prove a Number</span>
+</div>
+<h2 class="slide-title">Only 20–25% of crude supply is securable within 30 days in dual-shock scenario</h2>
+<p class="slide-subtitle">% of ~4.6–4.8 mbpd all-India intake; April 2026; PPAC FY2024, EIA Chokepoints 2024, Kpler/S&amp;P Global Q1 2025</p>
+<div class="slide-body">
+  <div class="chart-wrap"><canvas id="ch-a2"></canvas></div>
+  
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: Hormuz disruption removes 40–43%, sanctions expiry threatens additional 36–38%—up to 75–80% of supply simultaneously at risk in dual-shock scenario</div>
+  <div class="slide-source">PPAC FY2024 origin breakdown → EIA Chokepoints Report 2024 (Hormuz volume) → Kpler/S&amp;P Global Q1 2025 (Russian grade split) → analyst aggregation; West Africa/Americas residual from Kpler April 2025 spot availability</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s3">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 3</span>
+  <span class="slide-slot">Slot A | Prove a Number</span>
+</div>
+<h2 class="slide-title">IOCL&#x27;s ₹54,000–58,000 crore LC obligation exceeds bank headroom by 40–60%, default probable April 10–13</h2>
+<p class="slide-subtitle">₹ crore; 30-day LC cycle ending April 10–13; IOCL FY2024 annual report, SBI/BoB sectoral exposure extrapolation, G7 Price Cap framework</p>
+<div class="slide-body">
+  <div class="chart-wrap"><canvas id="ch-a3"></canvas></div>
+  
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: LC default structurally probable by April 10–13, triggering cross-default across ₹2,16,700 crore consolidated debt; every 24-hour delay in RBI dispensation or MoF sovereign backstop costs ₹750–965 cro</div>
+  <div class="slide-source">IOCL FY2024 Annual Report (throughput, financing disclosures) → SBI sectoral exposure extrapolation (LOW confidence, needs live confirmation) → EU Council Regulation 2022/1904 + OFAC FAQ #1025 (Russian payment channel block) → analyst derivation of LC cycle dates; cross-default quantum from consolidated PSU debt schedule</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s4">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 4</span>
+  <span class="slide-slot">Slot B | Prove a Claim</span>
+</div>
+<h2 class="slide-title">ADNOC Fujairah is the only sourcing track physically compatible with Bathinda&#x27;s 8–12 day shutdown window</h2>
+<p class="slide-subtitle">Days to breach vs. transit days by source; April 2026; EIA Chokepoints 2024, Turner &amp; Townsend 2022, HMEL sourcing structure</p>
+<div class="slide-body">
+  
+  <table><tbody><tr><td style="font:500 12px/1.4 'Inter';color:#555;padding:8px 12px;width:40%;border-bottom:1px solid #eee">key_caveat</td><td style="font:400 12px/1.4 'Inter';padding:8px 12px;border-bottom:1px solid #eee">ESPO blend (~475 kbd, Kozmino/Pacific routing) does not transit Hormuz and faces different sanctions risk than Urals. If HMEL has pre-built inventory using ESPO (standard risk management given known April 3 cliff), days-cover could exceed 15 days and this entire timeline collapses. HMEL operations room confirmation is the single most important data point in the crisis.</td></tr></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: Bathinda&#x27;s 80–85% single-supplier Russian crude dependency through one landlocked pipeline has zero viable re-routing within 8–12 days; the only physically deliverable non-Hormuz alternative—ADNOC Fuj</div>
+  <div class="slide-source">HMEL sourcing structure (Nayara/Vadinar pipeline dependency — Research C02, HIGH confidence) → PPAC supply security norms (15–21 days, HIGH confidence) → EIA Chokepoints Report 2024 (Fujairah capacity, HIGH confidence) → Turner &amp; Townsend 2022 (coker restart benchmarks, HIGH confidence) → Baltic Exchange/Platts transit times (HIGH confidence) → analyst timeline derivation</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s5">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 5</span>
+  <span class="slide-slot">Slot B | Prove a Claim</span>
+</div>
+<h2 class="slide-title">MRPL shutdown plus 20–30% panic demand pulls LPG safety stock breach 3–5 days forward to Day 5–7</h2>
+<p class="slide-subtitle">Days to breach 10-day safety stock; April 2026; HPCL AR FY2024, AAI Tender Documents 2023, PPAC demand data, IOCL Q1.14 hoarding analysis</p>
+<div class="slide-body">
+  
+  <table><tbody></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: LPG and ATF safety stocks in the Karnataka/Goa southern grid may exhaust within 5–7 days due to MRPL&#x27;s shutdown and active panic-buying running 20–30% above normal offtake.</div>
+  <div class="slide-source">HPCL AR FY2024 (LPG volume, HIGH confidence) → AAI Tender Documents 2023 (ATF sole-source, HIGH confidence) → Karnataka Petroleum Dealers Association/Business Standard March 2024 (HSD share, MEDIUM) → PPAC 2020 COVID demand spike (hoarding analogue, HIGH) → AIMTC 2022 (fleet hoarding, MEDIUM) → analyst scenario model combining supply loss + demand pull-forward</div>
+</div>
+</div>
+</div>
+<div class="slide" id="s6">
+<div class="slide-inner">
+<div class="slide-top">
+  <span class="slide-num">Appendix 6</span>
+  <span class="slide-slot">Slot D | Prove Executable</span>
+</div>
+<h2 class="slide-title">PMO written authority plus PC Act coverage is the only mechanism that unlocks procurement at crisis speed</h2>
+<p class="slide-subtitle">Decision authority gap analysis; April 2026; DPE procurement guidelines, PC Act Section 13(1)(d), COVID-19 Empowered Group precedent PIB March 2020</p>
+<div class="slide-body">
+  
+  <table><tbody><tr><td style="font:500 12px/1.4 'Inter';color:#555;padding:8px 12px;width:40%;border-bottom:1px solid #eee">sequencing</td><td style="font:400 12px/1.4 'Inter';padding:8px 12px;border-bottom:1px solid #eee">All three instruments (PMO written authority + MoF LC backstop + RBI dispensation) must be in writing before any procurement or banking action can execute — verbal assurance is insufficient because it does not remove PC Act liability or SBI over-limit hesitancy. The War Room constituted without these instruments is a coordination structure that produces decisions no one will sign.</td></tr></tbody></table>
+  
+</div>
+<div class="slide-bottom">
+  <div class="slide-claim">Proves: PMO-level written authority delegating IOCL Chairman procurement approval above ₹5,000 crore without case-by-case MoF concurrence—with explicit Prevention of Corruption Act coverage to remove behavior</div>
+  <div class="slide-source">DPE procurement guidelines (CPSE concurrence thresholds) → PC Act Section 13(1)(d) (criminal liability mechanism, HIGH confidence) → PIB COVID-19 Empowered Groups notification March 2020 (institutional precedent, HIGH confidence) → analyst behavioral assessment of PSU governance under PC Act exposure → IOCL Articles of Association requirement (DPE CPSE governance framework)</div>
+</div>
+</div>
+</div>
+
+
+<div class="slide" style="min-height:30vh">
+<div class="foot">Developed by Parth Reddy</div>
+</div>
+
+<div class="nav">
+<button class="nav-btn" onclick="go(-1)">&larr; Prev</button>
+<span class="nav-counter" id="ctr">1 / 6</span>
+<button class="nav-btn" onclick="go(1)">Next &rarr;</button>
+</div>
+
+<script>
+// Charts
+
+(function(){
+  var ctx = document.getElementById('ch-a1');
+  if(!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["Indian basket crude price", "Break-even retail price (frozen HSD/MS)", "Premium above break-even", "Incremental cash burn per dollar abov...", "Monthly under-recovery at $32/bbl pre...", "Daily cash burn (implied)", "LPG structural under-recovery (additive)", "Self-financing path at current retail..."],
+      datasets: [{
+        data: [156.0, 124.0, 32.0, 160.0, 5120.0, 750.0, 500.0, 0],
+        backgroundColor: ["#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb"],
+        borderRadius: 4,
+        barThickness: 20
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      
+        indexAxis: 'y',
+        
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        x: { ticks: { color: '#888', font: { family: 'Inter', size: 10 } }, grid: { color: 'rgba(0,0,0,.05)' } },
+        y: { ticks: { color: '#555', font: { family: 'Inter', size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+})();
+
+(function(){
+  var ctx = document.getElementById('ch-a2');
+  if(!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["Total all-India crude requirement", "Middle East (Saudi, UAE, Iraq, Kuwait...", "Russian crude (Urals + ESPO + Sokol) ...", "Combined at-risk volume (dual-shock)", "West Africa + Americas (unambiguously...", "Non-Hormuz UAE (Fujairah pipeline)", "Securable within 30 days from safe co..."],
+      datasets: [{
+        data: [4.6, 1.8, 1.75, 3.55, 550.0, 1.5, 20.0],
+        backgroundColor: ["#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb"],
+        borderRadius: 4,
+        barThickness: 20
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      
+        indexAxis: 'y',
+        
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        x: { ticks: { color: '#888', font: { family: 'Inter', size: 10 } }, grid: { color: 'rgba(0,0,0,.05)' } },
+        y: { ticks: { color: '#555', font: { family: 'Inter', size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+})();
+
+(function(){
+  var ctx = document.getElementById('ch-a3');
+  if(!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["IOCL 30-day crude payment obligation ...", "Estimated SBI + BoB sanctioned LC hea...", "Headroom breach at $156/bbl", "Russian crude payment channel block (...", "Dual-channel freeze (LC headroom brea...", "LC default trigger date (extrapolated)", "Cross-default exposure", "Cost of each 24-hour RBI/MoF delay"],
+      datasets: [{
+        data: [54000.0, 45000.0, 40.0, 19600.0, 3.0, 10.0, 216700.0, 750.0],
+        backgroundColor: ["#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb", "#2563eb"],
+        borderRadius: 4,
+        barThickness: 20
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      
+        indexAxis: 'y',
+        
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        x: { ticks: { color: '#888', font: { family: 'Inter', size: 10 } }, grid: { color: 'rgba(0,0,0,.05)' } },
+        y: { ticks: { color: '#555', font: { family: 'Inter', size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+})();
+
+</script>
+<script>
+const slides=document.querySelectorAll('.slide');
+const total=6;
+const prog=document.getElementById('prog');
+const ctr=document.getElementById('ctr');
+let cur=0;
+
+function go(d){
+  cur=Math.max(0,Math.min(total,cur+d));
+  slides[cur].scrollIntoView({behavior:'smooth'});
+}
+
+function update(){
+  let best=0;
+  slides.forEach((s,i)=>{
+    const r=s.getBoundingClientRect();
+    if(r.top<window.innerHeight*.5) best=i;
+  });
+  cur=best;
+  prog.style.width=((best+1)/(total+1)*100)+'%';
+  ctr.textContent=(best+1)+' / '+total;
+}
+
+window.addEventListener('scroll',update);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowRight') go(1);
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft') go(-1);
+});
+update();
+</script>
+</body>
+</html>
