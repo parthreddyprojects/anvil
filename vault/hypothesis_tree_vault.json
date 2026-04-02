@@ -282,6 +282,28 @@
     }
   ],
 
+  "GOOD_VS_BAD_STATEMENTS": {
+    "description": "A hypothesis statement is ONE CLAIM with ONE NUMBER. The reasoning, evidence, and caveats go in the sub-hypotheses and evidence fields — never in the statement itself.",
+    "governing_hypothesis": [
+      {"BAD": "The United States should execute a two-track 30-day diplomatic surge aimed at securing a narrow settlement window that closes structurally around April 16, combining explicit Israeli alignment on nuclear terms with a Pakistan-channeled framework delivery to Iran's provisional council, before China's competing proposal gains traction and the WPR clock expires", "WHY_BAD": "Packs the WHY (WPR clock, China's proposal, structural window) into the statement. Those are sub-hypotheses that belong in the tree below."},
+      {"GOOD": "The US should execute a two-track 30-day diplomatic initiative — obtain Israeli alignment and deliver a Pakistan-channeled framework by April 16", "WHY_GOOD": "States WHAT (two-track initiative), HOW (Israeli alignment + Pakistan framework), BY WHEN (April 16). The reasons WHY April 16 and whether each track is achievable are tested as sub-hypotheses."},
+      {"BAD": "Pioneer Bank can increase sales-force productivity by implementing a combination of administrative task outsourcing, lead generation improvement, and high-value product training across all branches within a 12-month horizon, given that current admin burden exceeds 40% of rep time and conversion rates lag industry benchmarks", "WHY_BAD": "Lists the solution AND the evidence inside the hypothesis. The solution branches are sub-hypotheses. The evidence belongs in test results."},
+      {"GOOD": "Pioneer Bank can increase sales-force productivity by 30% within 12 months by freeing selling time, improving conversion, and shifting to high-value products", "WHY_GOOD": "States the target (30%, 12 months) and the action levers. Whether each lever works is tested in sub-hypotheses below."}
+    ],
+    "primary_hypothesis": [
+      {"BAD": "The Hormuz Compact's three specific terms — 72-hour reversible sanctions relief, Strait toll conversion to escrow, and Majlis-first ratification — are each achievable given current factional dynamics in Tehran and Washington's leverage position", "WHY_BAD": "Packs the conditions (factional dynamics, leverage position) into the statement. Those are sub-hypotheses."},
+      {"GOOD": "The Hormuz Compact's three terms — sanctions relief, toll conversion, Majlis ratification — are achievable within 30 days", "WHY_GOOD": "Names the terms (WHAT) and the timeframe (BY WHEN). Whether each term is achievable given factions and leverage is tested below."},
+      {"BAD": "Alternative crude supply can reach the refinery before inventory runs out, assuming West African spot markets remain liquid and freight rates don't spike above $8/bbl, which would make the economics unviable", "WHY_BAD": "Packs the assumptions (market liquidity, freight rates) into the statement. Those are the testable sub-hypotheses."},
+      {"GOOD": "Alternative crude can arrive before inventory runs out at viable economics", "WHY_GOOD": "States the claim. Whether freight, liquidity, and voyage times work is tested as leaves."}
+    ],
+    "sub_hypothesis_leaf": [
+      {"BAD": "Pakistan is willing and able to serve as intermediary given its current diplomatic posture and bilateral relationships with both the US and Iran, as evidenced by recent diplomatic engagement", "WHY_BAD": "Includes the evidence in the statement. Evidence goes in the test results."},
+      {"GOOD": "The Pakistan back-channel is open and has delivered messages in the last 7 days", "WHY_GOOD": "One testable condition. One threshold (7 days). Evidence is separate."},
+      {"BAD": "Crack spreads will widen", "WHY_BAD": "No number. Not testable. Widen by how much?"},
+      {"GOOD": "Crack spreads widen by >$5/bbl from baseline within 14 days", "WHY_GOOD": "Specific number. Specific timeframe. You know exactly what kills it."}
+    ]
+  },
+
   "COMMON_MISTAKES": [
     "SUPPORTING ARGUMENTS, NOT CONDITIONS — 'Market research shows demand' is evidence, not a sub-hypothesis. The sub-hypothesis is 'Demand exceeds X units/year'",
     "TOO VAGUE TO TEST — 'The competitive landscape is favorable' is not testable. 'No competitor can match our cost within 18 months' is testable.",

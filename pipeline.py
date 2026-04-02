@@ -2356,6 +2356,7 @@ def step5_hypotheses(state, mece, working_doc, synthesis, feedback=None):
     vault_conditions = json.dumps(HYP_VAULT.get("DECOMPOSITION_METHOD", {}).get("types_of_necessary_conditions", []), indent=2, ensure_ascii=False)
     vault_quality = json.dumps(HYP_VAULT.get("QUALITY_CHECKS", {}).get("five_tests_for_each_hypothesis", []), indent=2, ensure_ascii=False)
     vault_mistakes = json.dumps(HYP_VAULT.get("COMMON_MISTAKES", []), indent=2, ensure_ascii=False)
+    vault_examples = json.dumps(HYP_VAULT.get("GOOD_VS_BAD_STATEMENTS", {}), indent=2, ensure_ascii=False)
 
     hyp_dir = state.dir / "hypotheses"
     hyp_dir.mkdir(exist_ok=True)
@@ -2379,6 +2380,12 @@ The governing hypothesis must:
 3. Be testable — you could prove it wrong with data
 4. Be non-obvious — the opposite must also be plausible
 5. Point to a specific action
+6. Be ONE SENTENCE — no semicolons, no dashes packing multiple ideas, no embedded reasoning
+
+BAD: "The US should execute a two-track 30-day diplomatic surge aimed at securing a narrow settlement window that closes structurally around April 16, before China's competing proposal gains traction and the WPR clock expires"
+GOOD: "The US should execute a two-track 30-day diplomatic initiative — obtain Israeli alignment and deliver a Pakistan-channeled framework by April 16"
+
+The governing hypothesis states WHAT (the action), HOW (the levers), and BY WHEN (the deadline). The WHY and whether each piece is achievable live in the sub-hypotheses below.
 
 Today is {TODAY_STR}.
 
@@ -2435,6 +2442,11 @@ QUALITY CHECKS:
 
 COMMON MISTAKES TO AVOID:
 {vault_mistakes}
+
+STATEMENT STYLE — study these examples carefully:
+{vault_examples}
+
+A statement is ONE CLAIM with ONE NUMBER. The reasoning, evidence, and caveats go in sub-hypotheses and evidence fields — NEVER in the statement.
 
 Generate 3-5 primary hypotheses, each with 2-4 sub-hypotheses (leaves). Two levels deep is enough.
 
