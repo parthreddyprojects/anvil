@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#FAFAFA; padding:40px; display:flex; flex-direction:column; align-items:center; gap:24px; }
+
+  .example {
+    background:#FFFFFF;
+    border:1px solid #E5E7EB;
+    border-left:4px solid #C97800;
+    border-radius:0 10px 10px 0;
+    padding:32px 36px;
+    max-width:860px;
+    width:100%;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+  }
+
+  .ex-num {
+    font:600 11px 'IBM Plex Mono';
+    letter-spacing:3px;
+    color:#999;
+    margin-bottom:8px;
+  }
+  .ex-title {
+    font:700 18px 'Inter';
+    color:#1a1a1a;
+    margin-bottom:6px;
+  }
+  .ex-ps {
+    font:400 14px/1.6 'Inter';
+    color:#777;
+    font-style:italic;
+    margin-bottom:14px;
+  }
+  .ex-day1 {
+    font:400 14px/1.6 'Inter';
+    color:#C97800;
+    background:rgba(201,120,0,0.05);
+    padding:12px 16px;
+    border-radius:6px;
+    margin-bottom:18px;
+  }
+  .ex-day1 strong { font-weight:700; }
+
+  .ex-result {
+    font:400 15px/1.7 'Inter';
+    color:#444;
+    margin-bottom:12px;
+  }
+
+  .ex-kills {
+    font:600 14px 'IBM Plex Mono';
+    color:#DC2626;
+    margin-bottom:14px;
+  }
+
+  .ex-revised {
+    font:500 15px/1.6 'Inter';
+    color:#1a1a1a;
+    border-left:3px solid #C97800;
+    padding:14px 18px;
+    background:rgba(201,120,0,0.04);
+    border-radius:0 6px 6px 0;
+  }
+  .ex-revised-label {
+    font:700 10px 'IBM Plex Mono';
+    letter-spacing:2px;
+    color:#C97800;
+    margin-bottom:4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="example">
+  <div class="ex-num">NVIDIA</div>
+  <div class="ex-title">Defending the AI Infrastructure Monopoly</div>
+  <div class="ex-ps">What must NVIDIA do in the next 12 months as AMD, custom silicon, and open-source inference erode its moat?</div>
+  <div class="ex-day1"><strong>DAY 1:</strong> Bundle DGX Cloud, NIM, and CUDA into 3-year AI factory contracts, locking 50+ Fortune 500 accounts before hyperscaler custom silicon ships externally.</div>
+  <div class="ex-result">The "lock customers in" thesis was killed &mdash; hyperscalers already have custom silicon in production and NVIDIA's software platform couldn't generate defensible lock-in independent of GPU hardware advantage.</div>
+  <div class="ex-kills">4 of 8 branches killed</div>
+  <div class="ex-revised">
+    <div class="ex-revised-label">REVISED</div>
+    Ship Vera Rubin to hyperscalers by Q4 2025, price below custom ASIC TCO at scale, and accept software margin loss to hold training dominance.
+  </div>
+</div>
+
+<div class="example">
+  <div class="ex-num">EUROPEAN AUTOMAKERS</div>
+  <div class="ex-title">Surviving the Chinese EV Price War</div>
+  <div class="ex-ps">What actions must European automakers take in the next 18 months &mdash; restructure manufacturing, partner with Chinese battery suppliers, or retreat to luxury?</div>
+  <div class="ex-day1"><strong>DAY 1:</strong> Abandon mass-market EVs entirely, cede the sub-&euro;35K segment to BYD and SAIC, concentrate on luxury EVs and autonomous driving.</div>
+  <div class="ex-result">The "retreat to luxury" thesis was partially killed &mdash; the luxury segment can't absorb redirected capital (Mercedes EQS sales dropped 50%), and ceding sub-&euro;35K triggers a volume death spiral that destroys supplier economics.</div>
+  <div class="ex-kills">6 of 10 branches killed</div>
+  <div class="ex-revised">
+    <div class="ex-revised-label">REVISED</div>
+    Exit sub-&euro;35K, partner with Chinese tech firms on software stacks, defend &euro;35K-55K mid-market with platform-shared EVs.
+  </div>
+</div>
+
+<div class="example">
+  <div class="ex-num">WORKDAY</div>
+  <div class="ex-title">Defending HCM Dominance</div>
+  <div class="ex-ps">What must Workday do in the next 18 months as Rippling commoditizes core HR/payroll and buyers demand AI-first workflows?</div>
+  <div class="ex-day1"><strong>DAY 1:</strong> Acquire 2-3 AI-native workflow companies, rebuild core platform around agent-based automation by Q3 2027, convert to per-outcome pricing.</div>
+  <div class="ex-result">The most aggressive stress-test. Acquisitions unaffordable (40-60x revenue). Platform rebuild unrealistic (18 months on a 20-year codebase). Per-outcome pricing had no actuarial basis. Only one branch survived: the unified HCM-finance data layer.</div>
+  <div class="ex-kills">13 of 14 branches killed</div>
+  <div class="ex-revised">
+    <div class="ex-revised-label">REVISED</div>
+    Instrument the data layer with measurable customer-specific metrics and sell the data advantage, not the workflow.
+  </div>
+</div>
+
+</body>
+</html>

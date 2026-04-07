@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#FAFAFA; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:40px; }
+
+  .card {
+    background:#FFFFFF;
+    border-left:4px solid #C97800;
+    border-radius:0 12px 12px 0;
+    padding:36px 40px;
+    max-width:860px;
+    width:100%;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+  }
+
+  .section-head {
+    font:700 15px 'Inter';
+    color:#C97800;
+    margin-bottom:16px;
+  }
+
+  ul {
+    padding-left:20px;
+    margin-bottom:24px;
+  }
+  li {
+    font:400 14px/1.7 'Inter';
+    color:#444;
+    margin-bottom:10px;
+  }
+  li strong { color:#1a1a1a; font-weight:600; }
+
+  .divider {
+    border:none;
+    border-top:1px solid #E5E7EB;
+    margin:24px 0;
+  }
+
+  .conditions {
+    list-style:none;
+    padding:0;
+  }
+  .conditions li {
+    font:500 14px/1.6 'Inter';
+    color:#555;
+    padding-left:24px;
+    position:relative;
+    margin-bottom:8px;
+  }
+  .conditions li::before {
+    content:'';
+    position:absolute;
+    left:0;
+    top:8px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    border:2px solid #C97800;
+    background:transparent;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="section-head">Challenges to your hypothesis</div>
+  <ul>
+    <li><strong>DGX Cloud already bundles hardware + software + managed inference.</strong> If the pivot is "sell AI factories," the question is why the existing bundle isn't locking customers in. Azure and GCP offer NVIDIA hardware with their own orchestration layers — the lock-in may be at the cloud layer, not the chip layer.</li>
+    <li><strong>Hyperscaler custom silicon is already in production.</strong> Google TPU v6 and Amazon Trainium2 are running internal workloads now. Q3 2027 may be the date they reach external customers, but the competitive pressure on NVIDIA's margins starts today.</li>
+    <li><strong>Open-source inference is closing the software gap faster than expected.</strong> vLLM and TGI are reducing the performance premium that makes TensorRT-LLM a lock-in lever. Bundling software that competitors can replicate is not a durable moat.</li>
+  </ul>
+
+  <hr class="divider">
+
+  <div class="section-head">For this hypothesis to hold, these must be true</div>
+  <ul class="conditions">
+    <li>Enterprise buyers prefer single-vendor AI stacks over best-of-breed</li>
+    <li>CUDA and NIM switching costs survive hardware commoditization</li>
+    <li>Custom silicon doesn't reach price-performance parity for fine-tuning before Q3 2027</li>
+  </ul>
+</div>
+</body>
+</html>

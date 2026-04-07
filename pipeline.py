@@ -285,7 +285,15 @@ class State:
                 "audience": self.data.get("audience", ""),
                 "created": self.data.get("created", ""),
                 "run_dir": str(self.dir.name) if hasattr(self, 'dir') else "",
+                "updated_at": datetime.now().isoformat(),
             }
+
+            # Mode
+            mode = self.data.get("mode", "issue-driven")
+            stats["mode"] = mode
+            if mode == "hypothesis-driven":
+                stats["user_hypothesis"] = self.data.get("user_hypothesis", "")[:200]
+                stats["locked_governing"] = self.data.get("locked_governing", "")[:200]
 
             # Add enriched stats from files
             mece_path = self.data.get("mece_path", "")
@@ -382,11 +390,15 @@ class State:
             if spend > 0:
                 stats["spend"] = f"{spend:.2f}"
 
-            # Inject state into HTML
+            # Write state to separate JS file (dashboard loads via <script src>)
             state_js = f"var ANVIL_STATE = {json.dumps(stats, ensure_ascii=False)};"
+            state_js_path = ROOT / "dashboard_state.js"
+            state_js_path.write_text(state_js, encoding="utf-8")
+
+            # Also inject inline for backwards compat
             import re
             html = re.sub(
-                r'var ANVIL_STATE = .*?;',
+                r'var ANVIL_STATE = .*',
                 state_js,
                 html
             )
@@ -666,15 +678,15 @@ DOC_VAULT = load_vault("final_doc_vault")
 # STEP 0: Problem Statement
 # ---------------------------------------------------------------------------
 
-def step0(state, autopilot=False):
+def step0(state, autopilot=False, hypothesis_mode=False):
     progress_bar(0)
 
     # If topic is already set (from --topic flag), skip interactive prompts
     ps_text = state.get("topic", "")
     context = ""
 
-    if ps_text and autopilot:
-        # Autopilot with --topic: skip prompts entirely
+    if ps_text:
+        # Topic provided via --topic: show it, don't re-ask
         print(f"  {C.BOLD}Problem statement loaded from arguments.{C.R}\n")
     else:
         # Interactive: ask for input
@@ -716,36 +728,150 @@ def step0(state, autopilot=False):
         if mode == "2":
             autopilot = True
 
-    # Autopilot disclaimer
-    if autopilot:
-        print(f"""  {C.YELLOW}{C.BOLD}AUTOPILOT MODE{C.R}
-  {C.DIM}{'_'*50}{C.R}
+    # Pipeline disclaimer
+    mode_name = "HYPOTHESIS-DRIVEN" if hypothesis_mode else "ISSUE-DRIVEN"
+    pace_name = "AUTOPILOT" if autopilot else "GUIDED"
 
-  The pipeline will now run end-to-end without stopping.
-  Here's what will happen:
+    if hypothesis_mode:
+        pipeline_line = f"PS → Landscape → Challenge → Decompose → Deep Test → Brief → Charts"
+        if autopilot:
+            print(f"""
+  {C.BOLD}{'='*55}{C.R}
+  {C.YELLOW}{C.BOLD}{mode_name} — {pace_name}{C.R}
+  {C.BOLD}{'='*55}{C.R}
 
-    1. Break your problem into MECE sub-questions
-    2. Generate an issue tree diagram
-    3. Research each sub-question using public knowledge
-       {C.DIM}(proprietary/expert data will be flagged as LOW confidence){C.R}
-    4. Compile a detailed working document
-    5. Extract findings, detect cross-cutting patterns, derive inferences
-    6. Generate testable hypotheses that answer your problem statement
-    7. Stress-test hypotheses (contrarian review + diagnosticity check)
-    8. Write a 3-5 page strategic document with appendix slides
+  {C.BOLD}Pipeline:{C.R}
+  {C.AMBER}{pipeline_line}{C.R}
 
-  {C.YELLOW}What to know:{C.R}
-    - Research uses live web search + full article fetch (120+ snippets, 12+ articles)
-    - Proprietary/internal data won't be included unless you inject files
-    - No human review of intermediate outputs in autopilot
-    - Hypotheses may remain UNCERTAIN without internal evidence
-    - Use interactive mode if you want to steer at each step
+  {C.BOLD}What will happen:{C.R}
+    {C.GREEN}1.{C.R} Problem statement — challenge framing, lock decision sensitivity
+    {C.GREEN}2.{C.R} Landscape scan — read the web before testing
+    {C.GREEN}3.{C.R} Challenge your Day 1 answer using landscape findings
+    {C.GREEN}4.{C.R} Decompose into necessary conditions
+    {C.GREEN}5.{C.R} Deep targeted search on EVERY leaf — more queries, full articles
+    {C.GREEN}6.{C.R} Stress test, kill propagation, iterate until stable
+    {C.GREEN}7.{C.R} Final brief + appendix from survivors
 
-  {C.DIM}Estimated time: 5-15 minutes depending on complexity{C.R}
+  {C.BOLD}What to know:{C.R}
+    {C.DIM}• Skips MECE, broad research, working doc, synthesis{C.R}
+    {C.DIM}• Your hypothesis gets stress-tested, not rubber-stamped{C.R}
+    {C.DIM}• Deep search on ALL leaves, not just uncertain ones{C.R}
+
+  {C.BOLD}Estimated:{C.R} ~10 min  |  ~$1-2 API cost
+  {C.BOLD}{'='*55}{C.R}
+""")
+        else:
+            print(f"""
+  {C.BOLD}{'='*55}{C.R}
+  {C.CYAN}{C.BOLD}{mode_name} — {pace_name}{C.R}
+  {C.BOLD}{'='*55}{C.R}
+
+  {C.BOLD}Pipeline:{C.R}
+  {C.AMBER}{pipeline_line}{C.R}
+
+  {C.BOLD}You steer at every checkpoint:{C.R}
+    {C.CYAN}1.{C.R} Problem statement — iterate until framing is sharp
+    {C.CYAN}2.{C.R} Hypothesis challenge — accept, revise, or reject the sharpened version
+    {C.CYAN}3.{C.R} Hypothesis tree — review decomposition, add your own conditions
+    {C.CYAN}4.{C.R} Deep search results — review evidence, inject internal data
+    {C.CYAN}5.{C.R} Final brief — sharpen with specific feedback
+    {C.CYAN}6.{C.R} Appendix — review proof charts
+
+  {C.BOLD}What to know:{C.R}
+    {C.DIM}• Challenge step ALWAYS runs — Claude pushes back on your hypothesis{C.R}
+    {C.DIM}• You review the sharpened hypothesis before decomposition{C.R}
+    {C.DIM}• Deep search on ALL leaves, not just uncertain ones{C.R}
+
+  {C.BOLD}Estimated:{C.R} ~10-15 min  |  ~$1-2 API cost
+  {C.BOLD}{'='*55}{C.R}
+""")
+    elif autopilot:
+        print(f"""
+  {C.BOLD}{'='*55}{C.R}
+  {C.YELLOW}{C.BOLD}{mode_name} — {pace_name}{C.R}
+  {C.BOLD}{'='*55}{C.R}
+
+  {C.BOLD}Pipeline:{C.R}
+  {C.AMBER}PS → MECE → Research → Working Doc → Synthesis → Hypothesis Tree → Brief → Charts{C.R}
+
+  {C.BOLD}What will happen:{C.R}
+    {C.GREEN}1.{C.R} Problem statement — challenge framing, lock decision sensitivity
+    {C.GREEN}2.{C.R} MECE decomposition — 4-10 buckets, 5-8 questions each
+    {C.GREEN}3.{C.R} Deep research — ~120 queries, ~50 articles from live web search
+    {C.GREEN}4.{C.R} Working document + research debrief
+    {C.GREEN}5.{C.R} Synthesis — findings → patterns → inferences across all buckets
+    {C.GREEN}6.{C.R} Hypothesis tree — decompose into necessary conditions, test at
+       leaves (GREEN/AMBER/RED), kill propagation, iterate until stable
+    {C.GREEN}7.{C.R} Final brief — 3-5 pages, sourced claims, decisions with deadlines
+    {C.GREEN}8.{C.R} Appendix — proof charts, one claim = one chart
+
+  {C.BOLD}What to know:{C.R}
+    {C.DIM}• Research: live web search + full article fetch (not LLM knowledge){C.R}
+    {C.DIM}• Hypothesis testing: iterative tree with targeted gap research{C.R}
+    {C.DIM}• Proprietary data not included unless you inject files{C.R}
+    {C.DIM}• No human review in autopilot — use guided mode to steer{C.R}
+
+  {C.BOLD}Estimated:{C.R} ~20 min  |  ~$2-3 API cost  |  ~45 LLM calls
+  {C.BOLD}{'='*55}{C.R}
+""")
+    else:
+        print(f"""
+  {C.BOLD}{'='*55}{C.R}
+  {C.CYAN}{C.BOLD}{mode_name} — {pace_name}{C.R}
+  {C.BOLD}{'='*55}{C.R}
+
+  {C.BOLD}Pipeline:{C.R}
+  {C.AMBER}PS → MECE → Research → Working Doc → Synthesis → Hypothesis Tree → Brief → Charts{C.R}
+
+  {C.BOLD}You steer at every checkpoint:{C.R}
+    {C.CYAN}1.{C.R} Problem statement — iterate with Claude until framing is sharp
+    {C.CYAN}2.{C.R} MECE decomposition — add/remove buckets, flag overlap
+    {C.CYAN}3.{C.R} Research — inject proprietary data, internal reports
+    {C.CYAN}4.{C.R} Research debrief — correct numbers, add context
+    {C.CYAN}5.{C.R} Synthesis — spot connections Claude missed
+    {C.CYAN}6.{C.R} Hypothesis tree — add your own hypotheses, provide kill evidence,
+       upgrade AMBER verdicts with internal data
+    {C.CYAN}7.{C.R} Final brief — sharpen with specific feedback
+    {C.CYAN}8.{C.R} Appendix — review proof charts
+
+  {C.BOLD}What to know:{C.R}
+    {C.DIM}• Claude pauses after each step — you review and approve{C.R}
+    {C.DIM}• Inject files at step 3 for HIGH confidence evidence{C.R}
+    {C.DIM}• Your input upgrades AMBER leaves to GREEN in the hypothesis tree{C.R}
+    {C.DIM}• Feedback at any step actually changes the output{C.R}
+
+  {C.BOLD}Estimated:{C.R} ~20-30 min  |  ~$2-3 API cost  |  ~45 LLM calls
+  {C.BOLD}{'='*55}{C.R}
 """)
 
     # Step 1: Problem Statement Worksheet (6-component framework)
-    print(f"  {C.GREEN}Building Problem Statement Worksheet...{C.R}\n")
+    print(f"  {C.GREEN}Building Problem Statement Worksheet (v2 — two-step PS preservation)...{C.R}\n")
+
+    # Build the basic_question FIRST — before the full worksheet — to ensure the user's framing is preserved
+    preserved_question = llm(
+        f"""The user gave you a raw problem statement. Your ONLY job: clean it up into a well-formed question.
+
+RULES — FOLLOW EXACTLY:
+1. KEEP the user's verb: if they said "what actions must" → you write "What actions must". If they said "what should X do" → you write "What should X do".
+2. KEEP every dimension they mentioned: if they said "business model, talent, partnerships" → all three appear in your output.
+3. You may ADD a timeframe if missing, ADD the audience if missing, FIX grammar.
+4. You may NOT change the verb, drop dimensions, or rephrase into a different question.
+5. Maximum 1-2 sentences.
+
+FORBIDDEN REWRITES:
+- "What actions must X take" → "How should X position itself" (WRONG — changed verb)
+- "What actions must X take" → "How will Y reshape X" (WRONG — changed subject and made it passive)
+- "restructure business model, talent, partnerships" → "maximize commercial value" (WRONG — dropped dimensions)
+
+USER'S RAW INPUT: {ps_text}
+
+Return ONLY the cleaned question, nothing else.""",
+        f"Clean up: {ps_text}",
+        model=SONNET, max_tokens=256
+    )
+    # Strip quotes if the LLM wrapped it
+    preserved_question = preserved_question.strip().strip('"').strip("'")
+    print(f"  {C.DIM}Preserved question: {preserved_question[:150]}{C.R}")
 
     smart = llm_json(
         f"""You are a senior engagement manager completing the Problem Statement Worksheet.
@@ -753,24 +879,16 @@ Today is {TODAY_STR}.
 
 The human has given you a raw problem statement and optional context. Your job is to complete ALL 6 components of the Problem Statement Worksheet.
 
+CRITICAL: The basic_question has ALREADY BEEN WRITTEN for you. Use it EXACTLY as provided. Do NOT rewrite it.
+
+basic_question (USE THIS EXACTLY): "{preserved_question}"
+
 ═══════════════════════════════════════════════════════
 PROBLEM STATEMENT WORKSHEET (6 COMPONENTS)
 ═══════════════════════════════════════════════════════
 
 1. BASIC QUESTION TO BE RESOLVED
-   Keep it BROAD, ACTION-ORIENTED, and SHORT (1-2 sentences max).
-   - Name who, what domain, and the timeframe. That's it.
-   - Do NOT pack metrics, thresholds, or success criteria into the question — those go in section 3.
-   - The question should leave room for the research to discover what matters.
-   - CRITICAL: Frame the question to capture BOTH defensive moves AND offensive opportunities. Every threat creates an opportunity for someone. The question must be open enough to find both.
-   - Do NOT use one-sided framing like "protect against", "defend from", "respond to". Use neutral framing like "what should X do" or "how should X position itself" — let the research determine whether the answer is defensive, offensive, or both.
-
-   GOOD: "What should Reliance do in the next 30 days given the active closure of the Strait of Hormuz?"
-   GOOD: "How should this mid-market B2B SaaS company position itself over the next 1-3 years as AI reshapes its market?"
-   GOOD: "What must OpenAI do in the next 12-18 months as foundation models commoditize?"
-   BAD: "What must Reliance do to PROTECT its operations from the Hormuz closure?" (one-sided — misses the opportunity to capture margin from weaker competitors)
-   BAD: "What specific combination of product, pricing, and GTM moves must the company execute to defend 90% of ARR..." (way too specific — you've answered the question before researching it)
-   BAD: "How should the company restructure its division?" (too narrow, prescribes the answer)
+   ALREADY PROVIDED ABOVE. Copy it into the basic_question field VERBATIM. Do NOT modify it.
 
 2. CONTEXT
    The situation and complication facing the client:
@@ -899,21 +1017,29 @@ Return JSON:
         challenge = llm(
             f"""You are a senior engagement manager reviewing a problem statement before committing a team to research it. Today is {TODAY_STR}.
 
-Your job: find the weaknesses in this framing and challenge them. Be direct and specific.
+Your job: find weaknesses in this framing and challenge them. Be direct and specific.
 
-CHECK THESE 5 THINGS:
-1. ONE-SIDED FRAMING: Does it assume defense/protection when offense/opportunity exists? ("protect against X" should be "optimize position given X")
-2. PREMATURE SPECIFICITY: Does it name a specific solution? ("should we acquire X" should be "what's the best path to scale in market Y")
-3. MISSING TIMEFRAME: Is there a clear deadline or decision horizon?
-4. MISSING DECISION-MAKER: Is it clear who acts on this?
-5. TESTABLE BREAK POINT: Is the decision sensitivity specific enough to actually flip the answer?
+IMPORTANT: Do NOT suggest rewriting the problem statement. Do NOT propose a "sharpened version." Your job is to CHALLENGE, not rewrite. The user will decide if changes are needed.
 
-For each issue you find, state the problem and suggest a fix.
-If the framing is strong, say so — don't manufacture problems.
+THINGS THAT ARE FINE — DO NOT FLAG THESE AS ISSUES:
+- "What actions must X take" — this is action-oriented, GOOD framing
+- Naming specific dimensions (business model, talent, partnerships) — this is well-scoped, NOT premature specificity
+- "Restructure" as a verb — this is the user's framing, respect it
 
-Keep your response to 3-6 sentences. Direct. No pleasantries.""",
+THINGS THAT ARE ACTUAL PROBLEMS — ONLY FLAG THESE:
+1. Truly one-sided: ONLY mentions threats, zero space for opportunities (e.g., "protect against" with no room for "or exploit")
+2. Names a specific SOLUTION (e.g., "should we acquire Company X") — this is different from naming dimensions to analyze
+3. Missing timeframe
+4. Missing decision-maker — who specifically acts on this?
+5. Weak break point — is the decision sensitivity specific enough to flip the answer?
+
+Do NOT suggest making the question more exploratory or open-ended. Specific, action-oriented questions produce better analysis than vague ones.
+
+If the framing is strong, say so in one sentence. Don't manufacture problems.
+
+Keep your response to 2-4 sentences. Direct. No pleasantries. No rewrite suggestions.""",
             f"PROBLEM STATEMENT: {smart_ps}\nDECISION SENSITIVITY: {sens}\nAUDIENCE: {state.get('audience', '')}",
-            model=HAIKU
+            model=SONNET
         )
 
         print(f"  {C.BOLD}{'='*55}{C.R}")
@@ -965,6 +1091,67 @@ Return the COMPLETE revised JSON (same format as above).""",
         else:
             print(f"  {C.GREEN}Proceeding with current framing.{C.R}\n")
 
+    # ── USER DATA INJECTION (before landscape scan) ──
+    # In guided mode: ask user if they have data. In autopilot: silently check inputs/ folder.
+    user_data_context = ""
+    input_dir = state.dir / "inputs" / "research"
+    input_dir.mkdir(parents=True, exist_ok=True)
+
+    if not autopilot:
+        # Guided mode: ask user if they have data to inject
+        print(f"  {C.BOLD}Do you have internal data for this analysis?{C.R}")
+        print(f"    {C.BOLD}A{C.R}  No — proceed with public sources only")
+        print(f"    {C.BOLD}B{C.R}  Yes — I'll drop files in: {C.BLUE}{input_dir}{C.R}")
+        print(f"    {C.BOLD}C{C.R}  Yes — I'll paste key data points here")
+        print()
+        try:
+            data_choice = input(f"  {C.YELLOW}Choose [A/B/C]: {C.R}").strip().upper()
+        except (EOFError, KeyboardInterrupt):
+            data_choice = "A"
+
+        if data_choice == "B":
+            print(f"\n  {C.DIM}Drop files in: {input_dir}{C.R}")
+            print(f"  {C.DIM}Supported: .txt, .md, .csv, .json, .pdf{C.R}")
+            print(f"  {C.DIM}Press Enter when done.{C.R}")
+            try:
+                input(f"  {C.YELLOW}[Enter when files are ready] {C.R}")
+            except (EOFError, KeyboardInterrupt):
+                pass
+            files = scan_inputs(state.dir, "research")
+            if files:
+                print(f"  {C.GREEN}Extracting from {len(files)} file(s)...{C.R}")
+                extracted = extract_from_files(files)
+                if extracted:
+                    user_data_context = "\n\nUSER-PROVIDED DATA (HIGH confidence — treat as primary source):\n"
+                    user_data_context += "\n".join(f"From {d['file']}:\n{d['findings']}" for d in extracted)
+                    state.set("user_data_injected", True)
+                    print(f"  {C.GREEN}{len(extracted)} file(s) extracted — will inform landscape scan, challenge, and testing.{C.R}\n")
+        elif data_choice == "C":
+            print(f"\n  {C.DIM}Paste your data points (type 'done' on a new line when finished):{C.R}")
+            lines = []
+            while True:
+                try:
+                    line = input(f"  {C.YELLOW}> {C.R}")
+                except (EOFError, KeyboardInterrupt):
+                    break
+                if line.strip().lower() == "done":
+                    break
+                lines.append(line)
+            if lines:
+                pasted = "\n".join(lines)
+                user_data_context = f"\n\nUSER-PROVIDED DATA (HIGH confidence — treat as primary source):\n{pasted}"
+                state.set("user_data_injected", True)
+                # Also save to file for resume
+                (input_dir / "user_pasted_data.txt").write_text(pasted, encoding="utf-8")
+                print(f"  {C.GREEN}Data captured — will inform landscape scan, challenge, and testing.{C.R}\n")
+        else:
+            print(f"  {C.GREEN}Proceeding with public sources only.{C.R}\n")
+
+    # Save user data context for downstream steps
+    if user_data_context:
+        (state.dir / "inputs" / "user_data_context.md").write_text(user_data_context, encoding="utf-8")
+        state.set("user_data_path", str(state.dir / "inputs" / "user_data_context.md"))
+
     # Step 1.5: Broad Research Scan — read the landscape BEFORE generating MECE
     # Cache-aware: skip if landscape data already exists
     cached_landscape_path = state.dir / "landscape_scan" / "landscape.json"
@@ -973,7 +1160,7 @@ Return the COMPLETE revised JSON (same format as above).""",
         landscape = json.load(open(cached_landscape_path, encoding="utf-8"))
     else:
         print(f"  {C.GREEN}Broad research scan — reading the landscape before decomposition...{C.R}")
-        landscape = _broad_research_scan(smart_ps, ctx, state)
+        landscape = _broad_research_scan(smart_ps, ctx + user_data_context, state)
     current_events = landscape.get("events", [])
     landscape_summary = landscape.get("summary", "")
 
@@ -986,6 +1173,33 @@ Return the COMPLETE revised JSON (same format as above).""",
         print()
     else:
         print(f"  {C.DIM}No landscape data found{C.R}\n")
+
+    # ── HYPOTHESIS-DRIVEN MODE: early exit after landscape scan ──
+    if hypothesis_mode:
+        # Return minimal mece with just the PS fields — no sections, no MECE
+        minimal_mece = {
+            "smart_statement": smart_ps,
+            "decision_sensitivity": sens,
+            "original_input": ps_text,
+            "sections": [],  # no MECE buckets in hypothesis-driven mode
+        }
+        if context:
+            minimal_mece["context"] = context
+
+        mece_dir = state.dir / "mece"
+        mece_dir.mkdir(exist_ok=True)
+        json.dump(minimal_mece, open(mece_dir / "decomposition.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+        state.set("mece_path", str(mece_dir / "decomposition.json"))
+
+        summary = f"""  {C.BOLD}Basic Question:{C.R}
+  {C.CYAN}{smart_ps[:400]}{C.R}
+
+  {C.BOLD}Break point:{C.R} {sens[:200]}
+
+  {C.YELLOW}{C.BOLD}HYPOTHESIS-DRIVEN MODE{C.R}
+  {C.DIM}Skipping MECE decomposition — going straight to hypothesis testing.{C.R}"""
+
+        return summary, minimal_mece, autopilot
 
     # Step 2: Generate MECE — informed by the landscape scan
     # Step 2a: Generate JUST the bucket titles
@@ -2332,7 +2546,7 @@ Return JSON:
 # Load hypothesis tree vault
 HYP_VAULT = load_vault("hypothesis_tree_vault")
 
-def step5_hypotheses(state, mece, working_doc, synthesis, feedback=None):
+def step5_hypotheses(state, mece, working_doc, synthesis, feedback=None, autopilot=False, deep_research=False, locked_governing=None):
     print(f"  {C.GREEN}Building hypothesis tree (iterative)...{C.R}")
 
     # Check for human-dropped hypothesis files
@@ -2366,54 +2580,61 @@ def step5_hypotheses(state, mece, working_doc, synthesis, feedback=None):
     # ════════════════════════════════════════════
     # PHASE 1: Form the Day 1 governing hypothesis
     # ════════════════════════════════════════════
-    print(f"    {C.DIM}Phase 1: Forming Day 1 governing hypothesis...{C.R}")
-    day1 = llm_json(
-        f"""You are a senior strategist forming the "Day 1 answer" — your best hypothesis for the answer to the problem statement BEFORE deep testing.
+    if locked_governing:
+        # Hypothesis-driven mode: use the user's locked hypothesis
+        governing = locked_governing
+        print(f"    {C.DIM}Phase 1: Using locked governing hypothesis (hypothesis-driven mode){C.R}")
+        print(f"    {C.BOLD}Locked: {governing[:120]}{C.R}")
+    else:
+        print(f"    {C.DIM}Phase 1: Forming Day 1 governing hypothesis...{C.R}")
+        day1 = llm_json(
+            f"""You are a senior strategist forming the "Day 1 answer" — your best hypothesis for the answer to the problem statement BEFORE deep testing.
 
 Read the synthesis (findings, patterns, inferences) and form ONE governing hypothesis: a single sentence that directly answers the problem statement.
 
 This is your starting point, not your final answer. It will be decomposed, tested, and potentially revised.
 
+THE MOST IMPORTANT RULE: The hypothesis must ANSWER THE QUESTION THAT WAS ASKED.
+
+Read the problem statement carefully. If it asks "what actions", name the actions. If it asks "which assets to double down on vs divest", name them. If it asks "how to restructure X, Y, and Z", address X, Y, and Z. A hypothesis that answers a DIFFERENT, SIMPLER question than the one asked is a failure — even if it sounds smart.
+
+TEST: Could someone read ONLY your hypothesis and know the specific answer to the PS? If not, rewrite.
+
 The governing hypothesis must:
-1. DIRECTLY answer the problem statement
-2. Include a specific number, threshold, or timeframe
-3. Be testable — you could prove it wrong with data
-4. Be non-obvious — the opposite must also be plausible
-5. Point to a specific action
-6. Be ONE SENTENCE — no semicolons, no dashes packing multiple ideas, no embedded reasoning
+1. DIRECTLY answer EVERY PART of the problem statement — if the PS has multiple parts, the hypothesis addresses all of them
+2. Name SPECIFIC actions, assets, or choices — not directions ("shift to X") but moves ("do A, B, C")
+3. Include a specific number, threshold, or timeframe
+4. Be testable — you could prove it wrong with data
+5. Be non-obvious — the opposite must also be plausible
+6. Be 1-2 SENTENCES — maximum 30 words total. No subordinate clauses, no embedded reasoning.
+7. State WHAT (specific actions), HOW (specific levers), BY WHEN (deadline). The WHY lives in sub-hypotheses.
+8. Write like a normal person. No consulting jargon.
 
-BAD: "The US should execute a two-track 30-day diplomatic surge aimed at securing a narrow settlement window that closes structurally around April 16, before China's competing proposal gains traction and the WPR clock expires"
-GOOD: "The US should execute a two-track 30-day diplomatic initiative — obtain Israeli alignment and deliver a Pakistan-channeled framework by April 16"
+BAD: "Top-tier firms must shift from analytics to trusted advisor roles" — this is a DIRECTION, not an answer. Doesn't name specific actions, doesn't address talent, partnership economics, or what to double down on.
+GOOD: "Top-tier firms should exit analytics delivery, convert 40% of partners to outcome-based comp, and acquire AI-native delivery teams by Q4 2026"
 
-The governing hypothesis states WHAT (the action), HOW (the levers), and BY WHEN (the deadline). The WHY and whether each piece is achievable live in the sub-hypotheses below.
+BAD: "The company should optimize its supply chain" — vague direction, not specific
+GOOD: "Close 3 Gulf Coast plants, shift procurement to Brazilian suppliers, and hedge Q1 2027 at $72/bbl"
+
+BAD: "Pioneer Bank can increase sales-force productivity by 30% within 12 months" — says the OUTCOME, not the ACTIONS
+GOOD: "Pioneer Bank should outsource admin tasks, automate lead scoring, and retrain 200 advisors on wealth products within 12 months to lift productivity 30%"
 
 Today is {TODAY_STR}.
 
 Return JSON: {{"governing_hypothesis": "...", "confidence": "HIGH/MEDIUM/LOW", "key_reasoning": "2-3 sentences on why this is the best starting hypothesis"}}""",
-        f"PROBLEM STATEMENT: {ps}\n\nDECISION SENSITIVITY: {sens}\n\n{('USER FEEDBACK: ' + feedback + '\n\n') if feedback else ''}INFERENCES:\n{syn_inferences}\n\nPATTERNS:\n{syn_patterns}\n\nForm the Day 1 governing hypothesis.",
-        model=SONNET
-    )
-    governing = day1.get("governing_hypothesis", "")
-    print(f"    {C.BOLD}Day 1: {governing[:120]}{C.R}")
+            f"PROBLEM STATEMENT: {ps}\n\nDECISION SENSITIVITY: {sens}\n\n{('USER FEEDBACK: ' + feedback + '\n\n') if feedback else ''}INFERENCES:\n{syn_inferences}\n\nPATTERNS:\n{syn_patterns}\n\nForm the Day 1 governing hypothesis.",
+            model=SONNET
+        )
+        governing = day1.get("governing_hypothesis", "")
+        print(f"    {C.BOLD}Day 1: {governing[:120]}{C.R}")
 
     # ════════════════════════════════════════════
     # ITERATION LOOP
     # ════════════════════════════════════════════
     hyp_tree = {"governing_hypothesis": governing, "hypotheses": [], "graveyard": [], "iterations": []}
 
-    for iteration in range(MAX_ITERATIONS):
-        print(f"\n  {C.GREEN}{'='*50}{C.R}")
-        print(f"  {C.GREEN}Iteration {iteration + 1}/{MAX_ITERATIONS}{C.R}")
-        print(f"  {C.GREEN}{'='*50}{C.R}")
-
-        # ════════════════════════════════════════════
-        # PHASE 2: Decompose into necessary conditions
-        # ════════════════════════════════════════════
-        print(f"    {C.DIM}Phase 2: Decomposing into necessary conditions...{C.R}")
-        decomposition = llm_json(
-            f"""You are decomposing a GOVERNING HYPOTHESIS into a HYPOTHESIS TREE.
-
-GOVERNING HYPOTHESIS: {governing}
+    # ── Shared decomposition prompt template ──
+    DECOMPOSE_PROMPT = f"""You are decomposing a GOVERNING HYPOTHESIS into a HYPOTHESIS TREE.
 
 A hypothesis tree starts with an ANSWER and works backward to find what must be true for that answer to hold.
 
@@ -2443,10 +2664,42 @@ QUALITY CHECKS:
 COMMON MISTAKES TO AVOID:
 {vault_mistakes}
 
-STATEMENT STYLE — study these examples carefully:
+STATEMENT STYLE — THIS IS A HARD CONSTRAINT. Study these examples:
 {vault_examples}
 
-A statement is ONE CLAIM with ONE NUMBER. The reasoning, evidence, and caveats go in sub-hypotheses and evidence fields — NEVER in the statement.
+STATEMENT LENGTH RULES (ENFORCED):
+- A statement is ONE CLAIM. Maximum 15 words.
+- NO subordinate clauses ("rather than demanding...", "without his legitimacy challenge disabling...")
+- NO evidence in the statement ("as evidenced by...", "given that...")
+- NO conditions in the statement ("if X stays AND Y preserved"). Conditions go in decision_threshold.
+- NO jargon. Write like a normal person, not a consulting deck.
+- The reasoning, evidence, caveats, and conditions go in test/threshold/evidence fields — NEVER in the statement.
+
+GOOD: "Netanyahu can accept a toll-to-escrow conversion"
+GOOD: "The Pakistan back-channel is open and active"
+GOOD: "Alternative crude can arrive before inventory runs out"
+GOOD: "Crack spreads widen by >$5/bbl within 14 days"
+BAD:  "Netanyahu will accept an escrow-based toll conversion rather than demanding full Strait sovereignty rollback as a precondition" (28 words, subordinate clause, conditions baked in)
+BAD:  "The US-Israel negotiating channel can compress alignment to <72 hours given the April 8 internal deadline" (conditions in statement)"""
+
+    # Track the living tree across iterations
+    primary_hyps = None  # set after first decomposition
+
+    for iteration in range(MAX_ITERATIONS):
+        print(f"\n  {C.GREEN}{'='*50}{C.R}")
+        print(f"  {C.GREEN}Iteration {iteration + 1}/{MAX_ITERATIONS}{C.R}")
+        print(f"  {C.GREEN}{'='*50}{C.R}")
+
+        # ════════════════════════════════════════════
+        # PHASE 2: Decompose (full on iter 1, surgical on iter 2+)
+        # ════════════════════════════════════════════
+        if iteration == 0:
+            # First iteration: full decomposition
+            print(f"    {C.DIM}Phase 2: Decomposing into necessary conditions...{C.R}")
+            decomposition = llm_json(
+                DECOMPOSE_PROMPT + f"""
+
+GOVERNING HYPOTHESIS: {{governing}}
 
 Generate 3-5 primary hypotheses, each with 2-4 sub-hypotheses (leaves). Two levels deep is enough.
 
@@ -2468,30 +2721,144 @@ Return JSON:
       }}
     ]
   }}
-]}}""",
-            f"PROBLEM STATEMENT: {ps}\n\nGOVERNING HYPOTHESIS: {governing}\n\nFINDINGS:\n{syn_findings[:15000]}\n\nPATTERNS:\n{syn_patterns}\n\nDecompose into a hypothesis tree of necessary conditions.",
-            model=SONNET
-        )
+]}}""".replace("{{governing}}", governing),
+                f"PROBLEM STATEMENT: {ps}\n\nGOVERNING HYPOTHESIS: {governing}\n\nFINDINGS:\n{syn_findings[:15000]}\n\nPATTERNS:\n{syn_patterns}\n\nDecompose into a hypothesis tree of necessary conditions.",
+                model=SONNET
+            )
+            primary_hyps = decomposition.get("primary_hypotheses", [])
 
-        primary_hyps = decomposition.get("primary_hypotheses", [])
+            # ── Guided checkpoint: review decomposition before testing ──
+            if deep_research and not autopilot:
+                print(f"\n    {C.BOLD}DECOMPOSITION — review before testing:{C.R}")
+                print(f"    {C.DIM}{'─'*50}{C.R}")
+                for ph in primary_hyps:
+                    logic = ph.get("logic", "AND")
+                    print(f"    {C.BOLD}{ph.get('id')}{C.R} [{logic}] {ph.get('statement', '')[:80]}")
+                    for sh in ph.get("sub_hypotheses", []):
+                        print(f"      {C.DIM}{sh.get('id')}: {sh.get('statement', '')[:70]}{C.R}")
+                        if sh.get("decision_threshold"):
+                            print(f"        threshold: {sh['decision_threshold'][:60]}")
+                print(f"    {C.DIM}{'─'*50}{C.R}")
+                print(f"\n    {C.DIM}Commands: approve / feedback: <changes> / add: <condition>{C.R}")
+                while True:
+                    try:
+                        resp = input(f"    {C.YELLOW}>>> {C.R}").strip()
+                    except (EOFError, KeyboardInterrupt):
+                        resp = "approve"
+                    if resp.lower() in ("approve", "skip", ""):
+                        break
+                    elif resp.lower().startswith("feedback:"):
+                        fb = resp[9:].strip()
+                        print(f"    {C.GREEN}Revising decomposition...{C.R}")
+                        revision = llm_json(
+                            DECOMPOSE_PROMPT + f"\n\nCURRENT TREE:\n{json.dumps(primary_hyps, indent=2, ensure_ascii=False)}\n\nFEEDBACK: {fb}\n\nRevise the tree. Keep what works, change what was flagged. Return same JSON structure.\n\nReturn JSON: {{\"primary_hypotheses\": [...]}}",
+                            f"GOVERNING HYPOTHESIS: {governing}\n\nRevise based on feedback.",
+                            model=SONNET
+                        )
+                        primary_hyps = revision.get("primary_hypotheses", primary_hyps)
+                        print(f"    {C.GREEN}Revised. Review again or approve.{C.R}")
+                        for ph in primary_hyps:
+                            print(f"    {C.BOLD}{ph.get('id')}{C.R} {ph.get('statement', '')[:80]}")
+                    elif resp.lower().startswith("add:"):
+                        addition = resp[4:].strip()
+                        print(f"    {C.GREEN}Adding condition...{C.R}")
+                        next_id = max((int(h["id"].replace("H","")) for h in primary_hyps), default=0) + 1
+                        new_branch = llm_json(
+                            DECOMPOSE_PROMPT + f"\n\nAdd a NEW primary hypothesis branch for this condition: \"{addition}\"\n\nExisting branches (do not duplicate):\n{json.dumps([h.get('statement') for h in primary_hyps])}\n\nUse ID H{next_id}. Return JSON: {{\"new_hypothesis\": {{\"id\": \"H{next_id}\", \"statement\": \"...\", \"logic\": \"AND\", \"necessary_because\": \"...\", \"sub_hypotheses\": [...]}}}}",
+                            f"GOVERNING HYPOTHESIS: {governing}\n\nAdd branch for: {addition}",
+                            model=SONNET
+                        )
+                        if new_branch.get("new_hypothesis"):
+                            primary_hyps.append(new_branch["new_hypothesis"])
+                            print(f"    {C.GREEN}Added H{next_id}: {new_branch['new_hypothesis'].get('statement', '')[:80]}{C.R}")
+                    else:
+                        print(f"    {C.DIM}Unknown command. Try: approve / feedback: X / add: X{C.R}")
+
+        else:
+            # Subsequent iterations: keep survivors, replace killed branches only
+            survivors = [ph for ph in primary_hyps if ph.get("status") != "killed"]
+            killed_ids = [ph["id"] for ph in primary_hyps if ph.get("status") == "killed"]
+            num_replacements = len(killed_ids)
+
+            survivors_summary = json.dumps([{
+                "id": h.get("id"), "statement": h.get("statement"), "status": h.get("status"),
+                "leaf_verdicts": {sh["id"]: sh.get("verdict") for sh in h.get("sub_hypotheses", [])}
+            } for h in survivors], indent=2, ensure_ascii=False)
+
+            killed_summary = json.dumps([{
+                "id": h.get("id"), "statement": h.get("statement"), "killed_by": h.get("killed_by")
+            } for h in primary_hyps if h.get("status") == "killed"], indent=2, ensure_ascii=False)
+
+            print(f"    {C.DIM}Phase 2: Keeping {len(survivors)} survivors, replacing {num_replacements} killed branch(es)...{C.R}")
+
+            # Assign new IDs that don't collide with survivors
+            existing_ids = {h["id"] for h in survivors}
+            next_id_num = max((int(h["id"].replace("H","")) for h in primary_hyps), default=0) + 1
+
+            replacement = llm_json(
+                DECOMPOSE_PROMPT + f"""
+
+REVISED GOVERNING HYPOTHESIS: {governing}
+
+THE FOLLOWING BRANCHES SURVIVED TESTING — DO NOT REGENERATE THEM. They are already tested and carry evidence:
+{survivors_summary}
+
+THE FOLLOWING BRANCHES WERE KILLED:
+{killed_summary}
+
+Your job: generate {num_replacements} NEW replacement primary hypothesis(es) that:
+1. Address the gap left by the killed branch(es) — what new necessary condition does the REVISED governing hypothesis require?
+2. Do NOT overlap with the surviving branches
+3. Each has 2-4 sub-hypotheses (leaves) with tests and thresholds
+
+Use IDs starting from H{next_id_num}.
+
+Return JSON:
+{{"replacement_hypotheses": [
+  {{
+    "id": "H{next_id_num}",
+    "statement": "...",
+    "logic": "AND|OR",
+    "necessary_because": "...",
+    "sub_hypotheses": [
+      {{
+        "id": "H{next_id_num}.1",
+        "statement": "...",
+        "test": "...",
+        "decision_threshold": "...",
+        "evidence_expected_if_true": "...",
+        "evidence_expected_if_false": "..."
+      }}
+    ]
+  }}
+]}}""",
+                f"PROBLEM STATEMENT: {ps}\n\nGOVERNING HYPOTHESIS: {governing}\n\nFINDINGS:\n{syn_findings[:15000]}\n\nPATTERNS:\n{syn_patterns}\n\nGenerate {num_replacements} replacement branch(es).",
+                model=SONNET
+            )
+
+            new_branches = replacement.get("replacement_hypotheses", [])
+            # Merge: survivors (with their existing evidence) + new branches
+            primary_hyps = survivors + new_branches
+
         total_leaves = sum(len(h.get("sub_hypotheses", [])) for h in primary_hyps)
         print(f"    {C.GREEN}Tree: {len(primary_hyps)} primary hypotheses, {total_leaves} leaves{C.R}")
         for ph in primary_hyps:
             logic = ph.get("logic", "AND")
-            print(f"      {ph['id']} [{logic}]: {ph.get('statement','')[:80]}")
+            carried = " (carried)" if ph.get("status") in ("confirmed", "uncertain") and iteration > 0 and ph.get("verdict_iteration", -1) < iteration else ""
+            print(f"      {ph['id']} [{logic}]{carried}: {ph.get('statement','')[:80]}")
             for sh in ph.get("sub_hypotheses", []):
                 print(f"        {sh['id']}: {sh.get('statement','')[:70]}")
 
         # ════════════════════════════════════════════
-        # PHASE 3: Test at the leaves
+        # PHASE 3: Test at the leaves (only untested ones on iter 2+)
         # ════════════════════════════════════════════
-        print(f"    {C.DIM}Phase 3: Testing {total_leaves} leaves against research...{C.R}")
-
-        # Build all leaves with their parent context for one batch call
-        all_leaves = []
+        # Identify which leaves need testing
+        leaves_to_test = []
         for ph in primary_hyps:
             for sh in ph.get("sub_hypotheses", []):
-                all_leaves.append({
+                if sh.get("verdict"):
+                    continue  # already tested from a prior iteration — skip
+                leaves_to_test.append({
                     "id": sh["id"],
                     "parent_id": ph["id"],
                     "parent_statement": ph.get("statement", ""),
@@ -2503,38 +2870,177 @@ Return JSON:
                     "evidence_expected_if_false": sh.get("evidence_expected_if_false", ""),
                 })
 
-        test_results = llm_json(
-            f"""You are testing LEAF-LEVEL sub-hypotheses against research evidence. Today is {TODAY_STR}.
+        already_tested = total_leaves - len(leaves_to_test)
+        if already_tested > 0:
+            print(f"    {C.DIM}Phase 3: Testing {len(leaves_to_test)} new leaves ({already_tested} carried from prior iteration)...{C.R}")
+        else:
+            print(f"    {C.DIM}Phase 3: Testing {len(leaves_to_test)} leaves against research...{C.R}")
 
-For each leaf, search the research findings and working document for evidence. Then render a verdict.
+        all_leaves = leaves_to_test
 
-VERDICT RULES:
-- GREEN: Decision threshold met. Multiple sources. High confidence the sub-hypothesis holds.
-- AMBER: Evidence is directional but not conclusive. Single source, thin data, or [LLM reasoning] only. Could flip either way with more data.
-- RED: Evidence contradicts. Decision threshold failed. Multiple sources say no, or a single authoritative source kills it.
+        # ── Pass 1: Test against existing research ──
+        if deep_research:
+            # Hypothesis-driven mode: skip Pass 1 entirely — no existing research
+            print(f"    {C.DIM}Pass 1: SKIPPED (hypothesis-driven mode — no prior research){C.R}")
+            # Mark all leaves as AMBER needing search so Pass 2 picks them all up
+            test_results = {"leaf_results": []}
+            for leaf in all_leaves:
+                test_results["leaf_results"].append({
+                    "id": leaf["id"],
+                    "verdict": "AMBER",
+                    "evidence_quality": "ABSENT",
+                    "what_supports": "",
+                    "what_contradicts": "",
+                    "what_is_missing": f"No research conducted yet — need targeted search for: {leaf.get('test', '')}",
+                    "decision_threshold_met": "unknown",
+                    "needs_targeted_search": True,
+                    "suggested_search_query": leaf.get("test", leaf.get("statement", ""))
+                })
+        elif not all_leaves:
+            print(f"    {C.DIM}Pass 1: All leaves already tested — skipping.{C.R}")
+            test_results = {"leaf_results": []}
+        else:
+            print(f"    {C.DIM}Pass 1: Testing against existing research...{C.R}")
 
-IMPORTANT DISTINCTIONS:
-- ABSENT evidence ≠ RED. If no data exists on this condition, verdict is AMBER (uncertain), not RED (disproven).
-- [LLM reasoning] evidence = AMBER at best, never GREEN. It's the model's inference, not sourced fact.
-- One weak source (blog post) supporting = AMBER. One strong source (government data, company filing) supporting = GREEN.
+        verdict_rules = f"""{"VERDICT RULES — AUTOPILOT MODE. Be decisive, not cautious. AMBER is not the default." if autopilot else "VERDICT RULES — GUIDED MODE. Be strict. The user will review and upgrade verdicts with their own evidence."}
+
+GREEN — the evidence SUPPORTS this sub-hypothesis:
+{"  - One credible source (government data, company filing, major news outlet, industry report) that directly addresses the claim = GREEN" if autopilot else "  - Multiple independent credible sources confirm the claim = GREEN"}
+{"  - Two or more sources pointing the same direction = GREEN" if autopilot else "  - Human-injected evidence (marked HIGH confidence) that meets the threshold = GREEN"}
+  - A specific number from a named source that meets the threshold = GREEN
+
+AMBER — genuinely uncertain, evidence is MIXED or THIN:
+  - Only [LLM reasoning] with no sourced data = AMBER
+  - Evidence points both ways — some supports, some contradicts = AMBER
+  - No relevant data found at all (ABSENT) = AMBER
+
+RED — the evidence CONTRADICTS this sub-hypothesis:
+  - A credible source directly contradicts the claim = RED
+  - The specific number from a named source FAILS the threshold = RED
+
+{"THE KEY RULE: If you found a real source with a real number that addresses the claim, it's GREEN or RED — not AMBER. AMBER means you genuinely don't know." if autopilot else "THE KEY RULE: Be conservative. Single web sources stay AMBER."}"""
+
+        if all_leaves:
+            test_results = llm_json(
+                f"""You are testing LEAF-LEVEL sub-hypotheses against research evidence. Today is {TODAY_STR}.
+
+For each leaf, search the research findings and working document for SPECIFIC evidence that addresses the decision threshold. Be precise — quote the source, the number, and whether it meets the threshold.
+
+{verdict_rules}
 
 For each leaf return:
 - verdict: GREEN/AMBER/RED
-- evidence_quality: STRONG (multiple independent sources) / MODERATE (1-2 sources) / THIN (single source or [LLM reasoning]) / ABSENT (no relevant data found)
-- what_supports: specific evidence supporting this sub-hypothesis (with source citations)
-- what_contradicts: specific evidence against (with source citations)
-- what_is_missing: what data would resolve uncertainty
+- evidence_quality: STRONG / MODERATE / THIN / ABSENT
+- what_supports: specific evidence WITH source citations
+- what_contradicts: specific evidence WITH source citations
+- what_is_missing: what specific data would resolve this (used for targeted search)
 - decision_threshold_met: true/false/unknown
-- confidence_in_verdict: HIGH/MEDIUM/LOW
+- needs_targeted_search: true/false (true ONLY if verdict is AMBER and a specific web query could resolve it)
+- suggested_search_query: the exact query to run (only if needs_targeted_search is true)
 
 Return JSON: {{"leaf_results": [...]}}""",
-            "LEAVES TO TEST:\n{leaves}\n\nRESEARCH FINDINGS:\n{findings}\n\nWORKING DOCUMENT (detailed evidence):\n{wd}\n\nTest each leaf.".format(
-                leaves=json.dumps(all_leaves, indent=2, ensure_ascii=False),
-                findings=syn_findings[:20000],
-                wd=working_doc[:20000]
-            ),
-            model=SONNET
-        )
+                "LEAVES TO TEST:\n{leaves}\n\nRESEARCH FINDINGS:\n{findings}\n\nWORKING DOCUMENT (detailed evidence):\n{wd}\n\nTest each leaf.".format(
+                    leaves=json.dumps(all_leaves, indent=2, ensure_ascii=False),
+                    findings=syn_findings[:20000],
+                    wd=working_doc[:20000]
+                ),
+                model=SONNET
+            )
+
+        # ── Pass 2: Targeted search ──
+        if deep_research:
+            # Hypothesis-driven mode: search ALL leaves, not just AMBER
+            leaves_to_search = test_results.get("leaf_results", [])
+            max_searches = 20  # More searches in deep mode
+        else:
+            # Issue-driven mode: only search AMBER leaves that need it
+            leaves_to_search = [r for r in test_results.get("leaf_results", []) if r.get("needs_targeted_search") and r.get("verdict", "").upper() == "AMBER"]
+            max_searches = 6
+
+        if leaves_to_search:
+            mode_label = "DEEP RESEARCH (all leaves)" if deep_research else f"Targeted search for {len(leaves_to_search)} AMBER leaves"
+            print(f"    {C.DIM}Pass 2: {mode_label}...{C.R}")
+            try:
+                from duckduckgo_search import DDGS
+                import requests as _req
+
+                # In deep_research mode, generate better search queries via LLM
+                if deep_research:
+                    print(f"      {C.DIM}Generating targeted queries for {len(leaves_to_search)} leaves...{C.R}")
+                    query_gen = llm_json(
+                        f"""For each hypothesis leaf below, generate 2 specific web search queries that would find evidence to CONFIRM or REFUTE it.
+
+Make queries specific: include entity names, technical terms, dates, thresholds.
+
+Return JSON: {{"leaf_queries": [{{"id": "H1.1", "queries": ["query 1", "query 2"]}}]}}""",
+                        f"PROBLEM: {ps}\n\nLEAVES:\n" + json.dumps([{"id": l.get("id"), "statement": l.get("statement", l.get("what_is_missing", "")), "test": l.get("test", "")} for l in leaves_to_search], indent=2, ensure_ascii=False),
+                        model=HAIKU, max_tokens=2048
+                    )
+                    leaf_query_map = {lq["id"]: lq["queries"] for lq in query_gen.get("leaf_queries", [])}
+                else:
+                    leaf_query_map = {}
+
+                for leaf_r in leaves_to_search[:max_searches]:
+                    # Get query — from LLM generation or from leaf's suggested query
+                    if deep_research and leaf_r.get("id") in leaf_query_map:
+                        queries_for_leaf = leaf_query_map[leaf_r["id"]]
+                    else:
+                        q = leaf_r.get("suggested_search_query", leaf_r.get("statement", ""))
+                        queries_for_leaf = [q] if q else []
+
+                    if not queries_for_leaf:
+                        continue
+                    leaf_id = leaf_r.get("id", "?")
+                    print(f"      {C.DIM}{leaf_id}: searching {len(queries_for_leaf)} queries...{C.R}")
+
+                    try:
+                        snippets = []
+                        with DDGS() as ddgs:
+                            for query in queries_for_leaf[:3]:  # Max 3 queries per leaf in deep mode
+                                time.sleep(1.5)
+                                max_per_query = 8 if deep_research else 5
+                                results = list(ddgs.text(query, max_results=max_per_query))
+                                for r in results:
+                                    snippets.append(f"{r.get('title','')}: {r.get('body','')[:200]} (source: {r.get('href','')})")
+
+                        if snippets:
+                            # Test/re-test this leaf with the search evidence
+                            test_prompt = f"""Test this sub-hypothesis against web search evidence. Today is {TODAY_STR}.
+
+SUB-HYPOTHESIS: {leaf_r.get('id')}
+STATEMENT: {leaf_r.get('statement', leaf_r.get('what_is_missing', ''))}
+{"ORIGINAL VERDICT: " + leaf_r.get('verdict', 'AMBER') if not deep_research else "FIRST TEST — no prior evidence."}
+{"ORIGINAL EVIDENCE: " + str(leaf_r.get('what_supports', '')) if not deep_research else ""}
+
+WEB SEARCH RESULTS:
+{chr(10).join(snippets[:8 if deep_research else 5])}
+
+{verdict_rules}
+
+Return JSON:
+{{"id": "{leaf_r.get('id')}", "new_verdict": "GREEN/AMBER/RED", "new_evidence": "what the search found (with source)", "evidence_quality": "STRONG/MODERATE/THIN/ABSENT", "verdict_changed": true}}"""
+
+                            retest = llm_json(
+                                test_prompt,
+                                "Test with search evidence.",
+                                model=SONNET if deep_research else HAIKU
+                            )
+
+                            new_verdict = retest.get("new_verdict", "AMBER").upper()
+                            if deep_research or (retest.get("verdict_changed") and new_verdict != "AMBER"):
+                                leaf_r["verdict"] = new_verdict
+                                old_supports = leaf_r.get("what_supports", "")
+                                new_evidence = retest.get("new_evidence", "")
+                                leaf_r["what_supports"] = (str(old_supports) + " | " if old_supports else "") + "SEARCH: " + new_evidence
+                                leaf_r["evidence_quality"] = retest.get("evidence_quality", "MODERATE")
+                                color = C.GREEN if new_verdict == "GREEN" else C.RED if new_verdict == "RED" else C.YELLOW
+                                print(f"        {color}{leaf_id}: → {new_verdict}{C.R}")
+                            else:
+                                print(f"        {C.DIM}{leaf_id}: remains AMBER{C.R}")
+                    except Exception as e:
+                        print(f"        {C.DIM}{leaf_id}: search failed ({e}){C.R}")
+            except ImportError:
+                print(f"    {C.DIM}DuckDuckGo not available — skipping targeted search{C.R}")
 
         # Map results back to leaves
         leaf_map = {r.get("id"): r for r in test_results.get("leaf_results", [])}
@@ -2551,20 +3057,26 @@ Return JSON: {{"leaf_results": [...]}}""",
             logic = ph.get("logic", "AND").upper()
             sub_verdicts = []
             for sh in ph.get("sub_hypotheses", []):
-                result = leaf_map.get(sh["id"], {})
-                verdict = result.get("verdict", "AMBER").upper()
-                sh["verdict"] = verdict
-                sh["evidence_quality"] = result.get("evidence_quality", "ABSENT")
-                sh["what_supports"] = result.get("what_supports", "")
-                sh["what_contradicts"] = result.get("what_contradicts", "")
-                sh["what_is_missing"] = result.get("what_is_missing", "")
-                sh["decision_threshold_met"] = result.get("decision_threshold_met", "unknown")
-                sh["confidence_in_verdict"] = result.get("confidence_in_verdict", "LOW")
+                result = leaf_map.get(sh["id"])
+                if result:
+                    # New test result — write it
+                    verdict = result.get("verdict", "AMBER").upper()
+                    sh["verdict"] = verdict
+                    sh["evidence_quality"] = result.get("evidence_quality", "ABSENT")
+                    sh["what_supports"] = result.get("what_supports", "")
+                    sh["what_contradicts"] = result.get("what_contradicts", "")
+                    sh["what_is_missing"] = result.get("what_is_missing", "")
+                    sh["decision_threshold_met"] = result.get("decision_threshold_met", "unknown")
+                    sh["confidence_in_verdict"] = result.get("confidence_in_verdict", "LOW")
+                else:
+                    # Carried from prior iteration — use existing verdict
+                    verdict = sh.get("verdict", "AMBER").upper()
                 sub_verdicts.append(verdict)
 
+                carried_tag = " (carried)" if not result and iteration > 0 else ""
                 color = C.GREEN if verdict == "GREEN" else C.RED if verdict == "RED" else C.YELLOW
-                qual = result.get("evidence_quality", "?")
-                print(f"        {color}{sh['id']}: {verdict}{C.R} [{qual}] {sh.get('statement','')[:60]}")
+                qual = sh.get("evidence_quality", "?") if not result else result.get("evidence_quality", "?")
+                print(f"        {color}{sh['id']}: {verdict}{C.R} [{qual}]{carried_tag} {sh.get('statement','')[:60]}")
 
             # Propagate
             if logic == "AND":
@@ -2608,6 +3120,64 @@ Return JSON: {{"leaf_results": [...]}}""",
 
         hyp_tree["iterations"].append(iteration_log)
 
+        # ── Guided checkpoint: review verdicts after testing ──
+        if deep_research and not autopilot:
+            print(f"\n    {C.BOLD}TEST RESULTS — review before kill propagation proceeds:{C.R}")
+            print(f"    {C.DIM}You can override verdicts with internal evidence.{C.R}")
+            print(f"    {C.DIM}Commands: approve / override <H1.2> GREEN <evidence> / inject <H1> <data>{C.R}")
+            while True:
+                try:
+                    resp = input(f"    {C.YELLOW}>>> {C.R}").strip()
+                except (EOFError, KeyboardInterrupt):
+                    resp = "approve"
+                if resp.lower() in ("approve", "skip", ""):
+                    break
+                elif resp.lower().startswith("override"):
+                    # override H1.2 GREEN "my evidence"
+                    parts = resp.split(None, 3)
+                    if len(parts) >= 3:
+                        leaf_id = parts[1]
+                        new_v = parts[2].upper()
+                        evidence = parts[3] if len(parts) > 3 else "User override"
+                        if new_v in ("GREEN", "RED", "AMBER"):
+                            # Find the leaf and update
+                            found = False
+                            for ph in primary_hyps:
+                                for sh in ph.get("sub_hypotheses", []):
+                                    if sh.get("id") == leaf_id:
+                                        old_v = sh.get("verdict", "AMBER")
+                                        sh["verdict"] = new_v
+                                        sh["evidence_quality"] = "STRONG"
+                                        sh["what_supports"] = str(sh.get("what_supports", "")) + f" | USER: {evidence}"
+                                        # Re-propagate parent status
+                                        sub_verdicts = [s.get("verdict", "AMBER") for s in ph.get("sub_hypotheses", [])]
+                                        logic = ph.get("logic", "AND").upper()
+                                        if logic == "AND":
+                                            if "RED" in sub_verdicts:
+                                                ph["status"] = "killed"
+                                                ph["killed_by"] = f"AND-logic: {leaf_id} RED (user override)"
+                                            elif all(v == "GREEN" for v in sub_verdicts):
+                                                ph["status"] = "confirmed"
+                                            else:
+                                                ph["status"] = "uncertain"
+                                        color = C.GREEN if new_v == "GREEN" else C.RED if new_v == "RED" else C.YELLOW
+                                        print(f"      {color}{leaf_id}: {old_v} → {new_v}{C.R} (user override)")
+                                        found = True
+                                        break
+                                if found:
+                                    break
+                            if not found:
+                                print(f"      {C.DIM}Leaf {leaf_id} not found{C.R}")
+                        else:
+                            print(f"      {C.DIM}Verdict must be GREEN, RED, or AMBER{C.R}")
+                    else:
+                        print(f"      {C.DIM}Usage: override H1.2 GREEN \"my evidence here\"{C.R}")
+                else:
+                    print(f"    {C.DIM}Commands: approve / override <id> GREEN|RED|AMBER <evidence>{C.R}")
+
+            # Rebuild killed_parents after user overrides
+            killed_parents = [ph for ph in primary_hyps if ph.get("status") == "killed"]
+
         # ════════════════════════════════════════════
         # PHASE 5: Check if governing hypothesis survives
         # ════════════════════════════════════════════
@@ -2638,29 +3208,45 @@ Return JSON: {{"leaf_results": [...]}}""",
                 "id": k["id"], "statement": k["statement"], "killed_by": k["killed_by"]
             } for k in killed_parents], indent=2, ensure_ascii=False)
 
+            # Build the survivor statements as the raw material for the revised hypothesis
+            survivor_statements = [h.get("statement", "") for h in primary_hyps if h.get("status") != "killed"]
+            killed_statements = [f"{k['id']}: {k['statement']} — killed because {k['killed_by']}" for k in killed_parents]
+
             revision = llm_json(
-                f"""The hypothesis tree was tested and some branches were killed. Revise the governing hypothesis.
+                f"""The hypothesis tree was tested and some branches were killed. Synthesize a revised governing hypothesis FROM THE SURVIVORS.
+
+PROBLEM STATEMENT: {ps}
 
 ORIGINAL GOVERNING HYPOTHESIS: {governing}
 
-SURVIVING HYPOTHESES:
-{survivors_json}
+SURVIVING BRANCHES (these are the facts you know — the revised hypothesis must be built from these):
+{chr(10).join(f"  - {s}" for s in survivor_statements)}
 
-KILLED HYPOTHESES:
-{killed_json}
+KILLED BRANCHES (these are what the evidence disproved):
+{chr(10).join(f"  - {s}" for s in killed_statements)}
 
-Based on what survived and what was killed:
-1. What does the evidence now support as the best answer?
-2. Does the original governing hypothesis need to change, or just be refined?
-3. If it changes, what specific kill caused the revision?
+YOUR JOB:
+1. Read the surviving branch statements — they ARE the answer. The revised governing hypothesis is the sentence that synthesizes what the survivors collectively say.
+2. Incorporate the LESSON from each kill — if Israeli alignment was killed, the revised hypothesis must route around it, not ignore it.
+3. Do NOT invent new claims. The hypothesis must be derivable from the survivors.
+4. The revised hypothesis must ANSWER THE PROBLEM STATEMENT. Read the PS again. If it asks for specific actions, name them. If it asks which assets to keep vs divest, name them. A directional theme ("shift to X") is NOT an answer.
+
+RULES:
+- 1-2 SENTENCES. Maximum 30 words total.
+- Name SPECIFIC actions, levers, choices — not directions.
+- State WHAT (specific actions), HOW (specific levers), BY WHEN (deadline).
+- No jargon, no subordinate clauses.
+- Write like a normal person.
+- The reasoning goes in revision_reason — NOT in the hypothesis.
 
 Return JSON: {{
   "revised_governing_hypothesis": "...",
   "changed": true/false,
-  "revision_reason": "...",
-  "what_the_kills_taught_us": "..."
+  "revision_reason": "why this revision follows from the survivors and kills",
+  "what_the_kills_taught_us": "the specific constraint or lesson each kill revealed",
+  "gap_left_by_kills": "what necessary condition is NOW missing that the original tree had — this is what the replacement branch must address"
 }}""",
-                f"PROBLEM STATEMENT: {ps}\n\nRevise the governing hypothesis based on test results.",
+                f"Synthesize the revised governing hypothesis from survivors.",
                 model=SONNET
             )
 
@@ -2692,26 +3278,37 @@ Return JSON: {{
     active_final = [h for h in hyp_tree["hypotheses"] if h.get("status") != "killed"]
     if active_final:
         print(f"\n  {C.GREEN}Finalizing governing hypothesis from {len(active_final)} survivors...{C.R}")
+        survivor_stmts = [h.get("statement", "") for h in active_final]
+        killed_stmts = [f"{g.get('id')}: {g.get('statement')} — {g.get('killed_by')}" for g in all_graveyard]
+
         gov_result = llm_json(
-            f"""Synthesize the surviving tested hypotheses into a final GOVERNING HYPOTHESIS.
+            f"""Write the FINAL governing hypothesis by synthesizing the surviving branches.
 
-This is the FINAL answer after {len(hyp_tree.get('iterations', []))} iteration(s) of testing. The hypothesis tree has been built, tested at the leaves, and branches have been killed.
+PROBLEM STATEMENT: {ps}
 
-The governing hypothesis must:
-1. Directly answer the problem statement
-2. Synthesize across survivors (not just restate the top one)
-3. Include a specific number, threshold, or timeframe
-4. Acknowledge what was killed and how that shapes the answer
+SURVIVING BRANCHES (the revised hypothesis must be built from these — do not invent new claims):
+{chr(10).join(f"  - {s}" for s in survivor_stmts)}
 
-Return JSON: {{"governing_hypothesis": "..."}}""",
-            "PROBLEM STATEMENT: {ps}\n\nSURVIVORS:\n{s}\n\nKILLED:\n{k}\n\nFinalize.".format(
-                ps=ps,
-                s=json.dumps([{"id": h.get("id"), "statement": h.get("statement"), "confidence": h.get("confidence")} for h in active_final], indent=2, ensure_ascii=False),
-                k=json.dumps([{"id": g.get("id"), "statement": g.get("statement"), "killed_by": g.get("killed_by")} for g in all_graveyard], indent=2, ensure_ascii=False)
-            ),
-            model=HAIKU
+KILLED BRANCHES (lessons incorporated):
+{chr(10).join(f"  - {s}" for s in killed_stmts) if killed_stmts else "  - None"}
+
+THE MOST IMPORTANT RULE: The hypothesis must ANSWER THE QUESTION THAT WAS ASKED.
+Read the problem statement again. If it asks for specific actions, name them. If it asks which assets to keep vs divest, name them. If it asks how to restructure X, Y, Z — address all three. A directional theme ("shift to X", "focus on Y") is NOT an answer. Name the specific moves.
+
+RULES:
+- 1-2 SENTENCES. Maximum 30 words total.
+- Name SPECIFIC actions, levers, or choices — not directions or themes.
+- State WHAT (specific actions), HOW (specific levers), BY WHEN (deadline).
+- No jargon, no subordinate clauses.
+- Write like a normal person.
+
+Return JSON: {{"governing_hypothesis": "...", "what_was_killed_and_why": "..."}}""",
+            "Finalize.",
+            model=SONNET
         )
         hyp_tree["governing_hypothesis"] = gov_result.get("governing_hypothesis", governing)
+        if gov_result.get("what_was_killed_and_why"):
+            hyp_tree["kill_reasoning"] = gov_result["what_was_killed_and_why"]
 
     # ════════════════════════════════════════════
     # PHASE 8: Coverage check + decision sensitivity update
@@ -2819,13 +3416,14 @@ CRITICAL: Preserve all "(per source, date)" citations inline. Every factual clai
 DOCUMENT STRUCTURE (in this exact order, each with its own <h2>):
 1. Title (h1) — a thematic name that captures the essence of the problem in 3-8 words. Examples: "Workday's AI Dilemma" / "The Hormuz Countdown" / "OpenAI's Margin Trap".
    Followed IMMEDIATELY by the ORIGINAL problem statement in a <p class="ps"> tag — smaller font, italic. This is the client's original question, reproduced EXACTLY as given. Do not rewrite it.
-   Followed by the governing hypothesis as a subtitle (h2) — one sentence conclusion. Example: "Workday must execute three moves in 18 months or cede its pricing power permanently"
-2. <h2>Context</h2> — 2-3 paragraphs: what is happening, why it matters, what is at stake. Sets the scene for a reader with zero background.
+2. <h2>Governing Hypothesis</h2> — This is THE ANSWER. Reproduce the governing hypothesis VERBATIM from the hypothesis tree. One sentence, bold, standalone. This is the single most important line in the document. Do NOT narrate the process ("the hypothesis was tested..."). Do NOT editorialize. Just state the answer.
+   Then one paragraph (2-3 sentences) explaining WHY this is the answer — what evidence supports it, what was killed, what survived.
+3. <h2>Context</h2> — 2-3 paragraphs: what is happening, why it matters, what is at stake. Sets the scene for a reader with zero background.
    Do NOT put the problem statement inside the context section. It already appears under the title.
-4. <h2>What We Believe</h2> — wrap this section in <div class="beliefs">. List the key claims as numbered <ol><li> statements. One sentence each. No evidence yet — just the claims upfront. Do NOT label them H1/H2/H3 — just numbered 1, 2, 3. Do NOT say "X hypotheses are active" or any meta-commentary about the process.
-5. <h2>[Conclusion-as-headline]</h2> for each hypothesis — each is one section with: bold claim, evidence, break point, confidence level
-6. <h2>Decisions Required</h2> — numbered list of specific actions with scope/size/timing
-7. <h2>Hypotheses Tested and Rejected</h2> — 1-2 killed hypotheses with one-sentence kill reason. AT THE BOTTOM, after decisions.
+4. <h2>What We Believe</h2> — wrap this section in <div class="beliefs">. List the surviving hypothesis branches as numbered <ol><li> statements. One sentence each. These are the NECESSARY CONDITIONS that support the governing hypothesis. No evidence yet — just the claims upfront. Do NOT label them H1/H2/H3 — just numbered 1, 2, 3. Do NOT say "X hypotheses are active" or any meta-commentary about the process.
+5. <h2>Decisions Required</h2> — numbered list of specific actions with scope/size/timing. The reader gets the answer (governing hypothesis), the beliefs, and the asks BEFORE the deep dives. Front-load the decisions.
+6. <h2>[Conclusion-as-headline]</h2> for each surviving branch — each is one section with: bold claim, evidence, break point, confidence level. The headline IS the finding, not a topic label. This is the "double click" on each belief — the evidence that supports it.
+7. <h2>Hypotheses Tested and Rejected</h2> — 1-2 killed hypotheses with one-sentence kill reason.
 8. <h2>Data Gaps</h2> — what still needs verification. LAST section in the document.
 
 CRITICAL:
@@ -2864,7 +3462,7 @@ Return the document as clean HTML with ONLY these elements:
 body{{font-family:'Inter',sans-serif;max-width:960px;margin:0 auto;padding:48px 48px 60px;color:#1a1a1a;background:#fff;line-height:1.75;font-size:15px}}
 h1{{font:800 28px/1.3 'Inter';margin:0 0 8px}}
 .ps{{font:400 13px/1.6 'Inter';color:#666;font-style:italic;margin:4px 0 16px;padding:0}}
-h2:first-of-type{{font:400 16px/1.5 'Inter';margin:0 0 32px;padding-bottom:16px;border-bottom:3px solid #1a1a1a;color:#555}}
+h2:first-of-type{{font:700 22px/1.3 'Inter';margin:8px 0 24px;padding-bottom:16px;border-bottom:3px solid #1a1a1a;color:#1a1a1a}}
 h2{{font:700 18px/1.3 'Inter';margin:40px 0 16px;color:#1a1a1a;padding-bottom:8px;border-bottom:1px solid #e5e7eb}}
 p{{margin:0 0 16px}}
 strong{{color:#0a0a0a;font-weight:800}}
@@ -2892,26 +3490,37 @@ VOICE: Third person, company name. No individual names. No board/investor refere
 STRUCTURE (this order, each with its own h2):
 1. h1: Thematic title (3-8 words)
 2. p class="ps": Original problem statement -- KEEP EXACTLY as written
-3. h2: Governing conclusion (one sentence)
+3. h2 Governing Hypothesis: THE ANSWER in bold. Reproduce VERBATIM. Then 2-3 sentences of why.
 4. h2 Context: What is happening and why it matters
-5. h2 What We Believe: div class="beliefs", numbered claims, one sentence each
-6. h2 per finding: headline IS the conclusion. Each section: bold lead-in -> evidence -> so what.
-7. h2 Decisions Required: numbered, specific, timed, costed
+5. h2 What We Believe: div class="beliefs", numbered surviving branches, one sentence each
+6. h2 Decisions Required: numbered, specific, timed, costed — BEFORE the deep dives. Reader gets answer + beliefs + asks first.
+7. h2 per finding: headline IS the conclusion. Each section: bold lead-in -> evidence -> so what. This is the "double click" on each belief.
 8. h2 Hypotheses Tested and Rejected: 1-2, one-sentence kill reason
 9. h2 Data Gaps: what needs verification
 
-WRITING:
+WRITING — THIS IS A BOARDROOM DOCUMENT, NOT A PROCESS REPORT:
 - Every paragraph starts with <strong>bold lead-in</strong> (3-8 words). No other bolding.
 - One idea per sentence. Short. Direct. A 15-year-old follows it.
 - Delete sentences that add no new fact or insight.
 - No meta-commentary ("this thesis reverses if", "confidence: HIGH"). State findings, not process.
 - No nested conditionals ("if X then Y unless Z"). Two short sentences instead.
-- Strip ALL internal process language: "DATA GAP", "H1/H2/H3", "Tier 1", "hypothesis tested", "break point", "diagnosticity". The reader is a client, not a process auditor.
-- Where information is uncertain, state it naturally: "Exact figures are not public, but..." NOT "DATA GAP: no source found."
-- Keep all "(per source, date)" citations and [LLM reasoning] tags. Never strip them.
-- Unsourced numbers get "(unverified)".
+
+STRIP INTERNAL PIPELINE SCAFFOLDING — the reader is a managing partner, not a process auditor:
+- KEEP "[LLM reasoning]" tags — these are honest transparency markers showing analytical inference vs sourced fact. They stay.
+- REMOVE all INTERNAL PIPELINE references and replace with REAL sources:
+  "(per synthesis findings, financial_and_structural: mckinsey_headcount_collapse)" → "(Business Insider, August 2025)"
+  "(per working document, landscape scan: key players)" → "(industry analysis, 2025-2026)"
+  "(per synthesis findings, competitive_positioning: accenture_full_stack_credibility)" → "(Accenture Q2 FY2026 earnings)"
+  The pattern: anything that says "per synthesis", "per working document", "per landscape scan" followed by internal field names is pipeline scaffolding. Replace with the ACTUAL source name, date, and publication.
+- REMOVE: "DATA GAP", "H1/H2/H3", "Tier 1", "hypothesis tested", "break point", "diagnosticity", "was tested and rejected", "was tested and killed", "surviving hypothesis", "kill reason", "kill propagation"
+- REWRITE process descriptions as findings: "Sequential execution was tested and rejected" → "Sequential execution runs out of runway." The reader doesn't care that you tested it. They care that it doesn't work.
+- Where information is uncertain, state it naturally: "Exact figures are not public, but..."
+- Keep REAL source citations: "(BCG annual report, 2024)", "(Business Insider, August 2025)"
+- Unsourced numbers get "(estimated)" not "(unverified)"
 - End each section with a punch, not a hedge.
-- Recommendations: what, in what order, by when, what it costs, what happens if you do not.""",
+- Recommendations: what, in what order, by when, what it costs, what happens if you do not.
+
+THE FINAL TEST: Read every sentence. If it sounds like it came from an internal methodology document rather than a partner speaking to a managing partner, rewrite it or cut it.""",
         f"DOCUMENT TO REWRITE:\n{content}"
     )
 
@@ -3225,7 +3834,7 @@ hr{{border:none;border-top:1px solid #e5e7eb;margin:24px 0}}
 
 
 def _build_hypothesis_tree_html(run_dir):
-    """Build an interactive hypothesis tree HTML page."""
+    """Build a visual hypothesis TREE HTML page — governing → primary → leaves with verdicts."""
     run_dir = Path(run_dir)
     hyp_path = run_dir / "hypotheses" / "hypotheses.json"
     if not hyp_path.exists():
@@ -3238,131 +3847,319 @@ def _build_hypothesis_tree_html(run_dir):
     gov = e(hyp.get("governing_hypothesis", ""))
     hypotheses = hyp.get("hypotheses", [])
     graveyard = hyp.get("graveyard", [])
-    diagnosticity = hyp.get("diagnosticity", {})
-    high_diag = diagnosticity.get("high_diagnosticity_findings", [])
+    iterations = len(hyp.get("iterations", []))
 
-    # Build cards
-    cards_html = ""
+    confirmed = len([h for h in hypotheses if h.get("status") == "confirmed"])
+    uncertain = len([h for h in hypotheses if h.get("status") == "uncertain"])
+    killed_count = len(graveyard)
+
+    # Build tree nodes
+    tree_html = ""
     for h in hypotheses:
         hid = h.get("id", "?")
         status = h.get("status", "uncertain").upper()
-        conf = h.get("confidence", "?").upper()
         stmt = e(h.get("statement", ""))
-        bp = e(h.get("break_point", ""))
-        ev_for = e(str(h.get("evidence_for", "")))
-        ev_against = e(str(h.get("evidence_against", "")))
-        checks = h.get("stress_checks", {})
-        review = e(h.get("review_notes", ""))
-        diag_note = e(h.get("diagnosticity_note", ""))
+        logic = h.get("logic", "AND").upper()
+        conf = h.get("confidence", "?").upper()
+        necessary = e(h.get("necessary_because", ""))
+        subs = h.get("sub_hypotheses", [])
 
-        status_color = "#16a34a" if status == "CONFIRMED" else "#ef4444" if status == "KILLED" else "#f59e0b"
-        status_bg = "rgba(22,163,74,0.08)" if status == "CONFIRMED" else "rgba(239,68,68,0.08)" if status == "KILLED" else "rgba(245,158,11,0.08)"
-        conf_color = "#16a34a" if conf == "HIGH" else "#f59e0b" if conf == "MEDIUM" else "#ef4444"
+        s_color = "#16a34a" if status == "CONFIRMED" else "#ef4444" if status == "KILLED" else "#d97706"
+        s_bg = "rgba(22,163,74,0.06)" if status == "CONFIRMED" else "rgba(239,68,68,0.06)" if status == "KILLED" else "rgba(217,119,6,0.06)"
+        s_border = "#bbf7d0" if status == "CONFIRMED" else "#fecaca" if status == "KILLED" else "#fde68a"
 
-        # Stress test dots
-        check_html = ""
-        check_names = [("evidence_match", "Evidence"), ("break_point", "Break Pt"), ("consistency", "Consistency"), ("confidence_calibration", "Calibration"), ("steel_man", "Steel Man"), ("diagnosticity", "Diagnosticity")]
-        for key, label in check_names:
-            val = checks.get(key, "?")
-            if val in ("pass", "high"):
-                dot = f'<span style="color:#16a34a;">●</span>'
-            elif val in ("fail", "low"):
-                dot = f'<span style="color:#ef4444;">●</span>'
-            else:
-                dot = f'<span style="color:#999;">○</span>'
-            check_html += f'<span style="font-size:11px;margin-right:12px;">{dot} {label}</span>'
+        # Sub-hypothesis leaves
+        leaves_html = ""
+        for sh in subs:
+            sid = sh.get("id", "?")
+            s_stmt = e(sh.get("statement", ""))
+            verdict = sh.get("verdict", "?").upper()
+            eq = sh.get("evidence_quality", "?")
+            threshold = e(sh.get("decision_threshold", ""))
+            supports = e(str(sh.get("what_supports", ""))[:200])
+            contradicts = e(str(sh.get("what_contradicts", ""))[:200])
+            missing = e(str(sh.get("what_is_missing", ""))[:150])
 
-        cards_html += f'''
-<div style="background:{status_bg};border:1px solid #e5e7eb;border-left:4px solid {status_color};border-radius:0 8px 8px 0;padding:20px 24px;margin-bottom:12px;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-    <span style="font:800 14px 'Inter';color:{status_color};">{hid} — {status}</span>
-    <span style="font:600 11px 'Inter';color:{conf_color};background:{status_bg};padding:3px 10px;border-radius:12px;border:1px solid {conf_color};">{conf}</span>
+            v_color = "#16a34a" if verdict == "GREEN" else "#ef4444" if verdict == "RED" else "#d97706"
+            v_bg = "#f0fdf4" if verdict == "GREEN" else "#fef2f2" if verdict == "RED" else "#fffbeb"
+            v_icon = "✓" if verdict == "GREEN" else "✗" if verdict == "RED" else "?"
+
+            leaves_html += f'''
+      <div style="position:relative;padding-left:32px;margin-bottom:8px;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{v_color};opacity:0.3;"></div>
+        <div style="position:absolute;left:-5px;top:8px;width:12px;height:12px;border-radius:50%;background:{v_bg};border:2px solid {v_color};display:flex;align-items:center;justify-content:center;font-size:8px;color:{v_color};font-weight:800;">{v_icon}</div>
+        <div style="background:{v_bg};border:1px solid {v_color}22;border-radius:6px;padding:12px 16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <span style="font:700 12px 'Inter';color:{v_color};">{sid}</span>
+            <div>
+              <span style="font:600 10px 'Inter';color:{v_color};background:{v_bg};padding:2px 8px;border-radius:10px;border:1px solid {v_color}44;">{verdict}</span>
+              <span style="font:400 10px 'Inter';color:#999;margin-left:6px;">{eq}</span>
+            </div>
+          </div>
+          <p style="font:400 13px/1.5 'Inter';color:#1a1a1a;margin:0 0 6px;">{s_stmt}</p>
+          {"<p style='font:400 11px/1.4 Inter;color:#666;margin:0;'><span style=color:#16a34a>▲</span> " + supports + "</p>" if supports and supports != "None" else ""}
+          {"<p style='font:400 11px/1.4 Inter;color:#666;margin:0;'><span style=color:#ef4444>▼</span> " + contradicts + "</p>" if contradicts and contradicts != "None" and contradicts != "" else ""}
+          {"<p style='font:400 11px/1.4 Inter;color:#999;margin:0;'>◌ Missing: " + missing + "</p>" if missing and missing != "None" and missing != "" else ""}
+          {"<p style='font:400 10px Inter;color:#999;margin:4px 0 0;'>Threshold: " + threshold + "</p>" if threshold else ""}
+        </div>
+      </div>'''
+
+        tree_html += f'''
+<div style="position:relative;margin-bottom:24px;margin-left:40px;">
+  <!-- Connector line from governing -->
+  <div style="position:absolute;left:-20px;top:0;width:2px;height:100%;background:#e5e7eb;"></div>
+  <div style="position:absolute;left:-24px;top:20px;width:8px;height:8px;border-radius:50%;background:{s_color};"></div>
+
+  <!-- Primary hypothesis -->
+  <div style="background:{s_bg};border:1px solid {s_border};border-radius:8px;padding:16px 20px;margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <span style="font:800 14px 'Inter';color:{s_color};">{hid} — {status}</span>
+      <div>
+        <span style="font:600 10px 'Inter';color:#888;background:#f3f4f6;padding:2px 8px;border-radius:10px;">{logic}-logic</span>
+        <span style="font:600 10px 'Inter';color:{s_color};background:{s_bg};padding:2px 8px;border-radius:10px;border:1px solid {s_color}44;margin-left:4px;">{conf}</span>
+      </div>
+    </div>
+    <p style="font:500 14px/1.5 'Inter';color:#1a1a1a;margin:0;">{stmt}</p>
+    {"<p style='font:400 11px/1.4 Inter;color:#888;margin:6px 0 0;font-style:italic;'>Why necessary: " + necessary + "</p>" if necessary else ""}
   </div>
-  <p style="font:400 15px/1.6 'Inter';color:#1a1a1a;margin-bottom:12px;">{stmt}</p>
-  <div style="margin-bottom:10px;">{check_html}</div>
-  {"<p style='font:400 13px/1.5 Inter;color:#555;margin-bottom:6px;'><strong>Break point:</strong> " + bp + "</p>" if bp else ""}
-  {"<p style='font:400 13px/1.5 Inter;color:#555;margin-bottom:6px;'><strong>Evidence for:</strong> " + ev_for[:300] + "</p>" if ev_for else ""}
-  {"<p style='font:400 13px/1.5 Inter;color:#555;margin-bottom:6px;'><strong>Evidence against:</strong> " + ev_against[:300] + "</p>" if ev_against else ""}
-  {"<p style='font:400 12px/1.5 Inter;color:#999;font-style:italic;'>" + review + "</p>" if review else ""}
+
+  <!-- Leaf sub-hypotheses -->
+  <div style="margin-left:20px;">
+{leaves_html}
+  </div>
 </div>'''
 
     # Graveyard
     graveyard_html = ""
     if graveyard:
-        graveyard_html = '<h2 style="color:#ef4444;margin:32px 0 16px;">Hypothesis Graveyard</h2>'
+        graveyard_html = '<div style="margin-top:40px;padding-top:24px;border-top:2px solid #fecaca;"><h2 style="color:#ef4444;margin:0 0 16px;font:700 16px Inter;">Hypothesis Graveyard</h2>'
         for k in graveyard:
-            stmt = e(k.get("statement", ""))
-            killed = e(k.get("killed_by", ""))
-            graveyard_html += f'''
-<div style="background:rgba(239,68,68,0.05);border:1px solid #fecaca;border-left:4px solid #ef4444;border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:10px;">
-  <p style="font:600 13px 'Inter';color:#ef4444;margin-bottom:6px;">REJECTED</p>
-  <p style="font:400 14px/1.6 'Inter';color:#1a1a1a;margin-bottom:6px;">{stmt}</p>
-  <p style="font:400 12px/1.5 'Inter';color:#999;"><strong>Kill reason:</strong> {killed}</p>
+            graveyard_html += f'''<div style="background:#fef2f2;border-left:3px solid #ef4444;padding:12px 16px;margin-bottom:8px;border-radius:0 6px 6px 0;">
+  <p style="font:600 12px Inter;color:#ef4444;margin:0 0 4px;">{e(k.get("id",""))}: KILLED</p>
+  <p style="font:400 13px/1.5 Inter;color:#1a1a1a;margin:0 0 4px;">{e(k.get("statement","")[:150])}</p>
+  <p style="font:400 11px Inter;color:#999;margin:0;">Kill reason: {e(k.get("killed_by",""))}</p>
 </div>'''
-
-    # High diagnosticity
-    diag_html = ""
-    if high_diag:
-        diag_html = '<h2 style="margin:32px 0 16px;">Key Discriminating Evidence</h2><p style="font:400 13px/1.5 Inter;color:#555;margin-bottom:12px;">These findings distinguish between competing hypotheses:</p>'
-        for hd in high_diag[:5]:
-            diag_html += f'<p style="font:400 13px/1.5 Inter;color:#1a1a1a;padding:8px 12px;background:#f8fafc;border-left:3px solid #2563eb;margin-bottom:8px;">{e(str(hd)[:200])}</p>'
-
-    # Summary stats
-    confirmed = len([h for h in hypotheses if h.get("status") == "confirmed"])
-    uncertain = len([h for h in hypotheses if h.get("status") == "uncertain"])
-    killed_count = len(graveyard)
+        graveyard_html += '</div>'
 
     page = f'''<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hypothesis Tree</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{{font-family:'Inter',sans-serif;max-width:900px;margin:0 auto;padding:48px 32px 80px;color:#1a1a1a;background:#fff;line-height:1.6}}
-h1{{font:800 24px/1.3 'Inter';margin:0 0 8px}}
-h2{{font:700 18px/1.3 'Inter';margin:40px 0 16px;color:#1a1a1a;border-bottom:1px solid #e5e7eb;padding-bottom:8px}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:'Inter',sans-serif;max-width:960px;margin:0 auto;padding:48px 32px 80px;color:#1a1a1a;background:#fff;line-height:1.6}}
 </style></head><body>
 
-<div style="display:flex;gap:16px;margin-bottom:24px;">
-  <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 20px;text-align:center;flex:1;">
-    <div style="font:800 24px 'Inter';color:#16a34a;">{confirmed}</div>
-    <div style="font:500 11px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Confirmed</div>
+<!-- Stats -->
+<div style="display:flex;gap:12px;margin-bottom:24px;">
+  <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 20px;text-align:center;flex:1;">
+    <div style="font:800 22px 'Inter';color:#16a34a;">{confirmed}</div>
+    <div style="font:500 10px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Confirmed</div>
   </div>
-  <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 20px;text-align:center;flex:1;">
-    <div style="font:800 24px 'Inter';color:#f59e0b;">{uncertain}</div>
-    <div style="font:500 11px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Uncertain</div>
+  <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 20px;text-align:center;flex:1;">
+    <div style="font:800 22px 'Inter';color:#d97706;">{uncertain}</div>
+    <div style="font:500 10px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Uncertain</div>
   </div>
-  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 20px;text-align:center;flex:1;">
-    <div style="font:800 24px 'Inter';color:#ef4444;">{killed_count}</div>
-    <div style="font:500 11px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Killed</div>
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 20px;text-align:center;flex:1;">
+    <div style="font:800 22px 'Inter';color:#ef4444;">{killed_count}</div>
+    <div style="font:500 10px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Killed</div>
+  </div>
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 20px;text-align:center;flex:1;">
+    <div style="font:800 22px 'Inter';color:#2563eb;">{iterations}</div>
+    <div style="font:500 10px 'Inter';color:#555;text-transform:uppercase;letter-spacing:1px;">Iterations</div>
   </div>
 </div>
 
-<h1>Governing Hypothesis</h1>
-<div style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px 20px;margin-bottom:32px;border-radius:0 8px 8px 0;">
-  <p style="font:400 15px/1.7 'Inter';color:#1a1a1a;">{gov}</p>
+<!-- Governing Hypothesis (tree root) -->
+<div style="background:#eff6ff;border:2px solid #2563eb;border-radius:10px;padding:20px 24px;margin-bottom:8px;position:relative;">
+  <div style="font:700 10px 'Inter';color:#2563eb;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Governing Hypothesis</div>
+  <p style="font:600 16px/1.5 'Inter';color:#1a1a1a;margin:0;">{gov}</p>
 </div>
 
-<h2>Hypotheses ({len(hypotheses)} tested)</h2>
-<p style="font:400 13px 'Inter';color:#555;margin-bottom:16px;">
-  <span style="color:#16a34a;">● pass</span> &nbsp;
-  <span style="color:#ef4444;">● fail</span> &nbsp;
-  <span style="color:#999;">○ not tested</span> &nbsp;
-  — 6-point stress test: Evidence match, Break point, Consistency, Calibration, Steel man, Diagnosticity
-</p>
+<!-- Connector -->
+<div style="width:2px;height:16px;background:#e5e7eb;margin:0 0 0 40px;"></div>
 
-{cards_html}
+<!-- Legend -->
+<div style="font:400 11px 'Inter';color:#888;margin:0 0 16px 40px;">
+  <span style="color:#16a34a;">● GREEN</span> = evidence confirms &nbsp;
+  <span style="color:#d97706;">● AMBER</span> = thin/uncertain &nbsp;
+  <span style="color:#ef4444;">● RED</span> = evidence kills &nbsp;
+  | AND-logic: one RED kills parent · OR-logic: all RED kills parent
+</div>
+
+<!-- Tree branches -->
+{tree_html}
 
 {graveyard_html}
 
-{diag_html}
-
-<div style="font:400 11px 'Inter';color:#999;margin-top:40px;padding-top:16px;border-top:1px solid #e5e7eb;">
-  Generated by Anvil · Hypothesis stress test with 6 failure modes · Governing hypothesis from survivors only
+<div style="font:400 10px 'Inter';color:#bbb;margin-top:40px;padding-top:12px;border-top:1px solid #f3f4f6;">
+  Anvil v2.0 · Iterative hypothesis tree · {iterations} iteration(s) · Leaf-level testing with GREEN/AMBER/RED verdicts
 </div>
 
 </body></html>'''
 
     out_path = run_dir / "hypotheses" / "hypotheses.html"
+    out_path.write_text(page, encoding="utf-8")
+    return str(out_path)
+
+
+def _build_hypothesis_map_html(run_dir):
+    """Build a clean horizontal tree map — governing → primary → leaves. Statements only, no detail."""
+    run_dir = Path(run_dir)
+    hyp_path = run_dir / "hypotheses" / "hypotheses.json"
+    if not hyp_path.exists():
+        return None
+
+    with open(hyp_path, encoding="utf-8") as f:
+        hyp = json.load(f)
+
+    e = html_mod.escape
+    gov = e(hyp.get("governing_hypothesis", ""))
+    hypotheses = hyp.get("hypotheses", [])
+    graveyard = hyp.get("graveyard", [])
+
+    # Build branch rows
+    branches_html = ""
+    for i, h in enumerate(hypotheses):
+        hid = h.get("id", "?")
+        status = h.get("status", "uncertain").upper()
+        stmt = e(h.get("statement", ""))
+        logic = h.get("logic", "AND").upper()
+        subs = h.get("sub_hypotheses", [])
+
+        def _md_bold(text):
+            """Convert **bold** markdown to <strong> tags."""
+            import re as _re
+            return _re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+
+        def _bold_only(text):
+            """Extract ONLY the bold phrase for the map view. Falls back to full text if no bold markers."""
+            import re as _re
+            match = _re.search(r'\*\*(.+?)\*\*', text)
+            if match:
+                return match.group(1)
+            return text
+
+        # Color by level — each primary hypothesis gets a distinct color family
+        level_colors = [
+            {"border": "#2563eb", "bg": "#eff6ff", "text": "#1d4ed8"},   # blue
+            {"border": "#7c3aed", "bg": "#f5f3ff", "text": "#6d28d9"},   # purple
+            {"border": "#0891b2", "bg": "#ecfeff", "text": "#0e7490"},   # cyan
+            {"border": "#c2410c", "bg": "#fff7ed", "text": "#c2410c"},   # orange
+            {"border": "#15803d", "bg": "#f0fdf4", "text": "#15803d"},   # green
+            {"border": "#be185d", "bg": "#fdf2f8", "text": "#be185d"},   # pink
+        ]
+        lc = level_colors[i % len(level_colors)]
+
+        # Override with status color if killed
+        if status == "KILLED":
+            lc = {"border": "#ef4444", "bg": "#fef2f2", "text": "#ef4444"}
+
+        # Leaf nodes
+        leaves_html = ""
+        for sh in subs:
+            sid = sh.get("id", "?")
+            s_stmt = e(sh.get("statement", ""))
+            verdict = sh.get("verdict", "?").upper()
+            v_color = "#16a34a" if verdict == "GREEN" else "#ef4444" if verdict == "RED" else "#d97706"
+            v_bg = "#f0fdf4" if verdict == "GREEN" else "#fef2f2" if verdict == "RED" else "#fffbeb"
+            v_icon = "✓" if verdict == "GREEN" else "✗" if verdict == "RED" else "?"
+
+            leaves_html += f'''<div class="leaf">
+<div class="leaf-dot" style="background:{lc['border']};"></div>
+<div class="leaf-line" style="background:{lc['border']};opacity:0.3;"></div>
+<div class="leaf-node" style="border-color:{lc['border']};background:{lc['bg']};">
+  <span class="leaf-id" style="color:{lc['text']};">{sid}</span>
+  <span class="leaf-verdict" style="color:{v_color};">{v_icon}</span>
+  <span class="leaf-stmt">{_bold_only(s_stmt)}</span>
+</div>
+</div>'''
+
+        branches_html += f'''<div class="branch">
+<div class="branch-connector" style="background:{lc['border']};opacity:0.3;"></div>
+<div class="branch-node" style="border-color:{lc['border']};background:{lc['bg']};">
+  <span class="branch-id" style="color:{lc['text']};">{hid}</span>
+  <span class="branch-logic" style="color:{lc['text']};">{logic}</span>
+  <span class="branch-stmt">{_bold_only(stmt)}</span>
+</div>
+<div class="leaves">
+{leaves_html}
+</div>
+</div>'''
+
+    # Graveyard row
+    grave_html = ""
+    if graveyard:
+        for g in graveyard:
+            grave_html += f'<div class="grave-node"><span class="grave-id">{e(g.get("id",""))}</span> {e(g.get("statement","")[:80])}</div>'
+        grave_html = f'<div class="graveyard"><div class="grave-label">GRAVEYARD</div>{grave_html}</div>'
+
+    page = f'''<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hypothesis Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;padding:32px;overflow-x:auto;min-width:100%}}
+.tree{{display:flex;align-items:flex-start;gap:0;min-height:80vh;width:max-content}}
+
+/* Root */
+.root{{flex-shrink:0;width:220px;display:flex;align-items:center;position:relative}}
+.root-node{{background:#eff6ff;border:2px solid #2563eb;border-radius:8px;padding:10px 12px;width:180px;position:relative}}
+.root-label{{font:700 8px 'Inter';color:#2563eb;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}}
+.root-stmt{{font:600 10px/1.3 'Inter';color:#1a1a1a}}
+.root-line{{position:absolute;right:-20px;top:50%;width:20px;height:2px;background:#e5e7eb}}
+
+/* Branches column */
+.branches{{display:flex;flex-direction:column;gap:16px;margin-left:20px;position:relative}}
+.branches::before{{content:'';position:absolute;left:0;top:20px;bottom:20px;width:2px;background:#e5e7eb}}
+
+.branch{{display:flex;align-items:flex-start;gap:0;position:relative}}
+.branch-connector{{width:16px;height:2px;background:#e5e7eb;margin-top:20px;flex-shrink:0}}
+.branch-node{{flex-shrink:0;width:280px;border:1.5px solid;border-radius:6px;padding:8px 12px}}
+.branch-id{{font:800 11px 'Inter';display:block}}
+.branch-logic{{font:500 9px 'Inter';float:right;padding:1px 6px;border-radius:8px;background:#f3f4f6}}
+.branch-stmt{{font:400 11px/1.3 'Inter';color:#1a1a1a;display:block;margin-top:3px}}
+
+/* Leaves */
+.leaves{{display:flex;flex-direction:column;gap:6px;margin-left:8px;position:relative}}
+.leaves::before{{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:1px;background:#e5e7eb}}
+
+.leaf{{display:flex;align-items:center;gap:0;position:relative}}
+.leaf-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0;z-index:1;margin-left:5px}}
+.leaf-line{{width:10px;height:1px;background:#e5e7eb;flex-shrink:0}}
+.leaf-node{{border:1px solid;border-radius:4px;padding:5px 10px;min-width:250px;flex:1}}
+.leaf-id{{font:700 10px 'Inter';margin-right:4px}}
+.leaf-stmt{{font:400 10px/1.3 'Inter';color:#374151}}
+
+/* Graveyard */
+.graveyard{{margin-top:32px;padding:16px;border:1px dashed #fecaca;border-radius:6px;margin-left:240px}}
+.grave-label{{font:700 10px 'Inter';color:#ef4444;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}}
+.grave-node{{font:400 11px/1.4 'Inter';color:#999;padding:4px 0;border-bottom:1px solid #fef2f2}}
+.grave-id{{font:700 11px 'Inter';color:#ef4444;margin-right:6px}}
+</style></head><body>
+
+<div class="tree">
+  <!-- Root: Governing Hypothesis -->
+  <div class="root">
+    <div class="root-node">
+      <div class="root-label">Governing</div>
+      <div class="root-stmt">{_bold_only(gov)}</div>
+      <div class="root-line"></div>
+    </div>
+  </div>
+
+  <!-- Branches: Primary Hypotheses → Leaves -->
+  <div class="branches">
+{branches_html}
+  </div>
+</div>
+
+{grave_html}
+
+</body></html>'''
+
+    out_path = run_dir / "hypotheses" / "hypothesis_map.html"
     out_path.write_text(page, encoding="utf-8")
     return str(out_path)
 
@@ -3375,13 +4172,15 @@ def _build_combined_output(run_dir):
     synthesis_html = _md_to_html_page(run_dir / "synthesis" / "synthesis.md", "Synthesis")
     debrief_html = _md_to_html_page(run_dir / "research" / "debrief.md", "Research Debrief")
     hypothesis_html = _build_hypothesis_tree_html(run_dir)
+    hypothesis_map = _build_hypothesis_map_html(run_dir)
 
-    # Build tab config: Report | Appendix | Issue Tree | Hypotheses | Synthesis | Research Debrief
+    # Build tab config
     tabs = [
         ("Report", "final_document.html"),
         ("Appendix", "appendix.html"),
         ("Issue Tree", "tree.html"),
-        ("Hypotheses", "hypotheses/hypotheses.html" if hypothesis_html else ""),
+        ("Hyp Tree", "hypotheses/hypotheses.html" if hypothesis_html else ""),
+        ("Hyp Map", "hypotheses/hypothesis_map.html" if hypothesis_map else ""),
         ("Synthesis", "synthesis/synthesis.html" if synthesis_html else ""),
         ("Research Debrief", "research/debrief.html" if debrief_html else ""),
     ]
@@ -3452,123 +4251,100 @@ def step7_appendix(state, mece, hyp_tree, working_doc, feedback=None):
     else:
         final_text = ""
 
-    # Map claims to slides — use final document as primary, hypotheses as backup
-    slides = llm_json(
-        f"""You are mapping claims from a FINAL STRATEGIC DOCUMENT to appendix proof slides.
+    # TWO-STEP APPROACH: identify claims first, then generate chart data per slide
+    # Step 1: Identify 4-6 claims that need charts + chart type + title (small JSON)
+    print(f"    {C.DIM}Step 1: Identifying chartable claims...{C.R}")
+    claim_specs = llm_json(
+        f"""Identify 4-6 claims from this strategic document that need proving with a chart.
 
-The final document contains specific claims with numbers. Each claim that needs proving gets exactly one appendix slide. Every appendix slide maps back to exactly one claim in the document.
+For each claim, specify WHAT chart to make — but do NOT generate the chart data yet.
 
-We use Apache ECharts for rendering. You MUST provide a COMPLETE "echart_option" object per slide that gets passed directly to chart.setOption(). You control ALL styling.
+DECISION TREE — pick the best chart type:
+1. RANKING or COMPARISON? -> "horizontal_bar"
+2. CHANGE OVER TIME? -> "line"
+3. BUILD-UP or BREAKDOWN? -> "waterfall"
+4. PART OF A WHOLE? -> "donut" (max 6 slices)
+5. SINGLE KPI vs TARGET? -> "gauge"
+6. FLOW? -> "sankey"
 
-EXECUTIVE-QUALITY CHARTS — these go in front of a board. Not basic bar charts.
+VARIETY: use at least 3 different chart types. Do NOT default to horizontal_bar for everything.
 
-REQUIRED STYLING FOR EVERY CHART:
-- **Title**: action_title as the chart title in echart_option: {{title: {{text: "...", textStyle: {{fontSize: 18, fontWeight: "bold", fontFamily: "Inter"}}}}}}
-- **Annotation lines**: Use markLine for targets, thresholds, averages. Example: markLine: {{data: [{{yAxis: 100, label: {{formatter: "Target: 100"}}}}], lineStyle: {{type: "dashed", color: "#999"}}}}
-- **Callout labels**: Use markPoint to highlight the key data point: markPoint: {{data: [{{type: "max", name: "Peak"}}]}}
-- **Value labels**: fontSize 14+, fontWeight "bold", ALWAYS show on data points
-- **Color strategy**: ONE highlight color for the story, everything else grey (#d1d5db). Not rainbow.
-- **Grid**: generous padding — grid: {{left: 80, right: 40, top: 60, bottom: 60}}
-- **Font**: fontFamily "Inter" everywhere
-- **Tooltip**: rich formatter with units: tooltip: {{trigger: "axis", formatter: function-style or template string}}
+Only pick claims that have REAL SOURCED NUMBERS in the document. No chart for unsourced claims.
 
-EXAMPLES OF GOOD vs BAD:
-
-BAD gauge: just a semicircle with a number
-GOOD gauge: {{series: [{{type: "gauge", min: 60, max: 140, data: [{{value: 105, name: "Brent $/bbl"}}], axisLine: {{lineStyle: {{width: 20, color: [[0.3, "#22c55e"], [0.6, "#f59e0b"], [1, "#ef4444"]]}}}}, pointer: {{width: 5}}, detail: {{fontSize: 28, fontWeight: "bold", formatter: "${{value}}/bbl"}}, title: {{fontSize: 14, offsetCenter: [0, "80%"]}}}}]}}
-
-BAD bar: plain bars, no reference line, no context
-GOOD bar: bars with markLine showing industry average, one bar highlighted in red, rest in #d1d5db, label on the red bar says "GAP: -$2.3B"
-
-BAD waterfall: just colored rectangles
-GOOD waterfall: connector lines between bars, running total label, bold +/- prefix on labels, summary annotation at the end
-
-PREVENT LABEL OVERLAP:
-- ALL text labels under 25 characters
-- More than 4 categories? Use horizontal_bar
-- Horizontal bars: grid left 220px min, axisLabel width 200 with overflow "truncate"
-- Value labels: position "right" for horizontal, "top" for vertical, fontSize 14+
-
-DECISION TREE — pick the best chart for the data:
-1. RANKING or COMPARISON of categories? -> "bar" (vertical) or "horizontal_bar" (if labels are long)
-2. CHANGE OVER TIME? -> "line" (trend) or "area" (cumulative)
-3. SEQUENTIAL BUILD-UP or BREAKDOWN? -> "waterfall" (shows how parts add/subtract to a total)
-4. PART OF A WHOLE? -> "pie" or "donut" (max 6 slices)
-5. TWO VARIABLES CORRELATED? -> "scatter" (x vs y)
-6. FLOW or REDIRECTION? -> "sankey" (from-to relationships)
-7. DISTRIBUTION or RANGE? -> "boxplot" or "bar" with error ranges
-8. FUNNEL or CONVERSION? -> "funnel" (stages narrowing)
-9. HEAT/INTENSITY across two dimensions? -> "heatmap"
-10. SINGLE KPI vs TARGET? -> "gauge" (rendered as bullet chart). ONLY use gauge when the claim is literally "metric X is at value Y vs target Z" — a single number against a benchmark. If the claim lists multiple items, categories, or defects, use horizontal_bar instead. When in doubt, use horizontal_bar — never gauge.
-
-VARIETY IS MANDATORY:
-- You MUST use at least 3 DIFFERENT chart types across the 4-6 slides.
-- Do NOT default to horizontal_bar for everything. Each slide should use the chart type that best tells THAT specific story.
-- Example good mix: 1 waterfall, 1 line, 2 horizontal_bar, 1 donut, 1 gauge
-- Example bad mix: 6 horizontal_bar (lazy, uninformative, looks like the same slide repeated)
-
-RULES:
-1. Target 4-6 slides. Only claims that NEED proving with a chart.
-2. EVERY slide MUST have chart_data with the required fields for its chart type.
-3. Use numbers from the document. If unavailable, estimate and mark source_line as "illustrative".
-
-CHART DATA FORMAT BY TYPE:
-
-"bar" or "horizontal_bar":
-  chart_data: {{"labels": ["A", "B", "C"], "values": [10, 20, 30], "colors": ["#2563eb", "#2563eb", "#ef4444"]}}
-
-"line" or "area":
-  chart_data: {{"labels": ["Q1", "Q2", "Q3", "Q4"], "series": [{{"name": "Revenue", "values": [10, 12, 11, 15]}}, {{"name": "Cost", "values": [8, 9, 10, 11]}}]}}
-
-"waterfall":
-  chart_data: {{"labels": ["Start", "+Growth", "-Churn", "End"], "values": [100, 30, -15, 115], "colors": ["#2563eb", "#22c55e", "#ef4444", "#2563eb"]}}
-
-"pie" or "donut":
-  chart_data: {{"labels": ["Segment A", "Segment B", "Segment C"], "values": [45, 30, 25]}}
-
-"scatter":
-  chart_data: {{"points": [[x1,y1], [x2,y2]], "x_label": "Market Share %", "y_label": "Growth %"}}
-
-"gauge":
-  chart_data: {{"value": 73, "min": 0, "max": 100, "label": "NRR %", "target": 100}}
-
-"funnel":
-  chart_data: {{"labels": ["Prospects", "Qualified", "Proposal", "Won"], "values": [1000, 400, 200, 80]}}
-
-"sankey":
-  chart_data: {{"nodes": ["A", "B", "C", "D"], "links": [{{"source": "A", "target": "C", "value": 50}}, {{"source": "B", "target": "D", "value": 30}}]}}
-
-"heatmap":
-  chart_data: {{"x_labels": ["Q1", "Q2"], "y_labels": ["Product A", "Product B"], "values": [[80, 90], [60, 70]]}}
-
-Each slide MUST have:
-- appendix_num (integer, starting at 1)
-- claim_sentence (exact sentence from document this proves)
-- action_title (conclusion headline, 8-12 words. Label under 25 chars.)
-- subtitle (units, period, source)
-- chart_type (one of: bar, horizontal_bar, line, area, waterfall, pie, donut, gauge, funnel, scatter, sankey, heatmap)
-- chart_data (matching the format above for that chart type — our rendering engine handles the styling)
-- conclusion (one sentence)
-- source_line (data source attribution)
-
-CHART QUALITY RULES:
-- Each chart must make ONE point obvious in 3 seconds. If you have to explain it, the chart failed.
-- Labels: max 25 characters. Abbreviate.
-- Colors: RED (#ef4444) for bad, GREEN (#22c55e) for good, BLUE (#2563eb) for neutral.
-- Values MUST be REAL numbers that appear in the final document with a source citation.
-- If a claim has no sourced number, DO NOT create a chart for it. Skip it.
-- NEVER invent or estimate chart values. If the document says "estimated 30-40%" use the midpoint. If the document has no number, no chart.
-- It is better to have 3 strong sourced charts than 6 charts with made-up data.
-
-CHART DESIGN FRAMEWORK:
-{chart_rules}
-
-Return JSON: {{"slides": [...]}}""",
-        "{feedback_block}FINAL DOCUMENT:\n{doc}\n\nWORKING DOCUMENT (additional sourced data points for charts — use numbers from here if the final doc doesn't have enough chartable claims):\n{wd}\n\nCreate exactly 5-6 proof charts. Pick the claims with the hardest sourced numbers. Look in BOTH the final document and working document for chartable data. Follow the decision tree to select chart types — use at least 3 different types. Apply the design principles: grey everything except the story, title states the conclusion, 3-second rule. Keep it COMPACT — max 6 data points per chart, labels under 20 chars.".format(
-            feedback_block=f"USER FEEDBACK ON PRIOR CHARTS (you MUST address every point):\n{feedback}\n\n" if feedback else "",
-            doc=final_text[:15000], wd=working_doc[:15000], chart_rules=chart_rules
-        )
+Return JSON: {{"claims": [
+  {{
+    "appendix_num": 1,
+    "claim_sentence": "exact sentence from document",
+    "action_title": "conclusion headline, 8-12 words",
+    "subtitle": "units, period, source",
+    "chart_type": "horizontal_bar|line|waterfall|donut|gauge|bar|scatter|sankey",
+    "data_description": "what data points to extract for this chart",
+    "conclusion": "one sentence takeaway",
+    "source_line": "data source"
+  }}
+]}}""",
+        "{fb}FINAL DOCUMENT:\n{doc}".format(
+            fb=f"USER FEEDBACK:\n{feedback}\n\n" if feedback else "",
+            doc=final_text[:15000]
+        ),
+        model=SONNET, max_tokens=4096
     )
+
+    claims = claim_specs.get("claims", [])
+    print(f"    {C.DIM}{len(claims)} chartable claims identified{C.R}")
+
+    # Step 2: Generate chart_data for each claim individually (parallel)
+    print(f"    {C.DIM}Step 2: Generating chart data per slide...{C.R}")
+
+    def _gen_chart_data(claim):
+        chart_type = claim.get("chart_type", "horizontal_bar")
+        data_formats = {
+            "bar": '{"labels": ["A","B","C"], "values": [10,20,30], "colors": ["#2563eb","#2563eb","#ef4444"]}',
+            "horizontal_bar": '{"labels": ["A","B","C"], "values": [10,20,30], "colors": ["#2563eb","#2563eb","#ef4444"]}',
+            "line": '{"labels": ["Q1","Q2","Q3"], "series": [{"name": "X", "values": [10,12,15]}]}',
+            "area": '{"labels": ["Q1","Q2","Q3"], "series": [{"name": "X", "values": [10,12,15]}]}',
+            "waterfall": '{"labels": ["Start","+A","-B","End"], "values": [100,30,-15,115], "colors": ["#2563eb","#22c55e","#ef4444","#2563eb"]}',
+            "donut": '{"labels": ["A","B","C"], "values": [45,30,25]}',
+            "pie": '{"labels": ["A","B","C"], "values": [45,30,25]}',
+            "gauge": '{"value": 73, "min": 0, "max": 100, "label": "KPI", "target": 100}',
+            "scatter": '{"points": [[1,2],[3,4]], "x_label": "X", "y_label": "Y"}',
+            "sankey": '{"nodes": ["A","B","C"], "links": [{"source":"A","target":"C","value":50}]}',
+            "funnel": '{"labels": ["Step1","Step2"], "values": [100,50]}',
+            "heatmap": '{"x_labels": ["A","B"], "y_labels": ["X","Y"], "values": [[1,2],[3,4]]}',
+        }
+        fmt = data_formats.get(chart_type, data_formats["horizontal_bar"])
+
+        prompt_sys = "Generate chart_data for this proof slide. Use REAL numbers from the document.\n\n"
+        prompt_sys += "CLAIM: " + claim.get('claim_sentence', '') + "\n"
+        prompt_sys += "CHART TYPE: " + chart_type + "\n"
+        prompt_sys += "DATA TO EXTRACT: " + claim.get('data_description', '') + "\n\n"
+        prompt_sys += "REQUIRED FORMAT for " + chart_type + ":\nchart_data: " + fmt + "\n\n"
+        prompt_sys += "RULES:\n- Labels max 20 characters. Abbreviate.\n- Max 6 data points.\n"
+        prompt_sys += "- Colors: RED #ef4444 for bad, GREEN #22c55e for good, BLUE #2563eb for neutral, GREY #d1d5db for context.\n"
+        prompt_sys += "- ONE highlight color for the story, rest grey.\n\n"
+        prompt_sys += 'Return JSON: {"chart_data": ...}'
+
+        result = llm_json(
+            prompt_sys,
+            "SOURCE TEXT:\n" + final_text[:5000],
+            model=HAIKU, max_tokens=1024
+        )
+        claim["chart_data"] = result.get("chart_data", {})
+        return claim
+
+    completed_slides = []
+    with ThreadPoolExecutor(max_workers=min(len(claims), 4)) as executor:
+        futures = {executor.submit(_gen_chart_data, c): c for c in claims}
+        for future in as_completed(futures):
+            try:
+                slide = future.result()
+                completed_slides.append(slide)
+                print(f"      {C.GREEN}Slide {slide.get('appendix_num', '?')}: {slide.get('chart_type', '?')}{C.R}")
+            except Exception as e:
+                print(f"      {C.RED}Slide failed: {e}{C.R}")
+
+    completed_slides.sort(key=lambda x: x.get("appendix_num", 0))
+    slides = {"slides": completed_slides}
 
     # Save slide data
     app_dir = state.dir / "appendix"
@@ -3666,8 +4442,21 @@ def main():
     parser.add_argument("--resume", type=str, help="Resume from run directory")
     parser.add_argument("--output", type=str, help="Output directory (use existing folder)")
     parser.add_argument("--autopilot", action="store_true", help="Run end-to-end without human checkpoints (coffee mode)")
+    parser.add_argument("--hypothesis", type=str, default=None, help="Hypothesis-driven mode: provide your Day 1 answer to stress-test")
     args = parser.parse_args()
     AUTOPILOT = args.autopilot
+    HYPOTHESIS_MODE = args.hypothesis is not None
+    USER_HYPOTHESIS = args.hypothesis
+
+    # On resume, detect mode from state.json if --hypothesis wasn't passed
+    if args.resume and not HYPOTHESIS_MODE:
+        _resume_state_path = Path(args.resume) / "state.json"
+        if _resume_state_path.exists():
+            _resume_state = json.load(open(_resume_state_path, encoding="utf-8"))
+            if _resume_state.get("mode") == "hypothesis-driven":
+                HYPOTHESIS_MODE = True
+                USER_HYPOTHESIS = _resume_state.get("user_hypothesis", "")
+                print(f"  Detected hypothesis-driven mode from previous run")
 
     clear()
 
@@ -3719,564 +4508,778 @@ def main():
     log_run_start(state.get("topic", ""), state.get("audience", ""))
     _run_start_time = time.time()
 
+    # Reset dashboard — always write current run's state, overwriting any previous run
+    state.save()  # triggers update_dashboard which writes dashboard_state.js
+
     mece = None
     hyp_tree = None
     working_doc = ""
+    synthesis = None
 
     # ── STEP 0 ──
     if state.step <= 0:
-        summary, mece, AUTOPILOT = step0(state, autopilot=AUTOPILOT)
+        summary, mece, AUTOPILOT = step0(state, autopilot=AUTOPILOT, hypothesis_mode=HYPOTHESIS_MODE)
         while True:
             action, detail = checkpoint(0, summary, autopilot=AUTOPILOT)
             if action == "quit":
                 return
             elif action == "feedback":
-                print(f"  {C.GREEN}Revising with feedback...{C.R}")
-                mece = llm_json(
-                    "Revise this MECE decomposition based on feedback. Return same JSON structure.",
-                    f"CURRENT:\n{json.dumps(mece, indent=2, ensure_ascii=False)}\n\nFEEDBACK: {detail}\n\nRevise."
-                )
-                json.dump(mece, open(state.dir / "mece" / "decomposition.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-                summary, _ = f"  {C.GREEN}Revised.{C.R}\n" + step0.__doc__, mece
-                summary, mece = step0(state, autopilot=AUTOPILOT)
+                if HYPOTHESIS_MODE:
+                    # In hypothesis mode, feedback revises the PS only
+                    print(f"  {C.GREEN}Revising PS with feedback...{C.R}")
+                    summary, mece, AUTOPILOT = step0(state, autopilot=AUTOPILOT, hypothesis_mode=True)
+                else:
+                    print(f"  {C.GREEN}Revising with feedback...{C.R}")
+                    mece = llm_json(
+                        "Revise this MECE decomposition based on feedback. Return same JSON structure.",
+                        f"CURRENT:\n{json.dumps(mece, indent=2, ensure_ascii=False)}\n\nFEEDBACK: {detail}\n\nRevise."
+                    )
+                    json.dump(mece, open(state.dir / "mece" / "decomposition.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+                    summary, _ = f"  {C.GREEN}Revised.{C.R}\n" + step0.__doc__, mece
+                    summary, mece = step0(state, autopilot=AUTOPILOT)
             else:
                 break
         state.complete(0)
     else:
         mece = json.load(open(state.get("mece_path"), encoding="utf-8"))
 
-    # ── STEP 1 ──
-    if state.step <= 1:
-        summary, tree_path = step1(state, mece)
-        action, _ = checkpoint(1, summary, html_path=tree_path, autopilot=AUTOPILOT)
-        if action == "quit":
-            return
-        if action == "back":
-            state.step = 0
-            return main()
-        state.complete(1)
-
-    # ── 80/20 Tiering (runs once, before research) ──
-    if state.step <= 2 and not state.get("tiers_path"):
-        tier_questions(state, mece)
-        # Save updated mece with tier labels
-        json.dump(mece, open(state.get("mece_path"), "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-
-    # ── STEP 2: Research ──
-    research_by_bucket = None
-    if state.step <= 2:
-        progress_bar(2)
-
-        # Generate research brief (what data is needed)
-        brief, total_must, total_nice = step2_research_brief(state, mece)
-
-        # Ask human how to proceed
-        choice, selected_items = research_input_prompt(state, brief, total_must, total_nice, autopilot=AUTOPILOT)
-
-        if choice == "C":
-            # Save and quit — human will gather research and resume
-            print(f"\n  {C.GREEN}Progress saved. To resume:{C.R}")
-            print(f"  {C.BOLD}1.{C.R} Review: {state.dir / 'research' / 'research_checklist.md'}")
-            print(f"  {C.BOLD}2.{C.R} Drop files in: {state.dir / 'inputs' / 'research'}")
-            print(f"  {C.BOLD}3.{C.R} Resume: python pipeline.py --resume {state.dir}\n")
-            return
-
-        human_data = []
-
-        if choice == "B":
-            # Scan for human-provided research files
-            input_dir = state.dir / "inputs" / "research"
-            files = scan_inputs(state.dir, "research")
-            if not files:
-                print(f"\n  {C.YELLOW}No files found in {input_dir}{C.R}")
-                print(f"  {C.DIM}Drop your research files there and press Enter to scan again,{C.R}")
-                print(f"  {C.DIM}or type 'A' to proceed with public knowledge, or 'C' to quit.{C.R}\n")
-                while True:
-                    try:
-                        resp = input(f"  {C.YELLOW}[Enter to scan / A / C]: {C.R}").strip().upper()
-                    except (EOFError, KeyboardInterrupt):
-                        resp = "C"
-                    if resp == "C":
-                        return
-                    elif resp == "A":
-                        break
-                    else:
-                        files = scan_inputs(state.dir, "research")
-                        if files:
-                            break
-                        print(f"  {C.YELLOW}Still no files found. Try again.{C.R}")
-            if files:
-                print(f"  {C.GREEN}Extracting data from {len(files)} file(s)...{C.R}")
-                human_data = extract_from_files(files)
-
-        elif choice == "D":
-            # Selective input — combine direct data + any files
-            direct_data = [item for item in selected_items if item.get("source") == "direct"]
-            file_refs = [item for item in selected_items if item.get("source") == "file"]
-
-            if direct_data:
-                # Package direct input as human_data
-                for d in direct_data:
-                    human_data.append({"file": f"direct_input_{d['id']}", "findings": f"[{d['id']}] {d['data']}"})
-
-            if file_refs:
-                files = scan_inputs(state.dir, "research")
-                if files:
-                    print(f"  {C.GREEN}Extracting from {len(files)} file(s) for {len(file_refs)} items...{C.R}")
-                    human_data.extend(extract_from_files(files))
-
-        # Execute research + working doc (overlapped pipeline)
-        print(f"\n  {C.GREEN}Steps 2+3: Research -> Working Document (overlapped pipeline)...{C.R}")
-
-        sections = mece.get("sections", [])
-        topic = state.get("topic", "")
-        audience = state.get("audience", "")
-        research_dir = state.dir / "research"
-        research_dir.mkdir(exist_ok=True)
-        wd_dir = state.dir / "working_doc"
-        wd_dir.mkdir(exist_ok=True)
-
-        human_answers = [h for h in state.data.get("human_inputs", []) if h["type"] == "answer"]
-        wd_human_context = ""
-        if human_answers:
-            wd_human_context = "\n\nHUMAN-PROVIDED ANSWERS (treat as HIGH confidence):\n" + "\n".join(f"- {h['content']}" for h in human_answers)
-
-        # Load current events if available
-        ce_path = state.get("current_events_path")
-        current_events_data = None
-        if ce_path and Path(ce_path).exists():
-            with open(ce_path, encoding="utf-8") as f:
-                ce_file = json.load(f)
-            if isinstance(ce_file, dict):
-                # New format: landscape.json with "events" key
-                if "events" in ce_file:
-                    current_events_data = ce_file.get("events", [])
-                # Old format: current_events.json with "all_results" key
-                elif "all_results" in ce_file:
-                    current_events_data = ce_file.get("all_results", [])
-                    print(f"  {C.DIM}(loaded old-format current events){C.R}")
-                elif "ranked" in ce_file:
-                    current_events_data = ce_file.get("ranked", [])
-                else:
-                    current_events_data = ce_file
-            elif isinstance(ce_file, list):
-                current_events_data = ce_file
-
-        # Phase 1: ALL web searches — sequential, throttled
-        print(f"  {C.GREEN}Phase 1: Web search (sequential, {len(sections)} buckets)...{C.R}")
-        search_data = _web_search_all_buckets(topic, sections, current_events=current_events_data)
-
-        # Phase 2: ALL synthesis + working doc — parallel
-        print(f"  {C.GREEN}Phase 2: Synthesis + Working Doc (parallel)...{C.R}")
-        def _synth_and_wd(s):
-            sid, r_text = _synthesize_one_bucket(topic, s, search_data, human_data if human_data else None, research_dir, current_events=current_events_data)
-            _, title, wd_text = _working_doc_one_bucket(topic, audience, s, {sid: r_text}, "", state.dir, wd_human_context)
-            return sid, r_text, title, wd_text
-
-        research_by_bucket = {}
-        wd_results = {}
-        with ThreadPoolExecutor(max_workers=min(len(sections), 6)) as executor:
-            futures = {executor.submit(_synth_and_wd, s): s for s in sections}
-            for future in as_completed(futures):
-                s = futures[future]
-                try:
-                    sid, r_text, title, wd_text = future.result()
-                    research_by_bucket[sid] = r_text
-                    wd_results[sid] = (title, wd_text)
-                    print(f"    {C.GREEN}Bucket {sid} done{C.R}")
-                except Exception as e:
-                    print(f"    {C.RED}Bucket {s['section_id']} failed: {e}{C.R}")
-
-        # Save research
-        compiled = "\n\n---\n\n".join(research_by_bucket[sid] for sid in sorted(research_by_bucket.keys()))
-        (research_dir / "compiled.md").write_text(compiled, encoding="utf-8")
-        state.set("research_path", str(research_dir / "compiled.md"))
-        research = compiled
-        state.complete(2)
-
-        # Save working doc
-        wd_parts = [f"## Bucket {sid}: {wd_results[sid][0]}\n\n{wd_results[sid][1]}" for sid in sorted(wd_results.keys())]
-        full_wd = f"# Working Document\n\n**Topic:** {topic}\n**Date:** {TODAY_STR}\n\n" + "\n\n---\n\n".join(wd_parts)
-        (wd_dir / "working_document.md").write_text(full_wd, encoding="utf-8")
-        state.set("wd_path", str(wd_dir / "working_document.md"))
-        working_doc = full_wd
-        state.complete(3)
-
-        print(f"  {C.GREEN}Steps 2+3 done: {len(research_by_bucket)} buckets (parallel pipeline){C.R}")
-    else:
-        rp = state.get("research_path")
-        research = Path(rp).read_text(encoding="utf-8") if rp and Path(rp).exists() else ""
-        # If compiled.md is empty, rebuild from individual bucket files
-        if not research.strip():
-            research_dir = state.dir / "research"
-            bucket_files = sorted(research_dir.glob("bucket_*.md"))
-            if bucket_files:
-                parts = [bf.read_text(encoding="utf-8") for bf in bucket_files if bf.read_text(encoding="utf-8").strip()]
-                research = "\n\n---\n\n".join(parts)
-                if research.strip():
-                    (research_dir / "compiled.md").write_text(research, encoding="utf-8")
-                    print(f"  {C.DIM}Rebuilt compiled.md from {len(parts)} bucket files{C.R}")
-        wp = state.get("wd_path")
-        working_doc = Path(wp).read_text(encoding="utf-8") if wp and Path(wp).exists() else ""
-        # If working doc is empty, try to rebuild from bucket files
-        if not working_doc.strip():
-            wd_dir = state.dir / "working_doc"
-            wd_bucket_files = sorted(wd_dir.glob("bucket_*.md")) if wd_dir.exists() else []
-            if wd_bucket_files:
-                wd_parts = [f.read_text(encoding="utf-8") for f in wd_bucket_files if f.read_text(encoding="utf-8").strip()]
-                if wd_parts:
-                    working_doc = f"# Working Document\n\n**Topic:** {state.get('topic', '')}\n\n" + "\n\n---\n\n".join(wd_parts)
-                    (wd_dir / "working_document.md").write_text(working_doc, encoding="utf-8")
-                    print(f"  {C.DIM}Rebuilt working_document.md from {len(wd_parts)} bucket files{C.R}")
-
-    # ── Research Debrief (generated once, before synthesis) ──
-    debrief_path = state.dir / "research" / "debrief.md"
-    if not debrief_path.exists() and working_doc:
-        print(f"\n  {C.GREEN}Generating research debrief...{C.R}")
+    # ══════════════════════════════════════════════════════════════
+    # HYPOTHESIS-DRIVEN MODE: challenge → lock → skip to step 5
+    # ══════════════════════════════════════════════════════════════
+    if HYPOTHESIS_MODE and state.step <= 5:
         ps = mece.get("smart_statement", "")
+        sens = mece.get("decision_sensitivity", "")
 
-        # Include landscape scan data so the LLM knows it has real-time research
-        landscape_context = ""
+        # Load landscape scan + user data for challenge context
         ls_path = state.get("landscape_path")
+        landscape_text = ""
         if ls_path and Path(ls_path).exists():
             ls_summary_path = Path(ls_path).parent / "landscape_summary.md"
             if ls_summary_path.exists():
-                landscape_context = ls_summary_path.read_text(encoding="utf-8")[:8000]
+                landscape_text = ls_summary_path.read_text(encoding="utf-8")
+        # Append user data if injected
+        ud_path = state.get("user_data_path")
+        if ud_path and Path(ud_path).exists():
+            landscape_text += "\n\n" + Path(ud_path).read_text(encoding="utf-8")
 
-        debrief_text = llm(
-            f"""Summarize the research findings in a 2-5 page debrief. Today is {TODAY_STR}.
+        # ── Challenge the user's Day 1 answer ──
+        print(f"\n  {C.BOLD}{'='*55}{C.R}")
+        print(f"  {C.YELLOW}{C.BOLD}HYPOTHESIS-DRIVEN MODE{C.R}")
+        print(f"  {C.BOLD}{'='*55}{C.R}")
+        print(f"\n  {C.BOLD}Your Day 1 answer:{C.R}")
+        print(f"  {C.CYAN}{USER_HYPOTHESIS[:300]}{C.R}\n")
 
-You've just completed research across multiple workstreams. Present what you found — clearly, precisely, like walking into the partner's office.
+        challenge = llm_json(
+            f"""You are stress-testing a user's Day 1 hypothesis. You have landscape scan data.
 
-IMPORTANT: The working document below was built from LIVE WEB RESEARCH conducted on {TODAY_STR} — real-time article fetches, news searches, and data pulls. You HAVE current information. Do NOT disclaim lack of real-time data. Do NOT add prefatory notes about your knowledge cutoff or evidentiary foundation. The research is the evidence — present it with confidence. If a specific data point could not be confirmed, flag that individual point, not the entire debrief.
+YOUR JOB: Find the weaknesses in THIS hypothesis. Poke holes. Name what could go wrong. DO NOT propose a different strategy.
 
-CRITICAL RULES FOR EVERY SINGLE FACT:
-- ALWAYS state the TIME PERIOD: "In FY25" / "As of March 2026" / "Over 2020-2025" / "In Q3 2025"
-- ALWAYS state the SOURCE: "per company 10-K" / "per EIA data" / "per industry estimates" / "per our analysis of public filings"
-- ALWAYS state the BASELINE for comparisons: "vs. $X in FY24" / "vs. industry average of Y%" / "compared to peer median of Z"
-- NEVER use vague cycle references: not "as the cycle normalised" but "as industry margins fell from X (Q1 2024, per source) to Y (Q4 2025, per source)"
-- NEVER use insider jargon without defining it on first use: always parenthetical explanation on first mention
-- NEVER present a finding without anchoring it in a specific number, date, and comparison
+For each challenge, be SPECIFIC:
+- Name the assumption being tested
+- Cite what the landscape data says that contradicts or complicates it
+- State what would need to be true for this part of the hypothesis to hold
 
-BAD: "The margin premium has widened as the cycle normalised"
-GOOD: "The company's operating margin averaged 18.4% in FY25 (per quarterly earnings), a 5.2pp premium over the industry median (13.2%, per Capital IQ comps, same period) — this premium widened from 3.8pp in FY24, suggesting structural rather than cyclical advantage"
+EXAMPLE:
+User hypothesis: "Acquire 2-3 AI-native workflow companies by Q3 2027"
+GOOD challenge: "Sana raised at $8B valuation in March 2026. Can Workday afford 2-3 acquisitions at these valuations without dilutive equity? The landscape shows AI-native HCM startups are priced at 40-60x revenue."
+BAD challenge: "Instead of acquiring, Workday should build internally." (THIS IS A DIFFERENT STRATEGY — NOT YOUR JOB)
 
-BAD: "The capability gap versus peers is an architectural problem"
-GOOD: "Top 3 competitors invest 8-12% of revenue in R&D (per FY24 annual reports), vs. the company at 3.5% (per FY25 10-K). This 5-8pp gap has compounded over 2018-2025, resulting in a patent portfolio 4x smaller (per USPTO data) and a product release cadence 60% slower (per industry tracker)"
+Today is {TODAY_STR}.
 
-TONE: Confident but precise. Every claim is anchored. A reader with zero context can follow every sentence.
-
-STRUCTURE (2-5 pages):
-
-1. **Bottom line up front** (3-4 sentences)
-   The single most important thing we learned. What surprised us. What changes the framing. MUST include specific numbers, dates, and sources — even here.
-
-2. **What we found** (one section per research area, 3-5 bullets each)
-   For each area:
-   - Headline finding with number, time period, source, and comparison baseline
-   - 2-3 supporting data points, each fully anchored
-   - Flag LOW confidence findings with what's missing: "estimated at X (LOW — based on industry analogy, not company-specific data)"
-   - Mark any finding that directly affects the decision sensitivity break point
-
-3. **What remains uncertain** (half page)
-   - Where the analysis relies on estimates rather than confirmed data
-   - What additional information from the client would sharpen the picture
-   - State these naturally — "We do not have confirmed throughput data for March, but based on..." NOT "DATA GAP: throughput data unavailable"
-
-4. **Early signals** (half page)
-   - 2-3 cross-cutting observations with the specific data that triggered them
-   - Tensions or contradictions — name both sides with numbers
-   - Anchored in facts, not vibes""",
-            f"PROBLEM STATEMENT: {ps}\n\n{'LANDSCAPE SCAN (live web research, ' + TODAY_STR + '):\n' + landscape_context + '\n\n' if landscape_context else ''}WORKING DOCUMENT:\n{working_doc[:50000]}\n\nDebrief me on what you found. Every fact must have a time period, source, and comparison baseline."
+Return JSON: {{
+  "assessment": "strong|needs_sharpening|fundamentally_flawed",
+  "challenges": ["specific challenge to element 1 of hypothesis with landscape data", "specific challenge to element 2", "specific challenge to element 3"],
+  "landscape_contradictions": "the single strongest piece of evidence from the landscape that threatens this hypothesis",
+  "what_must_be_true": ["condition 1 for hypothesis to hold", "condition 2", "condition 3"],
+  "confidence": "HIGH/MEDIUM/LOW",
+  "key_reasoning": "2-3 sentences on overall strength/weakness"
+}}""",
+            f"PROBLEM STATEMENT: {ps}\n\nDECISION SENSITIVITY: {sens}\n\nUSER'S DAY 1 ANSWER: {USER_HYPOTHESIS}\n\nLANDSCAPE SCAN:\n{landscape_text[:8000]}",
+            model=SONNET
         )
-        debrief_md = f"# Research Debrief\n\n**Date:** {TODAY_STR}\n**Problem:** {ps[:200]}\n\n---\n\n{debrief_text}"
-        debrief_path.write_text(debrief_md, encoding="utf-8")
-        state.set("debrief_path", str(debrief_path))
 
-        # Show debrief checkpoint
-        # Truncate for terminal but full version in the file
-        debrief_preview = debrief_text[:2500]
-        if len(debrief_text) > 2500:
-            debrief_preview += f"\n\n  {C.DIM}... (type 'view' to read full debrief){C.R}"
-        debrief_summary = f"  {C.BOLD}RESEARCH DEBRIEF{C.R}\n  {C.DIM}{'_'*50}{C.R}\n\n{debrief_preview}"
+        assessment = challenge.get("assessment", "needs_sharpening")
+        challenges_list = challenge.get("challenges", [])
+        contradictions = challenge.get("landscape_contradictions", "")
+        must_be_true = challenge.get("what_must_be_true", [])
 
-        action, detail = checkpoint(3, debrief_summary, html_path=str(debrief_path), autopilot=AUTOPILOT)
-        if action == "quit":
-            return
-        elif action == "back":
-            state.step = 2
-            return main()
+        # The hypothesis stays as the user wrote it — challenge doesn't rewrite it
+        sharpened = USER_HYPOTHESIS
 
-    # ── STEP 4: Synthesis (human checkpoint) ──
-    synthesis = None
-    if state.step <= 4:
-        summary, synthesis = step4_synthesis(state, mece, working_doc)
-        while True:
-            action, detail = checkpoint(4, summary,
-                extra_cmds=[("add: <insight>", "inject a pattern or finding you see")], autopilot=AUTOPILOT)
-            if action == "quit":
-                return
-            elif action == "back":
-                state.step = 1
-                return main()
-            elif action == "add":
-                state.add_input(4, "add", detail)
-                print(f"  {C.GREEN}Added. Re-running synthesis with your input...{C.R}")
-                summary, synthesis = step4_synthesis(state, mece, working_doc)
-            elif action == "feedback":
-                print(f"  {C.GREEN}Revising synthesis with your feedback...{C.R}")
-                summary, synthesis = step4_synthesis(state, mece, working_doc, feedback=detail)
-            else:
-                break
-        state.complete(4)
-    else:
-        sp = state.get("synthesis_path")
-        synthesis = json.load(open(sp, encoding="utf-8")) if sp and Path(sp).exists() else {}
+        print(f"  {C.BOLD}ASSESSMENT: {assessment.upper()}{C.R}\n")
+        if challenges_list:
+            print(f"  {C.BOLD}Challenges to your hypothesis:{C.R}")
+            for ch in challenges_list:
+                print(f"    {C.YELLOW}• {ch[:200]}{C.R}")
+        if contradictions:
+            print(f"\n  {C.BOLD}Strongest contradiction from landscape:{C.R}")
+            print(f"    {C.RED}{contradictions[:300]}{C.R}")
+        if must_be_true:
+            print(f"\n  {C.BOLD}For this hypothesis to hold, these must be true:{C.R}")
+            for cond in must_be_true:
+                print(f"    {C.DIM}• {cond[:150]}{C.R}")
+        print(f"\n  {C.BOLD}Your hypothesis (unchanged):{C.R}")
+        print(f"  {C.CYAN}{sharpened[:200]}{C.R}\n")
 
-    # ── STEP 5: Hypotheses ──
-    if state.step <= 5:
-        summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis)
+        # Hypothesis challenge pauses for user alignment in guided mode.
+        # In autopilot via anvil.py, stdin is closed — the slash command handles alignment
+        # BEFORE calling the pipeline, so auto-accept is correct there.
+        if not AUTOPILOT:
+            while True:
+                print(f"\n  {C.BOLD}Current hypothesis:{C.R}")
+                print(f"  {C.CYAN}{sharpened[:200]}{C.R}\n")
+                print(f"  {C.DIM}accept / revise / Enter to accept{C.R}")
+                try:
+                    resp = input(f"  {C.YELLOW}>>> {C.R}").strip()
+                except (EOFError, KeyboardInterrupt):
+                    resp = "accept"
+                if resp.lower() in ("accept", "approve", "lock", ""):
+                    print(f"  {C.GREEN}Hypothesis locked.{C.R}\n")
+                    break
+                elif resp.lower() in ("revise", "edit"):
+                    print(f"  {C.DIM}Type your revised hypothesis:{C.R}")
+                    try:
+                        new_hyp = input(f"  {C.YELLOW}> {C.R}").strip()
+                    except (EOFError, KeyboardInterrupt):
+                        new_hyp = ""
+                    if new_hyp:
+                        sharpened = new_hyp
+                        print(f"  {C.GREEN}Updated.{C.R}")
+                else:
+                    sharpened = resp
+                    print(f"  {C.GREEN}Updated: {sharpened[:120]}{C.R}")
+
+        state.set("mode", "hypothesis-driven")
+        state.set("user_hypothesis", USER_HYPOTHESIS)
+        state.set("locked_governing", sharpened)
+
+        # Build a lightweight working doc from landscape scan
+        landscape_wd = f"# Working Document (Hypothesis-Driven Mode)\n\n"
+        landscape_wd += f"**Problem:** {ps}\n**Date:** {TODAY_STR}\n"
+        landscape_wd += f"**Mode:** Hypothesis-driven — testing user's Day 1 answer\n\n"
+        landscape_wd += f"## Governing Hypothesis\n{sharpened}\n\n"
+        landscape_wd += f"## Landscape Scan\n{landscape_text}\n"
+
+        wd_dir = state.dir / "working_doc"
+        wd_dir.mkdir(exist_ok=True)
+        (wd_dir / "working_document.md").write_text(landscape_wd, encoding="utf-8")
+        state.set("wd_path", str(wd_dir / "working_document.md"))
+        working_doc = landscape_wd
+
+        # Build a lightweight synthesis from landscape
+        print(f"  {C.GREEN}Synthesizing landscape findings for hypothesis testing...{C.R}")
+        hyp_synthesis = llm_json(
+            f"""Extract findings, patterns, and inferences from this landscape scan. These will be used as the evidence base for hypothesis testing.
+
+Return JSON: {{
+  "findings": {{"key findings with specific data points, dates, sources"}},
+  "patterns": {{"cross-cutting patterns and trends"}},
+  "inferences": {{"so-what implications for the governing hypothesis"}}
+}}""",
+            f"PROBLEM: {ps}\n\nGOVERNING HYPOTHESIS: {sharpened}\n\nLANDSCAPE SCAN:\n{landscape_text[:15000]}",
+            model=HAIKU
+        )
+
+        syn_dir = state.dir / "synthesis"
+        syn_dir.mkdir(exist_ok=True)
+        json.dump(hyp_synthesis, open(syn_dir / "synthesis.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+        state.set("synthesis_path", str(syn_dir / "synthesis.json"))
+        synthesis = hyp_synthesis
+
+        # Skip steps 1-4, jump to step 5
+        for skip_step in range(1, 5):
+            state.complete(skip_step)
+
+        print(f"""
+  {C.BOLD}{'='*55}{C.R}
+  {C.YELLOW}{C.BOLD}HYPOTHESIS-DRIVEN — SKIPPING TO DEEP TESTING{C.R}
+  {C.BOLD}{'='*55}{C.R}
+
+  {C.DIM}Skipped: MECE decomposition, broad research, working doc, synthesis{C.R}
+  {C.DIM}Reason: You have a Day 1 answer. We test it directly.{C.R}
+
+  {C.BOLD}What happens next:{C.R}
+    {C.GREEN}1.{C.R} Decompose hypothesis into necessary conditions
+    {C.GREEN}2.{C.R} Deep targeted web search on EVERY leaf (not just uncertain ones)
+    {C.GREEN}3.{C.R} Stress test, kill propagation, iterate
+    {C.GREEN}4.{C.R} Final brief + appendix from survivors
+
+  {C.BOLD}Estimated:{C.R} ~10 min  |  ~$1-2 API cost
+  {C.BOLD}{'='*55}{C.R}
+""")
+
+        # Now run step 5 with deep_research=True and the locked governing hypothesis
+        summary, hyp_tree = step5_hypotheses(
+            state, mece, working_doc, synthesis,
+            autopilot=AUTOPILOT,
+            deep_research=True,
+            locked_governing=sharpened
+        )
         while True:
             action, detail = checkpoint(5, summary,
                 extra_cmds=[("add: <hypothesis>", "inject a hypothesis to test")], autopilot=AUTOPILOT)
             if action == "quit":
                 return
-            elif action == "back":
-                state.step = 4
-                return main()
             elif action == "add":
                 state.add_input(5, "add", detail)
                 print(f"  {C.GREEN}Added. Re-generating with your hypothesis...{C.R}")
-                summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis)
+                summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis, autopilot=AUTOPILOT, deep_research=True, locked_governing=sharpened)
             elif action == "feedback":
                 print(f"  {C.GREEN}Revising hypotheses with your feedback...{C.R}")
-                summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis, feedback=detail)
+                summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis, feedback=detail, autopilot=AUTOPILOT, deep_research=True, locked_governing=sharpened)
             else:
                 break
+        state.complete(5)
 
-        # ── Hypothesis proof: what evidence is needed? ──
-        active_hyps = [h for h in hyp_tree.get("hypotheses", []) if h.get("status") != "killed"]
-        data_gaps = hyp_tree.get("data_gaps", [])
-        data_required = [h.get("data_required", "") for h in active_hyps if h.get("data_required")]
+        # Skip to step 6 — converges with issue-driven path
+        # (falls through to step 6 below)
 
-        if data_gaps or data_required:
-            hyp_dir = state.dir / "hypotheses"
-            hyp_dir.mkdir(exist_ok=True)
-            input_dir = state.dir / "inputs" / "hypothesis"
-            input_dir.mkdir(parents=True, exist_ok=True)
+    # ── ISSUE-DRIVEN PATH: steps 1-5 as normal ──
+    if not HYPOTHESIS_MODE:
 
-            # Generate proof requirements (client-aware)
-            print(f"\n  {C.GREEN}Identifying evidence needed to prove/disprove hypotheses...{C.R}")
-            audience = state.get("audience", "")
-            ps = mece.get("smart_statement", "")
-            proof_brief = llm_json(
-                f"""You are a research director. Hypotheses have been generated but some need additional evidence to confirm or disprove. Today is {TODAY_STR}.
+        # ── STEP 1 ──
+        if state.step <= 1:
+            summary, tree_path = step1(state, mece)
+            action, _ = checkpoint(1, summary, html_path=tree_path, autopilot=AUTOPILOT)
+            if action == "quit":
+                return
+            if action == "back":
+                state.step = 0
+                return main()
+            state.complete(1)
 
-CLIENT CONTEXT:
-Problem statement: {ps}
-Audience: {audience}
+        # ── 80/20 Tiering (runs once, before research) ──
+        if state.step <= 2 and not state.get("tiers_path"):
+            tier_questions(state, mece)
+            # Save updated mece with tier labels
+            json.dump(mece, open(state.get("mece_path"), "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
-From the context, infer who the client is and what evidence they likely have access to internally. Generate SPECIFIC, TAILORED requests.
+        # ── STEP 2: Research ──
+        research_by_bucket = None
+        if state.step <= 2:
+            progress_bar(2)
 
-For each active hypothesis, identify what SPECIFIC evidence would:
-1. CONFIRM it (make confidence HIGH)
-2. DISPROVE it (kill it)
+            # Generate research brief (what data is needed)
+            brief, total_must, total_nice = step2_research_brief(state, mece)
 
-Classify each evidence item:
-- PUBLIC: available from public reports, databases, filings
-- PROPRIETARY: requires internal company data or systems
-- EXPERT: requires interviews or specialist judgment
-- FIELD: requires primary research or experiments
+            # Ask human how to proceed
+            choice, selected_items = research_input_prompt(state, brief, total_must, total_nice, autopilot=AUTOPILOT)
 
-FOR PROPRIETARY items — be specific:
-- Name the team, system, or document that would have it
-- State exactly what format would be useful
-- Frame as a direct ask: "Can your [team] provide [specific data]?"
-
-Return JSON:
-{{"proof_requirements": [
-  {{"hypothesis_id": "H1", "hypothesis": "...", "current_confidence": "...",
-    "to_confirm": [{{"id": "P1.1", "evidence_needed": "...", "source_type": "PUBLIC|PROPRIETARY|EXPERT|FIELD", "where_to_find": "...", "client_ask": "specific request to the client team"}}],
-    "to_disprove": [{{"id": "D1.1", "evidence_needed": "...", "source_type": "PUBLIC|PROPRIETARY|EXPERT|FIELD", "where_to_find": "...", "client_ask": "..."}}]
-  }}
-],
-"total_items": 0}}""",
-                "HYPOTHESES:\n{hyps}\n\nDATA GAPS:\n{gaps}\n\nIdentify client-aware proof requirements.".format(
-                    hyps=json.dumps([{"id": h.get("id"), "statement": h.get("statement"), "confidence": h.get("confidence"), "data_required": h.get("data_required", "")} for h in active_hyps], indent=2, ensure_ascii=False),
-                    gaps=json.dumps(data_gaps, indent=2, ensure_ascii=False)
-                )
-            )
-
-            json.dump(proof_brief, open(hyp_dir / "proof_requirements.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-
-            # Write human-readable checklist
-            proof_lines = [f"# Hypothesis Proof Requirements\n", f"**Generated:** {TODAY_STR}\n"]
-            total_proof = 0
-            proprietary_proof = []
-            for pr in proof_brief.get("proof_requirements", []):
-                proof_lines.append(f"\n## {pr.get('hypothesis_id', '?')}: {pr.get('hypothesis', '')[:100]}")
-                proof_lines.append(f"**Current confidence:** {pr.get('current_confidence', '?')}\n")
-                proof_lines.append("### To Confirm:")
-                for item in pr.get("to_confirm", []):
-                    proof_lines.append(f"- [ ] **{item['id']}** [{item.get('source_type', '?')}]: {item['evidence_needed']}")
-                    if item.get("client_ask"):
-                        proof_lines.append(f"  - **Ask:** {item['client_ask']}")
-                    proof_lines.append(f"  - Where: {item.get('where_to_find', 'N/A')}")
-                    total_proof += 1
-                    if item.get("source_type") in ("PROPRIETARY", "EXPERT", "FIELD"):
-                        proprietary_proof.append(item)
-                proof_lines.append("\n### To Disprove:")
-                for item in pr.get("to_disprove", []):
-                    proof_lines.append(f"- [ ] **{item['id']}** [{item.get('source_type', '?')}]: {item['evidence_needed']}")
-                    if item.get("client_ask"):
-                        proof_lines.append(f"  - **Ask:** {item['client_ask']}")
-                    proof_lines.append(f"  - Where: {item.get('where_to_find', 'N/A')}")
-                    total_proof += 1
-                    if item.get("source_type") in ("PROPRIETARY", "EXPERT", "FIELD"):
-                        proprietary_proof.append(item)
-            (hyp_dir / "proof_checklist.md").write_text("\n".join(proof_lines), encoding="utf-8")
-
-            # Show options
-            print(f"\n  {C.BOLD}HYPOTHESIS PROOF{C.R}")
-            print(f"  {C.DIM}{'_'*50}{C.R}\n")
-            print(f"  {total_proof} evidence items needed to prove/disprove {len(active_hyps)} hypotheses.")
-            if proprietary_proof:
-                print(f"  {C.YELLOW}{len(proprietary_proof)} items need data from you or your client.{C.R}")
-            print(f"  Proof checklist saved to: {C.BLUE}{hyp_dir / 'proof_checklist.md'}{C.R}\n")
-
-            if AUTOPILOT:
-                print(f"  {C.DIM}[autopilot] proceeding with current evidence{C.R}\n")
-                proof_choice = "A"
-            else:
-                print(f"  How would you like to proceed?\n")
-                print(f"    {C.BOLD}A{C.R}  Proceed with current evidence")
-                print(f"       {C.DIM}Some hypotheses may remain UNCERTAIN in the final document{C.R}")
-                print(f"    {C.BOLD}B{C.R}  I have evidence to upload (covers everything)")
-                print(f"       {C.DIM}Drop files in: {input_dir}{C.R}")
-                if proprietary_proof:
-                    print(f"    {C.BOLD}D{C.R}  I can provide some evidence (selective)")
-                    print(f"       {C.DIM}Review what's needed, provide what you have, skip the rest{C.R}")
-                print(f"    {C.BOLD}C{C.R}  Let me go gather this (save & quit)")
-                print(f"       {C.DIM}Review the checklist, gather data, resume later with --resume{C.R}")
-                print()
-
-                valid_proof = ["A", "B", "C"] + (["D"] if proprietary_proof else [])
-                while True:
-                    try:
-                        proof_choice = input(f"  {C.YELLOW}Choose [{'/'.join(valid_proof)}]: {C.R}").strip().upper()
-                    except (EOFError, KeyboardInterrupt):
-                        proof_choice = "C"
-                    if proof_choice in valid_proof:
-                        break
-                    print(f"  {C.RED}Please enter {'/'.join(valid_proof)}{C.R}")
-
-            if proof_choice == "C":
+            if choice == "C":
+                # Save and quit — human will gather research and resume
                 print(f"\n  {C.GREEN}Progress saved. To resume:{C.R}")
-                print(f"  {C.BOLD}1.{C.R} Review: {hyp_dir / 'proof_checklist.md'}")
-                print(f"  {C.BOLD}2.{C.R} Drop evidence in: {input_dir}")
+                print(f"  {C.BOLD}1.{C.R} Review: {state.dir / 'research' / 'research_checklist.md'}")
+                print(f"  {C.BOLD}2.{C.R} Drop files in: {state.dir / 'inputs' / 'research'}")
                 print(f"  {C.BOLD}3.{C.R} Resume: python pipeline.py --resume {state.dir}\n")
                 return
 
-            if proof_choice == "D":
-                # Selective evidence input
-                print(f"\n  {C.BOLD}EVIDENCE YOU CAN PROVIDE{C.R}")
-                print(f"  {C.DIM}{'_'*50}{C.R}\n")
-                print(f"  {C.DIM}For each item: type the data, 'skip' to proceed without, or 'file' if uploaded.{C.R}\n")
+            human_data = []
 
-                proof_evidence = []
-                for item in proprietary_proof:
-                    print(f"  {C.BOLD}{item['id']}{C.R}")
-                    if item.get("client_ask"):
-                        print(f"  {C.CYAN}{item['client_ask']}{C.R}")
-                    else:
-                        print(f"  {item['evidence_needed']}")
-                    print()
-                    try:
-                        resp = input(f"  {C.YELLOW}{item['id']} > {C.R}").strip()
-                    except (EOFError, KeyboardInterrupt):
-                        resp = "skip"
-
-                    if resp.lower() == "skip" or not resp:
-                        print(f"  {C.DIM}Skipped{C.R}\n")
-                    elif resp.lower() == "file":
-                        print(f"  {C.GREEN}Will extract from uploaded files{C.R}\n")
-                        proof_evidence.append({"file": f"file_ref_{item['id']}", "findings": ""})
-                    else:
-                        print(f"  {C.GREEN}Got it{C.R}\n")
-                        proof_evidence.append({"file": f"direct_{item['id']}", "findings": f"[{item['id']}] {resp}"})
-
-                # Also check for uploaded files
-                files = scan_inputs(state.dir, "hypothesis")
-                if files:
-                    proof_evidence.extend(extract_from_files(files))
-
-                if proof_evidence:
-                    real_evidence = [e for e in proof_evidence if e.get("findings")]
-                    if real_evidence:
-                        print(f"  {C.GREEN}Re-evaluating hypotheses with {len(real_evidence)} evidence item(s)...{C.R}")
-                        evidence_text = "\n".join(f"From {e['file']}:\n{e['findings']}" for e in real_evidence)
-                        update = llm_json(
-                            """You have new evidence for hypothesis evaluation. For each hypothesis, check if the new evidence CONFIRMS, CONTRADICTS, or is NEUTRAL. Update confidence and status accordingly.
-
-Return JSON: {"updates": [{"id": "H1", "new_status": "confirmed/uncertain/killed", "new_confidence": "HIGH/MEDIUM/LOW", "evidence_impact": "..."}]}""",
-                            f"HYPOTHESES:\n{json.dumps(hyp_tree, indent=2, ensure_ascii=False)}\n\nNEW EVIDENCE:\n{evidence_text}\n\nUpdate hypotheses."
-                        )
-                        for u in update.get("updates", []):
-                            for h in hyp_tree.get("hypotheses", []):
-                                if h.get("id") == u.get("id"):
-                                    h["status"] = u.get("new_status", h.get("status"))
-                                    h["confidence"] = u.get("new_confidence", h.get("confidence"))
-                                    h["evidence_update"] = u.get("evidence_impact", "")
-                                    print(f"    {C.GREEN}{u['id']}: -> {u.get('new_status', '?')} ({u.get('new_confidence', '?')}){C.R}")
-                        json.dump(hyp_tree, open(hyp_dir / "hypotheses.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-                        state.set("hyp_path", str(hyp_dir / "hypotheses.json"))
-
-            elif proof_choice == "B":
-                files = scan_inputs(state.dir, "hypothesis")
+            if choice == "B":
+                # Scan for human-provided research files
+                input_dir = state.dir / "inputs" / "research"
+                files = scan_inputs(state.dir, "research")
                 if not files:
                     print(f"\n  {C.YELLOW}No files found in {input_dir}{C.R}")
-                    print(f"  {C.DIM}Drop files and press Enter, or type 'A' to proceed without.{C.R}\n")
+                    print(f"  {C.DIM}Drop your research files there and press Enter to scan again,{C.R}")
+                    print(f"  {C.DIM}or type 'A' to proceed with public knowledge, or 'C' to quit.{C.R}\n")
                     while True:
                         try:
-                            resp = input(f"  {C.YELLOW}[Enter to scan / A]: {C.R}").strip().upper()
+                            resp = input(f"  {C.YELLOW}[Enter to scan / A / C]: {C.R}").strip().upper()
                         except (EOFError, KeyboardInterrupt):
-                            resp = "A"
-                        if resp == "A":
+                            resp = "C"
+                        if resp == "C":
+                            return
+                        elif resp == "A":
                             break
-                        files = scan_inputs(state.dir, "hypothesis")
-                        if files:
-                            break
-                        print(f"  {C.YELLOW}Still no files. Try again.{C.R}")
-
+                        else:
+                            files = scan_inputs(state.dir, "research")
+                            if files:
+                                break
+                            print(f"  {C.YELLOW}Still no files found. Try again.{C.R}")
                 if files:
-                    print(f"  {C.GREEN}Extracting evidence from {len(files)} file(s)...{C.R}")
-                    evidence = extract_from_files(files)
-                    if evidence:
-                        # Re-run hypothesis stress-test with new evidence
-                        print(f"  {C.GREEN}Re-evaluating hypotheses with new evidence...{C.R}")
-                        evidence_text = "\n".join(f"From {e['file']}:\n{e['findings']}" for e in evidence)
-                        update = llm_json(
-                            """You have new evidence for hypothesis evaluation. For each hypothesis, check if the new evidence CONFIRMS, CONTRADICTS, or is NEUTRAL. Update confidence and status accordingly.
+                    print(f"  {C.GREEN}Extracting data from {len(files)} file(s)...{C.R}")
+                    human_data = extract_from_files(files)
 
-Return JSON: {"updates": [{"id": "H1", "new_status": "confirmed/uncertain/killed", "new_confidence": "HIGH/MEDIUM/LOW", "evidence_impact": "..."}]}""",
-                            f"HYPOTHESES:\n{json.dumps(hyp_tree, indent=2, ensure_ascii=False)}\n\nNEW EVIDENCE:\n{evidence_text}\n\nUpdate hypotheses."
-                        )
-                        for u in update.get("updates", []):
-                            for h in hyp_tree.get("hypotheses", []):
-                                if h.get("id") == u.get("id"):
-                                    h["status"] = u.get("new_status", h.get("status"))
-                                    h["confidence"] = u.get("new_confidence", h.get("confidence"))
-                                    h["evidence_update"] = u.get("evidence_impact", "")
-                                    print(f"    {C.GREEN}{u['id']}: -> {u.get('new_status', '?')} ({u.get('new_confidence', '?')}){C.R}")
+            elif choice == "D":
+                # Selective input — combine direct data + any files
+                direct_data = [item for item in selected_items if item.get("source") == "direct"]
+                file_refs = [item for item in selected_items if item.get("source") == "file"]
 
-                        # Re-save
-                        json.dump(hyp_tree, open(hyp_dir / "hypotheses.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-                        state.set("hyp_path", str(hyp_dir / "hypotheses.json"))
+                if direct_data:
+                    # Package direct input as human_data
+                    for d in direct_data:
+                        human_data.append({"file": f"direct_input_{d['id']}", "findings": f"[{d['id']}] {d['data']}"})
 
-        state.complete(5)
-    else:
+                if file_refs:
+                    files = scan_inputs(state.dir, "research")
+                    if files:
+                        print(f"  {C.GREEN}Extracting from {len(files)} file(s) for {len(file_refs)} items...{C.R}")
+                        human_data.extend(extract_from_files(files))
+
+            # Execute research + working doc (overlapped pipeline)
+            print(f"\n  {C.GREEN}Steps 2+3: Research -> Working Document (overlapped pipeline)...{C.R}")
+
+            sections = mece.get("sections", [])
+            topic = state.get("topic", "")
+            audience = state.get("audience", "")
+            research_dir = state.dir / "research"
+            research_dir.mkdir(exist_ok=True)
+            wd_dir = state.dir / "working_doc"
+            wd_dir.mkdir(exist_ok=True)
+
+            human_answers = [h for h in state.data.get("human_inputs", []) if h["type"] == "answer"]
+            wd_human_context = ""
+            if human_answers:
+                wd_human_context = "\n\nHUMAN-PROVIDED ANSWERS (treat as HIGH confidence):\n" + "\n".join(f"- {h['content']}" for h in human_answers)
+
+            # Load current events if available
+            ce_path = state.get("current_events_path")
+            current_events_data = None
+            if ce_path and Path(ce_path).exists():
+                with open(ce_path, encoding="utf-8") as f:
+                    ce_file = json.load(f)
+                if isinstance(ce_file, dict):
+                    # New format: landscape.json with "events" key
+                    if "events" in ce_file:
+                        current_events_data = ce_file.get("events", [])
+                    # Old format: current_events.json with "all_results" key
+                    elif "all_results" in ce_file:
+                        current_events_data = ce_file.get("all_results", [])
+                        print(f"  {C.DIM}(loaded old-format current events){C.R}")
+                    elif "ranked" in ce_file:
+                        current_events_data = ce_file.get("ranked", [])
+                    else:
+                        current_events_data = ce_file
+                elif isinstance(ce_file, list):
+                    current_events_data = ce_file
+
+            # Phase 1: ALL web searches — sequential, throttled
+            print(f"  {C.GREEN}Phase 1: Web search (sequential, {len(sections)} buckets)...{C.R}")
+            search_data = _web_search_all_buckets(topic, sections, current_events=current_events_data)
+
+            # Phase 2: ALL synthesis + working doc — parallel
+            print(f"  {C.GREEN}Phase 2: Synthesis + Working Doc (parallel)...{C.R}")
+            def _synth_and_wd(s):
+                sid, r_text = _synthesize_one_bucket(topic, s, search_data, human_data if human_data else None, research_dir, current_events=current_events_data)
+                _, title, wd_text = _working_doc_one_bucket(topic, audience, s, {sid: r_text}, "", state.dir, wd_human_context)
+                return sid, r_text, title, wd_text
+
+            research_by_bucket = {}
+            wd_results = {}
+            with ThreadPoolExecutor(max_workers=min(len(sections), 6)) as executor:
+                futures = {executor.submit(_synth_and_wd, s): s for s in sections}
+                for future in as_completed(futures):
+                    s = futures[future]
+                    try:
+                        sid, r_text, title, wd_text = future.result()
+                        research_by_bucket[sid] = r_text
+                        wd_results[sid] = (title, wd_text)
+                        print(f"    {C.GREEN}Bucket {sid} done{C.R}")
+                    except Exception as e:
+                        print(f"    {C.RED}Bucket {s['section_id']} failed: {e}{C.R}")
+
+            # Save research
+            compiled = "\n\n---\n\n".join(research_by_bucket[sid] for sid in sorted(research_by_bucket.keys()))
+            (research_dir / "compiled.md").write_text(compiled, encoding="utf-8")
+            state.set("research_path", str(research_dir / "compiled.md"))
+            research = compiled
+            state.complete(2)
+
+            # Save working doc
+            wd_parts = [f"## Bucket {sid}: {wd_results[sid][0]}\n\n{wd_results[sid][1]}" for sid in sorted(wd_results.keys())]
+            full_wd = f"# Working Document\n\n**Topic:** {topic}\n**Date:** {TODAY_STR}\n\n" + "\n\n---\n\n".join(wd_parts)
+            (wd_dir / "working_document.md").write_text(full_wd, encoding="utf-8")
+            state.set("wd_path", str(wd_dir / "working_document.md"))
+            working_doc = full_wd
+            state.complete(3)
+
+            print(f"  {C.GREEN}Steps 2+3 done: {len(research_by_bucket)} buckets (parallel pipeline){C.R}")
+        else:
+            rp = state.get("research_path")
+            research = Path(rp).read_text(encoding="utf-8") if rp and Path(rp).exists() else ""
+            # If compiled.md is empty, rebuild from individual bucket files
+            if not research.strip():
+                research_dir = state.dir / "research"
+                bucket_files = sorted(research_dir.glob("bucket_*.md"))
+                if bucket_files:
+                    parts = [bf.read_text(encoding="utf-8") for bf in bucket_files if bf.read_text(encoding="utf-8").strip()]
+                    research = "\n\n---\n\n".join(parts)
+                    if research.strip():
+                        (research_dir / "compiled.md").write_text(research, encoding="utf-8")
+                        print(f"  {C.DIM}Rebuilt compiled.md from {len(parts)} bucket files{C.R}")
+            wp = state.get("wd_path")
+            working_doc = Path(wp).read_text(encoding="utf-8") if wp and Path(wp).exists() else ""
+            # If working doc is empty, try to rebuild from bucket files
+            if not working_doc.strip():
+                wd_dir = state.dir / "working_doc"
+                wd_bucket_files = sorted(wd_dir.glob("bucket_*.md")) if wd_dir.exists() else []
+                if wd_bucket_files:
+                    wd_parts = [f.read_text(encoding="utf-8") for f in wd_bucket_files if f.read_text(encoding="utf-8").strip()]
+                    if wd_parts:
+                        working_doc = f"# Working Document\n\n**Topic:** {state.get('topic', '')}\n\n" + "\n\n---\n\n".join(wd_parts)
+                        (wd_dir / "working_document.md").write_text(working_doc, encoding="utf-8")
+                        print(f"  {C.DIM}Rebuilt working_document.md from {len(wd_parts)} bucket files{C.R}")
+
+        # ── Research Debrief (generated once, before synthesis) ──
+        debrief_path = state.dir / "research" / "debrief.md"
+        if not debrief_path.exists() and working_doc:
+            print(f"\n  {C.GREEN}Generating research debrief...{C.R}")
+            ps = mece.get("smart_statement", "")
+
+            # Include landscape scan data so the LLM knows it has real-time research
+            landscape_context = ""
+            ls_path = state.get("landscape_path")
+            if ls_path and Path(ls_path).exists():
+                ls_summary_path = Path(ls_path).parent / "landscape_summary.md"
+                if ls_summary_path.exists():
+                    landscape_context = ls_summary_path.read_text(encoding="utf-8")[:8000]
+
+            debrief_text = llm(
+                f"""Summarize the research findings in a 2-5 page debrief. Today is {TODAY_STR}.
+
+    You've just completed research across multiple workstreams. Present what you found — clearly, precisely, like walking into the partner's office.
+
+    IMPORTANT: The working document below was built from LIVE WEB RESEARCH conducted on {TODAY_STR} — real-time article fetches, news searches, and data pulls. You HAVE current information. Do NOT disclaim lack of real-time data. Do NOT add prefatory notes about your knowledge cutoff or evidentiary foundation. The research is the evidence — present it with confidence. If a specific data point could not be confirmed, flag that individual point, not the entire debrief.
+
+    CRITICAL RULES FOR EVERY SINGLE FACT:
+    - ALWAYS state the TIME PERIOD: "In FY25" / "As of March 2026" / "Over 2020-2025" / "In Q3 2025"
+    - ALWAYS state the SOURCE: "per company 10-K" / "per EIA data" / "per industry estimates" / "per our analysis of public filings"
+    - ALWAYS state the BASELINE for comparisons: "vs. $X in FY24" / "vs. industry average of Y%" / "compared to peer median of Z"
+    - NEVER use vague cycle references: not "as the cycle normalised" but "as industry margins fell from X (Q1 2024, per source) to Y (Q4 2025, per source)"
+    - NEVER use insider jargon without defining it on first use: always parenthetical explanation on first mention
+    - NEVER present a finding without anchoring it in a specific number, date, and comparison
+
+    BAD: "The margin premium has widened as the cycle normalised"
+    GOOD: "The company's operating margin averaged 18.4% in FY25 (per quarterly earnings), a 5.2pp premium over the industry median (13.2%, per Capital IQ comps, same period) — this premium widened from 3.8pp in FY24, suggesting structural rather than cyclical advantage"
+
+    BAD: "The capability gap versus peers is an architectural problem"
+    GOOD: "Top 3 competitors invest 8-12% of revenue in R&D (per FY24 annual reports), vs. the company at 3.5% (per FY25 10-K). This 5-8pp gap has compounded over 2018-2025, resulting in a patent portfolio 4x smaller (per USPTO data) and a product release cadence 60% slower (per industry tracker)"
+
+    TONE: Confident but precise. Every claim is anchored. A reader with zero context can follow every sentence.
+
+    STRUCTURE (2-5 pages):
+
+    1. **Bottom line up front** (3-4 sentences)
+       The single most important thing we learned. What surprised us. What changes the framing. MUST include specific numbers, dates, and sources — even here.
+
+    2. **What we found** (one section per research area, 3-5 bullets each)
+       For each area:
+       - Headline finding with number, time period, source, and comparison baseline
+       - 2-3 supporting data points, each fully anchored
+       - Flag LOW confidence findings with what's missing: "estimated at X (LOW — based on industry analogy, not company-specific data)"
+       - Mark any finding that directly affects the decision sensitivity break point
+
+    3. **What remains uncertain** (half page)
+       - Where the analysis relies on estimates rather than confirmed data
+       - What additional information from the client would sharpen the picture
+       - State these naturally — "We do not have confirmed throughput data for March, but based on..." NOT "DATA GAP: throughput data unavailable"
+
+    4. **Early signals** (half page)
+       - 2-3 cross-cutting observations with the specific data that triggered them
+       - Tensions or contradictions — name both sides with numbers
+       - Anchored in facts, not vibes""",
+                f"PROBLEM STATEMENT: {ps}\n\n{'LANDSCAPE SCAN (live web research, ' + TODAY_STR + '):\n' + landscape_context + '\n\n' if landscape_context else ''}WORKING DOCUMENT:\n{working_doc[:50000]}\n\nDebrief me on what you found. Every fact must have a time period, source, and comparison baseline."
+            )
+            debrief_md = f"# Research Debrief\n\n**Date:** {TODAY_STR}\n**Problem:** {ps[:200]}\n\n---\n\n{debrief_text}"
+            debrief_path.write_text(debrief_md, encoding="utf-8")
+            state.set("debrief_path", str(debrief_path))
+
+            # Show debrief checkpoint
+            # Truncate for terminal but full version in the file
+            debrief_preview = debrief_text[:2500]
+            if len(debrief_text) > 2500:
+                debrief_preview += f"\n\n  {C.DIM}... (type 'view' to read full debrief){C.R}"
+            debrief_summary = f"  {C.BOLD}RESEARCH DEBRIEF{C.R}\n  {C.DIM}{'_'*50}{C.R}\n\n{debrief_preview}"
+
+            action, detail = checkpoint(3, debrief_summary, html_path=str(debrief_path), autopilot=AUTOPILOT)
+            if action == "quit":
+                return
+            elif action == "back":
+                state.step = 2
+                return main()
+
+        # ── STEP 4: Synthesis (human checkpoint) ──
+        synthesis = None
+        if state.step <= 4:
+            summary, synthesis = step4_synthesis(state, mece, working_doc)
+            while True:
+                action, detail = checkpoint(4, summary,
+                    extra_cmds=[("add: <insight>", "inject a pattern or finding you see")], autopilot=AUTOPILOT)
+                if action == "quit":
+                    return
+                elif action == "back":
+                    state.step = 1
+                    return main()
+                elif action == "add":
+                    state.add_input(4, "add", detail)
+                    print(f"  {C.GREEN}Added. Re-running synthesis with your input...{C.R}")
+                    summary, synthesis = step4_synthesis(state, mece, working_doc)
+                elif action == "feedback":
+                    print(f"  {C.GREEN}Revising synthesis with your feedback...{C.R}")
+                    summary, synthesis = step4_synthesis(state, mece, working_doc, feedback=detail)
+                else:
+                    break
+            state.complete(4)
+        else:
+            sp = state.get("synthesis_path")
+            synthesis = json.load(open(sp, encoding="utf-8")) if sp and Path(sp).exists() else {}
+
+        # ── STEP 5: Hypotheses ──
+        if state.step <= 5:
+            summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis, autopilot=AUTOPILOT)
+            while True:
+                action, detail = checkpoint(5, summary,
+                    extra_cmds=[("add: <hypothesis>", "inject a hypothesis to test")], autopilot=AUTOPILOT)
+                if action == "quit":
+                    return
+                elif action == "back":
+                    state.step = 4
+                    return main()
+                elif action == "add":
+                    state.add_input(5, "add", detail)
+                    print(f"  {C.GREEN}Added. Re-generating with your hypothesis...{C.R}")
+                    summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis, autopilot=AUTOPILOT)
+                elif action == "feedback":
+                    print(f"  {C.GREEN}Revising hypotheses with your feedback...{C.R}")
+                    summary, hyp_tree = step5_hypotheses(state, mece, working_doc, synthesis, feedback=detail, autopilot=AUTOPILOT)
+                else:
+                    break
+
+            # ── Hypothesis proof: what evidence is needed? ──
+            active_hyps = [h for h in hyp_tree.get("hypotheses", []) if h.get("status") != "killed"]
+            data_gaps = hyp_tree.get("data_gaps", [])
+            data_required = [h.get("data_required", "") for h in active_hyps if h.get("data_required")]
+
+            if data_gaps or data_required:
+                hyp_dir = state.dir / "hypotheses"
+                hyp_dir.mkdir(exist_ok=True)
+                input_dir = state.dir / "inputs" / "hypothesis"
+                input_dir.mkdir(parents=True, exist_ok=True)
+
+                # Generate proof requirements (client-aware)
+                print(f"\n  {C.GREEN}Identifying evidence needed to prove/disprove hypotheses...{C.R}")
+                audience = state.get("audience", "")
+                ps = mece.get("smart_statement", "")
+                proof_brief = llm_json(
+                    f"""You are a research director. Hypotheses have been generated but some need additional evidence to confirm or disprove. Today is {TODAY_STR}.
+
+    CLIENT CONTEXT:
+    Problem statement: {ps}
+    Audience: {audience}
+
+    From the context, infer who the client is and what evidence they likely have access to internally. Generate SPECIFIC, TAILORED requests.
+
+    For each active hypothesis, identify what SPECIFIC evidence would:
+    1. CONFIRM it (make confidence HIGH)
+    2. DISPROVE it (kill it)
+
+    Classify each evidence item:
+    - PUBLIC: available from public reports, databases, filings
+    - PROPRIETARY: requires internal company data or systems
+    - EXPERT: requires interviews or specialist judgment
+    - FIELD: requires primary research or experiments
+
+    FOR PROPRIETARY items — be specific:
+    - Name the team, system, or document that would have it
+    - State exactly what format would be useful
+    - Frame as a direct ask: "Can your [team] provide [specific data]?"
+
+    Return JSON:
+    {{"proof_requirements": [
+      {{"hypothesis_id": "H1", "hypothesis": "...", "current_confidence": "...",
+        "to_confirm": [{{"id": "P1.1", "evidence_needed": "...", "source_type": "PUBLIC|PROPRIETARY|EXPERT|FIELD", "where_to_find": "...", "client_ask": "specific request to the client team"}}],
+        "to_disprove": [{{"id": "D1.1", "evidence_needed": "...", "source_type": "PUBLIC|PROPRIETARY|EXPERT|FIELD", "where_to_find": "...", "client_ask": "..."}}]
+      }}
+    ],
+    "total_items": 0}}""",
+                    "HYPOTHESES:\n{hyps}\n\nDATA GAPS:\n{gaps}\n\nIdentify client-aware proof requirements.".format(
+                        hyps=json.dumps([{"id": h.get("id"), "statement": h.get("statement"), "confidence": h.get("confidence"), "data_required": h.get("data_required", "")} for h in active_hyps], indent=2, ensure_ascii=False),
+                        gaps=json.dumps(data_gaps, indent=2, ensure_ascii=False)
+                    )
+                )
+
+                json.dump(proof_brief, open(hyp_dir / "proof_requirements.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+
+                # Write human-readable checklist
+                proof_lines = [f"# Hypothesis Proof Requirements\n", f"**Generated:** {TODAY_STR}\n"]
+                total_proof = 0
+                proprietary_proof = []
+                for pr in proof_brief.get("proof_requirements", []):
+                    proof_lines.append(f"\n## {pr.get('hypothesis_id', '?')}: {pr.get('hypothesis', '')[:100]}")
+                    proof_lines.append(f"**Current confidence:** {pr.get('current_confidence', '?')}\n")
+                    proof_lines.append("### To Confirm:")
+                    for item in pr.get("to_confirm", []):
+                        proof_lines.append(f"- [ ] **{item['id']}** [{item.get('source_type', '?')}]: {item['evidence_needed']}")
+                        if item.get("client_ask"):
+                            proof_lines.append(f"  - **Ask:** {item['client_ask']}")
+                        proof_lines.append(f"  - Where: {item.get('where_to_find', 'N/A')}")
+                        total_proof += 1
+                        if item.get("source_type") in ("PROPRIETARY", "EXPERT", "FIELD"):
+                            proprietary_proof.append(item)
+                    proof_lines.append("\n### To Disprove:")
+                    for item in pr.get("to_disprove", []):
+                        proof_lines.append(f"- [ ] **{item['id']}** [{item.get('source_type', '?')}]: {item['evidence_needed']}")
+                        if item.get("client_ask"):
+                            proof_lines.append(f"  - **Ask:** {item['client_ask']}")
+                        proof_lines.append(f"  - Where: {item.get('where_to_find', 'N/A')}")
+                        total_proof += 1
+                        if item.get("source_type") in ("PROPRIETARY", "EXPERT", "FIELD"):
+                            proprietary_proof.append(item)
+                (hyp_dir / "proof_checklist.md").write_text("\n".join(proof_lines), encoding="utf-8")
+
+                # Show options
+                print(f"\n  {C.BOLD}HYPOTHESIS PROOF{C.R}")
+                print(f"  {C.DIM}{'_'*50}{C.R}\n")
+                print(f"  {total_proof} evidence items needed to prove/disprove {len(active_hyps)} hypotheses.")
+                if proprietary_proof:
+                    print(f"  {C.YELLOW}{len(proprietary_proof)} items need data from you or your client.{C.R}")
+                print(f"  Proof checklist saved to: {C.BLUE}{hyp_dir / 'proof_checklist.md'}{C.R}\n")
+
+                if AUTOPILOT:
+                    print(f"  {C.DIM}[autopilot] proceeding with current evidence{C.R}\n")
+                    proof_choice = "A"
+                else:
+                    print(f"  How would you like to proceed?\n")
+                    print(f"    {C.BOLD}A{C.R}  Proceed with current evidence")
+                    print(f"       {C.DIM}Some hypotheses may remain UNCERTAIN in the final document{C.R}")
+                    print(f"    {C.BOLD}B{C.R}  I have evidence to upload (covers everything)")
+                    print(f"       {C.DIM}Drop files in: {input_dir}{C.R}")
+                    if proprietary_proof:
+                        print(f"    {C.BOLD}D{C.R}  I can provide some evidence (selective)")
+                        print(f"       {C.DIM}Review what's needed, provide what you have, skip the rest{C.R}")
+                    print(f"    {C.BOLD}C{C.R}  Let me go gather this (save & quit)")
+                    print(f"       {C.DIM}Review the checklist, gather data, resume later with --resume{C.R}")
+                    print()
+
+                    valid_proof = ["A", "B", "C"] + (["D"] if proprietary_proof else [])
+                    while True:
+                        try:
+                            proof_choice = input(f"  {C.YELLOW}Choose [{'/'.join(valid_proof)}]: {C.R}").strip().upper()
+                        except (EOFError, KeyboardInterrupt):
+                            proof_choice = "C"
+                        if proof_choice in valid_proof:
+                            break
+                        print(f"  {C.RED}Please enter {'/'.join(valid_proof)}{C.R}")
+
+                if proof_choice == "C":
+                    print(f"\n  {C.GREEN}Progress saved. To resume:{C.R}")
+                    print(f"  {C.BOLD}1.{C.R} Review: {hyp_dir / 'proof_checklist.md'}")
+                    print(f"  {C.BOLD}2.{C.R} Drop evidence in: {input_dir}")
+                    print(f"  {C.BOLD}3.{C.R} Resume: python pipeline.py --resume {state.dir}\n")
+                    return
+
+                if proof_choice == "D":
+                    # Selective evidence input
+                    print(f"\n  {C.BOLD}EVIDENCE YOU CAN PROVIDE{C.R}")
+                    print(f"  {C.DIM}{'_'*50}{C.R}\n")
+                    print(f"  {C.DIM}For each item: type the data, 'skip' to proceed without, or 'file' if uploaded.{C.R}\n")
+
+                    proof_evidence = []
+                    for item in proprietary_proof:
+                        print(f"  {C.BOLD}{item['id']}{C.R}")
+                        if item.get("client_ask"):
+                            print(f"  {C.CYAN}{item['client_ask']}{C.R}")
+                        else:
+                            print(f"  {item['evidence_needed']}")
+                        print()
+                        try:
+                            resp = input(f"  {C.YELLOW}{item['id']} > {C.R}").strip()
+                        except (EOFError, KeyboardInterrupt):
+                            resp = "skip"
+
+                        if resp.lower() == "skip" or not resp:
+                            print(f"  {C.DIM}Skipped{C.R}\n")
+                        elif resp.lower() == "file":
+                            print(f"  {C.GREEN}Will extract from uploaded files{C.R}\n")
+                            proof_evidence.append({"file": f"file_ref_{item['id']}", "findings": ""})
+                        else:
+                            print(f"  {C.GREEN}Got it{C.R}\n")
+                            proof_evidence.append({"file": f"direct_{item['id']}", "findings": f"[{item['id']}] {resp}"})
+
+                    # Also check for uploaded files
+                    files = scan_inputs(state.dir, "hypothesis")
+                    if files:
+                        proof_evidence.extend(extract_from_files(files))
+
+                    if proof_evidence:
+                        real_evidence = [e for e in proof_evidence if e.get("findings")]
+                        if real_evidence:
+                            print(f"  {C.GREEN}Re-evaluating hypotheses with {len(real_evidence)} evidence item(s)...{C.R}")
+                            evidence_text = "\n".join(f"From {e['file']}:\n{e['findings']}" for e in real_evidence)
+                            update = llm_json(
+                                """You have new evidence for hypothesis evaluation. For each hypothesis, check if the new evidence CONFIRMS, CONTRADICTS, or is NEUTRAL. Update confidence and status accordingly.
+
+    Return JSON: {"updates": [{"id": "H1", "new_status": "confirmed/uncertain/killed", "new_confidence": "HIGH/MEDIUM/LOW", "evidence_impact": "..."}]}""",
+                                f"HYPOTHESES:\n{json.dumps(hyp_tree, indent=2, ensure_ascii=False)}\n\nNEW EVIDENCE:\n{evidence_text}\n\nUpdate hypotheses."
+                            )
+                            for u in update.get("updates", []):
+                                for h in hyp_tree.get("hypotheses", []):
+                                    if h.get("id") == u.get("id"):
+                                        h["status"] = u.get("new_status", h.get("status"))
+                                        h["confidence"] = u.get("new_confidence", h.get("confidence"))
+                                        h["evidence_update"] = u.get("evidence_impact", "")
+                                        print(f"    {C.GREEN}{u['id']}: -> {u.get('new_status', '?')} ({u.get('new_confidence', '?')}){C.R}")
+                            json.dump(hyp_tree, open(hyp_dir / "hypotheses.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+                            state.set("hyp_path", str(hyp_dir / "hypotheses.json"))
+
+                elif proof_choice == "B":
+                    files = scan_inputs(state.dir, "hypothesis")
+                    if not files:
+                        print(f"\n  {C.YELLOW}No files found in {input_dir}{C.R}")
+                        print(f"  {C.DIM}Drop files and press Enter, or type 'A' to proceed without.{C.R}\n")
+                        while True:
+                            try:
+                                resp = input(f"  {C.YELLOW}[Enter to scan / A]: {C.R}").strip().upper()
+                            except (EOFError, KeyboardInterrupt):
+                                resp = "A"
+                            if resp == "A":
+                                break
+                            files = scan_inputs(state.dir, "hypothesis")
+                            if files:
+                                break
+                            print(f"  {C.YELLOW}Still no files. Try again.{C.R}")
+
+                    if files:
+                        print(f"  {C.GREEN}Extracting evidence from {len(files)} file(s)...{C.R}")
+                        evidence = extract_from_files(files)
+                        if evidence:
+                            # Re-run hypothesis stress-test with new evidence
+                            print(f"  {C.GREEN}Re-evaluating hypotheses with new evidence...{C.R}")
+                            evidence_text = "\n".join(f"From {e['file']}:\n{e['findings']}" for e in evidence)
+                            update = llm_json(
+                                """You have new evidence for hypothesis evaluation. For each hypothesis, check if the new evidence CONFIRMS, CONTRADICTS, or is NEUTRAL. Update confidence and status accordingly.
+
+    Return JSON: {"updates": [{"id": "H1", "new_status": "confirmed/uncertain/killed", "new_confidence": "HIGH/MEDIUM/LOW", "evidence_impact": "..."}]}""",
+                                f"HYPOTHESES:\n{json.dumps(hyp_tree, indent=2, ensure_ascii=False)}\n\nNEW EVIDENCE:\n{evidence_text}\n\nUpdate hypotheses."
+                            )
+                            for u in update.get("updates", []):
+                                for h in hyp_tree.get("hypotheses", []):
+                                    if h.get("id") == u.get("id"):
+                                        h["status"] = u.get("new_status", h.get("status"))
+                                        h["confidence"] = u.get("new_confidence", h.get("confidence"))
+                                        h["evidence_update"] = u.get("evidence_impact", "")
+                                        print(f"    {C.GREEN}{u['id']}: -> {u.get('new_status', '?')} ({u.get('new_confidence', '?')}){C.R}")
+
+                            # Re-save
+                            json.dump(hyp_tree, open(hyp_dir / "hypotheses.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+                            state.set("hyp_path", str(hyp_dir / "hypotheses.json"))
+
+            state.complete(5)
+        else:
+            hp = state.get("hyp_path")
+            hyp_tree = json.load(open(hp, encoding="utf-8")) if hp and Path(hp).exists() else {}
+
+    # ── Ensure hyp_tree, synthesis, working_doc are loaded (both paths) ──
+    if hyp_tree is None:
         hp = state.get("hyp_path")
         hyp_tree = json.load(open(hp, encoding="utf-8")) if hp and Path(hp).exists() else {}
+    if not synthesis:
+        sp = state.get("synthesis_path")
+        synthesis = json.load(open(sp, encoding="utf-8")) if sp and Path(sp).exists() else {}
+    if not working_doc:
+        wp = state.get("wd_path")
+        working_doc = Path(wp).read_text(encoding="utf-8") if wp and Path(wp).exists() else ""
 
     # ── STEP 6: Final Document ──
     if state.step <= 6:

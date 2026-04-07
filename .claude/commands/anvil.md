@@ -41,6 +41,8 @@ Then show modes:
 > **GUIDED** — I pause at each step. You review, inject data, redirect.
 >
 > **AUTOPILOT** — I run end-to-end and narrate. `~15-45 min`.
+>
+> **HYPOTHESIS-DRIVEN** — You have a Day 1 answer. I stress-test it. `~10-15 min`.
 
 Then show commands:
 
@@ -79,29 +81,26 @@ Once the user describes their problem, you need:
 
 If missing, ask. Keep it conversational. If obvious from context, infer.
 
-## STEP 3: Engagement Manager — Challenge the Framing
+## STEP 3: Confirm the Problem Statement
 
-Act as a senior engagement manager. Check these 5 things and push back on failures:
+Your job: check the user's question is complete, NOT rewrite it.
 
-**ONE-SIDED?** — "protect/defend/respond" should be "optimize/position". Say:
-> "You said 'protect' — should this be open to finding the crisis is an opportunity?"
+**PRESERVE the user's exact framing.** If they said "what actions must X take" — keep that verb. If they mentioned specific dimensions (business model, talent, partnerships) — keep ALL of them. Do NOT broaden, soften, or make it more exploratory.
 
-**TOO SPECIFIC?** — Names a solution = hypothesis, not a PS. Say:
-> "You're asking whether to restructure — what if the answer is don't? Let's broaden."
+Only flag REAL issues:
+- **No timeframe?** Ask: "What's the decision horizon?"
+- **No audience?** Ask: "Who acts on this?"
+- **Truly one-sided?** Only if it ONLY mentions defense with zero room for opportunity. "What actions must" is fine — that's action-oriented, not one-sided.
 
-**NO TIMEFRAME?** — Say:
-> "What's the decision horizon — real deadline or open-ended?"
+**Do NOT do these things:**
+- Do NOT replace "what actions must" with "how should X position itself"
+- Do NOT replace specific dimensions with vague framing
+- Do NOT broaden a well-scoped question
+- Do NOT present a "sharpened version" — the pipeline handles PS crafting internally
 
-**PRESCRIBES THE ANSWER?** — "How to cut costs" prescribes cutting. Say:
-> "This assumes cost-cutting. What if the answer is invest more?"
+Read back the user's question with any missing timeframe/audience added:
 
-**BREAK POINT TESTABLE?** — Can you name a condition that flips the answer?
-
-Present your sharpened version:
-
-> **PROBLEM STATEMENT:** [your version]
->
-> **BREAK POINT:** The recommendation reverses if [specific condition]
+> **PROBLEM STATEMENT:** [user's words, with timeframe/audience added if missing]
 >
 > **AUDIENCE:** [who reads this]
 
@@ -113,20 +112,57 @@ Ask: **"Does this capture it?"**
 
 Ask:
 
-> **Two options:**
+> **Two questions:**
 >
-> `1` **GUIDED** — I pause at each step. You steer.
+> **First — do you have a Day 1 answer?**
 >
-> `2` **AUTOPILOT** — End-to-end. I narrate.
+> `YES` → **HYPOTHESIS-DRIVEN** — I stress-test your answer. Faster, cheaper. `~10-15 min`.
 >
-> **Which?**
+> `NO` → **ISSUE-DRIVEN** — I explore from scratch. Full MECE + research. `~20-45 min`.
+>
+> **Second — how do you want to work?**
+>
+> `GUIDED` — I pause at each step. You review, steer, inject data.
+>
+> `AUTOPILOT` — End-to-end. I narrate.
+
+**If HYPOTHESIS-DRIVEN (both guided and autopilot):**
+
+Ask: **"What's your Day 1 answer?"** Then run the pipeline with `--hypothesis`. The pipeline handles the challenge internally (landscape scan → challenge → lock/revise).
+
+The hypothesis challenge conversation ALWAYS happens — the user must align on the hypothesis before the pipeline runs. Never skip it.
+
+- **Autopilot**: YOU (Claude) have the challenge conversation with the user in chat. Push back, ask hard questions, reference the PS. Once the user says "go" or "lock it", pass the aligned hypothesis to the pipeline. Pipeline runs end-to-end after that.
+- **Guided**: Same challenge conversation in chat first. Then pipeline runs with `--guided` and pauses at decomposition review, verdict override, final doc, appendix.
 
 ## STEP 5: Execute
 
-### AUTOPILOT:
+### ISSUE-DRIVEN + AUTOPILOT:
 ```bash
 cd C:\Users\Lenovo\briefing-engine && python anvil.py run --topic "<PS>" --audience "<AUDIENCE>"
 ```
+
+### ISSUE-DRIVEN + GUIDED:
+```bash
+cd C:\Users\Lenovo\briefing-engine && python anvil.py run --topic "<PS>" --audience "<AUDIENCE>" --guided
+```
+Pipeline pauses at each checkpoint. Read the output, show the user what happened, ask if they want to adjust.
+
+### HYPOTHESIS-DRIVEN + AUTOPILOT:
+```bash
+cd C:\Users\Lenovo\briefing-engine && python anvil.py run --topic "<PS>" --audience "<AUDIENCE>" --hypothesis "<DAY 1 ANSWER>"
+```
+
+### HYPOTHESIS-DRIVEN + GUIDED:
+```bash
+cd C:\Users\Lenovo\briefing-engine && python anvil.py run --topic "<PS>" --audience "<AUDIENCE>" --hypothesis "<DAY 1 ANSWER>" --guided
+```
+Pipeline pauses at these checkpoints — read the output, summarize conversationally, ask for input:
+1. **Challenge** — shows assessment + sharpened hypothesis. User accepts, revises, or types their own.
+2. **Decomposition** — shows necessary conditions. User can add branches or give feedback.
+3. **Deep search verdicts** — shows GREEN/AMBER/RED per leaf. User can override with internal data.
+4. **Final doc** — brief ready for review. User gives feedback.
+5. **Appendix** — proof slides ready. User gives feedback.
 
 Narrate like a senior analyst:
 - Say what **surprised** you

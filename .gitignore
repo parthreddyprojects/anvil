@@ -34,3 +34,7 @@ Thumbs.db
 # Temp
 *.tmp
 *.bak
+
+# Snap scripts (dev only)
+snap_*.js
+dashboard_state.js

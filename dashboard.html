@@ -73,6 +73,7 @@
   .f-done { color: var(--green); font-weight: 600; }
   .f-active { color: var(--amber-bright); font-weight: 700; text-shadow: 0 0 8px rgba(245,166,35,0.5); }
   .f-wait { color: var(--dim); }
+  .f-skip { color: var(--dim); text-decoration: line-through; font-weight: 400; }
   .f-line { color: #444; }
 
   /* ── KPI Grid ── */
@@ -102,6 +103,8 @@
   .t-icon { font-size: 14px; text-align: center; padding-top: 2px; }
   .t-icon.done { color: var(--green); }
   .t-icon.active { color: var(--amber-bright); }
+  .t-icon.skip { color: var(--dim); }
+  .t-name.skip { color: var(--dim); text-decoration: line-through; }
   .t-icon.wait { color: #444; }
   .t-content {}
   .t-name { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
@@ -154,103 +157,208 @@
   <div class="prompt"><span>▶</span> <span id="prompt-text">waiting for run...</span><div class="cursor"></div></div>
 </div>
 
-<!-- DATA INJECTION POINT -->
+<!-- DATA INJECTION POINT — external file takes precedence, inline is fallback -->
+<script src="dashboard_state.js"></script>
 <script id="anvil-state">
-var ANVIL_STATE = {"step": 8, "done": [0, 1, 2, 3, 4, 5, 6, 7], "topic": "What specific actions should a senior consulting professional take over the next 3 years to maximize long-term economic upside and the impact of their work, as AI restructures which human expertise commands a premium — and in what sequence, given that early moves compound and late moves don't?", "audience": "The professional themselves — a personal decision document", "created": "April 01, 2026", "run_dir": "what_specific_actions_should_a_senior_co", "buckets": 10, "questions": 71, "break_point": "The recommendation reverses — from 'reposition aggressively now' to 'harvest current position and manage the decline' — if ALL of the following conditions are simultaneously true: (1) the professional", "snippets": 138, "articles": 60, "step_0_summary": "10 buckets, 71 questions, 138 snippets scanned", "step_2_summary": "48 articles fetched across 10 buckets + 12 from landscape scan", "findings": 50, "patterns": 8, "step_4_summary": "50 findings, 8 patterns, 8 inferences", "hypotheses_total": 8, "hypotheses_active": 8, "killed": 2, "governing": "A senior consulting professional should treat repositioning as a burning-platform decision requiring immediate structural action: within 12 months, exit utilization-linked compensation (negotiating below 60% utilization targets or moving to equity-pl", "step_5_summary": "8 active, 2 killed, governing hypothesis set", "appendix_slides": 6, "step_7_summary": "6 proof slides generated", "llm_calls": 92, "spend": "3.51"};
+if (typeof ANVIL_STATE === 'undefined') { var ANVIL_STATE = {"step": 8, "done": [0, 1, 2, 3, 4, 5, 6, 7], "topic": "What must Workday do in the next 18 months to defend its HCM and finance platform dominance as AI-native competitors like Rippling commoditize core HR/payroll and enterprise buyers increasingly demand AI-first workflows instead of bolt-on AI features?", "audience": "Workday CEO, board, and senior product leadership", "created": "April 07, 2026", "run_dir": "what_must_workday_do_in_the_next_18_mont", "updated_at": "2026-04-07T07:52:41.631071", "mode": "hypothesis-driven", "user_hypothesis": "Workday should acquire 2-3 AI-native workflow companies, rebuild its core platform around agent-based automation by Q3 2027, and convert enterprise contracts from per-seat to per-outcome pricing befor", "locked_governing": "Workday should acquire 2-3 AI-native workflow companies, rebuild its core platform around agent-based automation by Q3 2027, and convert enterprise contracts from per-seat to per-outcome pricing befor", "buckets": 0, "questions": 0, "break_point": "The recommendation to aggressively pursue AI-native re-architecture (vs. a more defensive, bolt-on AI enhancement strategy) reverses if: (1) Workday fails to operationalize its data fabric into a meas", "snippets": 135, "articles": 12, "step_0_summary": "0 buckets, 0 questions, 135 snippets scanned", "findings": 0, "patterns": 0, "step_4_summary": "0 findings, 0 patterns, 0 inferences", "hypotheses_total": 5, "hypotheses_active": 1, "killed": 13, "governing": "Workday must instrument its unified HCM-finance data layer with measurable customer-specific metrics—cost-per-close, attrition prediction accuracy, audit trail depth—that Oracle Fusion cannot replicate without a multi-year migration, delivered in cus", "step_5_summary": "1 active, 13 killed, governing hypothesis set", "appendix_slides": 6, "step_7_summary": "6 proof slides generated", "llm_calls": 37, "spend": "1.26"};
 </script>
 
 <script>
-const STEPS = [
-  {name:'PROBLEM', desc:'Sharpen PS — neutral framing, scope, break point'},
-  {name:'MECE', desc:'Landscape scan + MECE decomposition into research buckets'},
-  {name:'RESEARCH', desc:'Web search per bucket — real sources, real articles'},
-  {name:'W.DOC', desc:'Compile research into working document + debrief'},
-  {name:'SYNTHESIS', desc:'Findings → patterns → inferences'},
-  {name:'HYPOTHESES', desc:'Generate, stress-test, kill. Governing from survivors.'},
-  {name:'FINAL', desc:'3-5 page strategic brief with critique pass'},
-  {name:'CHARTS', desc:'Proof slides — chart type by data relationship'},
+// Two separate pipeline definitions
+const STEPS_ISSUE = [
+  {name:'PROBLEM',    desc:'Sharpen PS — neutral framing, scope, break point', step:0},
+  {name:'MECE',       desc:'Landscape scan + MECE decomposition', step:1},
+  {name:'RESEARCH',   desc:'Web search per bucket — real sources', step:2},
+  {name:'W.DOC',      desc:'Compile into working document + debrief', step:3},
+  {name:'SYNTHESIS',  desc:'Findings → patterns → inferences', step:4},
+  {name:'HYPOTHESES', desc:'Stress-test, kill, iterate. Governing from survivors.', step:5},
+  {name:'FINAL',      desc:'Strategic brief with critique pass', step:6},
+  {name:'CHARTS',     desc:'Proof slides — one claim, one chart', step:7},
+];
+
+const STEPS_HYPO = [
+  {name:'PROBLEM',    desc:'Sharpen PS — scope, break point', step:0},
+  {name:'LANDSCAPE',  desc:'Scan web — snippets + targeted articles', step:0},
+  {name:'CHALLENGE',  desc:'Stress-test Day 1 answer against landscape', step:0},
+  {name:'DECOMPOSE',  desc:'Break into necessary conditions', step:5},
+  {name:'DEEP TEST',  desc:'Targeted search on EVERY leaf', step:5},
+  {name:'FINAL',      desc:'Strategic brief with critique pass', step:6},
+  {name:'CHARTS',     desc:'Proof slides — one claim, one chart', step:7},
 ];
 
 function render() {
-  if (!ANVIL_STATE) return;
+  if (!ANVIL_STATE || !ANVIL_STATE.topic) return;
   const s = ANVIL_STATE;
   const step = s.step || 0;
   const done = s.done || [];
-  const complete = done.length >= 8;
-  const pct = Math.round((done.length / 8) * 100);
+  const isHypo = s.mode === 'hypothesis-driven';
+  const STEPS = isHypo ? STEPS_HYPO : STEPS_ISSUE;
+  const totalSteps = isHypo ? 7 : 8;
+
+  // Stale detection
+  if (s.updated_at) {
+    const age = (Date.now() - new Date(s.updated_at).getTime()) / 1000;
+    const stale = age > 60 && done.length < totalSteps;
+    const badge = document.querySelector('.live-badge');
+    if (badge) {
+      badge.textContent = stale ? 'STALE' : 'LIVE';
+      badge.style.color = stale ? 'var(--dim)' : '';
+      badge.style.background = stale ? 'var(--border)' : '';
+    }
+  }
+
+  const complete = done.includes(7);
+  const pct = isHypo
+    ? Math.round(((done.includes(0)?3:step>0?2:step>-1?1:0) + (done.includes(5)?2:step>=5?1:0) + (done.includes(6)?1:0) + (done.includes(7)?1:0)) / 7 * 100)
+    : Math.round((done.length / 8) * 100);
 
   document.getElementById('pbar').style.width = pct + '%';
   if (complete) document.getElementById('pbar').classList.add('done');
 
   let h = '';
 
-  // ── Flow diagram ──
-  h += '<div class="sec-label">pipeline flow</div>';
-  h += '<div class="flow">';
-  let top = '';
-  for (let i = 0; i <= 3; i++) {
-    const c = complete||done.includes(i) ? 'f-done' : i===step ? 'f-active' : 'f-wait';
-    const ic = complete||done.includes(i) ? '✓' : i===step ? '▸' : '·';
-    const nm = STEPS[i].name.padEnd(8);
-    top += `<span class="${c}">${ic} ${nm}</span>`;
-    if (i<3) top += `<span class="f-line">── </span>`;
-  }
-  top += `<span class="f-line">──┐</span>`;
-  let bot = '';
-  for (let i = 7; i >= 4; i--) {
-    const c = complete||done.includes(i) ? 'f-done' : i===step ? 'f-active' : 'f-wait';
-    const ic = complete||done.includes(i) ? '✓' : i===step ? '▸' : '·';
-    const nm = STEPS[i].name.padEnd(10);
-    bot += `<span class="${c}">${ic} ${nm}</span>`;
-    if (i>4) bot += `<span class="f-line">── </span>`;
-  }
-  bot += `<span class="f-line">──┘</span>`;
-  const pad = ' '.repeat(56);
-  h += `${top}\n${pad}<span class="f-line">│</span>\n${bot}`;
-  h += '</div>';
-
-  // ── KPIs ──
-  h += '<div class="sec-label">key metrics</div>';
-  h += '<div class="kpi-grid">';
-  h += `<div class="kpi"><div class="kpi-val${complete?' green':''}">${pct}%</div><div class="kpi-label">Progress</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.buckets||'—'}</div><div class="kpi-label">Buckets</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.questions||'—'}</div><div class="kpi-label">Questions</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.snippets||'—'}</div><div class="kpi-label">Snippets</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.articles||'—'}</div><div class="kpi-label">Articles</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.findings||'—'}</div><div class="kpi-label">Findings</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.patterns||'—'}</div><div class="kpi-label">Patterns</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.hypotheses_active||'—'}/${s.hypotheses_total||'—'}</div><div class="kpi-label">Hyp Active</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.killed||'—'}</div><div class="kpi-label">Killed</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.spend ? '$'+s.spend : '—'}</div><div class="kpi-label">API Spend</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.llm_calls||'—'}</div><div class="kpi-label">LLM Calls</div></div>`;
-  h += `<div class="kpi"><div class="kpi-val">${s.appendix_slides||'—'}</div><div class="kpi-label">Proof Slides</div></div>`;
-  h += '</div>';
-
-  // ── Problem statement ──
+  // ── Problem statement (always visible) ──
   h += '<div class="sec-label">problem statement</div>';
   h += '<div class="status">';
   if (s.topic) h += `<div class="s-row"><span class="s-label">ps</span><span class="s-val ps">${s.topic}</span></div>`;
   if (s.audience) h += `<div class="s-row"><span class="s-label">audience</span><span class="s-val">${s.audience}</span></div>`;
-  if (s.governing) h += `<div class="s-row"><span class="s-label">governing</span><span class="s-val" style="color:var(--amber);">${s.governing}</span></div>`;
   if (s.break_point) h += `<div class="s-row"><span class="s-label">break pt</span><span class="s-val" style="color:var(--text-sec);font-style:italic;">${s.break_point}</span></div>`;
   h += '</div>';
 
-  // ── Step timeline ──
+  // ── Before step 0 is done: just show waiting ──
+  if (!done.includes(0)) {
+    h += `<div class="sec-label" style="opacity:0.4;">waiting for problem statement approval...</div>`;
+    document.getElementById('dashboard').innerHTML = h;
+    document.getElementById('prompt-text').textContent = 'step 0: crafting problem statement...';
+    return;
+  }
+
+  // ══════════════════════════════════════════
+  // MODE FORK — completely different layouts
+  // ══════════════════════════════════════════
+
+  if (isHypo) {
+    // ── HYPOTHESIS-DRIVEN ──
+    h += '<div class="sec-label" style="color:var(--amber);letter-spacing:0.15em;">⚒ hypothesis-driven</div>';
+    h += '<div class="status">';
+    if (s.user_hypothesis) h += `<div class="s-row"><span class="s-label">day 1</span><span class="s-val" style="color:var(--amber-bright);">${s.user_hypothesis}</span></div>`;
+    if (s.locked_governing) h += `<div class="s-row"><span class="s-label">locked</span><span class="s-val" style="color:var(--amber);">${s.locked_governing}</span></div>`;
+    h += '</div>';
+
+    // Flow: PS → LANDSCAPE → CHALLENGE → DECOMPOSE → DEEP TEST → FINAL → CHARTS
+    h += '<div class="sec-label">pipeline</div>';
+    h += '<div class="flow">';
+    const hypoFlow = STEPS_HYPO;
+    let line = '';
+    for (let i = 0; i < hypoFlow.length; i++) {
+      const sf = hypoFlow[i];
+      const isDone = done.includes(sf.step) && (i <= 2 || (i > 2));
+      // More precise: first 3 steps are done when step 0 is done, step 3-4 when step 5 done, etc.
+      let stepDone = false;
+      if (i <= 2) stepDone = done.includes(0);
+      else if (i === 3 || i === 4) stepDone = done.includes(5);
+      else if (i === 5) stepDone = done.includes(6);
+      else if (i === 6) stepDone = done.includes(7);
+
+      let stepActive = false;
+      if (i <= 2 && !done.includes(0)) stepActive = true;
+      else if ((i === 3 || i === 4) && done.includes(0) && !done.includes(5)) stepActive = (step === 5);
+      else if (i === 5 && done.includes(5) && !done.includes(6)) stepActive = (step === 6);
+      else if (i === 6 && done.includes(6) && !done.includes(7)) stepActive = (step === 7);
+
+      const c = stepDone ? 'f-done' : stepActive ? 'f-active' : 'f-wait';
+      const ic = stepDone ? '✓' : stepActive ? '▸' : '·';
+      line += `<span class="${c}">${ic} ${sf.name.padEnd(10)}</span>`;
+      if (i < hypoFlow.length - 1) line += `<span class="f-line">── </span>`;
+    }
+    h += line;
+    h += '</div>';
+
+  } else {
+    // ── ISSUE-DRIVEN ──
+    h += '<div class="sec-label" style="letter-spacing:0.15em;">issue-driven</div>';
+
+    // Flow: two-row U-shape
+    h += '<div class="sec-label">pipeline</div>';
+    h += '<div class="flow">';
+    let top = '';
+    for (let i = 0; i <= 3; i++) {
+      const c = done.includes(i) ? 'f-done' : i===step ? 'f-active' : 'f-wait';
+      const ic = done.includes(i) ? '✓' : i===step ? '▸' : '·';
+      top += `<span class="${c}">${ic} ${STEPS_ISSUE[i].name.padEnd(10)}</span>`;
+      if (i<3) top += `<span class="f-line">── </span>`;
+    }
+    top += `<span class="f-line">──┐</span>`;
+    let bot = '';
+    for (let i = 7; i >= 4; i--) {
+      const c = done.includes(i) ? 'f-done' : i===step ? 'f-active' : 'f-wait';
+      const ic = done.includes(i) ? '✓' : i===step ? '▸' : '·';
+      bot += `<span class="${c}">${ic} ${STEPS_ISSUE[i].name.padEnd(10)}</span>`;
+      if (i>4) bot += `<span class="f-line">── </span>`;
+    }
+    bot += `<span class="f-line">──┘</span>`;
+    h += `${top}\n${''.padEnd(62)}<span class="f-line">│</span>\n${bot}`;
+    h += '</div>';
+  }
+
+  // ── KPIs (contextual) ──
+  h += '<div class="sec-label">key metrics</div>';
+  h += '<div class="kpi-grid">';
+  h += `<div class="kpi"><div class="kpi-val${complete?' green':''}">${pct}%</div><div class="kpi-label">Progress</div></div>`;
+  if (!isHypo) {
+    h += `<div class="kpi"><div class="kpi-val">${s.buckets||'—'}</div><div class="kpi-label">Buckets</div></div>`;
+    h += `<div class="kpi"><div class="kpi-val">${s.questions||'—'}</div><div class="kpi-label">Questions</div></div>`;
+  }
+  h += `<div class="kpi"><div class="kpi-val">${s.snippets||'—'}</div><div class="kpi-label">Snippets</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.articles||'—'}</div><div class="kpi-label">Articles</div></div>`;
+  if (!isHypo) {
+    h += `<div class="kpi"><div class="kpi-val">${s.findings||'—'}</div><div class="kpi-label">Findings</div></div>`;
+    h += `<div class="kpi"><div class="kpi-val">${s.patterns||'—'}</div><div class="kpi-label">Patterns</div></div>`;
+  }
+  h += `<div class="kpi"><div class="kpi-val">${s.hypotheses_active||'—'}/${s.hypotheses_total||'—'}</div><div class="kpi-label">Hyp Active</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.killed||'—'}</div><div class="kpi-label">Killed</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.spend ? '$'+s.spend : '—'}</div><div class="kpi-label">API Spend</div></div>`;
+  h += `<div class="kpi"><div class="kpi-val">${s.llm_calls||'—'}</div><div class="kpi-label">LLM Calls</div></div>`;
+  if (s.appendix_slides) h += `<div class="kpi"><div class="kpi-val">${s.appendix_slides}</div><div class="kpi-label">Proof Slides</div></div>`;
+  h += '</div>';
+
+  // ── Governing hypothesis (only after step 5) ──
+  if (s.governing) {
+    h += '<div class="sec-label">governing hypothesis</div>';
+    h += `<div class="status"><div class="s-row"><span class="s-val" style="color:var(--amber);font-size:14px;line-height:1.5;">${s.governing}</span></div></div>`;
+  }
+
+  // ── Step timeline (mode-specific) ──
   h += '<div class="sec-label">step details</div>';
   h += '<div class="timeline">';
-  for (let i = 0; i < 8; i++) {
-    const isDone = complete || done.includes(i);
-    const isActive = !complete && i === step;
-    const cls = isDone ? 'done' : isActive ? 'active' : 'wait';
-    const icon = isDone ? '✓' : isActive ? '▸' : '·';
+  for (let i = 0; i < STEPS.length; i++) {
+    const sf = STEPS[i];
+    let stepDone, stepActive;
+    if (isHypo) {
+      if (i <= 2) { stepDone = done.includes(0); stepActive = !done.includes(0); }
+      else if (i === 3 || i === 4) { stepDone = done.includes(5); stepActive = done.includes(0) && !done.includes(5) && step === 5; }
+      else if (i === 5) { stepDone = done.includes(6); stepActive = done.includes(5) && !done.includes(6) && step === 6; }
+      else { stepDone = done.includes(7); stepActive = done.includes(6) && !done.includes(7) && step === 7; }
+    } else {
+      stepDone = complete || done.includes(sf.step);
+      stepActive = !complete && sf.step === step;
+    }
+    const cls = stepDone ? 'done' : stepActive ? 'active' : 'wait';
+    const icon = stepDone ? '✓' : stepActive ? '▸' : '·';
     h += `<div class="t-step">`;
     h += `<div class="t-icon ${cls}">${icon}</div>`;
     h += `<div class="t-content">`;
-    h += `<div class="t-name ${cls}">${i}. ${STEPS[i].name}</div>`;
-    h += `<div class="t-desc">${STEPS[i].desc}</div>`;
-    // Per-step summaries from enriched state
-    const key = 'step_' + i + '_summary';
-    if (s[key]) h += `<div class="t-summary">${s[key]}</div>`;
+    h += `<div class="t-name ${cls}">${sf.name}</div>`;
+    h += `<div class="t-desc">${sf.desc}</div>`;
+    // Summaries mapped to pipeline steps
+    const summaryKeys = isHypo
+      ? [['step_0_summary'],['step_0_summary'],[],['step_5_summary'],['step_5_summary'],['step_6_summary'],['step_7_summary']]
+      : [['step_0_summary'],['step_1_summary'],['step_2_summary'],['step_3_summary'],['step_4_summary'],['step_5_summary'],['step_6_summary'],['step_7_summary']];
+    if (summaryKeys[i]) {
+      for (const k of summaryKeys[i]) {
+        if (s[k]) h += `<div class="t-summary">${s[k]}</div>`;
+      }
+    }
     h += `</div></div>`;
   }
   h += '</div>';
@@ -259,9 +367,18 @@ function render() {
 
   // Prompt
   const pe = document.getElementById('prompt-text');
+  const activeStep = STEPS.find((sf, i) => {
+    if (isHypo) {
+      if (i <= 2) return !done.includes(0);
+      if (i === 3 || i === 4) return done.includes(0) && !done.includes(5);
+      if (i === 5) return done.includes(5) && !done.includes(6);
+      return done.includes(6) && !done.includes(7);
+    }
+    return sf.step === step;
+  });
   pe.textContent = complete
     ? 'pipeline complete — anvil open --run ' + (s.run_dir||'')
-    : 'running step ' + step + ': ' + STEPS[step].name.toLowerCase() + '...';
+    : activeStep ? activeStep.name.toLowerCase() + '...' : 'running...';
 }
 
 render();

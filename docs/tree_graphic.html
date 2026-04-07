@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#FAFAFA; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:40px; }
+
+  .tree-card {
+    background:#FFFFFF;
+    border-radius:12px;
+    padding:40px 48px;
+    max-width:900px;
+    width:100%;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+    border:1px solid #E5E7EB;
+    position:relative;
+    overflow:hidden;
+  }
+  .tree-card::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height:3px;
+    background:linear-gradient(90deg, #C97800, #F5A623, #FFD080);
+  }
+
+  .tree-label {
+    font:600 10px 'IBM Plex Mono';
+    letter-spacing:4px;
+    color:#777;
+    margin-bottom:24px;
+    text-transform:uppercase;
+  }
+
+  .gov {
+    font:700 17px 'Inter';
+    color:#C97800;
+    margin-bottom:28px;
+    padding-bottom:20px;
+    border-bottom:1px solid #E5E7EB;
+    line-height:1.5;
+  }
+  .gov::before {
+    content:'GOVERNING';
+    display:block;
+    font:600 10px 'IBM Plex Mono';
+    letter-spacing:3px;
+    color:#B08030;
+    margin-bottom:8px;
+  }
+
+  .branch {
+    margin-bottom:24px;
+    padding-left:20px;
+    border-left:2px solid #E0D0B8;
+  }
+  .branch:last-child { margin-bottom:0; }
+
+  .branch-head {
+    font:600 15px 'Inter';
+    color:#1a1a1a;
+    margin-bottom:12px;
+    position:relative;
+    line-height:1.5;
+  }
+  .branch-head::before {
+    content:'';
+    position:absolute;
+    left:-21px;
+    top:8px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#F5A623;
+  }
+  .branch-id {
+    font:600 12px 'IBM Plex Mono';
+    color:#C97800;
+    margin-right:8px;
+  }
+
+  .leaf {
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:8px;
+    padding-left:16px;
+    position:relative;
+  }
+  .leaf::before {
+    content:'';
+    position:absolute;
+    left:0;
+    top:8px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ccc;
+  }
+  .leaf-id {
+    font:500 11px 'IBM Plex Mono';
+    color:#777;
+    flex-shrink:0;
+    min-width:40px;
+  }
+  .leaf-text {
+    font:400 13px 'Inter';
+    color:#777;
+    line-height:1.5;
+  }
+  .leaf-threshold {
+    color:#C97800;
+    font-weight:500;
+  }
+</style>
+</head>
+<body>
+<div class="tree-card">
+  <div class="tree-label">Hypothesis Decomposition</div>
+
+  <div class="gov">NVIDIA should bundle DGX Cloud, NIM inference, and CUDA toolchain into 3-year enterprise AI factory contracts — locking 50+ Fortune 500 accounts before hyperscaler custom silicon ships externally in Q3 2027</div>
+
+  <div class="branch">
+    <div class="branch-head"><span class="branch-id">H1</span> Fortune 500 will pay a premium for single-vendor AI infrastructure</div>
+    <div class="leaf"><span class="leaf-id">H1.1</span><span class="leaf-text">Multi-vendor integration costs exceed <span class="leaf-threshold">15% of total AI infra spend</span></span></div>
+    <div class="leaf"><span class="leaf-id">H1.2</span><span class="leaf-text">NIM microservice adoption reaches <span class="leaf-threshold">500+ enterprise deployments</span> by Q4 2026</span></div>
+    <div class="leaf"><span class="leaf-id">H1.3</span><span class="leaf-text">At least <span class="leaf-threshold">3 Fortune 100 companies</span> sign multi-year DGX Cloud commits</span></div>
+  </div>
+
+  <div class="branch">
+    <div class="branch-head"><span class="branch-id">H2</span> CUDA + NIM create switching costs that survive hardware commoditization</div>
+    <div class="leaf"><span class="leaf-id">H2.1</span><span class="leaf-text">Migrating a production stack from CUDA to ROCm takes <span class="leaf-threshold">&gt;6 months</span></span></div>
+    <div class="leaf"><span class="leaf-id">H2.2</span><span class="leaf-text">No open-source inference engine comes within <span class="leaf-threshold">20% of TensorRT-LLM</span> throughput</span></div>
+  </div>
+
+  <div class="branch">
+    <div class="branch-head"><span class="branch-id">H3</span> Hyperscaler custom silicon won't reach external customers before Q3 2027</div>
+    <div class="leaf"><span class="leaf-id">H3.1</span><span class="leaf-text">Google TPU v6 fine-tuning remains <span class="leaf-threshold">&gt;30% slower</span> than H100 per dollar</span></div>
+    <div class="leaf"><span class="leaf-id">H3.2</span><span class="leaf-text">Amazon Trainium2 external availability slips to <span class="leaf-threshold">Q2 2027 or later</span></span></div>
+  </div>
+</div>
+</body>
+</html>

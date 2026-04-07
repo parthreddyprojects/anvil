@@ -231,12 +231,13 @@ You are an engagement manager in the first client meeting. Your job is to pull t
 
 5. **Test with the 'so what'** — Ask: "If I gave you the perfect answer to this question, would it actually help you make a decision?" If not, the PS is wrong.
 
-6. **Write it neutral** — The final PS should:
-   - Use "optimize" or "position" not "protect" or "defend"
+6. **Write it action-oriented** — The final PS should:
+   - Ask for SPECIFIC ACTIONS, not positioning or directions
    - Name WHO, WHAT domain, WHAT timeframe
    - Be 1-2 sentences max
-   - Leave room for the research to discover what matters
+   - PRESERVE multi-part questions — if user asks about business model + talent + partnerships, keep all three
    - NOT prescribe the answer ("should they cut costs" prescribes cutting costs)
+   - NOT water down to vague positioning ("how should X position itself" — too passive)
 
 7. **Confirm explicitly** — Read it back: "Here's what I think you're really asking: [PS]. Does this capture it? Anything missing?"
 
@@ -255,8 +256,9 @@ You are an engagement manager in the first client meeting. Your job is to pull t
 - Scope (derive from the timeframe and who)
 
 ### Red flags in a PS:
-- Contains "should" — prescribes the answer type
 - Contains "protect/defend/respond" — one-sided framing
+- Vague positioning ("how should X position itself") — too passive, needs specific action framing
+- Drops dimensions the user asked about — if they said "business model, talent, AND partnerships", keep all three
 - More than 2 sentences — too specific, you've answered before researching
 - Names a specific solution — "should they acquire X" is not a PS, it's a hypothesis
 - No timeframe — impossible to scope the research
@@ -545,23 +547,56 @@ def cmd_run(args):
     print(ANVIL_BANNER)
     _flow_diagram(active_step=-1)  # all dark — nothing started yet
     _flow_explainer()
-    _narrate("AUTOPILOT MODE", "head")
+    _narrate("GUIDED MODE" if args.guided else "AUTOPILOT MODE", "head")
     _narrate(f"Topic: {args.topic[:100]}", "info")
     _narrate(f"Audience: {args.audience[:80]}", "info")
 
     if args.inputs:
         _narrate(f"Research inputs: {args.inputs}", "info")
+    if args.hypothesis:
+        _narrate(f"Mode: HYPOTHESIS-DRIVEN", "forge")
+        _narrate(f"Day 1 answer: {args.hypothesis[:120]}", "info")
+    else:
+        _narrate(f"Mode: ISSUE-DRIVEN (explore)", "info")
 
     # Build the command
     cmd_parts = [
         sys.executable, str(ROOT / "pipeline.py"),
         "--topic", args.topic,
         "--audience", args.audience,
-        "--autopilot",
     ]
+    if args.hypothesis:
+        cmd_parts.extend(["--hypothesis", args.hypothesis])
+    if not args.guided:
+        cmd_parts.append("--autopilot")
 
-    # Pipe empty stdin for the interactive prompts
     import subprocess
+
+    if args.guided:
+        # Guided mode: pass stdin/stdout through directly for interactive prompts
+        proc = subprocess.Popen(
+            cmd_parts,
+            stdin=sys.stdin,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            cwd=str(ROOT),
+        )
+        proc.wait()
+        if proc.returncode == 0:
+            _narrate("Pipeline complete.", "done")
+            run_dir = sorted(OUTPUTS.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)[0] if OUTPUTS.exists() else None
+            if run_dir:
+                output = run_dir / "output.html"
+                if output.exists():
+                    webbrowser.open(f"file:///{output.resolve()}")
+        else:
+            _narrate(f"Pipeline exited with code {proc.returncode}", "warn")
+        return
+
+    # Autopilot: pipe stdin closed, stream output with anvil coloring
     proc = subprocess.Popen(
         cmd_parts,
         stdin=subprocess.PIPE,
@@ -782,10 +817,12 @@ def main():
     sub = parser.add_subparsers(dest="cmd")
 
     # run (autopilot)
-    p_run = sub.add_parser("run", help="Run full pipeline in autopilot")
+    p_run = sub.add_parser("run", help="Run full pipeline (autopilot by default, --guided for interactive)")
     p_run.add_argument("--topic", required=True)
     p_run.add_argument("--audience", default="Senior leadership")
     p_run.add_argument("--inputs", help="Folder with research files to inject")
+    p_run.add_argument("--hypothesis", type=str, default=None, help="Hypothesis-driven mode: provide your Day 1 answer to stress-test")
+    p_run.add_argument("--guided", action="store_true", help="Interactive mode — pause at every checkpoint")
 
     # status
     p_status = sub.add_parser("status", help="Show run status")
@@ -816,6 +853,11 @@ def main():
     p_san.add_argument("--auto", action="store_true", help="AI-suggested replacements")
     p_san.add_argument("--replacements", nargs="*", help="Manual replacements: 'Company=Alias'")
 
+    # carousel
+    p_car = sub.add_parser("carousel", help="Generate LinkedIn carousel from a run")
+    p_car.add_argument("--run", default=None)
+    p_car.add_argument("--no-review", action="store_true", help="Skip LLM reviews")
+
     # list
     p_list = sub.add_parser("list", help="List all runs")
 
@@ -824,6 +866,15 @@ def main():
 
     args = parser.parse_args()
 
+    def cmd_carousel(args):
+        """Generate LinkedIn carousel from a completed run."""
+        run_dir = _find_run(args.run)
+        if not run_dir:
+            _narrate("No run found.", "warn")
+            return
+        from carousel import generate_carousel
+        generate_carousel(str(run_dir), skip_review=args.no_review)
+
     cmds = {
         "run": cmd_run,
         "status": cmd_status,
@@ -831,6 +882,7 @@ def main():
         "step": cmd_step,
         "inject": cmd_inject,
         "sanitize": cmd_sanitize,
+        "carousel": cmd_carousel,
         "open": cmd_open,
         "list": cmd_list,
         "init": cmd_init,

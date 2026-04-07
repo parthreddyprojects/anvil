@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anvil v0.2 — Now You Can Start With the Answer</title>
+<meta name="description" content="You walk into a meeting with a thesis. Anvil v0.2 tells you if you're right — or exactly where you're wrong.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600;700&family=Inter:wght@400;600;700;800;900&display=swap');
+
+  :root {
+    --amber: #C97800;
+    --amber-dim: #9B6A14;
+    --amber-bright: #B06D00;
+    --bg: #FAFAFA;
+    --bg2: #FFFFFF;
+    --border: #E5E7EB;
+    --text: #1a1a1a;
+    --text-sec: #555;
+    --dim: #999;
+    --green: #16A34A;
+    --red: #DC2626;
+    --cyan: #0891B2;
+    --code-bg: #0C0C0C;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+  .container { max-width:960px; margin:0 auto; padding:0 32px; }
+
+  /* Hero */
+  .hero { text-align:center; padding:80px 0 48px; position:relative; }
+  .hero::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:600px; height:600px; background:radial-gradient(circle,rgba(201,120,0,0.04) 0%,transparent 70%); pointer-events:none; }
+  .ascii-logo {
+    font-family:'IBM Plex Mono',monospace; font-size:14px; line-height:1.35;
+    white-space:pre; color:#F5A623; text-shadow:0 0 12px rgba(245,166,35,0.3);
+    margin-bottom:24px; display:inline-block;
+    background:var(--code-bg); padding:20px 28px; border-radius:8px;
+  }
+  .version-badge { display:inline-block; font:600 0.7rem 'IBM Plex Mono'; letter-spacing:3px; color:var(--amber); background:rgba(201,120,0,0.08); padding:6px 16px; border-radius:20px; margin-bottom:24px; }
+  .hero h1 { font-size:2.4rem; font-weight:900; letter-spacing:-1px; margin-bottom:20px; color:var(--text); line-height:1.15; }
+  .hero .tagline { font-size:1.05rem; color:var(--text-sec); max-width:560px; margin:0 auto; line-height:1.8; }
+
+  /* Prose */
+  .prose { margin-bottom:48px; }
+  .prose p { font-size:0.95rem; color:var(--text-sec); line-height:1.8; margin-bottom:18px; }
+  .prose p strong { color:var(--text); }
+  .prose p em { color:var(--amber); font-style:normal; font-weight:600; }
+
+  /* Section labels */
+  .section-label { font-size:0.7rem; letter-spacing:0.3em; color:var(--dim); text-transform:uppercase; padding-bottom:12px; border-bottom:1px solid var(--border); margin-bottom:24px; }
+
+  /* Divider */
+  hr { border:none; border-top:1px solid var(--border); margin:48px 0; }
+
+  h2 { font-size:1.5rem; font-weight:800; margin-bottom:16px; color:var(--text); }
+  h3 { font-size:1.05rem; font-weight:700; margin:28px 0 10px; color:var(--amber); }
+
+  /* Two modes */
+  .modes { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:24px 0; }
+  .mode { background:var(--bg2); border:1px solid var(--border); padding:24px; border-radius:6px; }
+  .mode.new { border-color:var(--amber); border-width:2px; position:relative; }
+  .mode.new::after { content:'NEW'; position:absolute; top:-10px; right:16px; background:var(--amber); color:#fff; font:700 0.6rem 'IBM Plex Mono'; padding:3px 10px; border-radius:10px; letter-spacing:2px; }
+  .mode h4 { font-size:1rem; margin-bottom:6px; font-weight:700; }
+  .mode h4.issue { color:var(--cyan); }
+  .mode h4.hypo { color:var(--amber); }
+  .mode p { font-size:0.85rem; margin:0; color:var(--text-sec); line-height:1.6; }
+  .mode .meta { font:500 0.75rem 'IBM Plex Mono'; color:var(--dim); margin-top:12px; }
+
+  /* Code blocks */
+  .code-block { background:var(--code-bg); border:1px solid #2A2A2A; border-radius:6px; padding:20px 24px; margin:20px 0; overflow-x:auto; }
+  .code-block pre { font-family:'IBM Plex Mono',monospace; font-size:13px; line-height:1.8; color:#F5A623; margin:0; white-space:pre; }
+  .code-block .dim { color:#666; }
+
+  /* Quote */
+  .quote { border-left:3px solid var(--amber); padding:20px 24px; margin:24px 0; background:rgba(201,120,0,0.04); border-radius:0 6px 6px 0; }
+  .quote p { font-size:0.88rem; color:var(--text-sec); line-height:1.7; margin-bottom:8px; }
+  .quote p:last-child { margin-bottom:0; }
+  .quote strong { color:var(--amber); }
+  .quote ul { padding-left:20px; margin:8px 0 12px; }
+  .quote li { font-size:0.85rem; color:var(--text-sec); margin-bottom:6px; line-height:1.6; }
+
+  /* Tree */
+  .tree { background:var(--code-bg); border:1px solid #2A2A2A; border-radius:6px; padding:24px; margin:20px 0; font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.9; color:#888; white-space:pre; overflow-x:auto; }
+  .tree .gov { color:#F5A623; font-weight:600; }
+  .tree .branch { color:#ddd; }
+
+  /* Verdicts */
+  .verdicts { display:flex; gap:24px; margin:16px 0 24px; }
+  .verdict { font:600 0.85rem 'IBM Plex Mono'; }
+  .verdict.g { color:var(--green); }
+  .verdict.a { color:var(--amber); }
+  .verdict.r { color:var(--red); }
+
+  /* Example cards */
+  .example { background:var(--bg2); border:1px solid var(--border); border-left:3px solid var(--amber); padding:28px; margin:28px 0; border-radius:0 6px 6px 0; }
+  .example-num { font:600 0.65rem 'IBM Plex Mono'; letter-spacing:3px; color:var(--dim); margin-bottom:8px; }
+  .example h4 { font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:4px; }
+  .example .ps { font-size:0.85rem; color:var(--text-sec); font-style:italic; margin-bottom:12px; }
+  .example .day1 { font-size:0.85rem; color:var(--amber); background:rgba(201,120,0,0.06); padding:10px 14px; border-radius:4px; margin-bottom:16px; }
+  .example .day1::before { content:'DAY 1: '; font-weight:700; }
+  .example .result { font-size:0.9rem; line-height:1.7; }
+  .example .result p { margin-bottom:10px; }
+  .example .kills { font:600 0.8rem 'IBM Plex Mono'; color:var(--red); margin:10px 0; }
+  .example .governing { font-size:0.9rem; color:var(--text); font-weight:500; margin-top:12px; padding:12px 16px; border-left:3px solid var(--amber); background:rgba(201,120,0,0.04); }
+  .example .governing::before { content:'REVISED: '; font:700 0.7rem 'IBM Plex Mono'; color:var(--amber); letter-spacing:1px; }
+
+  /* Scenario list */
+  .scenarios { margin:24px 0; }
+  .scenario { display:flex; gap:14px; align-items:flex-start; margin-bottom:16px; }
+  .scenario-icon { font-size:1.2rem; margin-top:2px; flex-shrink:0; }
+  .scenario-text { font-size:0.9rem; color:var(--text-sec); line-height:1.6; }
+  .scenario-text strong { color:var(--text); }
+
+  /* Footer */
+  footer { text-align:center; padding:48px 0; color:var(--dim); font-size:0.75rem; border-top:1px solid var(--border); margin-top:40px; }
+  footer strong { color:var(--text-sec); }
+  footer a { color:var(--amber); text-decoration:none; }
+
+  @media(max-width:640px) {
+    .hero h1 { font-size:1.8rem; }
+    .modes { grid-template-columns:1fr; }
+    .verdicts { flex-direction:column; gap:8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <div class="ascii-logo">  ▄▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄
+  █   A N V I L                █
+  ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+       ╲▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄╱</div>
+  <div class="version-badge">V0.2</div>
+  <h1>Now You Can Start<br>With the Answer</h1>
+  <p class="tagline">You walk into a meeting with a thesis. Your board has a direction they're leaning toward. Your CEO just told you what she thinks the answer is. Anvil v0.2 tells you if she's right — or exactly where she's wrong.</p>
+</div>
+
+<hr>
+
+<div class="prose">
+  <p>The first version of Anvil was issue-driven. You gave it a question, it explored from scratch — MECE decomposition, 120+ source research, synthesis, hypothesis generation. The answer emerged from the data. That's the right approach when you genuinely don't know.</p>
+
+  <p>But that's not how most strategic decisions actually start.</p>
+
+  <p>In practice, someone already has a point of view. The CEO walked out of a board dinner convinced the company should acquire a competitor. The head of strategy spent a weekend reading and now believes the right move is to restructure the division. The VP came back from a conference and thinks AI changes everything about the business model.</p>
+
+  <p><strong>They don't need exploration. They need stress-testing.</strong> They need someone to take their thesis and beat it up — systematically, with real data, not opinions. Find the assumptions. Name what would kill it. Test every condition. And come back with either "you're right, here's the evidence" or "you're wrong, here's exactly where it breaks."</p>
+
+  <p>That's what hypothesis-driven mode does.</p>
+</div>
+
+<div class="modes">
+  <div class="mode">
+    <h4 class="issue">Issue-Driven</h4>
+    <p>You don't have an answer yet. Anvil decomposes the problem, scans 120+ sources, synthesizes patterns, generates hypotheses from the data, and stress-tests them. The answer emerges from the research.</p>
+    <div class="meta">~20-45 min &middot; ~$2-3</div>
+  </div>
+  <div class="mode new">
+    <h4 class="hypo">Hypothesis-Driven</h4>
+    <p>You already have a Day 1 answer. Anvil challenges it against real-time data, decomposes it into necessary conditions, deep-tests every condition, and tells you what survived and what didn't.</p>
+    <div class="meta">~10-15 min &middot; ~$1-2</div>
+  </div>
+</div>
+
+<hr>
+
+<div class="section-label">When to use it</div>
+
+<div class="scenarios">
+  <div class="scenario">
+    <div class="scenario-icon">&#9670;</div>
+    <div class="scenario-text"><strong>You have a Day 1 answer and need it validated before presenting to the board.</strong> You believe the company should exit a market segment. Is that defensible? What data would a skeptical board member use to push back?</div>
+  </div>
+  <div class="scenario">
+    <div class="scenario-icon">&#9670;</div>
+    <div class="scenario-text"><strong>Your CEO just told you the direction. You need to either build the case or flag the risks.</strong> She wants to acquire two companies and restructure pricing. You have 48 hours before the next leadership meeting. Is she right? Where is she exposed?</div>
+  </div>
+  <div class="scenario">
+    <div class="scenario-icon">&#9670;</div>
+    <div class="scenario-text"><strong>Two people on your team disagree on the strategy.</strong> Run both hypotheses through Anvil. See which one survives contact with the data and which one gets killed. Let the evidence decide.</div>
+  </div>
+  <div class="scenario">
+    <div class="scenario-icon">&#9670;</div>
+    <div class="scenario-text"><strong>You're preparing for a negotiation and need to test your position.</strong> You think the counterparty's leverage is weaker than they claim. Anvil decomposes that belief into testable conditions and searches for evidence that confirms or contradicts each one.</div>
+  </div>
+  <div class="scenario">
+    <div class="scenario-icon">&#9670;</div>
+    <div class="scenario-text"><strong>You read something provocative and want to know if it holds up.</strong> An analyst report claims the industry is about to consolidate. A competitor just made a move that looks desperate or brilliant. Before you react, stress-test the thesis.</div>
+  </div>
+</div>
+
+<hr>
+
+<div class="section-label">How it works</div>
+
+<div class="prose">
+  <p>You give Anvil a problem statement and your Day 1 answer:</p>
+</div>
+
+<div class="code-block"><pre><span class="dim">PS:</span>    What must NVIDIA do in the next 12 months to defend its AI
+       infrastructure monopoly as AMD, custom silicon, and open-source
+       inference erode its moat?
+
+<span class="dim">Day 1:</span> NVIDIA should pivot from selling chips to selling full-stack
+       AI factories — bundling hardware, networking, software, and
+       managed inference — locking customers into ecosystem contracts
+       before hyperscaler custom silicon reaches production scale.</pre></div>
+
+<h3>The Challenge</h3>
+<div class="prose">
+  <p>Anvil doesn't accept your hypothesis. It doesn't rewrite it either. It reads 120+ search results and 12+ full articles about the landscape, and then it pokes holes in your thesis — citing specific data:</p>
+</div>
+
+<div class="quote">
+  <p><strong>Challenges to your hypothesis:</strong></p>
+  <ul>
+    <li>DGX Cloud already bundles hardware + software + managed inference. If the pivot is "sell AI factories," the question is why the existing bundle isn't locking customers in. Azure and GCP offer NVIDIA hardware with their own orchestration layers.</li>
+    <li>Hyperscaler custom silicon (Google TPU v6, Amazon Trainium2) is already in production for internal workloads. The competitive pressure starts now.</li>
+    <li>Open-source inference (vLLM, TGI) is reducing the software moat faster than the hardware moat.</li>
+  </ul>
+  <p><strong>For this to hold, these must be true:</strong></p>
+  <ul>
+    <li>Enterprise buyers prefer single-vendor AI stacks over best-of-breed</li>
+    <li>CUDA/NIM switching costs survive hardware commoditization</li>
+    <li>Custom silicon doesn't reach price-performance parity for fine-tuning before Q3 2027</li>
+  </ul>
+</div>
+
+<div class="prose">
+  <p>Your hypothesis stays unchanged. You decide what to revise. Anvil challenges — it never rewrites your thesis for you.</p>
+</div>
+
+<h3>Decomposition</h3>
+<div class="prose">
+  <p>Once you lock the hypothesis, Anvil breaks it into a tree of <em>necessary conditions</em> — things that must be true for your thesis to hold. Each one is specific, testable, and has a threshold that would kill it:</p>
+</div>
+
+<div class="tree"><span class="gov">GOVERNING: Pivot to full-stack AI factories with ecosystem lock-in</span>
+
+<span class="branch">├─ H1: Enterprise buyers will pay premium for single-vendor stacks</span>
+   ├─ H1.1: Multi-vendor friction costs >15% of AI infra spend
+   ├─ H1.2: NIM adoption >500 enterprise deployments by Q4 2026
+   └─ H1.3: ≥3 Fortune 100 on multi-year DGX Cloud contracts
+
+<span class="branch">├─ H2: CUDA/NIM create durable switching costs</span>
+   ├─ H2.1: CUDA→ROCm migration >6 months engineering time
+   └─ H2.2: No OSS framework within 20% of TensorRT-LLM perf
+
+<span class="branch">└─ H3: Custom silicon doesn't reach parity before Q3 2027</span>
+   ├─ H3.1: TPU v6 fine-tuning >30% worse than H100
+   └─ H3.2: Trainium2 external avail. Q2 2027 or later</div>
+
+<h3>Deep Test</h3>
+<div class="prose">
+  <p>This is where hypothesis-driven mode diverges from issue-driven. Instead of broad research across buckets, Anvil runs <em>targeted search on every single leaf</em> — 2-3 queries per condition, 8 results per query, full article fetches. Every condition gets a verdict:</p>
+</div>
+
+<div class="verdicts">
+  <span class="verdict g">GREEN — evidence supports</span>
+  <span class="verdict a">AMBER — mixed or thin</span>
+  <span class="verdict r">RED — evidence contradicts</span>
+</div>
+
+<div class="prose">
+  <p>Red leaves kill their parent branch. Kill propagation ripples up. If enough branches die, the governing hypothesis is revised — but always from the survivors, always bottom-up. Anvil never invents a new thesis. It tells you what survived and what didn't, and the revised answer is the synthesis of what's left standing.</p>
+</div>
+
+<h3>In Guided Mode: You're in the Room</h3>
+<div class="prose">
+  <p>Hypothesis-driven mode works in both autopilot and guided. In guided mode, Anvil pauses at every critical point — you review the decomposition before testing starts, you override verdicts with internal data the search couldn't find, you sharpen the final document with feedback. You can drop proprietary files before the landscape scan so Anvil's challenge is informed by data it couldn't find on the open web.</p>
+  <p>The hypothesis challenge is always a conversation. Anvil tells you what's weak. You decide what to change. It never makes the decision for you.</p>
+</div>
+
+<hr>
+
+<div class="section-label">Three stress tests</div>
+
+<div class="prose">
+  <p>We ran three problems through hypothesis-driven mode to show what it does to a confident thesis when it meets real data.</p>
+</div>
+
+<div class="example">
+  <div class="example-num">NVIDIA</div>
+  <h4>Defending the AI Infrastructure Monopoly</h4>
+  <div class="ps">What must NVIDIA do in the next 12 months as AMD, custom silicon, and open-source inference erode its moat?</div>
+  <div class="day1">Pivot from selling chips to selling full-stack AI factories with ecosystem lock-in contracts.</div>
+  <div class="result">
+    <p>The "lock customers in" thesis was killed. Hyperscalers already have custom silicon in production. NVIDIA's software platform couldn't generate defensible lock-in independent of GPU hardware advantage. The lock-in lives at the cloud layer, not the chip layer.</p>
+    <div class="kills">4 of 8 branches killed</div>
+    <p>The answer shifted from ecosystem lock-in to raw hardware execution speed:</p>
+  </div>
+  <div class="governing">Ship Vera Rubin to hyperscalers by Q4 2025, price below custom ASIC TCO at scale, and accept software margin loss to hold training dominance.</div>
+</div>
+
+<div class="example">
+  <div class="example-num">EUROPEAN AUTOMAKERS</div>
+  <h4>Surviving the Chinese EV Price War</h4>
+  <div class="ps">What actions must European automakers take in the next 18 months — restructure manufacturing, partner with Chinese battery suppliers, or retreat to luxury?</div>
+  <div class="day1">Abandon mass-market EVs entirely, cede the sub-&euro;35K segment to BYD and SAIC, concentrate on luxury EVs and autonomous driving.</div>
+  <div class="result">
+    <p>The "retreat to luxury" thesis was partially killed. The luxury segment can't absorb redirected capital — Mercedes EQS sales dropped 50% in some markets. And ceding sub-&euro;35K triggers a volume death spiral that destroys supplier economics. You can't retreat from the bottom without the bottom collapsing the middle.</p>
+    <div class="kills">6 of 10 branches killed</div>
+    <p>The answer shifted from full retreat to selective retreat with alliance:</p>
+  </div>
+  <div class="governing">Exit sub-&euro;35K, partner with Chinese tech firms on software stacks, defend &euro;35K-55K mid-market with platform-shared EVs.</div>
+</div>
+
+<div class="example">
+  <div class="example-num">WORKDAY</div>
+  <h4>Defending HCM Dominance</h4>
+  <div class="ps">What must Workday do in the next 18 months as Rippling commoditizes core HR/payroll and buyers demand AI-first workflows?</div>
+  <div class="day1">Acquire 2-3 AI-native workflow companies, rebuild core platform around agent-based automation by Q3 2027, convert to per-outcome pricing.</div>
+  <div class="result">
+    <p>The most aggressive stress-test of the three. The acquisition thesis failed — AI-native targets are priced at 40-60x revenue, making 2-3 acquisitions unaffordable. The platform rebuild timeline was unrealistic — 18 months to rebuild a 20-year-old codebase. The per-outcome pricing model had no actuarial basis — Workday has no historical delivery rate data to price outcome risk. Only one branch survived: the unified HCM-finance data layer is a genuine moat that competitors can't replicate.</p>
+    <div class="kills">13 of 14 branches killed</div>
+    <p>Sometimes the most valuable output is discovering your thesis is fundamentally wrong:</p>
+  </div>
+  <div class="governing">Instrument the data layer with measurable customer-specific metrics and sell the data advantage, not the workflow.</div>
+</div>
+
+<div class="prose" style="margin-top:32px;">
+  <p>The Workday result is the one worth sitting with. A senior leader walked in confident — acquire, rebuild, reprice. Three bold moves. Anvil killed thirteen of fourteen conditions. What survived wasn't any of the three moves. It was the asset underneath them that nobody was talking about.</p>
+  <p>That's what stress-testing is for. Not to confirm your thesis. To find out what's actually true.</p>
+</div>
+
+<hr>
+
+<div class="quote">
+  <p>A chatbot gives you one pass. Anvil gives you eight, each building on the last. A chatbot never tries to disprove itself. Anvil has a hypothesis graveyard. A chatbot doesn't tell you what it doesn't know. Anvil lists every data gap, names who can fill it, and says by when.</p>
+</div>
+
+<div class="prose" style="margin-top:32px;">
+  <p>Anvil is open source. The code, the prompts, the methodology — all of it is on GitHub. If you're building tools for strategy professionals, or if you are one and want to use this in your own work, take it. Fork it. Build on it. All I ask is that you credit the project and share what you learn. The best way to make strategy tools better is to let the people who do strategy for a living tell you what's broken.</p>
+  <p><a href="https://github.com/parthreddyprojects/anvil" style="color:var(--amber);font-weight:600;text-decoration:none;">github.com/parthreddyprojects/anvil</a></p>
+</div>
+
+<footer>
+  <p><strong>Anvil</strong> — strategic problem-solving engine<br>
+  Built by Parth Reddy<br><br>
+  <a href="https://parthreddy.substack.com">Substack</a> &middot; <a href="https://github.com/parthreddyprojects/anvil">GitHub</a></p>
+</footer>
+
+</div>
+</body>
+</html>

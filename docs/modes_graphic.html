@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#FAFAFA; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:40px; }
+
+  .card-wrap {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    max-width:1000px;
+    width:100%;
+  }
+
+  .card {
+    background:#fff;
+    border-radius:12px;
+    padding:40px 36px 36px;
+    position:relative;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+    border:1px solid #E5E7EB;
+  }
+  .card.hypo {
+    border:2px solid #C97800;
+    box-shadow:0 1px 3px rgba(201,120,0,0.1), 0 8px 32px rgba(201,120,0,0.08);
+  }
+
+  .badge {
+    position:absolute;
+    top:-12px;
+    right:24px;
+    background:#C97800;
+    color:#fff;
+    font:700 11px 'IBM Plex Mono';
+    padding:5px 14px;
+    border-radius:20px;
+    letter-spacing:2px;
+  }
+
+  .icon {
+    width:48px;
+    height:48px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    margin-bottom:20px;
+  }
+  .icon.issue { background:rgba(8,145,178,0.1); color:#0891B2; }
+  .icon.hypo { background:rgba(201,120,0,0.1); color:#C97800; }
+
+  h3 {
+    font:800 22px 'Inter';
+    margin-bottom:4px;
+  }
+  h3.issue { color:#0891B2; }
+  h3.hypo { color:#C97800; }
+
+  .subtitle {
+    font:500 14px 'Inter';
+    color:#888;
+    margin-bottom:20px;
+  }
+
+  .desc {
+    font:400 15px/1.7 'Inter';
+    color:#555;
+    margin-bottom:24px;
+  }
+
+  .flow {
+    background:#F8F8F8;
+    border-radius:8px;
+    padding:16px 20px;
+    margin-bottom:20px;
+  }
+  .flow-label {
+    font:600 10px 'IBM Plex Mono';
+    letter-spacing:3px;
+    color:#999;
+    margin-bottom:10px;
+  }
+  .flow-steps {
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:4px;
+    font:500 11px 'IBM Plex Mono';
+    color:#555;
+    line-height:2;
+  }
+  .flow-steps .arrow { color:#ccc; }
+  .flow-steps .step { background:#fff; border:1px solid #E5E7EB; padding:3px 10px; border-radius:4px; white-space:nowrap; }
+  .flow-steps .step.highlight { border-color:#C97800; color:#C97800; background:rgba(201,120,0,0.04); }
+
+  .meta-row {
+    display:flex;
+    gap:20px;
+    padding-top:16px;
+    border-top:1px solid #F0F0F0;
+  }
+  .meta {
+    text-align:center;
+    flex:1;
+  }
+  .meta-val {
+    font:800 20px 'Inter';
+    color:#1a1a1a;
+  }
+  .meta-val.amber { color:#C97800; }
+  .meta-label {
+    font:400 11px 'Inter';
+    color:#999;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+</style>
+</head>
+<body>
+<div class="card-wrap">
+
+  <!-- Issue-Driven -->
+  <div class="card">
+    <div class="icon issue">&#9776;</div>
+    <h3 class="issue">Issue-Driven</h3>
+    <div class="subtitle">You don't have an answer yet</div>
+    <div class="desc">Anvil decomposes the problem, scans 120+ sources, synthesizes patterns, generates hypotheses from the data, and stress-tests them. The answer emerges from the research.</div>
+    <div class="flow">
+      <div class="flow-label">PIPELINE</div>
+      <div class="flow-steps">
+        <span class="step">PS</span><span class="arrow">&rarr;</span>
+        <span class="step">MECE</span><span class="arrow">&rarr;</span>
+        <span class="step">Research</span><span class="arrow">&rarr;</span>
+        <span class="step">Synthesis</span><span class="arrow">&rarr;</span>
+        <span class="step">Hypotheses</span><span class="arrow">&rarr;</span>
+        <span class="step">Brief</span><span class="arrow">&rarr;</span>
+        <span class="step">Charts</span>
+      </div>
+    </div>
+    <div class="meta-row">
+      <div class="meta"><div class="meta-val">20-45</div><div class="meta-label">Minutes</div></div>
+      <div class="meta"><div class="meta-val">$2-3</div><div class="meta-label">API Cost</div></div>
+      <div class="meta"><div class="meta-val">8</div><div class="meta-label">Steps</div></div>
+    </div>
+  </div>
+
+  <!-- Hypothesis-Driven -->
+  <div class="card hypo">
+    <div class="badge">NEW</div>
+    <div class="icon hypo">&#9881;</div>
+    <h3 class="hypo">Hypothesis-Driven</h3>
+    <div class="subtitle">You already have a Day 1 answer</div>
+    <div class="desc">Anvil challenges your thesis against real-time data, decomposes it into necessary conditions, deep-tests every condition, and tells you what survived and what didn't.</div>
+    <div class="flow">
+      <div class="flow-label">PIPELINE</div>
+      <div class="flow-steps">
+        <span class="step">PS</span><span class="arrow">&rarr;</span>
+        <span class="step highlight">Challenge</span><span class="arrow">&rarr;</span>
+        <span class="step highlight">Decompose</span><span class="arrow">&rarr;</span>
+        <span class="step highlight">Deep Test</span><span class="arrow">&rarr;</span>
+        <span class="step">Brief</span><span class="arrow">&rarr;</span>
+        <span class="step">Charts</span>
+      </div>
+    </div>
+    <div class="meta-row">
+      <div class="meta"><div class="meta-val amber">10-15</div><div class="meta-label">Minutes</div></div>
+      <div class="meta"><div class="meta-val amber">$1-2</div><div class="meta-label">API Cost</div></div>
+      <div class="meta"><div class="meta-val amber">7</div><div class="meta-label">Steps</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

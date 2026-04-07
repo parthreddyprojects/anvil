@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#FAFAFA; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:40px; }
+
+  .card {
+    display:flex;
+    gap:20px;
+    max-width:800px;
+    width:100%;
+  }
+  .verdict {
+    flex:1;
+    background:#fff;
+    border-radius:10px;
+    padding:24px 28px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+    text-align:center;
+  }
+  .verdict.green { border-top:4px solid #16A34A; }
+  .verdict.amber { border-top:4px solid #C97800; }
+  .verdict.red { border-top:4px solid #DC2626; }
+
+  .verdict-dot {
+    width:32px; height:32px; border-radius:50%; margin:0 auto 14px;
+  }
+  .green .verdict-dot { background:#16A34A; }
+  .amber .verdict-dot { background:#C97800; }
+  .red .verdict-dot { background:#DC2626; }
+
+  .verdict-label {
+    font:700 16px 'IBM Plex Mono';
+    letter-spacing:2px;
+    margin-bottom:6px;
+  }
+  .green .verdict-label { color:#16A34A; }
+  .amber .verdict-label { color:#C97800; }
+  .red .verdict-label { color:#DC2626; }
+
+  .verdict-desc {
+    font:400 13px 'Inter';
+    color:#777;
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="verdict green">
+    <div class="verdict-dot"></div>
+    <div class="verdict-label">GREEN</div>
+    <div class="verdict-desc">Evidence supports<br>this condition</div>
+  </div>
+  <div class="verdict amber">
+    <div class="verdict-dot"></div>
+    <div class="verdict-label">AMBER</div>
+    <div class="verdict-desc">Mixed or thin<br>evidence</div>
+  </div>
+  <div class="verdict red">
+    <div class="verdict-dot"></div>
+    <div class="verdict-label">RED</div>
+    <div class="verdict-desc">Evidence contradicts<br>this condition</div>
+  </div>
+</div>
+</body>
+</html>
