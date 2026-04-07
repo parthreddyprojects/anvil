@@ -853,11 +853,6 @@ def main():
     p_san.add_argument("--auto", action="store_true", help="AI-suggested replacements")
     p_san.add_argument("--replacements", nargs="*", help="Manual replacements: 'Company=Alias'")
 
-    # carousel
-    p_car = sub.add_parser("carousel", help="Generate LinkedIn carousel from a run")
-    p_car.add_argument("--run", default=None)
-    p_car.add_argument("--no-review", action="store_true", help="Skip LLM reviews")
-
     # list
     p_list = sub.add_parser("list", help="List all runs")
 
@@ -866,15 +861,6 @@ def main():
 
     args = parser.parse_args()
 
-    def cmd_carousel(args):
-        """Generate LinkedIn carousel from a completed run."""
-        run_dir = _find_run(args.run)
-        if not run_dir:
-            _narrate("No run found.", "warn")
-            return
-        from carousel import generate_carousel
-        generate_carousel(str(run_dir), skip_review=args.no_review)
-
     cmds = {
         "run": cmd_run,
         "status": cmd_status,
@@ -882,7 +868,6 @@ def main():
         "step": cmd_step,
         "inject": cmd_inject,
         "sanitize": cmd_sanitize,
-        "carousel": cmd_carousel,
         "open": cmd_open,
         "list": cmd_list,
         "init": cmd_init,
