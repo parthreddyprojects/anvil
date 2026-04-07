@@ -101,9 +101,34 @@
   footer a { color:var(--amber-dim); text-decoration:none; }
 
   @media(max-width:640px) {
-    .hero h1 { font-size:1.8rem; }
-    .modes { grid-template-columns:1fr; }
-    .card-grid { grid-template-columns:1fr; }
+    .container { padding:0 16px; }
+    .hero { padding:48px 0 32px; }
+    .hero h1 { font-size:1.6rem; }
+    .hero .tagline { font-size:0.95rem; }
+    .ascii-logo { font-size:10px; padding:14px 16px; }
+    .stats { gap:16px; padding:20px 0; margin:20px 0 40px; flex-wrap:wrap; justify-content:center; }
+    .stat-val { font-size:1.2rem; }
+    .stat-label { font-size:0.6rem; }
+    .modes { grid-template-columns:1fr; gap:10px; }
+    .mode { padding:18px; }
+    .mode h3 { font-size:0.9rem; }
+    .mode p { font-size:0.8rem; }
+    .card-grid { grid-template-columns:1fr; gap:10px; }
+    .card { padding:16px 18px; }
+    .card-title { font-size:0.9rem; }
+    .card-desc { font-size:0.8rem; }
+    .card-you { font-size:0.75rem; }
+    .section { margin-bottom:40px; }
+    .section-label { font-size:0.6rem; }
+    .screenshot { margin:20px 0; }
+    .screenshot img { width:100%; height:auto; }
+    .cta-row { flex-direction:column; gap:8px; }
+    .btn { padding:12px 24px; font-size:14px; text-align:center; }
+    .quote { padding:16px 18px; margin:20px 0; }
+    .quote p { font-size:0.85rem; }
+    .install-block { padding:18px 20px; }
+    .install-block pre { font-size:12px; }
+    #access-form { padding:24px 20px !important; }
   }
 </style>
 </head>
