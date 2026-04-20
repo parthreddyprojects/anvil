@@ -67,7 +67,7 @@ except ImportError:
     def log_run_complete(*a, **k): pass
     def log_error(*a, **k): pass
 
-sys.path.insert(0, str(ROOT / "story_engine"))
+# Legacy: story_engine/ contains old standalone scripts, not imported by pipeline v3
 
 # ---------------------------------------------------------------------------
 # Terminal UI
@@ -390,19 +390,22 @@ class State:
             if spend > 0:
                 stats["spend"] = f"{spend:.2f}"
 
-            # Write state to separate JS file (dashboard loads via <script src>)
-            state_js = f"var ANVIL_STATE = {json.dumps(stats, ensure_ascii=False)};"
-            state_js_path = ROOT / "dashboard_state.js"
-            state_js_path.write_text(state_js, encoding="utf-8")
+            # Write per-run dashboard: state JS + dashboard HTML copy in run directory
+            import shutil as _shutil
 
-            # Also inject inline for backwards compat
-            import re
-            html = re.sub(
-                r'var ANVIL_STATE = .*',
-                state_js,
-                html
-            )
-            dashboard_path.write_text(html, encoding="utf-8")
+            # 1. Write run-specific state JS in the run directory
+            run_state_js = f"var ANVIL_STATE = {json.dumps(stats, ensure_ascii=False)};"
+            run_state_js_path = self.dir / "dashboard_state.js"
+            run_state_js_path.write_text(run_state_js, encoding="utf-8")
+
+            # 2. Copy dashboard.html into run directory (each run gets its own live page)
+            run_dashboard = self.dir / "dashboard.html"
+            if not run_dashboard.exists() or True:  # always update template
+                _shutil.copy2(str(dashboard_path), str(run_dashboard))
+
+            # 3. Also update the global dashboard_state.js for backwards compat (points to most recent run)
+            state_js_path = ROOT / "dashboard_state.js"
+            state_js_path.write_text(run_state_js, encoding="utf-8")
         except Exception:
             pass  # Dashboard update is non-critical
 
@@ -1751,24 +1754,32 @@ Return JSON: {"queries": ["query 1", ...]}""",
     seen_urls = set()
     events = []
 
+    def _ddg_search_with_retry(ddgs, method, query, max_results=5, **kwargs):
+        """DuckDuckGo search with retry + exponential backoff."""
+        for attempt in range(3):
+            try:
+                return list(getattr(ddgs, method)(query, max_results=max_results, **kwargs))
+            except Exception as e:
+                if attempt < 2 and ("ratelimit" in str(e).lower() or "429" in str(e) or "timed out" in str(e).lower()):
+                    wait = 3 * (attempt + 1)
+                    print(f"      {C.DIM}[retry] DDG rate limited, waiting {wait}s...{C.R}")
+                    time.sleep(wait)
+                else:
+                    return []
+        return []
+
     with DDGS() as ddgs:
         for q in queries[:12]:
-            time.sleep(1.0)
-            try:
-                for r in ddgs.news(q, max_results=5, timelimit="m"):
-                    all_snippets.append(f"[{r.get('date', '')[:10]}] {r.get('title', '')}: {r.get('body', '')[:300]}")
-                    events.append({"title": r.get("title", ""), "date": r.get("date", "")[:10], "snippet": r.get("body", "")[:200], "source": r.get("source", "")})
-            except Exception:
-                pass
-            try:
-                for r in ddgs.text(q, max_results=5, timelimit="y"):
-                    all_snippets.append(f"{r.get('title', '')}: {r.get('body', '')[:300]}")
-                    url = r.get("href", "")
-                    if url and url.startswith("http") and url not in seen_urls and not any(d in url for d in BLOCKED_DOMAINS):
-                        seen_urls.add(url)
-                        all_urls.append(url)
-            except Exception:
-                pass
+            time.sleep(1.5)  # slightly more conservative to avoid rate limits
+            for r in _ddg_search_with_retry(ddgs, "news", q, max_results=5, timelimit="m"):
+                all_snippets.append(f"[{r.get('date', '')[:10]}] {r.get('title', '')}: {r.get('body', '')[:300]}")
+                events.append({"title": r.get("title", ""), "date": r.get("date", "")[:10], "snippet": r.get("body", "")[:200], "source": r.get("source", "")})
+            for r in _ddg_search_with_retry(ddgs, "text", q, max_results=5, timelimit="y"):
+                all_snippets.append(f"{r.get('title', '')}: {r.get('body', '')[:300]}")
+                url = r.get("href", "")
+                if url and url.startswith("http") and url not in seen_urls and not any(d in url for d in BLOCKED_DOMAINS):
+                    seen_urls.add(url)
+                    all_urls.append(url)
 
     print(f"    {C.DIM}{len(all_snippets)} snippets collected. Summarizing...{C.R}")
 
@@ -1817,21 +1828,15 @@ Return JSON: {"depth_queries": ["query 1", ...]}""",
     depth_urls = []
     with DDGS() as ddgs2:
         for q in dq[:6]:
-            time.sleep(1.0)
-            try:
-                for r in ddgs2.text(q, max_results=5, timelimit="y"):
-                    url = r.get("href", "")
-                    if url and url.startswith("http") and url not in seen_urls and not any(d in url for d in BLOCKED_DOMAINS):
-                        seen_urls.add(url)
-                        depth_urls.append(url)
-            except Exception:
-                pass
-            try:
-                for r in ddgs2.news(q, max_results=3, timelimit="m"):
-                    all_snippets.append(f"[{r.get('date', '')[:10]}] {r.get('title', '')}: {r.get('body', '')[:300]}")
-                    events.append({"title": r.get("title", ""), "date": r.get("date", "")[:10], "snippet": r.get("body", "")[:200], "source": r.get("source", "")})
-            except Exception:
-                pass
+            time.sleep(1.5)
+            for r in _ddg_search_with_retry(ddgs2, "text", q, max_results=5, timelimit="y"):
+                url = r.get("href", "")
+                if url and url.startswith("http") and url not in seen_urls and not any(d in url for d in BLOCKED_DOMAINS):
+                    seen_urls.add(url)
+                    depth_urls.append(url)
+            for r in _ddg_search_with_retry(ddgs2, "news", q, max_results=3, timelimit="m"):
+                all_snippets.append(f"[{r.get('date', '')[:10]}] {r.get('title', '')}: {r.get('body', '')[:300]}")
+                events.append({"title": r.get("title", ""), "date": r.get("date", "")[:10], "snippet": r.get("body", "")[:200], "source": r.get("source", "")})
 
     # Parallel fetch — only the depth articles
     print(f"    {C.DIM}Fetching {min(len(depth_urls), 15)} targeted articles...{C.R}")
@@ -1942,29 +1947,33 @@ Return JSON: {"queries": ["query 1", "query 2"]}""",
         article_urls = []
         seen_urls = set()
 
+        def _ddg_bucket_search(ddgs, method, query, max_results=3, **kwargs):
+            """DuckDuckGo search with retry for per-bucket research."""
+            for attempt in range(3):
+                try:
+                    return list(getattr(ddgs, method)(query, max_results=max_results, **kwargs))
+                except Exception as e:
+                    if attempt < 2 and ("ratelimit" in str(e).lower() or "429" in str(e) or "timed out" in str(e).lower()):
+                        time.sleep(3 * (attempt + 1))
+                    else:
+                        return []
+            return []
+
         with DDGS() as ddgs:
             for q in all_queries[:10]:
                 _total_queries += 1
                 time.sleep(1.5)
                 got_results = False
-                try:
-                    news = list(ddgs.news(q, max_results=3, timelimit="m"))
-                    for r in news:
-                        snippets.append(f"[{r.get('date', '')[:10]}] {r.get('title', '')}: {r.get('body', '')[:300]} (source: {r.get('source', '')})")
-                        got_results = True
-                except Exception:
-                    pass
-                try:
-                    web = list(ddgs.text(q, max_results=3, timelimit="y"))
-                    for r in web:
-                        snippets.append(f"{r.get('title', '')}: {r.get('body', '')[:300]} (source: {r.get('href', '')})")
-                        url = r.get("href", "")
-                        if url and url.startswith("http") and url not in seen_urls:
-                            seen_urls.add(url)
-                            article_urls.append(url)
-                        got_results = True
-                except Exception:
-                    pass
+                for r in _ddg_bucket_search(ddgs, "news", q, max_results=3, timelimit="m"):
+                    snippets.append(f"[{r.get('date', '')[:10]}] {r.get('title', '')}: {r.get('body', '')[:300]} (source: {r.get('source', '')})")
+                    got_results = True
+                for r in _ddg_bucket_search(ddgs, "text", q, max_results=3, timelimit="y"):
+                    snippets.append(f"{r.get('title', '')}: {r.get('body', '')[:300]} (source: {r.get('href', '')})")
+                    url = r.get("href", "")
+                    if url and url.startswith("http") and url not in seen_urls:
+                        seen_urls.add(url)
+                        article_urls.append(url)
+                    got_results = True
                 if not got_results:
                     _empty_queries += 1
 
@@ -2009,32 +2018,29 @@ Return JSON: {"queries": ["query 1", "query 2"]}""",
                 f"{topic} {title} site:gov.in OR site:eia.gov OR site:iea.org",
                 f"{topic} {title} analysis blog",
             ]
-            with DDGS() as ddgs:
+            with DDGS() as ddgs_rescue:
                 for q in rescue_queries:
                     if len(full_articles) >= 3:
                         break
                     time.sleep(1.5)
-                    try:
-                        web = list(ddgs.text(q, max_results=3))
-                        for r in web:
-                            url = r.get("href", "")
-                            if url and url not in seen_urls and not any(d in url for d in BLOCKED_DOMAINS):
-                                seen_urls.add(url)
-                                try:
-                                    time.sleep(1)
-                                    resp = _req.get(url, timeout=15, headers=fetch_headers)
-                                    if resp.status_code == 200:
-                                        text = _re.sub(r'<script.*?</script>', '', resp.text, flags=_re.DOTALL)
-                                        text = _re.sub(r'<style.*?</style>', '', text, flags=_re.DOTALL)
-                                        text = _re.sub(r'<[^>]+>', ' ', text)
-                                        text = _re.sub(r'\s+', ' ', text).strip()
-                                        if len(text) > 200:
-                                            text = text[:5000]
-                                            full_articles.append(f"[Article from {url[:80]}]:\n{text}")
-                                except Exception:
-                                    pass
-                    except Exception:
-                        pass
+                    web = _ddg_bucket_search(ddgs_rescue, "text", q, max_results=3)
+                    for r in web:
+                        url = r.get("href", "")
+                        if url and url not in seen_urls and not any(d in url for d in BLOCKED_DOMAINS):
+                            seen_urls.add(url)
+                            try:
+                                time.sleep(1)
+                                resp = _req.get(url, timeout=15, headers=fetch_headers)
+                                if resp.status_code == 200:
+                                    text = _re.sub(r'<script.*?</script>', '', resp.text, flags=_re.DOTALL)
+                                    text = _re.sub(r'<style.*?</style>', '', text, flags=_re.DOTALL)
+                                    text = _re.sub(r'<[^>]+>', ' ', text)
+                                    text = _re.sub(r'\s+', ' ', text).strip()
+                                    if len(text) > 200:
+                                        text = text[:5000]
+                                        full_articles.append(f"[Article from {url[:80]}]:\n{text}")
+                            except Exception:
+                                pass
 
         print(f"      Bucket {sid}: {len(snippets)} snippets, {len(full_articles)} articles")
 
@@ -3391,88 +3397,53 @@ Return JSON: {{"should_update": true/false, "updated_break_point": "...", "reaso
 # STEP 6: Final Document
 # ---------------------------------------------------------------------------
 
-def step6_final_doc(state, mece, hyp_tree, working_doc, synthesis=None, feedback=None):
-    print(f"  {C.GREEN}Generating final document...{C.R}")
+def _strip_html_skeleton(text):
+    """Strip full HTML skeleton if LLM returned one (prevents double DOCTYPE)."""
+    import re as _re_h
+    t = text.strip()
+    if t.lower().startswith("<!doctype") or t.lower().startswith("<html"):
+        body_match = _re_h.search(r'<body[^>]*>(.*)</body>', t, _re_h.DOTALL | _re_h.IGNORECASE)
+        if body_match:
+            return body_match.group(1).strip()
+        t = _re_h.sub(r'<!DOCTYPE[^>]*>', '', t, flags=_re_h.IGNORECASE)
+        t = _re_h.sub(r'</?html[^>]*>', '', t, flags=_re_h.IGNORECASE)
+        t = _re_h.sub(r'<head>.*?</head>', '', t, flags=_re_h.DOTALL | _re_h.IGNORECASE)
+        t = _re_h.sub(r'</?body[^>]*>', '', t, flags=_re_h.IGNORECASE)
+        return t.strip()
+    return text
 
-    # Load doc format
-    # Try to load doc format from vault, fall back to sensible defaults
-    doc_format = DOC_VAULT.get("formats", {}).get("strategic_memo", DOC_VAULT.get("formats", {}).get("amazon_6pager_crisis", {}))
-    format_rules = json.dumps(doc_format.get("structure", []), indent=2, ensure_ascii=False) if doc_format.get("structure") else "[]"
-    formatting = "\n".join(doc_format.get("formatting_rules", [])) if doc_format.get("formatting_rules") else ""
 
-    ps = mece.get("smart_statement", "")
-    topic = state.get("topic", "")
-    audience = state.get("audience", "")
+def _strip_md_fences(text):
+    t = text.strip()
+    if t.startswith("```"):
+        t = t.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+    return t
 
-    # Generate prose content
-    format_block = f"\nDOCUMENT FORMAT:\n{format_rules}\n\nFORMATTING RULES:\n{formatting}" if format_rules != "[]" else ""
 
-    content = llm(
-        f"""You are writing a 3-5 page strategic document for a senior decision-maker. Today is {TODAY_STR}.
+DOC_CSS = """body{font-family:'Inter',sans-serif;max-width:960px;margin:0 auto;padding:48px 48px 60px;color:#1a1a1a;background:#fff;line-height:1.75;font-size:15px}
+h1{font:800 28px/1.3 'Inter';margin:0 0 8px}
+.ps{font:400 13px/1.6 'Inter';color:#666;font-style:italic;margin:4px 0 16px;padding:0}
+h2:first-of-type{font:700 22px/1.3 'Inter';margin:8px 0 24px;padding-bottom:16px;border-bottom:3px solid #1a1a1a;color:#1a1a1a}
+h2{font:700 18px/1.3 'Inter';margin:40px 0 16px;color:#1a1a1a;padding-bottom:8px;border-bottom:1px solid #e5e7eb}
+p{margin:0 0 16px}
+strong{color:#0a0a0a;font-weight:800}
+ol{padding-left:24px;margin:12px 0 20px}
+li{margin-bottom:14px;line-height:1.7}
+.beliefs ol{padding-left:0;list-style:none;counter-reset:belief}
+.beliefs li{padding-left:52px;position:relative;margin-bottom:20px;font-size:15px}
+.beliefs li::before{counter-increment:belief;content:counter(belief);position:absolute;left:0;top:0;width:36px;height:36px;background:#1a1a1a;color:#fff;border-radius:50%;font:700 15px/36px 'Inter';text-align:center}
+.footer{font:400 10px/1.4 'Inter';color:#bbb;text-align:center;margin-top:40px;padding-top:12px;border-top:1px solid #e5e7eb}"""
 
-CRITICAL: Preserve all "(per source, date)" citations inline. Every factual claim must show its source. Mark any unsourced numbers with "(unverified)". Keep "[LLM reasoning]" tags where the claim is analytical inference rather than sourced fact.
-{format_block}
 
-DOCUMENT STRUCTURE (in this exact order, each with its own <h2>):
-1. Title (h1) — a thematic name that captures the essence of the problem in 3-8 words. Examples: "Workday's AI Dilemma" / "The Hormuz Countdown" / "OpenAI's Margin Trap".
-   Followed IMMEDIATELY by the ORIGINAL problem statement in a <p class="ps"> tag — smaller font, italic. This is the client's original question, reproduced EXACTLY as given. Do not rewrite it.
-2. <h2>Governing Hypothesis</h2> — This is THE ANSWER. Reproduce the governing hypothesis VERBATIM from the hypothesis tree. One sentence, bold, standalone. This is the single most important line in the document. Do NOT narrate the process ("the hypothesis was tested..."). Do NOT editorialize. Just state the answer.
-   Then one paragraph (2-3 sentences) explaining WHY this is the answer — what evidence supports it, what was killed, what survived.
-3. <h2>Context</h2> — 2-3 paragraphs: what is happening, why it matters, what is at stake. Sets the scene for a reader with zero background.
-   Do NOT put the problem statement inside the context section. It already appears under the title.
-4. <h2>What We Believe</h2> — wrap this section in <div class="beliefs">. List the surviving hypothesis branches as numbered <ol><li> statements. One sentence each. These are the NECESSARY CONDITIONS that support the governing hypothesis. No evidence yet — just the claims upfront. Do NOT label them H1/H2/H3 — just numbered 1, 2, 3. Do NOT say "X hypotheses are active" or any meta-commentary about the process.
-5. <h2>Decisions Required</h2> — numbered list of specific actions with scope/size/timing. The reader gets the answer (governing hypothesis), the beliefs, and the asks BEFORE the deep dives. Front-load the decisions.
-6. <h2>[Conclusion-as-headline]</h2> for each surviving branch — each is one section with: bold claim, evidence, break point, confidence level. The headline IS the finding, not a topic label. This is the "double click" on each belief — the evidence that supports it.
-7. <h2>Hypotheses Tested and Rejected</h2> — 1-2 killed hypotheses with one-sentence kill reason.
-8. <h2>Data Gaps</h2> — what still needs verification. LAST section in the document.
-
-CRITICAL:
-- Write in FULL PROSE PARAGRAPHS, not bullet points (except Decisions and Data Gaps which are numbered lists).
-- No jargon. The audience should understand every sentence without domain expertise.
-- Reference appendix slides inline: (see Appendix 1).
-- State dates relative to today ({TODAY_STR}).
-- The hypotheses section IS the analysis. Each hypothesis is one paragraph with: bold claim, evidence, break point, confidence.
-- Include 1-2 KILLED hypotheses to show rigor.
-
-Return the document as clean HTML with ONLY these elements:
-- <h1> for document title
-- <h2> for section headers
-- <p> for paragraphs
-- <ol><li> for numbered lists (decisions, data gaps)
-- <strong> for bold (hypothesis claims, key numbers)
-- <em> for emphasis
-- NO classes, NO styles, NO divs, NO colors. Pure semantic HTML.
-""",
-        f"TOPIC: {topic}\nAUDIENCE: {audience}\nPROBLEM STATEMENT: {ps}\n\n{('USER FEEDBACK ON PRIOR DRAFT (you MUST address every point):\n' + feedback + '\n\n') if feedback else ''}HYPOTHESES (primary input — this IS your analysis):\n{json.dumps(hyp_tree, indent=2, ensure_ascii=False)}\n\nSYNTHESIS (patterns and inferences for context):\n{json.dumps(synthesis, indent=2, ensure_ascii=False)[:20000] if synthesis else 'N/A'}\n\nWORKING DOCUMENT (detailed research — pull specific numbers, sourced data points, and per-question findings to strengthen the brief):\n{working_doc[:30000]}\n\nWrite the final document. Use the hypotheses as the core structure. Pull specific sourced numbers from the working document to make every claim concrete."
-    )
-
-    # Strip markdown fences if present
-    if content.strip().startswith("```"):
-        content = content.strip().split("\n", 1)[1].rsplit("```", 1)[0].strip()
-
-    # Wrap in styled HTML
-    final_html = f'''<!DOCTYPE html>
+def _wrap_html(content, title, css=DOC_CSS):
+    return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{html_mod.escape(topic[:60])}</title>
+<title>{html_mod.escape(title[:60])}</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-body{{font-family:'Inter',sans-serif;max-width:960px;margin:0 auto;padding:48px 48px 60px;color:#1a1a1a;background:#fff;line-height:1.75;font-size:15px}}
-h1{{font:800 28px/1.3 'Inter';margin:0 0 8px}}
-.ps{{font:400 13px/1.6 'Inter';color:#666;font-style:italic;margin:4px 0 16px;padding:0}}
-h2:first-of-type{{font:700 22px/1.3 'Inter';margin:8px 0 24px;padding-bottom:16px;border-bottom:3px solid #1a1a1a;color:#1a1a1a}}
-h2{{font:700 18px/1.3 'Inter';margin:40px 0 16px;color:#1a1a1a;padding-bottom:8px;border-bottom:1px solid #e5e7eb}}
-p{{margin:0 0 16px}}
-strong{{color:#0a0a0a;font-weight:800}}
-ol{{padding-left:24px;margin:12px 0 20px}}
-li{{margin-bottom:14px;line-height:1.7}}
-.beliefs ol{{padding-left:0;list-style:none;counter-reset:belief}}
-.beliefs li{{padding-left:52px;position:relative;margin-bottom:20px;font-size:15px}}
-.beliefs li::before{{counter-increment:belief;content:counter(belief);position:absolute;left:0;top:0;width:36px;height:36px;background:#1a1a1a;color:#fff;border-radius:50%;font:700 15px/36px 'Inter';text-align:center}}
-.footer{{font:400 10px/1.4 'Inter';color:#bbb;text-align:center;margin-top:40px;padding-top:12px;border-top:1px solid #e5e7eb}}
-</style>
+<style>{css}</style>
 </head>
 <body>
 {content}
@@ -3480,74 +3451,219 @@ li{{margin-bottom:14px;line-height:1.7}}
 </body>
 </html>'''
 
-    # Senior Partner Critique + Rewrite
-    print(f"  {C.GREEN}Running strategic critique...{C.R}")
-    revised_content = llm(
-        f"""Rewrite this strategic document. Today is {TODAY_STR}. Return ONLY revised HTML (h1, h2, p, ol, li, strong, em -- no classes/styles/divs except class="ps" and class="beliefs").
 
-VOICE: Third person, company name. No individual names. No board/investor references. Direct, authoritative, concise.
+# Shared cleanup prompt fragment for stripping pipeline scaffolding
+SCAFFOLDING_STRIP = """STRIP INTERNAL PIPELINE SCAFFOLDING — the reader is a decision-maker, not a process auditor:
+- KEEP "[LLM reasoning]" tags — honest transparency markers. They stay.
+- REMOVE all INTERNAL PIPELINE references and replace with REAL sources:
+  "(per synthesis findings, ..." → "(Business Insider, August 2025)" etc.
+  Anything saying "per synthesis", "per working document", "per landscape scan" followed by internal field names → replace with the ACTUAL source name, date, and publication.
+- REMOVE: "DATA GAP", "H1/H2/H3", "Tier 1", "hypothesis tested", "break point", "diagnosticity", "was tested and rejected", "was tested and killed", "surviving hypothesis", "kill reason", "kill propagation"
+- REWRITE process descriptions as findings: "Sequential execution was tested and rejected" → "Sequential execution runs out of runway."
+- Unsourced numbers get "(estimated)" not "(unverified)". Uncertain info: "Exact figures are not public, but..."
+- Keep REAL source citations."""
 
-STRUCTURE (this order, each with its own h2):
-1. h1: Thematic title (3-8 words)
-2. p class="ps": Original problem statement -- KEEP EXACTLY as written
-3. h2 Governing Hypothesis: THE ANSWER in bold. Reproduce VERBATIM. Then 2-3 sentences of why.
-4. h2 Context: What is happening and why it matters
-5. h2 What We Believe: div class="beliefs", numbered surviving branches, one sentence each
-6. h2 Decisions Required: numbered, specific, timed, costed — BEFORE the deep dives. Reader gets answer + beliefs + asks first.
-7. h2 per finding: headline IS the conclusion. Each section: bold lead-in -> evidence -> so what. This is the "double click" on each belief.
-8. h2 Hypotheses Tested and Rejected: 1-2, one-sentence kill reason
-9. h2 Data Gaps: what needs verification
 
-WRITING — THIS IS A BOARDROOM DOCUMENT, NOT A PROCESS REPORT:
+def step6_final_doc(state, mece, hyp_tree, working_doc, synthesis=None, feedback=None):
+    print(f"  {C.GREEN}Generating final documents...{C.R}")
+
+    ps = mece.get("smart_statement", "")
+    topic = state.get("topic", "")
+    audience = state.get("audience", "")
+
+    hyp_json = json.dumps(hyp_tree, indent=2, ensure_ascii=False)
+    syn_json = json.dumps(synthesis, indent=2, ensure_ascii=False)[:20000] if synthesis else "N/A"
+    wd_text = working_doc[:30000]
+    feedback_block = f"USER FEEDBACK ON PRIOR DRAFT (you MUST address every point):\n{feedback}\n\n" if feedback else ""
+
+    source_block = f"TOPIC: {topic}\nAUDIENCE: {audience}\nPROBLEM STATEMENT: {ps}\n\n{feedback_block}HYPOTHESES:\n{hyp_json}\n\nSYNTHESIS:\n{syn_json}\n\nWORKING DOCUMENT:\n{wd_text}"
+
+    # ═══════════════════════════════════════════
+    # DOCUMENT 1: THE BRIEF (leadership audience)
+    # ═══════════════════════════════════════════
+    print(f"    {C.DIM}Generating leadership brief...{C.R}")
+    brief_content = llm(
+        f"""You are writing a 3-5 page LEADERSHIP BRIEF for a promoter-level decision-maker. Today is {TODAY_STR}.
+
+THIS DOCUMENT CONTAINS ONLY DECISIONS. Every sentence answers "why this matters" or "what we are deciding." If a sentence answers "how to execute" or "who specifically does it" — it does NOT belong here. It belongs in the Execution Note (a separate document).
+
+FIVE VOICE RULES (non-negotiable):
+1. REMOVE THE WHO. No broker names, department names, vendor names, individual names. "Secure tanker optionality" not "Direct Head of Procurement to contact Clarksons."
+2. REMOVE THE HOW. Cancellation clauses, vessel classes, implementation steps, counterparty mechanics — none of this. The brief says WHAT we're doing and WHY.
+3. DECISION LOGIC, NOT COST CEILINGS. Not "if quotes return above $2M the LOI track is not viable." Instead: "this recommendation is contingent on market pricing remaining within the stated cost envelope."
+4. TRANSLATE UNITS. Use the unit the decision-maker thinks in. Indian audience = INR crore. US audience = $B. Not per-unit costs.
+5. LEAD WITH RISK BEING MANAGED. Senior leadership wants: what problem does this solve, what does it cost to have the option? Not implementation details.
+
+STRUCTURE (this exact order, each with its own <h2>):
+1. h1: Thematic title (3-8 words). Examples: "The Hormuz Countdown" / "Ship Now or Cede the Decade"
+   Followed by the ORIGINAL problem statement in <p class="ps"> — reproduced EXACTLY as given.
+2. <h2>Governing Hypothesis</h2> — THE ANSWER in ONE SENTENCE. Not two. Not three. One sentence a promoter reads and knows the answer.
+   FORMAT: "[What we should do] [at what cost] [to protect against / to capture what] — [urgency anchor]."
+   EXAMPLE: "We have a 10-day window to spend ₹425 crore to protect against a ₹13,000-23,000 crore downside — and three of the five actions require authorization in the next 48 hours."
+   WRONG: "Execute the reversible optionality package under ₹415 crore within seven days. Conditionally phase down Russian supply if rapid-deal probability remains above 20 percent. Sign green ammonia MOUs immediately as free options." — This is three decisions masquerading as a hypothesis. The individual actions belong in Decisions Required, not here.
+   The governing hypothesis is the SINGLE FRAME that makes every decision below it obvious. It is NOT a summary of all the decisions. Cost, stakes, and deadline — in one breath.
+   Then 2-3 sentences on WHY this is the answer.
+3. <h2>Context</h2> — The situation. Open with ONE SENTENCE that frames the entire problem. Then 2-3 paragraphs: what is happening, the deadline, what is at stake. Zero-background reader.
+4. THE ARGUMENT SECTIONS — Do NOT collapse all analytical threads into one section. Each distinct argument gets its own <h2> with a conclusion-as-headline. Common patterns:
+   - CRISIS/RISK: One section for the cost asymmetry ("₹425 crore to protect against ₹13,000-23,000 crore"), one for the time window, one for each distinct opportunity or risk thread.
+   - OPPORTUNITY: One section for the prize, one for the window, one for the competitive dynamics.
+   - STRATEGIC CHOICE: One section for what you gain, one for what you give up, one for why now.
+   Each argument section: 2-4 sentences, anchored in numbers, headline IS the conclusion. These are the analytical beats that build the case BEFORE you get to beliefs and decisions. Think of them as the "here's why" that makes the decisions inevitable.
+5. <h2>What We Believe</h2> — <div class="beliefs">. Numbered surviving branches, one sentence each. No H1/H2/H3 labels. No meta-commentary.
+6. <h2>The Override</h2> — ONLY include this section if there is ONE unanswered question or ONE number that, depending on its value, changes the entire recommendation. Example: "If inventory is below 18 days, everything else in this document is deprioritized in favor of emergency supply." This comes BEFORE Decisions because it supersedes them — leadership needs to see it first. If no such override exists, SKIP this section entirely — do not force one.
+7. <h2>Decisions Required</h2> — Numbered. Each decision: what direction, why now, cost envelope (audience-native units), what happens if we don't. Flag which decisions are time-critical ("requires authorization in 48 hours"). These are CONTINGENT on the Override being resolved (if one exists). NO implementation detail — no names, no counterparties, no clause mechanics.
+8. <h2>[Conclusion-as-headline]</h2> per surviving branch — headline IS the finding. Each section: bold lead-in, evidence in prose, so-what. This is the "double click" on each belief.
+9. <h2>What This Brief Is Not Saying</h2> — 1-2 paragraphs. Contain panic. Frame proportionally. What strengths remain intact. What the worst case does NOT threaten. This section shows the reader you've thought about the full picture, not just the alarm.
+10. <h2>What We Tested and Discarded</h2> — 1-2, one-sentence reason each. Written as findings, not process: "X does not work because Y" not "X was tested and rejected."
+11. <h2>Data Gaps That Change the Decision</h2> — numbered, last section. These are NOT just open research items — they are CONDITIONAL BLOCKERS. If a gap resolves one way, a decision doesn't proceed. If it resolves another way, urgency escalates. Frame each gap as: "If [X is true], then [consequence for which decision]." Example: "If live tanker quotes return above $2M, Decision 1 does not proceed as scoped."
+
+THE PROMOTER TEST: Can someone read ONLY the title, governing hypothesis, the argument, and decisions — skipping everything else — and have enough to authorize? If not, the brief has failed.
+
+WRITING RULES:
+- Full prose paragraphs. Bullet points only in Decisions and Data Gaps sections.
 - Every paragraph starts with <strong>bold lead-in</strong> (3-8 words). No other bolding.
 - One idea per sentence. Short. Direct. A 15-year-old follows it.
-- Delete sentences that add no new fact or insight.
-- No meta-commentary ("this thesis reverses if", "confidence: HIGH"). State findings, not process.
-- No nested conditionals ("if X then Y unless Z"). Two short sentences instead.
+- No jargon, no meta-commentary, no process language.
+- Reference evidence base inline: (see Evidence 1).
+- Preserve "(source, date)" citations. Every factual claim must show its source.
 
-STRIP INTERNAL PIPELINE SCAFFOLDING — the reader is a managing partner, not a process auditor:
-- KEEP "[LLM reasoning]" tags — these are honest transparency markers showing analytical inference vs sourced fact. They stay.
-- REMOVE all INTERNAL PIPELINE references and replace with REAL sources:
-  "(per synthesis findings, financial_and_structural: mckinsey_headcount_collapse)" → "(Business Insider, August 2025)"
-  "(per working document, landscape scan: key players)" → "(industry analysis, 2025-2026)"
-  "(per synthesis findings, competitive_positioning: accenture_full_stack_credibility)" → "(Accenture Q2 FY2026 earnings)"
-  The pattern: anything that says "per synthesis", "per working document", "per landscape scan" followed by internal field names is pipeline scaffolding. Replace with the ACTUAL source name, date, and publication.
-- REMOVE: "DATA GAP", "H1/H2/H3", "Tier 1", "hypothesis tested", "break point", "diagnosticity", "was tested and rejected", "was tested and killed", "surviving hypothesis", "kill reason", "kill propagation"
-- REWRITE process descriptions as findings: "Sequential execution was tested and rejected" → "Sequential execution runs out of runway." The reader doesn't care that you tested it. They care that it doesn't work.
-- Where information is uncertain, state it naturally: "Exact figures are not public, but..."
-- Keep REAL source citations: "(BCG annual report, 2024)", "(Business Insider, August 2025)"
-- Unsourced numbers get "(estimated)" not "(unverified)"
-- End each section with a punch, not a hedge.
-- Recommendations: what, in what order, by when, what it costs, what happens if you do not.
+SIMPLICITY IS NON-NEGOTIABLE. This is the single most important writing rule:
+- WRONG: "Conditionally phase down Russian supply if rapid-deal probability remains above 20 percent."
+- RIGHT: "If the ceasefire leads to a deal, start shifting away from Russian crude. The window is narrow."
+- WRONG: "Execute the reversible optionality package under ₹415 crore within seven days."
+- RIGHT: "Lock the insurance now. It costs ₹415 crore. We have seven days."
+- WRONG: "The inventory buffer is real but not sufficient on its own to bridge the gap between current crude cover days and the minimum required for operational continuity."
+- RIGHT: "We have 18-25 days of crude in the tanks. If the strait closes, alternative supply takes 18-26 days to arrive. The margin is razor-thin."
+Write like you are TALKING to a person across the table. Not like you are writing a document. No compound sentences. No subordinate clauses. No passive voice. No abstractions when a concrete statement works. If a sentence has a comma, ask whether it should be two sentences.
 
-THE FINAL TEST: Read every sentence. If it sounds like it came from an internal methodology document rather than a partner speaking to a managing partner, rewrite it or cut it.""",
-        f"DOCUMENT TO REWRITE:\n{content}"
+SENIOR BRIEF VOICE — how each decision should read:
+- WRONG: "Direct Head of Procurement to contact Clarksons, BRS, and Braemar for LOI terms on 5-8 Aframax and VLCC vessels with 30-day cancellation clauses at under $1.2 million walk-away cost per vessel."
+- RIGHT: "Secure tanker optionality now, before the market tightens further. At current war-risk premiums, short-term vessel reservation costs are acceptable relative to the supply risk exposure. Recommend authorizing LOIs on 5-8 vessels within 48 hours at a total option cost not exceeding [cost in audience-native units]."
+The first tells a function head what to do. The second tells leadership WHY to authorize it. Precision that explains urgency belongs HERE. Precision that tells someone how to execute belongs in the EXECUTION NOTE.
+
+- WRONG: "If quotes return above $2M the LOI track is not viable."
+- RIGHT: "This recommendation is contingent on market pricing remaining within the stated cost envelope."
+
+Each decision section should answer: What are we doing? Why now specifically? What does it cost us to have the option? What happens if we don't?
+
+{SCAFFOLDING_STRIP}
+
+Return ONLY clean HTML: h1, h2, p, ol, li, strong, em, div class="beliefs", p class="ps". No other classes/styles/divs.""",
+        source_block + "\n\nWrite the LEADERSHIP BRIEF. Answer the problem statement for a senior-level audience. Decisions and risk framing only. All implementation detail (who to call, what contracts to sign, what clauses to include) goes in the separate Execution Note."
     )
 
-    # Strip markdown fences if present
-    if revised_content.strip().startswith("```"):
-        revised_content = revised_content.strip().split("\n", 1)[1].rsplit("```", 1)[0].strip()
+    brief_content = _strip_html_skeleton(_strip_md_fences(brief_content))
 
-    # Save both versions
-    path_draft = state.dir / "final_document_draft.html"
-    path_draft.write_text(final_html, encoding="utf-8")
+    # Critique pass on the brief
+    print(f"    {C.DIM}Running critique on brief...{C.R}")
+    brief_revised = llm(
+        f"""Critique and rewrite this leadership brief. Today is {TODAY_STR}. Return ONLY revised HTML (h1, h2, p, ol, li, strong, em — no classes/styles/divs except class="ps" and class="beliefs").
 
-    final_html_revised = final_html.replace(content, revised_content)
+You are a senior partner reviewing before it goes to the promoter. Your job:
 
-    path = state.dir / "final_document.html"
-    path.write_text(final_html_revised, encoding="utf-8")
-    state.set("final_doc_path", str(path))
-    print(f"  {C.GREEN}Final document (revised): {len(final_html_revised):,} chars{C.R}")
+1. CHECK THE GOVERNING HYPOTHESIS. It must be ONE SENTENCE. If it's multiple sentences listing actions, REWRITE it as a single frame: cost, stakes, deadline. The individual actions move to Decisions Required.
 
-    return str(path)
+2. KILL any sentence that tells the reader HOW to execute. Move-to-execution-note candidates:
+   - Specific counterparty/vendor/broker names
+   - Department or role assignments ("Head of Procurement should...")
+   - Clause mechanics, contract terms, walk-away costs per unit
+   - Step-by-step timelines with assignees
+   If you find these, REWRITE to decision-level framing or CUT entirely.
+
+3. ELEVATE the decisions. Each decision should read as: "[What we are doing] now, before [deadline/trigger]. [Why this is the right moment — urgency precision]. Recommend authorizing at [cost envelope in audience-native units]."
+   Then: "If we do not act by [deadline], [specific consequence with number]."
+   Urgency precision (WHY now, what window is closing) belongs here. Execution precision (who to call, what contracts) does NOT.
+
+4. SIMPLIFY EVERY SENTENCE. This is the most important pass. Read every sentence aloud. If it sounds written, rewrite it spoken.
+   - FIND: "Conditionally phase down Russian supply if rapid-deal probability remains above 20 percent."
+     FIX: "If the ceasefire leads to a deal, start shifting away from Russian crude."
+   - FIND: "Execute the reversible optionality package under ₹415 crore within seven days."
+     FIX: "Lock the insurance now. ₹415 crore. Seven days."
+   - FIND: "The inventory buffer is real but not sufficient on its own to bridge the gap between current crude cover days and the minimum required for operational continuity."
+     FIX: "We have 18-25 days of crude. Alternative supply takes 18-26 days. The margin is razor-thin."
+   - FIND: Any sentence with "leverage", "optionality", "operationalize", "structurally", "asymmetric payoff", "robust across scenarios"
+     FIX: Say what you mean in plain words. "Optionality" = "the right to walk away." "Robust across scenarios" = "works no matter what happens." "Asymmetric payoff" = "cheap if we're wrong, huge if we're right."
+   - FIND: Any sentence longer than 25 words.
+     FIX: Split it. Two short sentences. Always.
+   - FIND: Passive voice ("the position should be established", "authorization is recommended")
+     FIX: Active. "Establish the position." "We recommend authorizing."
+
+5. STRIP remaining pipeline scaffolding. {SCAFFOLDING_STRIP}
+
+6. VOICE: Third person, company name. No individual names. Direct, authoritative, concise. Every paragraph starts with bold lead-in. One idea per sentence. End sections with punch, not hedge. Write like you're talking across a table, not drafting a memo.
+
+THE FINAL TEST — read the entire document aloud in under 4 minutes. If you stumble on any sentence, it's too complex. Rewrite it. If a sentence would make a function head ask "who do I call?" — it belongs in the execution note, not here.""",
+        f"DOCUMENT TO REWRITE:\n{brief_content}"
+    )
+    brief_revised = _strip_html_skeleton(_strip_md_fences(brief_revised))
+
+    # Save brief
+    brief_html = _wrap_html(brief_revised, topic)
+    path_brief = state.dir / "final_document.html"
+    path_brief.write_text(brief_html, encoding="utf-8")
+    state.set("final_doc_path", str(path_brief))
+
+    # Also save draft
+    brief_draft_html = _wrap_html(brief_content, topic)
+    (state.dir / "final_document_draft.html").write_text(brief_draft_html, encoding="utf-8")
+    print(f"    {C.GREEN}Brief: {len(brief_html):,} chars{C.R}")
+
+    # ═══════════════════════════════════════════
+    # DOCUMENT 2: EXECUTION NOTE (function heads)
+    # ═══════════════════════════════════════════
+    print(f"    {C.DIM}Generating execution note...{C.R}")
+    exec_content = llm(
+        f"""You are writing an EXECUTION NOTE — the implementation companion to a leadership brief. Today is {TODAY_STR}.
+
+This document is received by FUNCTION HEADS after leadership has authorized the direction in the brief. It tells them exactly what to do.
+
+The brief (already written) contains the decisions at a directional level. Your job is to provide the operational detail that makes each decision executable.
+
+FOR EACH DECISION IN THE BRIEF, write a section with:
+1. <h2>[Decision headline — matches the brief]</h2>
+2. <strong>Owner:</strong> who executes (role/function, not individual names)
+3. <strong>Actions:</strong> numbered, specific steps. Name counterparties, vendors, brokers where known.
+4. <strong>Parameters:</strong> cost ceilings, contract terms, cancellation mechanics, vessel classes, batch sizes — all the operational constraints.
+5. <strong>Timeline:</strong> milestones with dates.
+6. <strong>Contingency:</strong> what triggers a change of plan, escalation path, who gets notified.
+7. <strong>Dependencies:</strong> what must happen first, what this enables.
+
+ALSO INCLUDE:
+- <h2>Coordination Requirements</h2> — cross-functional dependencies, handoff points
+- <h2>Escalation Triggers</h2> — what conditions require leadership to re-authorize or change direction
+
+WRITING RULES:
+- Operational, specific, actionable. This IS the "how" document.
+- Use specific numbers: "$1.2M per vessel" not "acceptable cost." Per-unit economics belong here.
+- Name counterparties and vendors where the research identified them.
+- Preserve source citations.
+- Clean HTML: h1, h2, h3, p, ol, li, strong, em. No classes/styles.
+
+{SCAFFOLDING_STRIP}""",
+        f"BRIEF (for reference — extract the decisions and make each one executable):\n{brief_revised}\n\n{source_block}\n\nWrite the execution note. Every decision from the brief gets a detailed implementation section."
+    )
+    exec_content = _strip_html_skeleton(_strip_md_fences(exec_content))
+
+    # Save execution note
+    exec_css = DOC_CSS.replace("border-bottom:3px solid #1a1a1a", "border-bottom:3px solid #2563eb")
+    exec_html = _wrap_html(exec_content, f"Execution Note — {topic[:40]}", css=exec_css)
+    path_exec = state.dir / "execution_note.html"
+    path_exec.write_text(exec_html, encoding="utf-8")
+    state.set("exec_note_path", str(path_exec))
+    print(f"    {C.GREEN}Execution note: {len(exec_html):,} chars{C.R}")
+
+    print(f"  {C.GREEN}Both documents complete.{C.R}")
+    return str(path_brief)
 
 
 # ---------------------------------------------------------------------------
-# STEP 7: Appendix
+# STEP 7: Evidence Base (replaces chart appendix in v3)
 # ---------------------------------------------------------------------------
 
-def _truncate_label(label, max_len=30):
-    """Truncate a label to max_len chars, strip newlines."""
+# Legacy chart helpers removed in v3 — evidence cards replace fabricated charts
+
+def _legacy_truncate_label(label, max_len=30):
+    """Truncate a label to max_len chars, strip newlines. Kept for any residual references."""
     if not isinstance(label, str):
         return str(label)
     label = label.replace("\n", " ").replace("\r", "").strip()
@@ -4171,16 +4287,22 @@ def _build_combined_output(run_dir):
     # Convert markdown files to HTML
     synthesis_html = _md_to_html_page(run_dir / "synthesis" / "synthesis.md", "Synthesis")
     debrief_html = _md_to_html_page(run_dir / "research" / "debrief.md", "Research Debrief")
+    working_doc_html = _md_to_html_page(run_dir / "working_doc" / "working_document.md", "Working Document")
     hypothesis_html = _build_hypothesis_tree_html(run_dir)
     hypothesis_map = _build_hypothesis_map_html(run_dir)
 
+    # Check for execution note
+    has_exec_note = (run_dir / "execution_note.html").exists()
+
     # Build tab config
     tabs = [
-        ("Report", "final_document.html"),
-        ("Appendix", "appendix.html"),
+        ("Brief", "final_document.html"),
+        ("Execution Note", "execution_note.html" if has_exec_note else ""),
+        ("Evidence Base", "appendix.html"),
         ("Issue Tree", "tree.html"),
         ("Hyp Tree", "hypotheses/hypotheses.html" if hypothesis_html else ""),
         ("Hyp Map", "hypotheses/hypothesis_map.html" if hypothesis_map else ""),
+        ("Working Doc", "working_doc/working_document.html" if working_doc_html else ""),
         ("Synthesis", "synthesis/synthesis.html" if synthesis_html else ""),
         ("Research Debrief", "research/debrief.html" if debrief_html else ""),
     ]
@@ -4224,210 +4346,139 @@ function switchTab(file, el) {{
 
 
 def step7_appendix(state, mece, hyp_tree, working_doc, feedback=None):
-    print(f"  {C.GREEN}Generating appendix slides...{C.R}")
+    print(f"  {C.GREEN}Generating evidence base...{C.R}")
+    import re as _re
 
-    # Build chart framework from vault
-    chart_framework_parts = []
-    if CHART_VAULT.get("THE_PROCESS"):
-        chart_framework_parts.append("CHART DESIGN PROCESS:\n" + json.dumps(CHART_VAULT["THE_PROCESS"], indent=2, ensure_ascii=False))
-    if CHART_VAULT.get("CHART_SELECTION_DECISION_TREE"):
-        chart_framework_parts.append("DECISION TREE (follow in order, stop at first match):\n" + json.dumps(CHART_VAULT["CHART_SELECTION_DECISION_TREE"]["tree"], indent=2, ensure_ascii=False))
-    if CHART_VAULT.get("KNAFLIC_DESIGN_PRINCIPLES"):
-        chart_framework_parts.append("DESIGN PRINCIPLES:\n" + json.dumps(CHART_VAULT["KNAFLIC_DESIGN_PRINCIPLES"], indent=2, ensure_ascii=False))
-    if CHART_VAULT.get("TITLE_RULES"):
-        chart_framework_parts.append("TITLE RULES:\n" + json.dumps(CHART_VAULT["TITLE_RULES"], indent=2, ensure_ascii=False))
-    if CHART_VAULT.get("ECHARTS_STYLING_DEFAULTS"):
-        chart_framework_parts.append("ECHARTS STYLING:\n" + json.dumps(CHART_VAULT["ECHARTS_STYLING_DEFAULTS"], indent=2, ensure_ascii=False))
-    chart_rules = "\n\n".join(chart_framework_parts)
-
-    # Read the final document to map claims from it (not the working doc)
+    # Read the final document to extract claims
     final_doc_path = state.get("final_doc_path", "")
     if final_doc_path and Path(final_doc_path).exists():
-        import re as _re
         final_html = Path(final_doc_path).read_text(encoding="utf-8")
-        # Strip HTML tags to get plain text for the prompt
         final_text = _re.sub(r'<[^>]+>', '', final_html)
         final_text = _re.sub(r'\s+', ' ', final_text).strip()
     else:
         final_text = ""
 
-    # TWO-STEP APPROACH: identify claims first, then generate chart data per slide
-    # Step 1: Identify 4-6 claims that need charts + chart type + title (small JSON)
-    print(f"    {C.DIM}Step 1: Identifying chartable claims...{C.R}")
-    claim_specs = llm_json(
-        f"""Identify 4-6 claims from this strategic document that need proving with a chart.
+    # ═══════════════════════════════════════════════════════
+    # EVIDENCE BASE — structured proof cards, no fabricated charts
+    # ═══════════════════════════════════════════════════════
 
-For each claim, specify WHAT chart to make — but do NOT generate the chart data yet.
+    # Single LLM call: extract evidence cards from final doc + working doc
+    print(f"    {C.DIM}Extracting evidence cards from research...{C.R}")
+    evidence = llm_json(
+        f"""Extract 5-8 EVIDENCE CARDS from this strategic document + working document. Today is {TODAY_STR}.
 
-DECISION TREE — pick the best chart type:
-1. RANKING or COMPARISON? -> "horizontal_bar"
-2. CHANGE OVER TIME? -> "line"
-3. BUILD-UP or BREAKDOWN? -> "waterfall"
-4. PART OF A WHOLE? -> "donut" (max 6 slices)
-5. SINGLE KPI vs TARGET? -> "gauge"
-6. FLOW? -> "sankey"
+Each evidence card proves ONE claim from the brief. The audience is a strategy team that will USE this evidence to build their own analysis. Do NOT spoon-feed them conclusions — give them the sourced facts.
 
-VARIETY: use at least 3 different chart types. Do NOT default to horizontal_bar for everything.
+For each card:
+1. "claim" — the exact sentence from the brief that this evidence supports
+2. "headline" — conclusion in 8-12 words (headline IS the finding)
+3. "evidence" — array of 3-6 sourced facts. Each fact is an object:
+   {{"fact": "specific statement with number", "source": "publication, date", "confidence": "HIGH|MEDIUM|LOW"}}
+   - HIGH = primary source, verified number
+   - MEDIUM = single credible source, not triangulated
+   - LOW = inferred from related data, or analyst estimate
+4. "comparison" — one sentence putting the key number in context (vs last year, vs competitor, vs industry average)
+5. "what_would_change_this" — one sentence: what new information would reverse or significantly alter this evidence
+6. "data_gap" — what specific data point is missing that would strengthen this card (or null if complete)
 
-Only pick claims that have REAL SOURCED NUMBERS in the document. No chart for unsourced claims.
+RULES:
+- ONLY use numbers that appear in the final document or working document with source citations.
+- DO NOT invent, interpolate, or extrapolate numbers. If a quarterly breakdown doesn't exist in the research, don't create one.
+- Every fact must have a real source. "(estimated)" is acceptable for clearly-marked analytical inferences.
+- If the brief claims something without sourced evidence, flag it with confidence LOW and note the gap.
 
-Return JSON: {{"claims": [
-  {{
-    "appendix_num": 1,
-    "claim_sentence": "exact sentence from document",
-    "action_title": "conclusion headline, 8-12 words",
-    "subtitle": "units, period, source",
-    "chart_type": "horizontal_bar|line|waterfall|donut|gauge|bar|scatter|sankey",
-    "data_description": "what data points to extract for this chart",
-    "conclusion": "one sentence takeaway",
-    "source_line": "data source"
-  }}
-]}}""",
-        "{fb}FINAL DOCUMENT:\n{doc}".format(
+{SCAFFOLDING_STRIP}
+
+Return JSON: {{"cards": [...]}}""",
+        "{fb}FINAL DOCUMENT:\n{doc}\n\nWORKING DOCUMENT (detailed sourced research):\n{wd}".format(
             fb=f"USER FEEDBACK:\n{feedback}\n\n" if feedback else "",
-            doc=final_text[:15000]
+            doc=final_text[:15000],
+            wd=working_doc[:20000]
         ),
-        model=SONNET, max_tokens=4096
+        model=SONNET, max_tokens=8192
     )
 
-    claims = claim_specs.get("claims", [])
-    print(f"    {C.DIM}{len(claims)} chartable claims identified{C.R}")
+    cards = evidence.get("cards", [])
+    print(f"    {C.GREEN}{len(cards)} evidence cards extracted{C.R}")
 
-    # Step 2: Generate chart_data for each claim individually (parallel)
-    print(f"    {C.DIM}Step 2: Generating chart data per slide...{C.R}")
-
-    def _gen_chart_data(claim):
-        chart_type = claim.get("chart_type", "horizontal_bar")
-        data_formats = {
-            "bar": '{"labels": ["A","B","C"], "values": [10,20,30], "colors": ["#2563eb","#2563eb","#ef4444"]}',
-            "horizontal_bar": '{"labels": ["A","B","C"], "values": [10,20,30], "colors": ["#2563eb","#2563eb","#ef4444"]}',
-            "line": '{"labels": ["Q1","Q2","Q3"], "series": [{"name": "X", "values": [10,12,15]}]}',
-            "area": '{"labels": ["Q1","Q2","Q3"], "series": [{"name": "X", "values": [10,12,15]}]}',
-            "waterfall": '{"labels": ["Start","+A","-B","End"], "values": [100,30,-15,115], "colors": ["#2563eb","#22c55e","#ef4444","#2563eb"]}',
-            "donut": '{"labels": ["A","B","C"], "values": [45,30,25]}',
-            "pie": '{"labels": ["A","B","C"], "values": [45,30,25]}',
-            "gauge": '{"value": 73, "min": 0, "max": 100, "label": "KPI", "target": 100}',
-            "scatter": '{"points": [[1,2],[3,4]], "x_label": "X", "y_label": "Y"}',
-            "sankey": '{"nodes": ["A","B","C"], "links": [{"source":"A","target":"C","value":50}]}',
-            "funnel": '{"labels": ["Step1","Step2"], "values": [100,50]}',
-            "heatmap": '{"x_labels": ["A","B"], "y_labels": ["X","Y"], "values": [[1,2],[3,4]]}',
-        }
-        fmt = data_formats.get(chart_type, data_formats["horizontal_bar"])
-
-        prompt_sys = "Generate chart_data for this proof slide. Use REAL numbers from the document.\n\n"
-        prompt_sys += "CLAIM: " + claim.get('claim_sentence', '') + "\n"
-        prompt_sys += "CHART TYPE: " + chart_type + "\n"
-        prompt_sys += "DATA TO EXTRACT: " + claim.get('data_description', '') + "\n\n"
-        prompt_sys += "REQUIRED FORMAT for " + chart_type + ":\nchart_data: " + fmt + "\n\n"
-        prompt_sys += "RULES:\n- Labels max 20 characters. Abbreviate.\n- Max 6 data points.\n"
-        prompt_sys += "- Colors: RED #ef4444 for bad, GREEN #22c55e for good, BLUE #2563eb for neutral, GREY #d1d5db for context.\n"
-        prompt_sys += "- ONE highlight color for the story, rest grey.\n\n"
-        prompt_sys += 'Return JSON: {"chart_data": ...}'
-
-        result = llm_json(
-            prompt_sys,
-            "SOURCE TEXT:\n" + final_text[:5000],
-            model=HAIKU, max_tokens=1024
-        )
-        claim["chart_data"] = result.get("chart_data", {})
-        return claim
-
-    completed_slides = []
-    with ThreadPoolExecutor(max_workers=min(len(claims), 4)) as executor:
-        futures = {executor.submit(_gen_chart_data, c): c for c in claims}
-        for future in as_completed(futures):
-            try:
-                slide = future.result()
-                completed_slides.append(slide)
-                print(f"      {C.GREEN}Slide {slide.get('appendix_num', '?')}: {slide.get('chart_type', '?')}{C.R}")
-            except Exception as e:
-                print(f"      {C.RED}Slide failed: {e}{C.R}")
-
-    completed_slides.sort(key=lambda x: x.get("appendix_num", 0))
-    slides = {"slides": completed_slides}
-
-    # Save slide data
+    # Save card data
     app_dir = state.dir / "appendix"
     app_dir.mkdir(exist_ok=True)
-    json.dump(slides, open(app_dir / "slides.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+    json.dump(evidence, open(app_dir / "slides.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
-    # Render HTML
-    slide_list = slides.get("slides", [])
-    total = len(slide_list)
+    # Render evidence cards as HTML
+    total = len(cards)
     e = html_mod.escape
-    css = (ROOT / "presentation_engine" / "templates" / "appendix_slide.css").read_text(encoding="utf-8") if (ROOT / "presentation_engine" / "templates" / "appendix_slide.css").exists() else ""
 
-    slides_html = ""
-    charts_js = ""
-    for s in slide_list:
-        num = s.get("appendix_num", s.get("num", "?"))
-        slot = s.get("slot_type", "?")
-        slot_labels = {"A": "Prove a Number", "B": "Prove a Claim", "D": "Prove Executable"}
-        title = e(s.get("action_title", ""))
-        subtitle = e(s.get("subtitle", ""))
-        conclusion = e(s.get("conclusion", ""))
-        source = e(s.get("source_line", s.get("source", "")))
-        canvas_id = f"ch-a{num}"
+    cards_html = ""
+    for i, card in enumerate(cards, 1):
+        headline = e(card.get("headline", ""))
+        claim = e(card.get("claim", ""))
+        comparison = e(card.get("comparison", ""))
+        change = e(card.get("what_would_change_this", ""))
+        gap = card.get("data_gap")
 
-        # Build ECharts from chart_data using helper
-        chart_html = ""
-        div_id = f"chart-{num}"
-        cd = s.get("chart_data", s.get("data", {}))
-        chart_type = s.get("chart_type", "bar")
-        echart_opt_str = None
+        # Evidence rows
+        evidence_rows = ""
+        for fact in card.get("evidence", []):
+            conf = fact.get("confidence", "MEDIUM")
+            conf_class = {"HIGH": "conf-high", "MEDIUM": "conf-med", "LOW": "conf-low"}.get(conf, "conf-med")
+            evidence_rows += f'''<tr>
+<td>{e(fact.get("fact", ""))}</td>
+<td class="source">{e(fact.get("source", ""))}</td>
+<td class="{conf_class}">{conf}</td>
+</tr>\n'''
 
-        # Force gauge → horizontal_bar if the data has labels (categorical, not single KPI)
-        if chart_type == "gauge" and isinstance(cd, dict) and cd.get("labels"):
-            chart_type = "horizontal_bar"
+        gap_html = f'<div class="card-gap"><strong>Data gap:</strong> {e(gap)}</div>' if gap else ""
 
-        # Use our styled template (executive quality) from chart_data
-        if isinstance(cd, dict) and (cd.get("labels") or cd.get("points") or cd.get("nodes") or cd.get("value") is not None):
-            echart_opt_str = _build_echart_option(chart_type, cd)
-        elif s.get("echart_option"):
-            echart_opt_str = json.dumps(s["echart_option"], ensure_ascii=False)
-
-        if echart_opt_str:
-            charts_js += f"""
-(function(){{var d=document.getElementById('{div_id}');if(!d)return;var c=echarts.init(d);c.setOption({echart_opt_str});window.addEventListener('resize',function(){{c.resize()}});}})();
-"""
-            chart_html = f'<div class="chart-area" id="{div_id}" style="width:100%;height:450px;min-height:400px"></div>'
-
-        conc_html = f'<div class="slide-conclusion">{conclusion}</div>' if conclusion else ""
-
-        slides_html += f'''<div class="slide" id="s{num}">
-<div class="slide-inner">
-<div class="slide-top"><span class="slide-num">Appendix {num}</span><span class="slide-slot">Slot {slot} | {e(slot_labels.get(slot, slot))}</span></div>
-<h2 class="slide-title">{title}</h2>
-<p class="slide-subtitle">{subtitle}</p>
-{chart_html}
-{conc_html}
-<div class="slide-bottom"><div class="slide-source">{source}</div></div>
-</div></div>\n'''
+        cards_html += f'''<div class="card" id="e{i}">
+<div class="card-top"><span class="card-num">Evidence {i}</span></div>
+<h2 class="card-headline">{headline}</h2>
+<p class="card-claim">Proves: {claim}</p>
+<table class="evidence-table">
+<thead><tr><th>Finding</th><th>Source</th><th>Confidence</th></tr></thead>
+<tbody>{evidence_rows}</tbody>
+</table>
+<div class="card-comparison"><strong>In context:</strong> {comparison}</div>
+<div class="card-change"><strong>What would change this:</strong> {change}</div>
+{gap_html}
+</div>\n'''
 
     appendix_html = f'''<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Appendix</title>
+<title>Evidence Base</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-<style>{css}</style></head><body>
-<div class="progress" id="prog"></div>
-{slides_html}
-<div class="nav">
-<button class="nav-btn" onclick="go(-1)">&larr;</button>
-<span class="nav-counter" id="ctr">1/{total}</span>
-<button class="nav-btn" onclick="go(1)">&rarr;</button>
-</div>
-<script>{charts_js}
-const sl=document.querySelectorAll('.slide'),tot={total},pr=document.getElementById('prog'),ct=document.getElementById('ctr');let cur=0;
-function go(d){{cur=Math.max(0,Math.min(tot-1,cur+d));sl[cur].scrollIntoView({{behavior:'smooth'}})}}
-function up(){{let b=0;sl.forEach((s,i)=>{{if(s.getBoundingClientRect().top<innerHeight*.5)b=i}});cur=b;pr.style.width=((b+1)/tot*100)+'%';ct.textContent=(b+1)+'/'+tot}}
-addEventListener('scroll',up);addEventListener('keydown',e=>{{if(e.key=='ArrowDown'||e.key=='ArrowRight')go(1);if(e.key=='ArrowUp'||e.key=='ArrowLeft')go(-1)}});up();
-</script></body></html>'''
+<style>
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;max-width:960px;margin:0 auto;padding:48px 48px 60px}}
+.card{{margin-bottom:48px;padding-bottom:40px;border-bottom:1px solid #e5e7eb}}
+.card:last-child{{border-bottom:none}}
+.card-top{{margin-bottom:12px}}
+.card-num{{font:700 12px/1 'JetBrains Mono';color:#2563eb;letter-spacing:1px;text-transform:uppercase}}
+.card-headline{{font:800 22px/1.3 'Inter';color:#1a1a1a;margin-bottom:8px}}
+.card-claim{{font:400 13px/1.5 'Inter';color:#888;font-style:italic;margin-bottom:24px}}
+.evidence-table{{width:100%;border-collapse:collapse;margin-bottom:20px}}
+.evidence-table th{{font:600 10px/1 'JetBrains Mono';text-transform:uppercase;letter-spacing:0.5px;color:#888;text-align:left;padding:10px 14px;border-bottom:2px solid #1a1a1a}}
+.evidence-table td{{font:400 13px/1.6 'Inter';padding:12px 14px;border-bottom:1px solid #f0f0f0;vertical-align:top}}
+.evidence-table .source{{font:400 11px/1.4 'Inter';color:#666;white-space:nowrap}}
+.conf-high{{font:700 11px/1 'JetBrains Mono';color:#16a34a}}
+.conf-med{{font:700 11px/1 'JetBrains Mono';color:#b45309}}
+.conf-low{{font:700 11px/1 'JetBrains Mono';color:#dc2626}}
+.card-comparison,.card-change{{font:400 13px/1.6 'Inter';color:#374151;margin-bottom:8px;padding:10px 14px;background:#f8fafc;border-left:3px solid #e5e7eb}}
+.card-change{{border-left-color:#f59e0b}}
+.card-gap{{font:400 13px/1.5 'Inter';color:#dc2626;padding:10px 14px;background:#fef2f2;border-left:3px solid #dc2626;margin-top:8px}}
+.footer{{font:400 10px/1.4 'Inter';color:#bbb;text-align:center;margin-top:40px;padding-top:12px;border-top:1px solid #e5e7eb}}
+</style></head><body>
+<h1 style="font:800 28px/1.3 'Inter';margin-bottom:8px">Evidence Base</h1>
+<p style="font:400 13px/1.6 'Inter';color:#888;margin-bottom:40px">{total} evidence cards supporting the strategic brief. Each card proves one claim with sourced facts.</p>
+{cards_html}
+<div class="footer">Developed by Parth Reddy</div>
+</body></html>'''
 
     path = state.dir / "appendix.html"
     path.write_text(appendix_html, encoding="utf-8")
     state.set("appendix_path", str(path))
-    print(f"  {C.GREEN}Appendix: {total} slides, {len(appendix_html):,} chars{C.R}")
+    print(f"  {C.GREEN}Evidence base: {total} cards, {len(appendix_html):,} chars{C.R}")
     return str(path)
 
 
@@ -4468,7 +4519,7 @@ def main():
 ║  ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀    ║
 ║       ╲▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄╱             ║
 ║        ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀              ║
-║  strategic problem engine  v0.1      ║
+║  strategic problem engine  v3.0      ║
 ╚══════════════════════════════════════╝{C.R}
 """)
 

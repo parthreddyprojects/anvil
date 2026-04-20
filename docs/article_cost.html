@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#fff; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+  .card { width:1200px; height:800px; background:#fff; position:relative; overflow:hidden; }
+  svg { width:100%; height:100%; }
+</style>
+</head>
+<body>
+<div class="card">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C97800" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#C97800" stop-opacity="1"/>
+      <stop offset="70%" stop-color="#C97800" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#C97800" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="amberBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F5D590"/>
+      <stop offset="100%" stop-color="#C97800"/>
+    </linearGradient>
+    <filter id="barShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#C97800" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="5" height="800" fill="url(#accent)"/>
+
+  <!-- Title -->
+  <text x="120" y="72" font-family="Inter" font-weight="300" font-size="13" fill="#999" letter-spacing="4">ANNUAL COST COMPARISON</text>
+
+  <!-- ═══ BAR 1: Junior Analyst ═══ -->
+  <text x="120" y="195" font-family="Inter" font-weight="700" font-size="20" fill="#1a1a1a">Junior Analyst</text>
+  <text x="120" y="220" font-family="Inter" font-weight="400" font-size="13" fill="#999">Salary + benefits + overhead</text>
+
+  <!-- Track -->
+  <rect x="120" y="244" width="880" height="56" rx="8" fill="#FAFAFA"/>
+  <!-- Fill — 80% -->
+  <rect x="120" y="244" width="720" height="56" rx="8" fill="#EBEBEB"/>
+  <!-- Value -->
+  <text x="780" y="280" font-family="IBM Plex Mono" font-weight="700" font-size="17" fill="#888" text-anchor="end">$80 – 120K / yr</text>
+
+  <!-- ═══ BAR 2: Anvil ═══ -->
+  <text x="120" y="375" font-family="Inter" font-weight="700" font-size="20" fill="#1a1a1a">Anvil + Vault + RAG</text>
+  <text x="120" y="400" font-family="Inter" font-weight="400" font-size="13" fill="#999">Pipeline + infrastructure + maintenance</text>
+
+  <!-- Track -->
+  <rect x="120" y="424" width="880" height="56" rx="8" fill="#FAFAFA"/>
+  <!-- Fill — 35% amber gradient -->
+  <g filter="url(#barShadow)">
+    <rect x="120" y="424" width="310" height="56" rx="8" fill="url(#amberBar)"/>
+  </g>
+  <!-- Value -->
+  <text x="380" y="460" font-family="IBM Plex Mono" font-weight="700" font-size="17" fill="#fff" text-anchor="end">$27 – 56K / yr</text>
+
+  <!-- ═══ Savings callout ═══ -->
+  <line x1="120" y1="530" x2="1000" y2="530" stroke="#F0F0F0" stroke-width="1"/>
+
+  <text x="120" y="596" font-family="Inter" font-weight="900" font-size="64" fill="#C97800">2-3x</text>
+
+  <text x="340" y="572" font-family="Inter" font-weight="600" font-size="18" fill="#1a1a1a">Less than one junior hire</text>
+  <text x="340" y="598" font-family="Inter" font-weight="400" font-size="15" fill="#888">For an asset that compounds indefinitely and never resigns</text>
+
+  <!-- ═══ Properties row ═══ -->
+  <line x1="120" y1="645" x2="1000" y2="645" stroke="#F5F5F5" stroke-width="1"/>
+
+  <!-- Prop 1 -->
+  <text x="120" y="684" font-family="Inter" font-weight="400" font-size="11" fill="#BBB" letter-spacing="2">RESIGNS</text>
+  <text x="120" y="710" font-family="Inter" font-weight="600" font-size="17" fill="#555">Never</text>
+
+  <!-- Prop 2 -->
+  <text x="330" y="684" font-family="Inter" font-weight="400" font-size="11" fill="#BBB" letter-spacing="2">KNOWLEDGE RETENTION</text>
+  <text x="330" y="710" font-family="Inter" font-weight="600" font-size="17" fill="#C97800">100%</text>
+
+  <!-- Prop 3 -->
+  <text x="600" y="684" font-family="Inter" font-weight="400" font-size="11" fill="#BBB" letter-spacing="2">FIRST DRAFT</text>
+  <text x="600" y="710" font-family="Inter" font-weight="600" font-size="17" fill="#C97800">20 min</text>
+
+  <!-- Prop 4 -->
+  <text x="800" y="684" font-family="Inter" font-weight="400" font-size="11" fill="#BBB" letter-spacing="2">IMPROVES WITH USE</text>
+  <text x="800" y="710" font-family="Inter" font-weight="600" font-size="17" fill="#C97800">Yes</text>
+
+  <!-- Footnote -->
+  <text x="120" y="764" font-family="Inter" font-weight="400" font-size="11" fill="#BBB">Based on 20 runs/week. Pipeline $4-8K + analytics $8-12K + vault $10-28K + RAG $5-8K annually.</text>
+
+</svg>
+</div>
+</body>
+</html>

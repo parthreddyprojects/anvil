@@ -59,7 +59,7 @@ ANVIL_BANNER = f"""
   ║  ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀    ║
   ║       ╲▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄╱             ║
   ║        ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀              ║
-  ║  strategic problem engine  v0.1      ║
+  ║  strategic problem engine  v3.0      ║
   ╚══════════════════════════════════════╝{R}
 """
 
@@ -763,6 +763,40 @@ def cmd_open(args):
         _narrate("No output.html found. Run may not be complete.", "warn")
 
 
+def cmd_dashboard(args):
+    """Open live dashboards for active runs — one browser tab per run."""
+    if not OUTPUTS.exists():
+        _narrate("No runs found.", "warn")
+        return
+
+    runs = sorted(OUTPUTS.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)
+    opened = 0
+    for d in runs:
+        state = _load_state(d)
+        if not state:
+            continue
+        done = state.get("done", [])
+        if len(done) >= 8:
+            continue  # skip completed runs
+        dashboard = d / "dashboard.html"
+        if dashboard.exists():
+            webbrowser.open(f"file:///{dashboard.resolve()}")
+            topic = state.get("topic", "?")[:50]
+            _narrate(f"Opened dashboard: {topic}...", "done")
+            opened += 1
+
+    if opened == 0:
+        # Fall back to global dashboard
+        global_dash = ROOT / "dashboard.html"
+        if global_dash.exists():
+            webbrowser.open(f"file:///{global_dash.resolve()}")
+            _narrate("Opened global dashboard", "done")
+        else:
+            _narrate("No dashboards found.", "warn")
+    else:
+        _narrate(f"Opened {opened} dashboard{'s' if opened != 1 else ''}", "done")
+
+
 def cmd_sanitize(args):
     """Sanitize outputs — replace company/person names for sharing."""
     run_dir = _find_run(args.run)
@@ -791,6 +825,100 @@ def cmd_sanitize(args):
         _narrate("Sanitization complete.", "done")
     else:
         _narrate(f"Sanitizer error: {proc.stderr[:200]}", "warn")
+
+
+def cmd_monitor(args):
+    """Monitor active runs — shows all in-progress runs with live status."""
+    from datetime import datetime
+
+    print(ANVIL_BANNER)
+    if not OUTPUTS.exists():
+        _narrate("No runs found.", "warn")
+        return
+
+    runs = sorted(OUTPUTS.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)
+    active_runs = []
+    for d in runs:
+        state = _load_state(d)
+        if state and len(state.get("done", [])) < 8:
+            active_runs.append((d, state))
+
+    if not active_runs:
+        _narrate("No active runs. All runs are complete.", "info")
+        return
+
+    _narrate(f"{len(active_runs)} ACTIVE RUN{'S' if len(active_runs) != 1 else ''}", "head")
+    print()
+
+    for d, state in active_runs:
+        step = state.get("step", 0)
+        done = state.get("done", [])
+        topic = state.get("topic", "?")
+        audience = state.get("audience", "?")
+        created = state.get("created", "?")
+
+        # Last modified time
+        state_file = d / "state.json"
+        if state_file.exists():
+            mtime = datetime.fromtimestamp(state_file.stat().st_mtime)
+            age = datetime.now() - mtime
+            if age.total_seconds() < 60:
+                ago = f"{int(age.total_seconds())}s ago"
+            elif age.total_seconds() < 3600:
+                ago = f"{int(age.total_seconds() / 60)}m ago"
+            else:
+                ago = f"{int(age.total_seconds() / 3600)}h ago"
+        else:
+            ago = "?"
+
+        step_name = STEP_NAMES.get(step, f"Step {step}")
+        pct = int(len(done) / 8 * 100)
+
+        # Progress bar
+        bar_w = 24
+        filled = int(bar_w * len(done) / 8)
+        bar = f"{A}{'█' * filled}{DK}{'░' * (bar_w - filled)}{R}"
+
+        print(f"  {DK}┌{'─' * 58}┐{R}")
+        print(f"  {DK}│{R} {AB}{topic[:54]}{R}")
+        print(f"  {DK}│{R} {AD}{audience[:54]}{R}")
+        print(f"  {DK}│{R}")
+        print(f"  {DK}│{R}  {bar}  {AB}{pct}%{R}  {A}▸ {step_name}{R}")
+        print(f"  {DK}│{R}  {AD}Steps done: {sorted(done)}{R}  {DK}·{R}  {AD}Updated: {ago}{R}  {DK}·{R}  {AD}{created}{R}")
+
+        # Show artifacts
+        artifacts = []
+        if (d / "landscape_scan").exists():
+            artifacts.append("landscape")
+        if (d / "mece").exists():
+            artifacts.append("mece")
+        if (d / "research").exists():
+            artifacts.append("research")
+        if (d / "working_doc").exists():
+            artifacts.append("working_doc")
+        if (d / "synthesis").exists():
+            artifacts.append("synthesis")
+        if (d / "hypotheses").exists():
+            artifacts.append("hypotheses")
+        if (d / "final_document.html").exists():
+            artifacts.append("final_doc")
+        if (d / "appendix.html").exists():
+            artifacts.append("appendix")
+        if artifacts:
+            print(f"  {DK}│{R}  {DK}Artifacts: {', '.join(artifacts)}{R}")
+
+        # Show spend if available
+        spend = state.get("total_spend", 0)
+        if spend:
+            print(f"  {DK}│{R}  {A}Spend: ${spend:.2f}{R}")
+
+        print(f"  {DK}└{'─' * 58}┘{R}")
+        print()
+
+    # Flow diagram for the most recently active run
+    if active_runs:
+        _narrate("Most recent:", "dim")
+        _flow_diagram(active_runs[0][1])
 
 
 def cmd_list(args):
@@ -853,6 +981,12 @@ def main():
     p_san.add_argument("--auto", action="store_true", help="AI-suggested replacements")
     p_san.add_argument("--replacements", nargs="*", help="Manual replacements: 'Company=Alias'")
 
+    # dashboard
+    p_dash = sub.add_parser("dashboard", help="Open live dashboards for all active runs")
+
+    # monitor
+    p_monitor = sub.add_parser("monitor", help="Monitor active runs with live status")
+
     # list
     p_list = sub.add_parser("list", help="List all runs")
 
@@ -869,6 +1003,8 @@ def main():
         "inject": cmd_inject,
         "sanitize": cmd_sanitize,
         "open": cmd_open,
+        "dashboard": cmd_dashboard,
+        "monitor": cmd_monitor,
         "list": cmd_list,
         "init": cmd_init,
     }
@@ -881,6 +1017,8 @@ def main():
         print(f"  {A}Get started:{R}")
         print(f"    {AB}anvil init{R}          Set up Claude Code integration")
         print(f"    {AB}anvil run{R}           Run a problem in autopilot")
+        print(f"    {AB}anvil dashboard{R}     Open live dashboards (one per active run)")
+        print(f"    {AB}anvil monitor{R}       Watch active runs in terminal")
         print(f"    {AB}anvil list{R}          Show all runs")
         print(f"    {AB}anvil --help{R}        All commands")
         print()

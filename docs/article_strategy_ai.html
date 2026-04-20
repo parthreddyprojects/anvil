@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Your Strategy Team's Own AI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Charter:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700;800;900&display=swap');
+  :root { --bg:#fff; --text:#1a1a1a; --text-sec:#555; --text-muted:#888; --accent:#C97800; --border:#e5e7eb; --code-bg:#0C0C0C; --quote-bg:#faf9f7; --link:#c97800; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Charter',Georgia,serif; background:var(--bg); color:var(--text); line-height:1.85; font-size:18px; -webkit-font-smoothing:antialiased; }
+  .container { max-width:860px; margin:0 auto; padding:60px 24px 100px; }
+  h1 { font-family:'Inter',sans-serif; font-size:34px; font-weight:800; line-height:1.2; letter-spacing:-0.5px; margin-bottom:16px; }
+  .subtitle { font-size:19px; color:var(--text-sec); margin-bottom:40px; line-height:1.6; }
+  p { margin:0 0 20px; }
+  p strong { color:var(--text); }
+  h2 { font-family:'Inter',sans-serif; font-size:24px; font-weight:800; margin:56px 0 20px; letter-spacing:-0.3px; }
+  h3 { font-family:'Inter',sans-serif; font-size:18px; font-weight:700; margin:36px 0 12px; }
+  hr { border:none; border-top:1px solid var(--border); margin:44px 0; }
+  blockquote { background:var(--quote-bg); border-left:3px solid var(--accent); padding:20px 24px; margin:24px 0; font-style:italic; color:var(--text-sec); border-radius:0 4px 4px 0; }
+  blockquote p { margin:0 0 8px; } blockquote p:last-child { margin:0; }
+  a { color:var(--link); text-decoration:none; } a:hover { text-decoration:underline; }
+  ul,ol { margin:16px 0 20px; padding-left:28px; } li { margin-bottom:8px; }
+  .img-block { margin:32px 0; border-radius:8px; overflow:hidden; border:1px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+  .img-block img, .img-block svg, .img-block iframe { width:100%; display:block; }
+  .img-caption { font-family:'Inter',sans-serif; font-size:13px; color:var(--text-muted); text-align:center; padding:10px 16px; background:#fafafa; border-top:1px solid var(--border); }
+  table { width:100%; border-collapse:collapse; margin:24px 0; font-family:'Inter',sans-serif; font-size:14px; }
+  th { text-align:left; font-weight:700; padding:10px 12px; border-bottom:2px solid var(--text); font-size:13px; }
+  td { padding:8px 12px; border-bottom:1px solid var(--border); }
+  tr:last-child td { border-bottom:2px solid var(--text); font-weight:700; }
+  .callout-row { display:flex; justify-content:space-between; margin:40px 0; gap:16px; flex-wrap:wrap; }
+  .callout { text-align:center; flex:1; min-width:160px; }
+  .callout-num { font-family:'Inter',sans-serif; font-size:40px; font-weight:900; color:var(--accent); line-height:1; }
+  .callout-label { font-family:'Inter',sans-serif; font-size:13px; color:var(--text-muted); margin-top:6px; }
+  .byline { font-family:'Inter',sans-serif; font-size:14px; color:var(--text-muted); margin-top:48px; padding-top:24px; border-top:1px solid var(--border); }
+  .byline a { color:var(--link); text-decoration:none; }
+  .substack-links { background:var(--quote-bg); border-radius:8px; padding:20px 24px; margin:24px 0; }
+  .substack-links p { margin:0 0 12px; font-size:16px; } .substack-links p:last-child { margin:0; }
+  @media(max-width:640px) { h1{font-size:26px;} body{font-size:17px;} .container{padding:40px 18px 80px;} .callout-num{font-size:32px;} }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Building Your Strategy Team's Own AI</h1>
+
+<p class="subtitle">How corporate strategy teams can turn their own reasoning into an AI that gets smarter with every decision.</p>
+
+<hr>
+
+<h2>The Problem</h2>
+
+<p>Your strategy team generates valuable reasoning every day. It evaporates every day.</p>
+
+<p>Every decision produces sharp thinking — problem framings that held up, hypotheses that got killed and why, the insight that changed the board's direction. It goes into a deck. The deck goes into a folder. Nobody reads it again.</p>
+
+<p>When your best strategist leaves, their pattern recognition leaves with them. The next time a similar problem lands on your desk, you start from scratch. And when a new hire joins, they spend months absorbing context that could have been queryable on Day 1.</p>
+
+<p>Your CEO just got a ChatGPT subscription. Your business unit heads are using Perplexity. What does your team have that they don't?</p>
+
+<p>Right now — probably nothing. Here's how to change that.</p>
+
+<hr>
+
+<h2>What's Now Possible</h2>
+
+<p>You can build your Strategy AI today using these three layers.</p>
+
+<p><strong>General knowledge</strong> — LLMs already have this. Industry structures, frameworks, historical patterns. Any capable model knows more strategy theory than any individual on your team.</p>
+
+<p><strong>Structured problem solving</strong> — also replicable. Decomposition, hypothesis generation, stress-testing, synthesis. A structured pipeline running on Claude compresses three days of early-stage strategy work to 20 minutes for $2-4.</p>
+
+<p><strong>Proprietary context</strong> — this is the gap. Your decision history. Your reasoning patterns. The feedback loop between recommendation and outcome that no external model has ever seen. This is what makes your team irreplaceable. And it's currently sitting in folders nobody opens.</p>
+
+<div class="img-block"><img src="../outputs/graphics/anvil_process_flow_1_screenshot.png" alt="Process flow — LLM + Vault → Anvil → Strategic outputs"><div class="img-caption">Three inputs, one engine, four output categories. The vault is what makes it yours.</div></div>
+
+<hr>
+
+<h2>What Is Anvil</h2>
+
+<p>Before the architecture, you need to understand the pipeline at the center of it.</p>
+
+<p>Anvil is an open-source strategic problem-solving engine. You describe a problem. It challenges your framing, decomposes the problem into research buckets, runs 120+ live web searches, fetches 50+ full articles, synthesizes findings into patterns, generates hypotheses, stress-tests each one with a contrarian reviewer, kills the ones that don't survive, and produces a sourced strategic brief with proof charts. 20 minutes. $2-4 in API costs.</p>
+
+<p>Two modes. Issue-driven — you don't have an answer yet, Anvil explores from scratch. Hypothesis-driven — you already have a Day 1 thesis, Anvil stress-tests it against live data and tells you what survived and what didn't.</p>
+
+<div class="substack-links">
+<p><strong>I wrote about how Anvil works in detail here:</strong></p>
+<p><a href="https://parthreddy.substack.com/p/i-built-a-tool-that-runs-the-method"><strong>I Built a Tool That Runs the Method a Strategy Team Uses — in 20 Minutes</strong></a> — The original Anvil article. How the 8-step pipeline works, what makes it different from ChatGPT or Perplexity, and a full walkthrough of a real run on the Iran-Hormuz crisis.</p>
+<p><a href="https://parthreddy.substack.com/p/anvil-v02-now-you-can-start-with"><strong>Anvil v0.2: Now You Can Start With the Answer</strong></a> — Hypothesis-driven mode. Start with your thesis, Anvil tries to kill it. Three real examples: NVIDIA, European automakers, Workday.</p>
+</div>
+
+<p>Every strategy decision your team works on runs through it. This is the only behavior change required.</p>
+
+<hr>
+
+<h2>Why This Runs on a Coding Platform</h2>
+
+<p>Anvil runs inside Claude Code — Anthropic's agentic coding environment. It's not a chatbot with a text box. It's a full development environment where Claude has access to your file system, can run code, execute multi-step workflows, and maintain state across sessions. Anvil is built on it. Everything in this article runs on it. If there's a single investment that unlocks everything here, it's giving your team access to Claude Code.</p>
+
+<p>This matters more than it sounds.</p>
+
+<p>A chat window gives you one conversation. When it's done, it's done. A coding platform gives you persistent state — your run directory stays on disk, every artifact is a file you can reopen, revise, or pipe into something else. You can resume a run from where you left off. You can inject a proprietary dataset at step 3 and watch it change the hypothesis tree at step 5.</p>
+
+<p>More importantly, it's extensible. Your team isn't locked into what Anvil ships. The output isn't a PDF that goes into a folder. It's an artifact you can build on.</p>
+
+<p>Here's what that looks like.</p>
+
+<p>I ran Anvil on the Iran-Hormuz crisis — "What actions must Indian refineries take in the next 30-60 days as the Strait of Hormuz closure reshapes crude flows, product markets, and the geopolitical landscape?" Twenty minutes later, a structured analysis: 10 MECE buckets, 120+ sources scanned, hypothesis tree with kill propagation, decisions with deadlines.</p>
+
+<p>Then I built the brief. Not a slide deck — a full-screen visual strategic briefing. Scroll-snap cards with interactive maps showing tanker routes and chokepoints, live charts tracking crude price scenarios, a hypothesis graveyard showing what was tested and killed, and a decision matrix with timelines. Dark mode, mobile-responsive, shareable via URL. <a href="https://iran-crisis-strategic-briefing.vercel.app/"><strong>See the Iran-Hormuz brief — produced on Day 11 of the crisis.</strong></a></p>
+
+<p>That brief wasn't designed by a product team. It was built in the same coding environment where Anvil ran the analysis. One person, same session.</p>
+
+<p>Then I kept going. I took the research infrastructure — the scrapers, the article scoring, the scenario logic — and built a <a href="https://parthreddy123.github.io/oil-dashboard/"><strong>live geopolitical dashboard</strong></a>. Five scenarios (Managed Escalation, Prolonged Standoff, Conflagration, Ceasefire, Regime Change), each with real-time probability scores derived from daily news scoring using Claude. Nine scrapers pulling crude prices, OPEC production, FX rates, and RSS feeds every six hours. Automated deployment. Daily email digest with scenario shifts and accuracy tracking.</p>
+
+<p>The Anvil run took 20 minutes. The visual brief took an evening. The live dashboard took a weekend. One person, same environment, no engineering team.</p>
+
+<p>That's what "sandbox for strategy professionals" means. A strategist who wants a custom monitor for their portfolio can build one. Someone who wants to automate weekly board prep can wire Anvil into a scheduler. The analysis doesn't stop at the output. It becomes infrastructure your team owns.</p>
+
+<p>Strategy teams that treat AI as a product they consume will get commodity output. Teams that treat it as an environment they build in will compound.</p>
+
+<hr>
+
+<h2>Don't Buy an AI Strategy Tool</h2>
+
+<p>There are many startups touting top-tier consulting quality outputs for a fraction of the price.</p>
+
+<p>Here's what they actually are: the same LLMs you already have access to, wrapped in a product someone else controls, with a markup.</p>
+
+<p>They can't access your Wood Mackenzie subscription. They can't query your internal data warehouse. They can't build a custom scraper for your industry. They can't wire into your board's preferred reporting format. They can't compound — because the institutional memory lives in their system, not yours. And the day they raise prices, pivot their product, or shut down, your "strategy AI" disappears.</p>
+
+<p>You're renting someone else's interface to a model you could talk to directly.</p>
+
+<p>The alternative costs less and gives you more. A Claude Max subscription — which includes Claude Code, the most capable agentic coding platform available today. Anvil running locally. And a strategist on your team who thinks in systems, who gets energized by building tools, who would thrive if you gave them a sandbox and got out of the way. Every strategy team has at least one. You probably already know who it is.</p>
+
+<p>Give them a Claude Max subscription and a week. You'll get more than any $100K SaaS contract will deliver in a year. And unlike the SaaS tool, what they build is yours. It compounds. It can't be taken away.</p>
+
+<p>Don't outsource your team's brain to a startup. Build it.</p>
+
+<hr>
+
+<h2>The Architecture</h2>
+
+<p>Three components. Anvil is the first. Your team builds the other two around it.</p>
+
+<h3>The Pipeline — Anvil</h3>
+
+<p>Described above. The engine that does the structured work. Open source, runs locally.</p>
+
+<h3>The Vault — what your team builds</h3>
+
+<p>Every Anvil run gets reviewed by a senior strategist. Strong reasoning, weak reasoning, overrides, internal data injected — tagged and stored. The vault is your institutional memory. Structured. Queryable. Permanent.</p>
+
+<p>What goes in — problem framings that held up, hypotheses that survived, hypotheses that got killed and why, decisions that influenced the board, where human judgment overrode the model and why.</p>
+
+<p>When a new strategist joins, the vault is their training ground. They see how every past problem was decomposed, what survived, what got killed and why. They learn how your team thinks in weeks instead of months.</p>
+
+<h3>The RAG Layer — what your team builds</h3>
+
+<p>Before every new run, the system pulls relevant past decisions from the vault and feeds them to Claude as context. This is a one-time build on top of Anvil — a retrieval layer that connects your vault to the pipeline. Claude reasons with the benefit of everything your team has done before. The output improves with every run. The vault compounds.</p>
+
+<div class="img-block"><img src="../outputs/graphics/anvil_flywheel_screenshot.png" alt="The compounding flywheel"><div class="img-caption">The compounding loop — every tagged run makes the next one sharper.</div></div>
+
+<hr>
+
+<h2>Is My Data Safe</h2>
+
+<p>This is the first question every security team will ask, and it should be.</p>
+
+<p>Deploy Claude via AWS Bedrock and your data stays within your AWS region. Anthropic's contractual terms on Bedrock state that your inputs and outputs are not used to train models. It's the same infrastructure that banks and healthcare systems use for AI workloads today.</p>
+
+<p>The vault itself sits on your own infrastructure — your cloud, your access controls, your retention policies. You decide what goes in, what gets retrieved for each run, and who can query it.</p>
+
+<p>That said — do your own diligence. Read Anthropic's data usage policies. Read AWS Bedrock's terms. Have your security team review the architecture before production deployment. The contractual protections are strong, but "strong" is for your legal and infosec teams to confirm, not for me to guarantee.</p>
+
+<hr>
+
+<h2>Should We Build Our Own</h2>
+
+<p>Some teams will ask — should we build something proprietary, hosted entirely on our own servers?</p>
+
+<p>You can. Here's what that looks like.</p>
+
+<p>You pick an open-source model — Mistral, Llama, or whatever is leading that month. You build a reasoning pipeline on top of it. You wire up a coding agent — maybe Open Interpreter or a custom orchestration layer. You build the research module, the synthesis module, the hypothesis testing logic. You hire 2-3 engineers to maintain it. You spend 6 months getting the pipeline to produce outputs that are usable, another 6 months making them reliable, and another 6 months discovering that the model you picked is now two generations behind and the reasoning quality gap has widened, not closed.</p>
+
+<p>Eighteen months. Significant engineering budget. And you've built infrastructure that Anthropic already built, to get reasoning quality that Claude already surpassed, to solve a data privacy problem that AWS Bedrock already solves contractually.</p>
+
+<p>The gap is not small. Claude's latest models produce structured strategic reasoning — multi-step decomposition, hypothesis generation with kill logic, evidence-weighted synthesis — that open-source models cannot match today. Claude Code as an agentic platform — persistent state, file system access, multi-step tool use, code execution within the reasoning loop — is years ahead of any open-source coding agent. You're not just behind on the model. You're behind on the entire stack.</p>
+
+<p>And the gap is moving. Every quarter, Anthropic ships a better model. Your custom pipeline on last year's open-source model falls further behind with every release. You're running to stay still.</p>
+
+<p>The vault is your proprietary asset. The model is a commodity. Don't build the commodity. Use the best one available and put your engineering effort into the thing that actually differentiates you — your institutional memory, your proprietary data integration, your team's tools.</p>
+
+<p>The only exception — if physical data sovereignty is a board-level non-negotiable, nothing leaves your servers under any circumstances, and no contractual guarantee from AWS or Anthropic is sufficient. In that case, build on open source and accept the reasoning quality tradeoff. But know that you're starting 18 months behind and the finish line is moving.</p>
+
+<hr>
+
+<h2>What It Costs</h2>
+
+<p>Less than you think.</p>
+
+<p>Anvil runs at $2-4 per problem in API costs. For a team running 20 problems a week — across decisions, board prep, business unit requests, hypothesis stress-tests — that's roughly $4,000-8,000 a year in pipeline costs. Add document generation, analytics, and ad-hoc analysis on top and budget $15,000-20,000 a year in total API costs.</p>
+
+<p>The vault is a document store on your own infrastructure. The RAG layer is a one-time build, maintainable by one part-time engineer thereafter.</p>
+
+<table>
+<thead><tr><th>Component</th><th>One-Time</th><th>Annual</th></tr></thead>
+<tbody>
+<tr><td>Anvil pipeline (20 runs/week)</td><td>—</td><td>$4,000-8,000</td></tr>
+<tr><td>Document generation + analytics</td><td>—</td><td>$8,000-12,000</td></tr>
+<tr><td>Vault infrastructure</td><td>—</td><td>$10,000-28,000</td></tr>
+<tr><td>RAG layer build</td><td>$20,000-30,000</td><td>$5,000-8,000</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>$20,000-30,000</strong></td><td><strong>$27,000-56,000</strong></td></tr>
+</tbody>
+</table>
+
+<p>Less than one junior hire. For an asset that compounds indefinitely and never resigns.</p>
+
+<div class="img-block"><img src="../outputs/graphics/anvil_before_after_screenshot.png" alt="Before and after — 3 days vs 20 minutes"><div class="img-caption">The same work. Different century.</div></div>
+
+<hr>
+
+<h2>The ROI</h2>
+
+<p>Here's the math for a 10-person corporate strategy team at a Fortune 500 or large industrial conglomerate. These are conservative estimates — research compression at 40% in Year 1 (not 60-70% that early adopters report), refinement gains ramping slowly, and consultancy displacement starting only in Year 2.</p>
+
+<p><strong>How a strategy team spends its time today:</strong></p>
+
+<table>
+<thead><tr><th>Activity</th><th>%</th><th>Days/year (10 people)</th></tr></thead>
+<tbody>
+<tr><td>Research &amp; first-draft analysis</td><td>20%</td><td>460</td></tr>
+<tr><td>Human judgment, refinement, iteration</td><td>20%</td><td>460</td></tr>
+<tr><td>Stakeholder meetings, alignment, presentations</td><td>25%</td><td>575</td></tr>
+<tr><td>Execution oversight, transformation</td><td>15%</td><td>345</td></tr>
+<tr><td>Admin, planning, hiring, team mgmt</td><td>20%</td><td>460</td></tr>
+</tbody>
+</table>
+
+<p><strong>Year 1 — Anvil compresses research work by 40%.</strong> Public sources only. 184 days freed. $184K in capacity redirected to judgment, execution, and decisions.</p>
+
+<p><strong>Year 2 — Proprietary data feeds piped into Anvil via API.</strong> Wood Mackenzie, IHS Markit, Rystad, Bloomberg, internal data warehouses — anything with an API becomes a source Anvil can pull automatically during research. No more copy-pasting from a separate browser tab. Research compression jumps to 65%. Refinement drops 15% as proprietary data eliminates manual number-swapping. Team absorbs 2-3 projects that would have gone to external consultants. 368 days freed + $900K consultancy avoided.</p>
+
+<p><strong>Year 3 — Deep vault, recurring automation.</strong> Research compression at 70%. Refinement drops 30%. Some stakeholder prep automates. 518 days freed + $1.8M consultancy avoided.</p>
+
+<table>
+<thead><tr><th></th><th>Year 0</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr></thead>
+<tbody>
+<tr><td>One-time investment</td><td>-$25K</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Annual costs (Anvil + infra)</td><td>—</td><td>-$40K</td><td>-$45K</td><td>-$50K</td></tr>
+<tr><td>Data feed integration</td><td>—</td><td>—</td><td>-$30K</td><td>-$30K</td></tr>
+<tr><td>Capacity freed</td><td>—</td><td>+$184K</td><td>+$368K</td><td>+$518K</td></tr>
+<tr><td>Consultancy avoided</td><td>—</td><td>—</td><td>+$900K</td><td>+$1.8M</td></tr>
+<tr><td><strong>Net cash flow</strong></td><td><strong>-$25K</strong></td><td><strong>+$144K</strong></td><td><strong>+$1.193M</strong></td><td><strong>+$2.238M</strong></td></tr>
+<tr><td><strong>Cumulative</strong></td><td><strong>-$25K</strong></td><td><strong>+$119K</strong></td><td><strong>+$1.312M</strong></td><td><strong>+$3.55M</strong></td></tr>
+</tbody>
+</table>
+
+<p>These numbers assume the base pipeline only. Because Anvil runs on a coding platform, your team can build plugin tools on top — custom chart generators for your board's preferred formats, automated monitors for portfolio KPIs, scrapers for industry-specific data sources, scheduled briefings that run overnight and land in inboxes by 7am. Each tool further compresses the work. None of them require an engineering team — they're built in the same environment by the strategists who need them. Proprietary sources like Wood Mackenzie and IHS can be automatically fed into every run via API. The numbers above don't account for any of that.</p>
+
+<div class="callout-row">
+<div class="callout"><div class="callout-num">$3.6M</div><div class="callout-label">3-year cumulative value</div></div>
+<div class="callout"><div class="callout-num">$7-15</div><div class="callout-label">cost per problem</div></div>
+<div class="callout"><div class="callout-num">8 runs</div><div class="callout-label">to breakeven</div></div>
+</div>
+
+<p>And the days freed don't disappear. They go to the work your team never has enough time for — execution oversight, transformation monitoring, the follow-through that determines whether a strategy actually lands. Most strategy teams are so buried in the next analysis that last quarter's recommendations die on the vine. When research and first-draft work compresses, your team gets time back for the work that actually moves the business.</p>
+
+<p>In M&amp;A diligence, crisis response, competitive moves — the team that has a structured answer in 20 minutes has a real edge over the team that needs 3 days. First-mover advantage in strategy decisions is real and currently underpriced.</p>
+
+<p>And these estimates don't account for what's coming. LLMs are improving rapidly — every quarter brings better reasoning, longer context, cheaper inference. The pipeline you build today on Claude runs faster and sharper on next quarter's model with zero changes to your code. The vault stays the same. The RAG layer stays the same. But the engine underneath gets better for free. The upside from here is significant and it's entirely in your favour.
+
+The cost is $25K to start and $40-50K a year to run. The question is what it costs you to not start.</p>
+
+<div class="img-block"><img src="../outputs/graphics/anvil_cost_comparison_screenshot.png" alt="Cost comparison — Junior analyst vs Anvil"><div class="img-caption">Less than one junior hire. Compounds indefinitely. Never resigns.</div></div>
+
+<hr>
+
+<h2>The Honest Constraints</h2>
+
+<p>The vault is only as good as the tagging discipline. Unreviewed runs degrade it. The senior review layer is non-negotiable.</p>
+
+<p>If Anvil isn't how your team works every day, the vault never gets built. The pipeline is the prerequisite — not the infrastructure.</p>
+
+<p>Meaningful pattern recognition requires 200+ quality runs. The vault clock starts when the first run is tagged. There is no shortcut.</p>
+
+<hr>
+
+<h2>The Closer</h2>
+
+<p>Your CEO's ChatGPT subscription gives generic intelligence. Your business unit heads' Perplexity gives generic intelligence. The $100K AI strategy tool your team is evaluating gives generic intelligence in a nicer wrapper.</p>
+
+<p>Your vault gives your team something nobody else has — every decision your firm ever reasoned through, queryable, compounding, permanent.</p>
+
+<p>The teams that start building it now will have something their peers cannot buy in 2027. The head start is measured in time not money.</p>
+
+<p>There are many startups touting top-tier consulting quality outputs for a fraction of the price. Don't buy these AI strategy startups. The neurodivergent strategist on your team with a Claude Max subscription will outbuild every one of them in a month. And what they build is yours — it compounds, it can't be taken away, and it gets smarter every time your team uses it.</p>
+
+<p>Give them the subscription. Get out of the way.</p>
+
+<div class="byline">
+<p><em>Built by Parth Reddy. Anvil is open-source and runs on Claude.</em></p>
+<p><a href="https://github.com/parthreddyprojects/anvil">GitHub</a> · <a href="https://parthreddy.substack.com">Substack</a></p>
+</div>
+
+</div>
+</body>
+</html>

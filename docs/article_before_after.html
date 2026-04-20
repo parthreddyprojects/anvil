@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#fff; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+  .card { width:1200px; height:800px; background:#fff; position:relative; overflow:hidden; }
+  svg { width:100%; height:100%; }
+</style>
+</head>
+<body>
+<div class="card">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C97800" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#C97800" stop-opacity="1"/>
+      <stop offset="70%" stop-color="#C97800" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#C97800" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="pillShadow">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.04"/>
+    </filter>
+  </defs>
+
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="5" height="800" fill="url(#accent)"/>
+
+  <!-- Title -->
+  <text x="80" y="60" font-family="Inter" font-weight="300" font-size="13" fill="#999" letter-spacing="4">WHAT CHANGES</text>
+
+  <!-- Left panel bg -->
+  <rect x="5" y="0" width="593" height="800" fill="#FAFAFA"/>
+
+  <!-- Divider -->
+  <line x1="598" y1="0" x2="598" y2="800" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="582" y="386" width="32" height="28" rx="4" fill="#fff" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="598" y="405" font-family="Inter" font-weight="600" font-size="10" fill="#999" text-anchor="middle" letter-spacing="2">VS</text>
+
+  <!-- ═══ LEFT: TODAY ═══ -->
+  <text x="80" y="130" font-family="Inter" font-weight="800" font-size="11" fill="#CCC" letter-spacing="3">TODAY</text>
+
+  <!-- Step 1: Research -->
+  <circle cx="85" cy="200" r="5" fill="#D1D5DB"/>
+  <line x1="85" y1="210" x2="85" y2="300" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="110" y="196" font-family="Inter" font-weight="700" font-size="20" fill="#888">Research</text>
+  <text x="110" y="220" font-family="Inter" font-weight="400" font-size="13" fill="#AAA">Manual search, reading, note-taking</text>
+  <g filter="url(#pillShadow)">
+    <rect x="110" y="236" width="82" height="26" rx="13" fill="#F3F3F3"/>
+  </g>
+  <text x="151" y="254" font-family="IBM Plex Mono" font-weight="600" font-size="12" fill="#AAA" text-anchor="middle">~2 days</text>
+
+  <!-- Step 2: Draft -->
+  <circle cx="85" cy="310" r="5" fill="#D1D5DB" opacity="0.8"/>
+  <line x1="85" y1="320" x2="85" y2="410" stroke="#E5E7EB" stroke-width="1.5" opacity="0.7"/>
+  <text x="110" y="306" font-family="Inter" font-weight="700" font-size="20" fill="#888" opacity="0.8">Draft</text>
+  <text x="110" y="330" font-family="Inter" font-weight="400" font-size="13" fill="#AAA" opacity="0.8">Write the deck, iterate internally</text>
+  <g filter="url(#pillShadow)" opacity="0.8">
+    <rect x="110" y="346" width="72" height="26" rx="13" fill="#F3F3F3"/>
+  </g>
+  <text x="146" y="364" font-family="IBM Plex Mono" font-weight="600" font-size="12" fill="#AAA" text-anchor="middle">~1 day</text>
+
+  <!-- Step 3: Folder -->
+  <circle cx="85" cy="420" r="5" fill="#D1D5DB" opacity="0.5"/>
+  <line x1="85" y1="430" x2="85" y2="510" stroke="#E5E7EB" stroke-width="1.5" opacity="0.4"/>
+  <text x="110" y="416" font-family="Inter" font-weight="700" font-size="20" fill="#888" opacity="0.5">Folder</text>
+  <text x="110" y="440" font-family="Inter" font-weight="400" font-size="13" fill="#AAA" opacity="0.5">Filed. Never referenced again.</text>
+
+  <!-- Step 4: Forgotten -->
+  <circle cx="85" cy="520" r="5" fill="#D1D5DB" opacity="0.3"/>
+  <text x="110" y="516" font-family="Inter" font-weight="700" font-size="20" fill="#888" opacity="0.3">Forgotten</text>
+  <text x="110" y="540" font-family="Inter" font-weight="400" font-size="13" fill="#AAA" opacity="0.3">Reasoning evaporates.</text>
+
+  <!-- Bottom stat left -->
+  <line x1="80" y1="680" x2="520" y2="680" stroke="#F0F0F0" stroke-width="1"/>
+  <text x="80" y="710" font-family="Inter" font-weight="400" font-size="12" fill="#999">Time to first draft</text>
+  <text x="80" y="745" font-family="Inter" font-weight="800" font-size="28" fill="#CCC">3 days</text>
+
+  <!-- ═══ RIGHT: WITH ANVIL ═══ -->
+  <text x="680" y="130" font-family="Inter" font-weight="800" font-size="11" fill="#C97800" letter-spacing="3">WITH ANVIL + VAULT</text>
+
+  <!-- Step 1: Pipeline -->
+  <circle cx="685" cy="200" r="5" fill="#C97800"/>
+  <line x1="685" y1="210" x2="685" y2="300" stroke="#E8D5B0" stroke-width="1.5"/>
+  <text x="710" y="196" font-family="Inter" font-weight="700" font-size="20" fill="#1a1a1a">Pipeline</text>
+  <text x="710" y="220" font-family="Inter" font-weight="400" font-size="13" fill="#666">Decompose, research, stress-test, brief</text>
+  <g filter="url(#pillShadow)">
+    <rect x="710" y="236" width="76" height="26" rx="13" fill="#FFF4E0"/>
+  </g>
+  <text x="748" y="254" font-family="IBM Plex Mono" font-weight="600" font-size="12" fill="#C97800" text-anchor="middle">20 min</text>
+
+  <!-- Step 2: Human Layer -->
+  <circle cx="685" cy="310" r="5" fill="#C97800"/>
+  <line x1="685" y1="320" x2="685" y2="410" stroke="#E8D5B0" stroke-width="1.5"/>
+  <text x="710" y="306" font-family="Inter" font-weight="700" font-size="20" fill="#1a1a1a">Human Layer</text>
+  <text x="710" y="330" font-family="Inter" font-weight="400" font-size="13" fill="#666">Inject proprietary data, sharpen judgment</text>
+  <g filter="url(#pillShadow)">
+    <rect x="710" y="346" width="76" height="26" rx="13" fill="#FFF4E0"/>
+  </g>
+  <text x="748" y="364" font-family="IBM Plex Mono" font-weight="600" font-size="12" fill="#C97800" text-anchor="middle">2-3 hrs</text>
+
+  <!-- Step 3: Vault -->
+  <circle cx="685" cy="420" r="5" fill="#C97800"/>
+  <line x1="685" y1="430" x2="685" y2="510" stroke="#E8D5B0" stroke-width="1.5"/>
+  <text x="710" y="416" font-family="Inter" font-weight="700" font-size="20" fill="#1a1a1a">Vault</text>
+  <text x="710" y="440" font-family="Inter" font-weight="400" font-size="13" fill="#666">Tagged, structured, queryable. Permanent.</text>
+
+  <!-- Step 4: Compounds -->
+  <circle cx="685" cy="520" r="5" fill="#C97800"/>
+  <text x="710" y="516" font-family="Inter" font-weight="700" font-size="20" fill="#1a1a1a">Compounds</text>
+  <text x="710" y="540" font-family="Inter" font-weight="400" font-size="13" fill="#666">Next run starts where the last one ended.</text>
+
+  <!-- Bottom stat right -->
+  <line x1="680" y1="680" x2="1120" y2="680" stroke="#F0F0F0" stroke-width="1"/>
+  <text x="680" y="710" font-family="Inter" font-weight="400" font-size="12" fill="#999">Time to first draft</text>
+  <text x="680" y="745" font-family="Inter" font-weight="800" font-size="28" fill="#C97800">20 minutes</text>
+
+</svg>
+</div>
+</body>
+</html>
